@@ -1,0 +1,60 @@
+@import "../base/color";
+
+.btn-section {
+  display: flex;
+  gap: 4rem;
+}
+
+.btn {
+  position: static;
+  cursor: pointer;
+
+  margin: 0;
+  border-radius: 7px;
+  color: $color-primary;
+
+  background: #fff;
+  border: 0px;
+
+  font-size: 1rem;
+  line-height: 1.5rem;
+  transition: all 0.2s ease-in;
+
+  padding: 0.5rem 1rem;
+  &-primary {
+    color: white;
+    box-shadow: 0 2px 6px 0 rgba(0, 118, 255, 0.39);
+    background: $color-primary;
+
+    &:hover {
+      box-shadow: 0 3px 8px 1px rgba(24, 131, 253, 0.459);
+      background: $color-primary;
+    }
+  }
+  // &-secondary {
+  //   color: white;
+  //   box-shadow: 0 2px 6px 0 rgba(0, 118, 255, 0.39);
+  //   background: $color-secondary;
+
+  //   &:hover {
+  //     box-shadow: 0 3px 8px 1px rgba(255, 34, 34, 0.459);
+  //     background: $color-secondary;
+  //   }
+  // }
+}
+
+.sign-up__button {
+  height: 2.65rem;
+
+  color: white;
+  border-radius: 5rem;
+  background: $color-primary;
+
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  // box-shadow: 0 2px 6px 0 rgba(0, 118, 255, 0.39);
+
+  &:hover {
+    box-shadow: 0 1px 8px 0 rgba(0, 119, 255, 0.836);
+  }
+}

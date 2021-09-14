@@ -1,0 +1,94 @@
+@import "../base/color";
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 4rem;
+
+  &__quote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font: bold 4rem Nunito;
+
+    &--highlight {
+      color: $color-primary;
+    }
+  }
+  &__jobs {
+    font: bold 1rem Nunito;
+    color: rgb(206, 206, 206);
+  }
+}
+
+.search-job {
+  height: 2rem;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+
+  padding: 0.85rem 0.5rem;
+
+  border-radius: 2.5rem;
+  border: 1px solid $gray;
+
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  &__filter {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__divider {
+    height: 1.75rem;
+    width: 0.125rem;
+    background: $gray;
+  }
+  &__keyword,
+  &__city {
+    width: 30%;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  &__keyword {
+    width: 70%;
+  }
+  &__input {
+    width: 100%;
+    border: 0;
+    &:focus {
+      outline: none;
+    }
+  }
+  &__icon {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+  &__button {
+    cursor: pointer;
+    padding: 0.75rem 1.5rem;
+
+    color: white;
+    background: $color-primary;
+    transition: all 0.2s ease;
+    font: bold 1rem Nunito;
+
+    border-radius: 4rem;
+    border: 0;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
