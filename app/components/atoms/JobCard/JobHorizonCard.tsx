@@ -4,10 +4,7 @@ import Moment from "react-moment";
 
 export default function JobHorizonCard(props) {
   return (
-    <div
-      className="job-horizon-card"
-      onClick={() => router.push("/job/" + props.id)}
-    >
+    <div className="job-horizon-card">
       <div className="job-horizon-card__header">
         <div className="job-horizon-card__company">
           <img src={props.imageUrls[0]} alt="Google" />
