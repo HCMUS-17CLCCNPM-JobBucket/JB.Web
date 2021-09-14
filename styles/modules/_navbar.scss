@@ -1,0 +1,33 @@
+@import "../base/color";
+
+.logo {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 4rem;
+
+  &__navigation {
+    display: flex;
+    gap: 1.5rem;
+  }
+  &__item {
+    cursor: pointer;
+    font: bold 1rem Nunito;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+  &__auth {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}

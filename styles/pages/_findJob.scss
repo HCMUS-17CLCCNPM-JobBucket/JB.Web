@@ -1,0 +1,46 @@
+@import "../base/color";
+
+.find-job {
+  &__search {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__content {
+    // position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__filter {
+    position: fixed;
+
+    display: flex;
+    width: 10%;
+    // flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+
+    p {
+      font: bold 1rem Nunito;
+    }
+
+    &--left {
+      top: 12rem;
+      left: 0;
+    }
+    &--right {
+      top: 12rem;
+      right: 0;
+    }
+  }
+  &__result {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 2rem 22rem;
+  }
+}
