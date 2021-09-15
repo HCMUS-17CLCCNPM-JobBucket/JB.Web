@@ -1,5 +1,6 @@
 import useOutsideAlerter from "app/hooks/useOutsideClicked";
 import Link from "next/link";
+import router from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import LoginButton from "../atoms/Button/LoginButton";
@@ -22,18 +23,20 @@ export function Logo() {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const wrapperRef = useRef(null);
-  const handleOutsideClicked = () => {
-    setOpen(false);
-  };
+  // const wrapperRef = useRef(null);
+  // const handleOutsideClicked = () => {
+  //   setOpen(false);
+  // };
 
-  useOutsideAlerter(wrapperRef, handleOutsideClicked);
+  // useOutsideAlerter(wrapperRef, handleOutsideClicked);
 
   return (
     <div className="navbar">
       <Logo />
       <div className="navbar__navigation">
-        <p className="navbar__item">Find Jobs</p>
+        <p className="navbar__item" onClick={() => router.push("/job")}>
+          Find Jobs
+        </p>
         <p className="navbar__item">Company</p>
         <p className="navbar__item">CV Editor</p>
         <p className="navbar__item">Blog</p>
@@ -42,7 +45,8 @@ export default function Navbar() {
         <LoginButton />
         <SignUpButton />
       </div> */}
-      <div ref={wrapperRef}>
+      {/* ref={wrapperRef} */}
+      <div>
         <div onClick={() => setOpen(!open)} className="avatar">
           <img
             src="https://picsum.photos/id/1005/200/200"

@@ -1,23 +1,42 @@
+import { useQuery } from "@apollo/client";
+import { apolloClient } from "app/api/apolloClient";
+import { JobAPI } from "app/api/modules/jobAPI";
+import gql from "graphql-tag";
 import React from "react";
+import Moment from "react-moment";
 
-export default function index() {
+export const getServerSideProps = async ({ params }) => {
+  return {
+    props: { id: params.id },
+  };
+};
+
+export default function JobDetail(props) {
+  const { loading, error, data } = useQuery(JobAPI.GET_JOB_BY_ID, {
+    variables: { id: props.id },
+  });
+
+  if (loading) return null;
+  if (error) return `Error! ${error}`;
+
+  const job = data.jobs[0];
+  console.log(job);
   return (
     <div className="job-details">
       <div className="job-details__header">
         <div className="job-details__header-left">
-          <img
-            src="https://images.vietnamworks.com/pictureofcompany/b0/11033181.png"
-            alt="Nest"
-          />
+          <img src={job.imageUrls[0]} alt="Nest" />
           <div>
+            <p>{job.title}</p>
+            <p>{job.organization.name}</p>
+            <p>Location: {job.address}</p>
             <p>
-              [Nestlé] Electrical & Automation (E&A) Supervisor - Work in Dong
-              Nai - Shuttle Bus from HCMC
+              Salary Range: ${job.minSalary} - ${job.maxSalary}
             </p>
-            <p>CÔNG TY TNHH NESTLÉ VIỆT NAM</p>
-            <p>Địa Điểm Làm Việc: Hồ Chí Minh | Bình Dương | Đồng Nai</p>
-            <p>Thương lượng</p>
-            <p>159 lượt xem - Hết hạn trong 28 ngày</p>
+            <p>
+              {job.views} views - Expires in{" "}
+              {<Moment format="DD/MM/YYYY " date={job.expireDate} />}
+            </p>
           </div>
         </div>
         <div className="job-details__header-right">
@@ -27,34 +46,22 @@ export default function index() {
       </div>
       <div className="job-details__section">
         <p className="job-details__title">Benefits</p>
-        <div>
-          13th & 14th month salary + yearly performance bonus + Transportation
-          allowance Generali Health Insurance Transportation supported (for
-          employees in Hanoi/Ho Chi Minh City
-        </div>
+        <div>{job.benefits}</div>
       </div>
       <div className="job-details__section">
         <p className="job-details__title">Description</p>
-        <div>
-          POSITION DESCRIPTION SUMMARY : (state main purpose and scope of the
-          job) Provide factory/site engineering with the required competence on
-          Factory Automation System (FAS- infra structure), Process Control
-          System to effectively support manufacturing operational activities and
-          continuously improve manufacturing performance. Provide factory/Site
-          for Egron safety delegate competency and dust explosion competency.
-        </div>
+        <div>{job.description}</div>
       </div>
       <div className="job-details__section">
         <p className="job-details__title">Requirements</p>
+        <div>{job.requirements}</div>
+      </div>
+      <div className="job-details__section">
+        <p className="job-details__title">Skills</p>
         <div>
-          - Education requirement: Bachelor degree or Master Degree - English
-          ability: good (speaking, reading and writing) - Computer skill:
-          superior skill is highly recommended, PLC programming - Experience
-          related to position: at least 3 years experience in a technical field,
-          preferably food manufacturing or consumer goods industry (as an M&I or
-          E&A/MES Engineer, or other similar positions) - Personnel Supervisory
-          experience (with technical teams, Mechanical and Electrical
-          (contractors, suppliers or other 3rd parties)
+          {job.skills.map((item) => (
+            <p key={item.id}>{item.name}</p>
+          ))}
         </div>
       </div>
     </div>
