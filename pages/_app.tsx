@@ -1,5 +1,4 @@
 import "../styles/globals.scss";
-
 import type { AppProps } from "next/app";
 import Navbar from "app/components/organisms/Navbar";
 import { ApolloProvider } from "@apollo/client";
