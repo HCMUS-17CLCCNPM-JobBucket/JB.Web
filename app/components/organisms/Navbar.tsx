@@ -18,7 +18,14 @@ export function NavbarItem({ content, path }: any) {
 }
 
 export function Logo() {
-  return <img src="logo.png" alt="JobBucket" className="logo" />;
+  return (
+    <img
+      src="logo.png"
+      alt="JobBucket"
+      className="logo"
+      onClick={() => router.push("/")}
+    />
+  );
 }
 
 export default function Navbar() {
@@ -34,7 +41,9 @@ export default function Navbar() {
     <div className="navbar">
       <Logo />
       <div className="navbar__navigation">
-        <p className="navbar__item">Find Jobs</p>
+        <p className="navbar__item" onClick={() => router.push("/job")}>
+          Find Jobs
+        </p>
         <p className="navbar__item">Company</p>
         <p className="navbar__item">CV Editor</p>
         <p className="navbar__item">Blog</p>

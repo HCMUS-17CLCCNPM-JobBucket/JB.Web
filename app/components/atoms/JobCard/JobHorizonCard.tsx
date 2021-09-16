@@ -9,7 +9,7 @@ export default function JobHorizonCard(props) {
         <div className="job-horizon-card__company">
           <img src={props.imageUrls[0]} alt="Google" />
           <div>
-            <p>{props.title}</p>
+            <p onClick={() => router.push("/job/" + props.id)}>{props.title}</p>
             <span>{props.address}</span>
           </div>
         </div>
