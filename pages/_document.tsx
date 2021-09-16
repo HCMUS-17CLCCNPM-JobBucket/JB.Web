@@ -28,7 +28,7 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
             href="https://fonts.googleapis.com/css?family=Nunito"
           />
-          <link rel="icon" type="image/png" href="JobBucket.svg" />
+          <link rel="icon" type="image/png" href="logo.png" />
         </Head>
         <body>
           <Main />
