@@ -1,4 +1,4 @@
-import { chatAPI } from "app/api/modules/chatAPI";
+// import { chatAPI } from "app/api/modules/chatAPI";
 import { useEffect, useState } from "react";
 
 export function useChat(
@@ -18,18 +18,18 @@ export function useChat(
     setLoading(true);
     setError(false);
     const fetchData = async () => {
-      const res = await chatAPI.getListChat(token, conversationId, pageNumber);
-      if (res.status === 200) {
-        // const temp = chats.concat(res.data.data);
-        if (res.data.data !== chats) {
-          setChats((prev: any) => {
-            return [...prev, ...res.data.data];
-          });
-        }
-        setHasMore(res.data.data.length > 0);
-        setLoading(false);
-        if (pageNumber === 0) chatRef.current.scrollIntoView();
-      }
+      // const res = await chatAPI.getListChat(token, conversationId, pageNumber);
+      // if (res.status === 200) {
+      //   // const temp = chats.concat(res.data.data);
+      //   if (res.data.data !== chats) {
+      //     setChats((prev: any) => {
+      //       return [...prev, ...res.data.data];
+      //     });
+      //   }
+      //   setHasMore(res.data.data.length > 0);
+      //   setLoading(false);
+      //   if (pageNumber === 0) chatRef.current.scrollIntoView();
+      // }
     };
     if (pageNumber !== 0) fetchData();
     return () => {};
@@ -39,15 +39,14 @@ export function useChat(
     setLoading(true);
     setError(false);
     const fetchData = async () => {
-      const res = await chatAPI.getListChat(token, conversationId, 0);
-      if (res.status === 200) {
-        setPageNumber(0);
-
-        setChats(res.data.data);
-        setHasMore(res.data.data.length > 0);
-        setLoading(false);
-        if (res.data.data.length !== 0) chatRef.current.scrollIntoView();
-      }
+      // const res = await chatAPI.getListChat(token, conversationId, 0);
+      // if (res.status === 200) {
+      //   setPageNumber(0);
+      //   setChats(res.data.data);
+      //   setHasMore(res.data.data.length > 0);
+      //   setLoading(false);
+      //   if (res.data.data.length !== 0) chatRef.current.scrollIntoView();
+      // }
     };
     fetchData();
     return () => {};
