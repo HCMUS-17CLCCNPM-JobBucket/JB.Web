@@ -5,9 +5,11 @@
   margin: 0;
   border: 0;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import "components/button", "./modules/navbar", "./components/avatar",
-  "./modules/hero", "./components/common", "./components/Toggle/toggles",
-  "./modules/jobCategory", "./modules/mobileApp", "./modules/footer",
-  "./components/jobCard", "./components/selection";
-@import "./pages/404", "./pages/findJob", "./pages/jobDetail";
+  "./components/common", "./components/Toggle/toggles", "./components/selection",
+  "./components/jobCard";
+@import "./pages/404", "./pages/findJob", "./pages/jobDetail", "./pages/login";

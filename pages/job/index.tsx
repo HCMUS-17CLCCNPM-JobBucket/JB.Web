@@ -34,7 +34,7 @@ export default function SearchJobPage() {
   return (
     <div className="find-job">
       <div className="find-job__search">
-        <SearchJob />
+        <SearchJob styles="mt-8 lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" />
       </div>
       <div className="find-job__content">
         <div className="find-job__filter find-job__filter--left">
@@ -48,22 +48,22 @@ export default function SearchJobPage() {
             >
               <Checkbox
                 active={false}
-                content="Full Time Jobs"
+                content="Full Time"
                 callback={() => console.log(123)}
               />
               <Checkbox
                 active={false}
-                content="Part Time Jobs"
+                content="Part Time"
                 callback={() => console.log(123)}
               />
               <Checkbox
                 active={false}
-                content="Remote Jobs"
+                content="Remote"
                 callback={() => console.log(123)}
               />
               <Checkbox
                 active={false}
-                content="Internship Jobs"
+                content="Internship"
                 callback={() => console.log(123)}
               />
             </div>
