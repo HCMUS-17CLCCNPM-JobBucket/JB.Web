@@ -48,22 +48,22 @@ export default function Navbar() {
         <p className="navbar__item">CV Editor</p>
         <p className="navbar__item">Blog</p>
       </div>
-      {/* <div className="navbar__auth">
+      <div className="navbar__auth">
         <LoginButton />
         <SignUpButton />
-      </div> */}
+      </div>
       {/* ref={wrapperRef} */}
-      <div>
+      {/* <div>
         <div onClick={() => setOpen(!open)} className="avatar">
           <img
             src="https://picsum.photos/id/1005/200/200"
             className="avatar__img"
             alt="avatar"
           />
-          <p className="avatar__name">Thang</p>
+          <p className="avatar__name"></p>
         </div>
         {open && <DropdownMenu />}
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -221,6 +221,7 @@ import {
 import { apolloClient } from "app/api/apolloClient";
 import gql from "graphql-tag";
 import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
+import SearchJob from "app/components/atoms/SearchJob";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -232,6 +233,8 @@ const sortOptions = [
 const subCategories = [
   { name: "IT", href: "#" },
   { name: "Marketing", href: "#" },
+  { name: "Business", href: "#" },
+  { name: "Business", href: "#" },
   { name: "Business", href: "#" },
 ];
 const filters = [
@@ -344,7 +347,7 @@ export default function Job() {
 
                 {/* Filters */}
                 <form className="mt-4 border-t border-gray-200">
-                  <h3 className="sr-only">Categories</h3>
+                  <h3 className="">Categories</h3>
                   <ul
                     role="list"
                     className="font-medium text-gray-900 px-2 py-3"
@@ -421,12 +424,40 @@ export default function Job() {
           </Dialog>
         </Transition.Root>
 
+        <div className="flex justify-center">
+          <SearchJob styles="mt-8 lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" />
+        </div>
         <main className=" px-4 sm:px-6 lg:px-16">
           <div className="relative z-10 flex items-baseline justify-between pt-4 pb-6 border-b border-gray-200">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-              New Jobs
+            <h1 className="text-xl font-medium text-center text-gray-900">
+              Filters
             </h1>
-
+            <div className="flex items-center -mx-4 space-x-2 overflow-x-auto overflow-y-hidden sm:justify-center flex-nowrap bg-coolGray-100 text-coolGray-800">
+              <a
+                href="#"
+                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-coolGray-300 text-coolGray-600"
+              >
+                Browse All
+              </a>
+              <a
+                href="#"
+                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-coolGray-300 text-coolGray-600"
+              >
+                Top Week
+              </a>
+              <a
+                href="#"
+                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-blue-600 text-coolGray-900"
+              >
+                Recommend
+              </a>
+              <a
+                href="#"
+                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-coolGray-300 text-coolGray-600"
+              >
+                Company
+              </a>
+            </div>
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
@@ -499,18 +530,17 @@ export default function Job() {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
               {/* Filters */}
               <form className="hidden lg:block">
-                <h3 className="sr-only">Categories</h3>
-                <ul
-                  role="list"
-                  className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200"
-                >
+                <h3 className="font-semibold text-gray-700">Hot Categories</h3>
+                <div className="flex gap-2 flex-wrap text-sm font-medium text-gray-900 pb-6 border-b border-gray-200">
                   {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
-                    </li>
+                    <div
+                      key={category.name}
+                      className="px-2 border border-gray-400 rounded-full"
+                    >
+                      <a href={category.href}>#{category.name}</a>
+                    </div>
                   ))}
-                </ul>
-
+                </div>
                 {filters.map((section) => (
                   <Disclosure
                     as="div"
@@ -568,6 +598,14 @@ export default function Job() {
                     )}
                   </Disclosure>
                 ))}
+                <div className="w-full flex justify-center mt-4">
+                  <button
+                    type="button"
+                    className="px-8 py-3 font-semibold rounded-full bg-blue-600 text-white "
+                  >
+                    Apply Filters
+                  </button>
+                </div>
               </form>
 
               {/* Product grid */}

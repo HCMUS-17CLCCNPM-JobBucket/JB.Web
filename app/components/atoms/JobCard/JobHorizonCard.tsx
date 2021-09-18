@@ -13,11 +13,20 @@ export default function JobHorizonCard(props) {
             <span>{props.address}</span>
           </div>
         </div>
-        <img
-          src="bookmark.svg"
-          alt="Bookmark"
-          className="job-horizon-card__bookmark"
-        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="absolute top-6 right-6 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+          />
+        </svg>
         <div className="job-horizon-card__desc line-clamp">
           Bosch Car Multimedia team is looking for full-time HMI Engineers
           working at Ho Chi Minh City, Vietnam. The CM team develops
