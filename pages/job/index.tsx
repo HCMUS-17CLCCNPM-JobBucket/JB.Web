@@ -573,7 +573,7 @@ export default function Job() {
               {/* Product grid */}
               <div className="lg:col-span-3">
                 {/* Replace with your content */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 w-full h-full">
                   {jobs.map((item, index) => (
                     <JobHorizonCard key={index} {...item} />
                   ))}
