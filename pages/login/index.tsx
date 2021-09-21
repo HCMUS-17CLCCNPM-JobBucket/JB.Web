@@ -1,6 +1,9 @@
 // import UserAPI from "app/api/modules/userAPI";
 // import { useGoogleAuth } from "app/components/layouts/google-provider";
 // import { login } from "app/redux/features/user";
+import { authAPI } from "app/api/modules/authAPI";
+import { useGoogleAuth } from "app/components/layouts/google-provider";
+import { login } from "app/redux/features/user";
 import { clear } from "console";
 import { useFormik } from "formik";
 import Head from "next/head";
@@ -8,56 +11,56 @@ import Head from "next/head";
 import router from "next/router";
 import React, { useEffect } from "react";
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
 
 function Login() {
   // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(false);
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
-    // validationSchema: Yup.object({
-    //   email: Yup.string().email("Invalid email format").required("Required!"),
-    //   password: Yup.string()
-    //     .min(8, "Minimum 8 characters")
-    //     .required("Required!"),
-    // }),
+    validationSchema: Yup.object({
+      username: Yup.string()
+        .email("Invalid username format")
+        .required("Required!"),
+      password: Yup.string()
+        .min(8, "Minimum 8 characters")
+        .required("Required!"),
+    }),
     onSubmit: async (values) => {
       setIsLogin(true);
-      // const res = await UserAPI.login(values);
-      // if (res.status === 200) {
-      //   const info = { ...res.data.data };
-      //   dispatch(login(info));
+      const res = await authAPI.login(values);
+      if (res.status === 200) {
+        dispatch(login(res.data));
 
-      //   router.push("/");
-      // }
+        router.push("/");
+      }
     },
   });
 
-  // const { signIn, googleUser, isSigned } = useGoogleAuth();
-  // console.log(googleUser);
-  // const googleAuth = useGoogleAuth();
+  const { signIn, googleUser, isSigned } = useGoogleAuth();
+  const googleAuth = useGoogleAuth();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await UserAPI.loginWithGoogle({
-  //       GoogleId: googleAuth.googleUser.googleId,
-  //       TokenId: googleAuth.googleUser.tokenId,
-  //     });
-  //     if (res.status === 200) {
-  //       // setIsLogin(true);
-  //       dispatch(login(res.data.data));
-  //       googleAuth.signOut();
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await authAPI.loginWithGoogle({
+        GoogleId: googleAuth.googleUser.googleId,
+        TokenId: googleAuth.googleUser.tokenId,
+      });
+      if (res.status === 200) {
+        // setIsLogin(true);
+        dispatch(login(res.data.data));
+        googleAuth.signOut();
 
-  //       router.push("/");
-  //     }
-  //   };
-  //   if (googleAuth.isSignedIn) fetchData();
-  // }, [googleAuth.isSignedIn]);
+        router.push("/");
+      }
+    };
+    if (googleAuth.isSignedIn) fetchData();
+  }, [googleAuth.isSignedIn]);
 
   return (
     <div className="lg:flex flex justify-center ">
@@ -76,7 +79,7 @@ function Login() {
           <button
             type="button"
             className="py-2 px-4 mt-2 flex justify-center items-center  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-            // onClick={googleAuth.signIn}
+            onClick={googleAuth.signIn}
           >
             <svg
               width="20"
@@ -94,17 +97,17 @@ function Login() {
             <form onSubmit={formik.handleSubmit}>
               <div>
                 <div className="text-sm font-bold text-gray-700 tracking-wide">
-                  Email Address
+                  username Address
                 </div>
 
                 <input
-                  id="email"
-                  name="email"
-                  value={formik.values.email}
+                  id="username"
+                  name="username"
+                  value={formik.values.username}
                   onChange={formik.handleChange}
-                  type="email"
+                  type="username"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  placeholder="Your email"
+                  placeholder="Your username"
                   required
                 />
               </div>
@@ -161,7 +164,7 @@ function Login() {
             </form>
 
             <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
-              Don't have an account ?{" "}
+              Dont have an account ?{" "}
               <a
                 className="cursor-pointer text-indigo-600 hover:text-indigo-800"
                 onClick={() => router.push("/sign-up")}

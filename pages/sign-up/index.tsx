@@ -1,11 +1,10 @@
-// import UserAPI from "app/api/modules/userAPI";
-// import EmployerCheckbox from "app/components/atoms/employer-checkbox";
+import { authAPI } from "app/api/modules/authAPI";
 import { useFormik } from "formik";
 import Head from "next/head";
 // import { useDispatch } from "react-redux";
 import router from "next/router";
 import React, { useState } from "react";
-// import * as Yup from "yup";
+import * as Yup from "yup";
 
 export default function SignUp(props) {
   const [isRoleClicked, setIsRoleClicked] = useState(false);
@@ -16,34 +15,37 @@ export default function SignUp(props) {
       email: "",
       confirmPassword: "",
       password: "",
-      userRoles: [2],
+      roleId: 1,
       fullName: "",
     },
-    // validationSchema: Yup.object({
-    //   email: Yup.string().email("Invalid email format").required("Required!"),
-    //   password: Yup.string()
-    //     .min(8, "Minimum 8 characters")
-    //     .required("Required!"),
-    //   confirmPassword: Yup.string()
-    //     .oneOf([Yup.ref("password")], "Password's not match")
-    //     .required("Required!"),
-    //   fullName: Yup.string().required("Required"),
-    // }),
+    validationSchema: Yup.object({
+      email: Yup.string().email("Invalid email format").required("Required!"),
+      password: Yup.string()
+        .min(8, "Minimum 8 characters")
+        .required("Required!"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password")], "Password's not match")
+        .required("Required!"),
+      fullName: Yup.string().required("Required"),
+    }),
     onSubmit: async (values) => {
       const userDataToPost = {
-        ...values,
-        userRoles: isRoleClicked ? [2, 3] : [2],
+        email: values.email,
+        password: values.password,
+        roleId: values.roleId,
+        fullName: values.fullName,
       };
-      // UserAPI.register(userDataToPost)
-      //   .then((res) => {
-      //     if (res.status === 200) {
-      //       router.push({
-      //         pathname: "/sign-up/verify/[email]",
-      //         query: { email: values.email },
-      //       });
-      //     }
-      //   })
-      //   .catch((error) => setIsSigned(true));
+      authAPI
+        .register(userDataToPost)
+        .then((res) => {
+          if (res.status === 200) {
+            router.push({
+              pathname: "/sign-up/verify/[email]",
+              query: { email: values.email },
+            });
+          }
+        })
+        .catch((error) => setIsSigned(true));
     },
   });
 

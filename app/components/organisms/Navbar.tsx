@@ -2,6 +2,7 @@ import useOutsideAlerter from "app/hooks/useOutsideClicked";
 import Link from "next/link";
 import router from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import LoginButton from "../atoms/Button/LoginButton";
 import SignUpButton from "../atoms/Button/SignUpButton";
@@ -29,6 +30,8 @@ export function Logo() {
 }
 
 export default function Navbar() {
+  const user = useSelector((state: any) => state.user);
+
   const [open, setOpen] = useState(false);
   // const wrapperRef = useRef(null);
   // const handleOutsideClicked = () => {
@@ -48,22 +51,28 @@ export default function Navbar() {
         <p className="navbar__item">CV Editor</p>
         <p className="navbar__item">Blog</p>
       </div>
-      <div className="navbar__auth">
-        <LoginButton />
-        <SignUpButton />
-      </div>
-      {/* ref={wrapperRef} */}
-      {/* <div>
-        <div onClick={() => setOpen(!open)} className="avatar">
-          <img
-            src="https://picsum.photos/id/1005/200/200"
-            className="avatar__img"
-            alt="avatar"
-          />
-          <p className="avatar__name"></p>
+      {user.token === "" ? (
+        <div className="navbar__auth">
+          <LoginButton />
+          <SignUpButton />
         </div>
-        {open && <DropdownMenu />}
-      </div> */}
+      ) : (
+        <div>
+          <div
+            onClick={() => setOpen(!open)}
+            className="p-1 rounded-full flex gap-2 items-center hover:bg-gray-200 "
+          >
+            <img
+              src="https://picsum.photos/id/1005/200/200"
+              className="border border-gray-200 rounded-full h-10 w-10 "
+              alt="avatar"
+            />
+            <p className="text-base">{user.user.fullName || "User"}</p>
+          </div>
+          {open && <DropdownMenu />}
+        </div>
+      )}
+      {/* ref={wrapperRef} */}
     </div>
   );
 }

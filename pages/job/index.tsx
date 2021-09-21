@@ -218,8 +218,6 @@ import {
   PlusSmIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid";
-import { apolloClient } from "app/api/apolloClient";
-import gql from "graphql-tag";
 import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
 import SearchJob from "app/components/atoms/SearchJob";
 
@@ -283,24 +281,24 @@ export default function Job() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
 
-  apolloClient
-    .query({
-      query: gql`
-        query {
-          jobs {
-            id
-            title
-            description
-            address
-            imageUrls
-            expireDate
-            minSalary
-            maxSalary
-          }
-        }
-      `,
-    })
-    .then((result) => setJobs(result.data.jobs));
+  // apolloClient
+  //   .query({
+  //     query: gql`
+  //       query {
+  //         jobs {
+  //           id
+  //           title
+  //           description
+  //           address
+  //           imageUrls
+  //           expireDate
+  //           minSalary
+  //           maxSalary
+  //         }
+  //       }
+  //     `,
+  //   })
+  //   .then((result) => setJobs(result.data.jobs));
   return (
     <div className="bg-white">
       <div>
@@ -530,17 +528,17 @@ export default function Job() {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
               {/* Filters */}
               <form className="hidden lg:block">
-                <h3 className="font-semibold text-gray-700">Hot Categories</h3>
-                <div className="flex gap-2 flex-wrap text-sm font-medium text-gray-900 pb-6 border-b border-gray-200">
+                <h3 className="">Hot Categories</h3>
+                <ul
+                  role="list"
+                  className="text-sm font-medium text-gray-900 space-y-2 pb-6 border-b border-gray-200"
+                >
                   {subCategories.map((category) => (
-                    <div
-                      key={category.name}
-                      className="px-2 border border-gray-400 rounded-full"
-                    >
-                      <a href={category.href}>#{category.name}</a>
-                    </div>
+                    <li key={category.name}>
+                      <a href={category.href}>{category.name}</a>
+                    </li>
                   ))}
-                </div>
+                </ul>
                 {filters.map((section) => (
                   <Disclosure
                     as="div"
