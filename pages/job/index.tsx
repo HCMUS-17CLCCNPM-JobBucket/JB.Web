@@ -209,7 +209,7 @@
   ```
 */
 import { Fragment, useState } from "react";
-import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { Dialog, Disclosure, Menu, Tab, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import {
   ChevronDownIcon,
@@ -220,6 +220,7 @@ import {
 } from "@heroicons/react/solid";
 import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
 import SearchJob from "app/components/atoms/SearchJob";
+import router from "next/router";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -281,6 +282,11 @@ export default function Job() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
 
+  const categories = [
+    { title: "Browse All", path: "/" },
+    { title: "Recommend", path: "/rec" },
+    { title: "Remote Job", path: "/remote-job" },
+  ];
   // apolloClient
   //   .query({
   //     query: gql`
@@ -430,31 +436,28 @@ export default function Job() {
             <h1 className="text-xl font-medium text-center text-gray-900">
               Filters
             </h1>
-            <div className="flex items-center -mx-4 space-x-2 overflow-x-auto overflow-y-hidden sm:justify-center flex-nowrap bg-coolGray-100 text-coolGray-800">
-              <a
-                href="#"
-                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-coolGray-300 text-coolGray-600"
-              >
-                Browse All
-              </a>
-              <a
-                href="#"
-                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-coolGray-300 text-coolGray-600"
-              >
-                Top Week
-              </a>
-              <a
-                href="#"
-                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-blue-600 text-coolGray-900"
-              >
-                Recommend
-              </a>
-              <a
-                href="#"
-                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-coolGray-300 text-coolGray-600"
-              >
-                Company
-              </a>
+            <div className="w-full max-w-md px-2 ">
+              <Tab.Group>
+                <Tab.List className="flex p-1 space-x-1 bg-gray-900/20 rounded-xl">
+                  {categories.map((category, index) => (
+                    <Tab
+                      onClick={() => router.push(category.path)}
+                      key={index}
+                      className={({ selected }) =>
+                        classNames(
+                          "w-full py-2.5 text-sm leading-5 font-medium rounded-lg",
+                          "focus:outline-none ",
+                          selected
+                            ? "text-blue-600 bg-white shadow font-semibold"
+                            : "text-gray-600 hover:bg-gray-600/[0.12] hover:text-blue-600"
+                        )
+                      }
+                    >
+                      {category.title}
+                    </Tab>
+                  ))}
+                </Tab.List>
+              </Tab.Group>
             </div>
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
