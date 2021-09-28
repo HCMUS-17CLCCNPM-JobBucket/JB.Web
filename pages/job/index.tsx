@@ -209,18 +209,19 @@
   ```
 */
 import { Fragment, useState } from "react";
-import { Dialog, Disclosure, Menu, Tab, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
-import {
-  ChevronDownIcon,
-  FilterIcon,
-  MinusSmIcon,
-  PlusSmIcon,
-  ViewGridIcon,
-} from "@heroicons/react/solid";
+// import { Dialog, Disclosure, Menu, Tab, Transition } from "@headlessui/react";
+// import { XIcon } from "@heroicons/react/outline";
+// import {
+//   ChevronDownIcon,
+//   FilterIcon,
+//   MinusSmIcon,
+//   PlusSmIcon,
+//   ViewGridIcon,
+// } from "@heroicons/react/solid";
 import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
 import SearchJob from "app/components/atoms/SearchJob";
 import router from "next/router";
+import { Dialog, Disclosure, Menu, Tab, Transition } from "@headlessui/react";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -345,7 +346,7 @@ export default function Job() {
                     onClick={() => setMobileFiltersOpen(false)}
                   >
                     <span className="sr-only">Close menu</span>
-                    <XIcon className="h-6 w-6" aria-hidden="true" />
+                    {/* <XIcon className="h-6 w-6" aria-hidden="true" /> */}
                   </button>
                 </div>
 
@@ -379,7 +380,7 @@ export default function Job() {
                                 {section.name}
                               </span>
                               <span className="ml-6 flex items-center">
-                                {open ? (
+                                {/* {open ? (
                                   <MinusSmIcon
                                     className="h-5 w-5"
                                     aria-hidden="true"
@@ -389,7 +390,7 @@ export default function Job() {
                                     className="h-5 w-5"
                                     aria-hidden="true"
                                   />
-                                )}
+                                )} */}
                               </span>
                             </Disclosure.Button>
                           </h3>
@@ -449,7 +450,7 @@ export default function Job() {
                           "focus:outline-none ",
                           selected
                             ? "text-blue-600 bg-white shadow font-semibold"
-                            : "text-gray-600 hover:bg-gray-600/[0.12] hover:text-blue-600"
+                            : "text-gray-600 hover:bg-gray-600/[0.12] hover:text-white"
                         )
                       }
                     >
@@ -464,10 +465,10 @@ export default function Job() {
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                     Sort
-                    <ChevronDownIcon
+                    {/* <ChevronDownIcon
                       className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
-                    />
+                    /> */}
                   </Menu.Button>
                 </div>
 
@@ -510,7 +511,7 @@ export default function Job() {
                 className="p-2 -m-2 ml-5 sm:ml-7 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">View grid</span>
-                <ViewGridIcon className="w-5 h-5" aria-hidden="true" />
+                {/* <ViewGridIcon className="w-5 h-5" aria-hidden="true" /> */}
               </button>
               <button
                 type="button"
@@ -518,7 +519,7 @@ export default function Job() {
                 onClick={() => setMobileFiltersOpen(true)}
               >
                 <span className="sr-only">Filters</span>
-                <FilterIcon className="w-5 h-5" aria-hidden="true" />
+                {/* <FilterIcon className="w-5 h-5" aria-hidden="true" /> */}
               </button>
             </div>
           </div>
@@ -555,7 +556,7 @@ export default function Job() {
                             <span className="font-medium text-gray-900">
                               {section.name}
                             </span>
-                            <span className="ml-6 flex items-center">
+                            {/* <span className="ml-6 flex items-center">
                               {open ? (
                                 <MinusSmIcon
                                   className="h-5 w-5"
@@ -567,7 +568,7 @@ export default function Job() {
                                   aria-hidden="true"
                                 />
                               )}
-                            </span>
+                            </span> */}
                           </Disclosure.Button>
                         </h3>
                         <Disclosure.Panel className="pt-6">

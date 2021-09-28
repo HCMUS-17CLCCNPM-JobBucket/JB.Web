@@ -1,9 +1,6 @@
-import { useQuery } from "@apollo/client";
-import { apolloClient } from "app/api/apolloClient";
+// import { useQuery } from "@apollo/client";
 import { JobAPI } from "app/api/modules/jobAPI";
-import gql from "graphql-tag";
 import React from "react";
-import Moment from "react-moment";
 
 export const getServerSideProps = async ({ params }) => {
   return {
@@ -12,15 +9,15 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function JobDetail(props) {
-  const { loading, error, data } = useQuery(JobAPI.GET_JOB_BY_ID, {
-    variables: { id: props.id },
-  });
+  // const { loading, error, data } = useQuery(JobAPI.GET_JOB_BY_ID, {
+  //   variables: { id: props.id },
+  // });
 
-  if (loading) return null;
-  if (error) return `Error! ${error}`;
+  // if (loading) return null;
+  // if (error) return `Error! ${error}`;
 
-  const job = data.jobs[0];
-  console.log(job);
+  // const job = data.jobs[0];
+  // console.log(job);
   return (
     <div className="job-details">
       <div className="lg:flex lg:items-center lg:justify-between">
@@ -62,7 +59,7 @@ export default function JobDetail(props) {
                   clipRule="evenodd"
                 />
               </svg>
-              {job.address}
+              {/* {job.address} */}
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               {/* Heroicon name: solid/currency-dollar */}
@@ -201,7 +198,7 @@ export default function JobDetail(props) {
           </span>
         </div>
       </div>
-      <div className="job-details__section">
+      {/* <div className="job-details__section">
         <p className="job-details__title">Benefits</p>
         <div>{job.benefits}</div>
       </div>
@@ -220,7 +217,7 @@ export default function JobDetail(props) {
             <p key={item.id}>{item.name}</p>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
