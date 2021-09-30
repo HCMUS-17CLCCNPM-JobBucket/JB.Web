@@ -39,7 +39,7 @@ export default function Navbar() {
   // };
 
   // useOutsideAlerter(wrapperRef, handleOutsideClicked);
-
+  console.log("token", user.token);
   return (
     <div className="navbar">
       <Logo />
@@ -51,43 +51,32 @@ export default function Navbar() {
         <p className="navbar__item">CV Editor</p>
         <p className="navbar__item">Blog</p>
       </div>
-      {/* {user.token === "" ? (
-        <div className="navbar__auth">
-          <LoginButton />
-          <SignUpButton />
-        </div>
-      ) : (
-        <div>
-          <div
-            onClick={() => setOpen(!open)}
-            className="p-1 rounded-full flex gap-2 items-center hover:bg-gray-200 "
-          >
-            <img
-              src="https://picsum.photos/id/1005/200/200"
-              className="border border-gray-200 rounded-full h-10 w-10 "
-              alt="avatar"
-            />
-            <p className="text-base">{user.user.fullName || "User"}</p>
-          </div>
-          {open && <DropdownMenu />}
-        </div>
-      )} */}
       <div>
-        <div
-          onClick={() => setOpen(!open)}
-          className="p-1 rounded-full flex gap-2 items-center hover:bg-gray-200 "
-        >
-          <img
-            src="https://picsum.photos/id/1005/200/200"
-            className="border border-gray-200 rounded-full h-10 w-10 "
-            alt="avatar"
-          />
-          <p className="text-base font-semibold">
-            {user.user.fullName || "User"}
-          </p>
-        </div>
-        {open && <DropdownMenu />}
+        {user.token == "" ? (
+          <div className="flex gap-4 items-center">
+            <LoginButton />
+            <SignUpButton />
+          </div>
+        ) : (
+          <div>
+            <div
+              onClick={() => setOpen(!open)}
+              className="p-1 rounded-full flex gap-2 items-center hover:bg-gray-200 "
+            >
+              <img
+                src="https://picsum.photos/id/1005/200/200"
+                className="border border-gray-200 rounded-full h-10 w-10 "
+                alt="avatar"
+              />
+              <p className="text-base font-semibold">
+                {user.user.fullName || "User"}
+              </p>
+            </div>
+            {open && <DropdownMenu />}
+          </div>
+        )}
       </div>
+
       {/* ref={wrapperRef} */}
     </div>
   );
