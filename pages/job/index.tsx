@@ -1,227 +1,18 @@
-// import React, { useState } from "react";
-
-// import { apolloClient } from "app/api/apolloClient";
-// import gql from "graphql-tag";
-
-// import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
-// import SearchJob from "app/components/atoms/SearchJob";
-// import Checkbox from "app/components/atoms/Toggle/Checkbox";
-
-// export default function SearchJobPage() {
-//   const list = [1, 2, 3, 4, 5, 6, 7, 8];
-//   const filters = [1, 2, 3, 4];
-
-//   const [jobs, setJobs] = useState<any>([]);
-//   const [activated, setActivated] = useState(false);
-// apolloClient
-//   .query({
-//     query: gql`
-//       query {
-//         jobs {
-//           id
-//           title
-//           description
-//           address
-//           imageUrls
-//           expireDate
-//           minSalary
-//           maxSalary
-//         }
-//       }
-//     `,
-//   })
-//   .then((result) => setJobs(result.data.jobs));
-//   return (
-//     <div className="find-job">
-//       <div className="find-job__search">
-//         <SearchJob styles="mt-8 lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" />
-//       </div>
-//       <div className="find-job__content">
-//         <div className="find-job__filter find-job__filter--left">
-//           <div>
-//             <p onClick={() => setActivated(!activated)}>Type of Employment</p>
-
-//             <div
-//               className={`${
-//                 activated && "find-job__checkboxes--active"
-//               } find-job__checkboxes`}
-//             >
-//               <Checkbox
-//                 active={false}
-//                 content="Full Time"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Part Time"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Remote"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Internship"
-//                 callback={() => console.log(123)}
-//               />
-//             </div>
-//             {/*
-//               {filters.map((item, index) => (
-//                 <Checkbox
-//                   key={index}
-//                   active={true}
-//                   content=">= $1"
-//                   callback={() => console.log(123)}
-//                 />
-//               ))}
-//             </div> */}
-//           </div>
-//           <div>
-//             <p onClick={() => setActivated(!activated)}>Level</p>
-
-//             <div
-//               className={`${
-//                 activated && "find-job__checkboxes--active"
-//               } find-job__checkboxes`}
-//             >
-//               <Checkbox
-//                 active={false}
-//                 content="Student"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Junior"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Mid"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Senior"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Direct"
-//                 callback={() => console.log(123)}
-//               />
-//             </div>
-//           </div>
-//         </div>
-
-//         <div className="find-job__result">
-//           {jobs.map((item, index) => (
-//             <JobHorizonCard key={index} {...item} />
-//           ))}
-//         </div>
-
-//         <div className="find-job__filter find-job__filter--right">
-//           <div>
-//             <p onClick={() => setActivated(!activated)}>Type of Employment</p>
-
-//             <div
-//               className={`${
-//                 activated && "find-job__checkboxes--active"
-//               } find-job__checkboxes`}
-//             >
-//               <Checkbox
-//                 active={false}
-//                 content="Full Time Jobs"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Part Time Jobs"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Remote Jobs"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Internship Jobs"
-//                 callback={() => console.log(123)}
-//               />
-//             </div>
-//           </div>
-//           <div>
-//             <p onClick={() => setActivated(!activated)}>Level</p>
-
-//             <div
-//               className={`${
-//                 activated && "find-job__checkboxes--active"
-//               } find-job__checkboxes`}
-//             >
-//               <Checkbox
-//                 active={false}
-//                 content="Student"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Junior"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Mid"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Senior"
-//                 callback={() => console.log(123)}
-//               />
-//               <Checkbox
-//                 active={false}
-//                 content="Direct"
-//                 callback={() => console.log(123)}
-//               />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { Fragment, useState } from "react";
-// import { Dialog, Disclosure, Menu, Tab, Transition } from "@headlessui/react";
-// import { XIcon } from "@heroicons/react/outline";
-// import {
-//   ChevronDownIcon,
-//   FilterIcon,
-//   MinusSmIcon,
-//   PlusSmIcon,
-//   ViewGridIcon,
-// } from "@heroicons/react/solid";
+import { Fragment, useEffect, useState } from "react";
+import { XIcon } from "@heroicons/react/outline";
+import {
+  ChevronDownIcon,
+  FilterIcon,
+  MinusSmIcon,
+  PlusSmIcon,
+  ViewGridIcon,
+} from "@heroicons/react/solid";
 import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
 import SearchJob from "app/components/atoms/SearchJob";
 import router from "next/router";
 import { Dialog, Disclosure, Menu, Tab, Transition } from "@headlessui/react";
+import { JobAPI } from "app/api/modules/jobAPI";
+import Pagination from "app/components/molecules/pagination";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -233,8 +24,6 @@ const sortOptions = [
 const subCategories = [
   { name: "IT", href: "#" },
   { name: "Marketing", href: "#" },
-  { name: "Business", href: "#" },
-  { name: "Business", href: "#" },
   { name: "Business", href: "#" },
 ];
 const filters = [
@@ -274,7 +63,11 @@ const filters = [
     ],
   },
 ];
-
+const categories = [
+  { title: "Browse All", path: "/" },
+  { title: "Recommend", path: "/rec" },
+  { title: "Remote Job", path: "/remote-job" },
+];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -282,30 +75,26 @@ function classNames(...classes) {
 export default function Job() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
-
-  const categories = [
-    { title: "Browse All", path: "/" },
-    { title: "Recommend", path: "/rec" },
-    { title: "Remote Job", path: "/remote-job" },
-  ];
-  // apolloClient
-  //   .query({
-  //     query: gql`
-  //       query {
-  //         jobs {
-  //           id
-  //           title
-  //           description
-  //           address
-  //           imageUrls
-  //           expireDate
-  //           minSalary
-  //           maxSalary
-  //         }
-  //       }
-  //     `,
-  //   })
-  //   .then((result) => setJobs(result.data.jobs));
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [filterOptions, setFilterOptions] = useState({
+    keyword: "",
+    categories: [],
+    skills: [],
+    salary: [],
+    isDescending: false,
+    page: 0,
+    size: 10,
+    sortBy: "",
+    expireDate: [],
+  });
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await JobAPI.getAll(filterOptions);
+      if (res.status === 200) setJobs(res.data.data.jobs);
+      console.log(123);
+    };
+    fetchData();
+  }, [isFiltered]);
   return (
     <div className="bg-white">
       <div>
@@ -380,7 +169,7 @@ export default function Job() {
                                 {section.name}
                               </span>
                               <span className="ml-6 flex items-center">
-                                {/* {open ? (
+                                {open ? (
                                   <MinusSmIcon
                                     className="h-5 w-5"
                                     aria-hidden="true"
@@ -390,7 +179,7 @@ export default function Job() {
                                     className="h-5 w-5"
                                     aria-hidden="true"
                                   />
-                                )} */}
+                                )}
                               </span>
                             </Disclosure.Button>
                           </h3>
@@ -465,10 +254,10 @@ export default function Job() {
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                     Sort
-                    {/* <ChevronDownIcon
+                    <ChevronDownIcon
                       className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
-                    /> */}
+                    />
                   </Menu.Button>
                 </div>
 
@@ -556,7 +345,7 @@ export default function Job() {
                             <span className="font-medium text-gray-900">
                               {section.name}
                             </span>
-                            {/* <span className="ml-6 flex items-center">
+                            <span className="ml-6 flex items-center">
                               {open ? (
                                 <MinusSmIcon
                                   className="h-5 w-5"
@@ -568,7 +357,7 @@ export default function Job() {
                                   aria-hidden="true"
                                 />
                               )}
-                            </span> */}
+                            </span>
                           </Disclosure.Button>
                         </h3>
                         <Disclosure.Panel className="pt-6">
@@ -602,6 +391,7 @@ export default function Job() {
                 ))}
                 <div className="w-full flex justify-center mt-4">
                   <button
+                    onClick={() => setIsFiltered(!isFiltered)}
                     type="button"
                     className="px-8 py-3 font-semibold rounded-full bg-blue-600 text-white "
                   >
@@ -618,6 +408,11 @@ export default function Job() {
                     <JobHorizonCard key={index} {...item} />
                   ))}
                 </div>
+                <Pagination
+                  pages={20}
+                  currentPage={1}
+                  setCurrentPage={() => console.log(123)}
+                />
                 {/* /End replace */}
               </div>
             </div>
