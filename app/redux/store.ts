@@ -8,6 +8,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
 import companyReducer from "./features/company";
+import cvReducer from "./features/cv"
 // import createSagaMiddleware from "redux-saga";
 
 //redux config
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   job: jobReducer,
   notifications: notiReducer,
   company: companyReducer,
+  cv: cvReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
