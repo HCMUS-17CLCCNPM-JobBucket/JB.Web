@@ -48,7 +48,9 @@ export default function Navbar() {
         </p>
         <p className="navbar__item">Company</p>
         <p className="navbar__item">CV Editor</p>
-        <p className="navbar__item">Blog</p>
+        <p className="navbar__item" onClick={() => router.push("/blog")}>
+          Blog
+        </p>
       </div>
       <div>
         {user.token == "" ? (
