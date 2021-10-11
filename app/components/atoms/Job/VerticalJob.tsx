@@ -28,7 +28,15 @@ export default function VerticalJob(props) {
       </div>
       <div className="flex items-center justify-between">
         <p className="font-semibold">$5000 - $6000</p>
-        <ApplyButton active={true} />
+        <button
+          className={`${
+            true
+              ? "bg-blue-600 text-white"
+              : "bg-blue-200 text-blue-700 cursor-not-allowed"
+          } px-4 py-2 rounded-md font-semibold`}
+        >
+          Apply
+        </button>
       </div>
     </div>
   );

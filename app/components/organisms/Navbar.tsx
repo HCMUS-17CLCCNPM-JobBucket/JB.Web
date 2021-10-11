@@ -39,7 +39,6 @@ export default function Navbar() {
   // };
 
   // useOutsideAlerter(wrapperRef, handleOutsideClicked);
-  console.log("token", user.token);
   return (
     <div className="navbar">
       <Logo />
@@ -54,8 +53,13 @@ export default function Navbar() {
       <div>
         {user.token == "" ? (
           <div className="flex gap-4 items-center">
-            <LoginButton />
-            <SignUpButton />
+            <button
+              type="button"
+              className="btn sign-up__button"
+              onClick={() => router.push("/sign-up")}
+            >
+              Login
+            </button>
           </div>
         ) : (
           <div>

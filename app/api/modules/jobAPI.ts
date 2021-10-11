@@ -32,6 +32,9 @@ export const JobAPI = {
             organization {
               name
             }
+            types{
+              name
+            }
             address
             views
             jobForm
@@ -55,7 +58,7 @@ export const JobAPI = {
         }
       `,
       variables: {
-        id,
+        id: id,
       },
     }),
 };

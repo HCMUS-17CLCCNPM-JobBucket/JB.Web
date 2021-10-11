@@ -12,3 +12,7 @@
 .profile-title {
   @apply text-2xl font-semibold mb-2;
 }
+
+.ease-in-transition {
+  @apply transition duration-200 ease-in;
+}

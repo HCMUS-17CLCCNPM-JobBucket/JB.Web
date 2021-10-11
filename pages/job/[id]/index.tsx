@@ -1,33 +1,48 @@
 // import { useQuery } from "@apollo/client";
 import { JobAPI } from "app/api/modules/jobAPI";
+import Badge from "app/components/atoms/Badge";
+import ApplyButton from "app/components/atoms/Button/ApplyButton";
+import Divider from "app/components/atoms/Divider";
+import RecJob from "app/components/atoms/RecJob";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await JobAPI.getJobById(parseInt(params.id));
-  if (res.status === 200) return { props: { ...res.data.data.jobs[0] } };
+  if (res.status === 200) return { props: { ...res.data.data } };
   return {
     props: { id: params.id },
   };
 };
 
 export default function JobDetail(props) {
-  const [jobInfo, setjobInfo] = useState<any>(props);
+  console.log(props);
+  const [jobInfo, setjobInfo] = useState<any>(props.jobs[0]);
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     const res = await JobAPI.getJobById(props.id);
-  //     if (res.status === 200) setjobInfo?(res.data.data.jobs[0]);
+  //     const res = await JobAPI.getJobById(parseInt(props.id));
+  //     // if (res.status === 200) setjobInfo(res.data.data.jobs[0]);
   //     console.log(res.data.data.jobs[0]);
   //   };
   //   fetchData();
   // }, []);
   return (
-    <div className="px-16 py-4">
-      <img src={jobInfo?.imageUrls[0]} alt="" className="h-52 w-full" />
+    <div className="flex-1 px-16 py-4">
+      <img
+        src={
+          jobInfo?.imageUrls[1] ||
+          "https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg"
+        }
+        alt=""
+        className="h-52 w-full rounded-lg"
+      />
       <div className="mt-4 lg:flex lg:items-center lg:justify-between">
         <div className="flex gap-2">
           <img
-            src={jobInfo?.imageUrls[0]}
+            src={
+              jobInfo?.imageUrls[0] ||
+              "https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg"
+            }
             alt=""
             className="h-20 w-20 rounded-lg border border-gray-200"
           />
@@ -52,25 +67,26 @@ export default function JobDetail(props) {
                   />
                   <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                 </svg>
-                <p className="capitalize">{jobInfo?.jobForm}</p>
+                <p className="capitalize">{jobInfo?.types[0].name}</p>
               </div>
-              <div className="mt-2 flex items-center text-sm text-gray-500">
-                {/* Heroicon name: solid/location-marker */}
-                <svg
-                  className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {jobInfo?.address}
-              </div>
+              {/* Heroicon name: solid/location-marker */}
+              {/* <div className="mt-2 flex items-center text-sm text-gray-500">
+              
+              <svg
+                className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              {jobInfo?.address}
+            </div> */}
               <div className="mt-2 flex items-center text-sm text-gray-500">
                 <svg
                   className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
@@ -110,7 +126,7 @@ export default function JobDetail(props) {
             </div>
           </div>
         </div>
-        <div className="mt-5 flex lg:mt-0 lg:ml-4">
+        <div className="w-64 mt-5 flex justify-between lg:mt-0 lg:ml-4">
           <span className="hidden sm:block">
             <button
               type="button"
@@ -135,26 +151,7 @@ export default function JobDetail(props) {
             </button>
           </span>
           <span className="sm:ml-3">
-            <button
-              type="button"
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              {/* Heroicon name: solid/check */}
-              <svg
-                className="-ml-1 mr-2 h-5 w-5"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Apply Job
-            </button>
+            <ApplyButton />
           </span>
           <span className="ml-3 relative sm:hidden">
             <button
@@ -210,25 +207,74 @@ export default function JobDetail(props) {
           </span>
         </div>
       </div>
-      <div className="flex flex-col gap-4">
-        <div className="mt-4">
-          <p className="text-xl font-semibold">Benefits</p>
-          <div>{jobInfo?.benefits}</div>
+      <div className="flex justify-between">
+        <div className="flex-1 flex flex-col gap-4">
+          <div className="mt-4">
+            <p className="text-xl font-semibold">Benefits</p>
+            <div>
+              {jobInfo?.benefits ||
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
+            </div>
+          </div>
+          <div className="">
+            <p className="text-xl font-semibold">Description</p>
+            <div>
+              {jobInfo?.description ||
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
+            </div>
+          </div>
+          <div className="">
+            <p className="text-xl font-semibold">Requirements</p>
+            <div>
+              {jobInfo?.requirements ||
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
+            </div>
+          </div>
+          <div className="">
+            <p className="text-xl font-semibold">Skills</p>
+            <div className="flex gap-1 flex-wrap">
+              {jobInfo?.skills.map((item) => (
+                <Badge key={item.id} content={item.name} />
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="">
-          <p className="text-xl font-semibold">Description</p>
-          <div>{jobInfo?.description}</div>
-        </div>
-        <div className="">
-          <p className="text-xl font-semibold">Requirements</p>
-          <div>{jobInfo?.requirements}</div>
-        </div>
-        <div className="">
-          <p className="text-xl font-semibold">Skills</p>
-          <div>
-            {jobInfo?.skills.map((item) => (
-              <p key={item.id}>{item.name}</p>
-            ))}
+        <div className="w-64 flex flex-col gap-4">
+          <div className="w-full border border-gray-200 rounded-lg p-4">
+            <div className="flex gap-2 items-center mb-4">
+              <img
+                src={jobInfo.imageUrls[0]}
+                alt=""
+                className="rounded-md h-10 w-10 object-cover border border-gray-200"
+              />
+              <div className="">
+                <p className="font-semibold cursor-pointer">
+                  HDWEBSOFT CO., LTD
+                </p>
+                <p className="text-xs text-gray-600 ">Posted by: John Smith</p>
+              </div>
+            </div>
+            <p className="font-semibold">
+              Staffs: <span className="font-medium">100-499</span>
+            </p>
+            <p className="font-semibold">
+              Locations:{" "}
+              <span className="font-medium">Ho Chi Minh City, Viet Nam</span>
+            </p>
+          </div>
+          <div className="w-full border border-gray-200 rounded-lg p-2">
+            <p className="text-xl font-semibold text-center">
+              Similar jobs for you
+            </p>
+            <div className="mt-4 flex flex-col gap-3 ">
+              <RecJob />
+              <hr className="p-0 m-0" />
+              <RecJob />
+              <hr className="p-0 m-0" />
+              <RecJob />
+              <hr className="p-0 m-0" />
+              <RecJob />
+            </div>
           </div>
         </div>
       </div>

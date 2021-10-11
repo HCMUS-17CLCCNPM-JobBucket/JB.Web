@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/google-font-display */
 import Document, {
   DocumentContext,
   Html,
@@ -25,6 +26,7 @@ class MyDocument extends Document {
           <link
             rel="stylesheet"
             as="style"
+            l
             crossOrigin="anonymous"
             href="https://fonts.googleapis.com/css?family=Nunito"
           />
