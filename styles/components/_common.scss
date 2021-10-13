@@ -16,3 +16,7 @@
 .ease-in-transition {
   @apply transition duration-200 ease-in;
 }
+
+.avatar {
+  @apply rounded-full border border-gray-200 object-cover;
+}

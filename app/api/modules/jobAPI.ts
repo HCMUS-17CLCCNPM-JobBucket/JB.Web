@@ -1,11 +1,11 @@
 import axiosClient from "../axiosClient";
 
-export const JobAPI = {
+export const jobAPI = {
   getAll: (filter) =>
     axiosClient.post("/graphql", {
       query: `
-      query {
-        jobs {
+      query GetAllJobs($filter: ListJobType ) {
+        jobs(filter: $filter) {
           id
           title
           jobForm
@@ -19,8 +19,7 @@ export const JobAPI = {
       }
     `,
       variables: {
-        // id,
-        ...filter,
+        filter,
       },
     }),
   getJobById: (id: number) =>

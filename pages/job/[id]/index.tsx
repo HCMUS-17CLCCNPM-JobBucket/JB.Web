@@ -1,5 +1,5 @@
 // import { useQuery } from "@apollo/client";
-import { JobAPI } from "app/api/modules/jobAPI";
+import { jobAPI } from "app/api/modules/jobAPI";
 import Badge from "app/components/atoms/Badge";
 import ApplyButton from "app/components/atoms/Button/ApplyButton";
 import Divider from "app/components/atoms/Divider";
@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 
 export const getServerSideProps = async ({ params }) => {
-  const res = await JobAPI.getJobById(parseInt(params.id));
+  const res = await jobAPI.getJobById(parseInt(params.id));
   if (res.status === 200) return { props: { ...res.data.data } };
   return {
     props: { id: params.id },
@@ -20,7 +20,7 @@ export default function JobDetail(props) {
   const [jobInfo, setjobInfo] = useState<any>(props.jobs[0]);
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     const res = await JobAPI.getJobById(parseInt(props.id));
+  //     const res = await jobAPI.getJobById(parseInt(props.id));
   //     // if (res.status === 200) setjobInfo(res.data.data.jobs[0]);
   //     console.log(res.data.data.jobs[0]);
   //   };

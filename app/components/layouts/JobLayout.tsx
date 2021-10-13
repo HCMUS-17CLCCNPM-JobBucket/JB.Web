@@ -7,7 +7,7 @@ import {
   PlusSmIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid";
-import { JobAPI } from "app/api/modules/jobAPI";
+import { jobAPI } from "app/api/modules/jobAPI";
 import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
 import ListEmpty from "app/components/atoms/ListEmpty";
 import SearchJob from "app/components/atoms/SearchJob";
@@ -75,19 +75,21 @@ export default function Job() {
   const [jobs, setJobs] = useState<any>([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [filterOptions, setFilterOptions] = useState({
-    keyword: "",
-    categories: [],
-    skills: [],
-    salary: [],
     isDescending: false,
     page: 0,
     size: 10,
     sortBy: "",
+    keyword: "",
+    numberEmployeesToApplied: [],
+    createdDate: [],
     expireDate: [],
+    skill: [],
+    position: [],
+    salary: [],
   });
   useEffect(() => {
     const fetchData = async () => {
-      const res = await JobAPI.getAll(filterOptions);
+      const res = await jobAPI.getAll(filterOptions);
       if (res.status === 200) setJobs(res.data.data.jobs);
     };
     fetchData();

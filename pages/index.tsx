@@ -1,4 +1,4 @@
-import { JobAPI } from "app/api/modules/jobAPI";
+import { jobAPI } from "app/api/modules/jobAPI";
 import Footer from "app/components/organisms/Footer";
 import Hero from "app/components/organisms/Hero";
 import JobCategory from "app/components/organisms/JobCategory";
@@ -9,7 +9,7 @@ import React, { useEffect } from "react";
 export default function Home() {
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     await JobAPI.getJobById(1).then((res) => console.log(res));
+  //     await jobAPI.getJobById(1).then((res) => console.log(res));
   //   };
   //   fetchData();
   // }, []);

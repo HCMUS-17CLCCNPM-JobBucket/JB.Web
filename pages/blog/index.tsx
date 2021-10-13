@@ -1,9 +1,31 @@
+import { blogAPI } from "app/api/modules/blogAPI";
 import Blog from "app/components/atoms/Blog";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function BlogPage() {
   const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [blogs, setBlogs] = useState([]);
+  const [isFiltered, setIsFiltered] = useState(false);
 
+  const [filter, setFilter] = useState({
+    isDescending: false,
+    page: 0,
+    size: 10,
+    sortBy: "",
+    keyword: "",
+    createdDate: [],
+    tags: [],
+    // authorId: 1,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await blogAPI.getAll(filter);
+
+      if (res.status === 200) setBlogs(res.data.data.blogs);
+    };
+    fetchData();
+  }, [isFiltered]);
   return (
     <section className="text-gray-800">
       <div className="container max-w-8xl p-6 mx-auto space-y-6 ">
@@ -28,8 +50,8 @@ export default function BlogPage() {
           </div>
         </a>
         <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((item, index) => (
-            <Blog key={index} />
+          {blogs.map((item, index) => (
+            <Blog key={index} {...item} />
           ))}
         </div>
         <div className="flex justify-center">
