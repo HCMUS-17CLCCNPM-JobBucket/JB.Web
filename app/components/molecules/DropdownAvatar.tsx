@@ -2,12 +2,14 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import router from "next/router";
+import { useDispatch } from "react-redux";
+import { logout } from "app/redux/features/user";
 
 function DropdownItem(props) {
   return (
     <div
       className="mt-1 flex items-center gap-4 px-2 py-2 hover:bg-gray-200 rounded-md cursor-pointer"
-      // onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}
+      onClick={props.onClick}
     >
       <div className="h-6 w-6 text-gray-500">{props.children}</div>
       <p>{props.content}</p>
@@ -15,8 +17,13 @@ function DropdownItem(props) {
   );
 }
 export default function DropdownAvatar() {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
-    <div className="">
+    <div className="z-50">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button>
@@ -39,7 +46,7 @@ export default function DropdownAvatar() {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 w-64 p-2 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="z-50 absolute right-0 w-64 p-2 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1">
               <div className="flex items-center gap-4 px-2 py-2 hover:bg-gray-200 rounded-md cursor-pointer">
                 <img
@@ -126,7 +133,7 @@ export default function DropdownAvatar() {
                   />
                 </svg>
               </DropdownItem>
-              <DropdownItem content="Logout">
+              <DropdownItem content="Logout" onClick={handleLogout}>
                 <svg
                   viewBox="0 0 512.00533 512"
                   xmlns="http://www.w3.org/2000/svg"

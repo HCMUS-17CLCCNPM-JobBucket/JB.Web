@@ -19,7 +19,7 @@ export default function Home() {
       <JobCategory />
       <JobMayYouLike />
       <MobileApp />
-      <Footer />
+      
     </div>
   );
 }

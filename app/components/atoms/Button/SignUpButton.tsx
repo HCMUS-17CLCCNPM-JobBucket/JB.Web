@@ -5,7 +5,7 @@ export default function SignUpButton() {
   return (
     <button
       type="button"
-      className="btn sign-up__button"
+      className="btn primary-btn"
       onClick={() => router.push("/sign-up")}
     >
       Sign Up

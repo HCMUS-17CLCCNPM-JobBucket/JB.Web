@@ -48,8 +48,25 @@ export const blogAPI = {
             views
             createdDate
             comments{
+              id
               parentId
               content
+              user{
+                id
+                name
+              }
+              createdDate
+              updatedDate
+              children{
+                id
+                content
+                user{
+                  id
+                  name
+                }
+                createdDate
+                updatedDate
+              }
             }
           }
         }

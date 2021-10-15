@@ -1,12 +1,16 @@
 import { blogAPI } from "app/api/modules/blogAPI";
+import router from "next/router";
 import React from "react";
 import { useSelector } from "react-redux";
 
 export default function Blog(props) {
-  const user = useSelector((state:any) => state.user)
+  console.log(props);
+  const user = useSelector((state: any) => state.user);
   const handleLike = async () => {
     const res = await blogAPI.like(props.id, user.token);
   };
+
+  const handleRedirect = async () => router.push("blog/" + props.id);
   return (
     <div className="flex flex-col max-w-lg p-6 space-y-6 overflow-hidden bg-gray-50 rounded-lg shadow-md text-gray-800">
       <div className="flex space-x-4">
@@ -26,11 +30,17 @@ export default function Blog(props) {
       </div>
       <div>
         <img
+          onClick={handleRedirect}
           src="https://picsum.photos/536/354"
           alt=""
-          className="object-cover w-full mb-4 h-60 sm:h-80 bg-gray-500 rounded-md"
+          className="object-cover w-full mb-4 h-60 sm:h-80 bg-gray-500 rounded-md cursor-pointer"
         />
-        <h2 className="mb-1 text-xl font-semibold">{props.title}</h2>
+        <h2
+          className="mb-1 text-xl font-semibold cursor-pointer hover:text-blue-600 ease-in-transition"
+          onClick={handleRedirect}
+        >
+          {props.title}
+        </h2>
         <p className="text-sm text-gray-600 line-clamp-3">
           {props.description}
         </p>

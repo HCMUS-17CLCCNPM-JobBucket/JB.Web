@@ -58,7 +58,7 @@ export default function Navbar() {
           <div className="flex gap-4 items-center">
             <button
               type="button"
-              className="btn sign-up__button"
+              className="btn primary-btn"
               onClick={() => router.push("/login")}
             >
               Login
@@ -68,41 +68,6 @@ export default function Navbar() {
           <DropdownAvatar />
         )}
       </div>
-
-      {/* ref={wrapperRef} */}
     </div>
-  );
-}
-
-function DropdownMenu() {
-  return (
-    <Menu>
-      <Menu.Button>More</Menu.Button>
-      <Menu.Items>
-        <Menu.Item>
-          {({ active }) => (
-            <a
-              className={`${active && "bg-blue-500"}`}
-              href="/account-settings"
-            >
-              Account settings
-            </a>
-          )}
-        </Menu.Item>
-        <Menu.Item>
-          {({ active }) => (
-            <a
-              className={`${active && "bg-blue-500"}`}
-              href="/account-settings"
-            >
-              Documentation
-            </a>
-          )}
-        </Menu.Item>
-        <Menu.Item disabled>
-          <span className="opacity-75">Invite a friend (coming soon!)</span>
-        </Menu.Item>
-      </Menu.Items>
-    </Menu>
   );
 }

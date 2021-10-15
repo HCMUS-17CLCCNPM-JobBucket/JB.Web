@@ -6,6 +6,8 @@ import ApplyButton from "app/components/atoms/Button/ApplyButton";
 import Divider from "app/components/atoms/Divider";
 import RecBlog from "app/components/atoms/RecBlog";
 import RecJob from "app/components/atoms/RecJob";
+import CommentInput from "app/components/molecules/CommentInput";
+import CommentSection from "app/components/molecules/CommentSection";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 
@@ -18,7 +20,6 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function BlogDetail(props) {
-  console.log(props.blogs[0]);
   const [blogInfo, setBlogInfo] = useState(props.blogs[0]);
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -32,7 +33,7 @@ export default function BlogDetail(props) {
     <div className="relative w-full h-full flex justify-center">
       {/* content */}
       <div className="w-1/2 flex flex-col gap-8">
-        <p className="text-5xl font-medium">
+        <p className="text-4xl font-medium">
           {blogInfo.title} MVVM in Flutter using Providers
         </p>
 
@@ -45,6 +46,13 @@ export default function BlogDetail(props) {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
+
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">Comments</h3>
+
+          <CommentInput />
+          <CommentSection comments={blogInfo.comments} />
+        </div>
       </div>
       {/* card */}
       <div className="fixed top-50 left-16 flex flex-col gap-4">
