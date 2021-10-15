@@ -26,7 +26,6 @@ class MyDocument extends Document {
           <link
             rel="stylesheet"
             as="style"
-            l
             crossOrigin="anonymous"
             href="https://fonts.googleapis.com/css?family=Nunito"
           />
