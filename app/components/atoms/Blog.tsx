@@ -4,7 +4,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 export default function Blog(props) {
-  console.log(props);
   const user = useSelector((state: any) => state.user);
   const handleLike = async () => {
     const res = await blogAPI.like(props.id, user.token);
@@ -31,16 +30,25 @@ export default function Blog(props) {
       <div>
         <img
           onClick={handleRedirect}
-          src="https://picsum.photos/536/354"
+          src={props.imageUrl}
           alt=""
           className="object-cover w-full mb-4 h-60 sm:h-80 bg-gray-500 rounded-md cursor-pointer"
         />
-        <h2
+
+        <a
+          target="_blank"
+          rel="noreferrer"
+          className="mb-1 text-xl font-semibold cursor-pointer hover:text-blue-600 ease-in-transition"
+          href={"http://localhost:3000/blog/" + props.id}
+        >
+          {props.title}
+        </a>
+        {/* <h2
           className="mb-1 text-xl font-semibold cursor-pointer hover:text-blue-600 ease-in-transition"
           onClick={handleRedirect}
         >
           {props.title}
-        </h2>
+        </h2> */}
         <p className="text-sm text-gray-600 line-clamp-3">
           {props.description}
         </p>

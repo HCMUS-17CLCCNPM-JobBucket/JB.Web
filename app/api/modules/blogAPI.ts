@@ -75,9 +75,11 @@ export const blogAPI = {
         id,
       },
     }),
-  add: (blog) =>
-    axiosClient.post("/graphql", {
-      query: `
+  add: (blog, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       mutation addBlog($blog: AddBlogType) {
         blog{
           add(blog: $blog){ 
@@ -86,10 +88,16 @@ export const blogAPI = {
         }
       }
     `,
-      variables: {
-        blog,
+        variables: {
+          blog,
+        },
       },
-    }),
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
 
   update: (blog) =>
     axiosClient.post("/graphql", {

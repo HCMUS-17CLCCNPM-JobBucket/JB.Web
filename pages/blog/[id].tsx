@@ -21,6 +21,7 @@ export const getServerSideProps = async ({ params }) => {
 
 export default function BlogDetail(props) {
   const [blogInfo, setBlogInfo] = useState(props.blogs[0]);
+  console.log(blogInfo.imageUrl);
   // useEffect(() => {
   //   const fetchData = async () => {
   //     const res = await jobAPI.getJobById(parseInt(props.id));
@@ -33,22 +34,20 @@ export default function BlogDetail(props) {
     <div className="relative w-full h-full flex justify-center">
       {/* content */}
       <div className="w-1/2 flex flex-col gap-8">
-        <p className="text-4xl font-medium">
-          {blogInfo.title} MVVM in Flutter using Providers
-        </p>
-
-        <p>
-          {blogInfo.content} Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+        <div>
+          {blogInfo.imageUrl !== "" && (
+            <img
+              src={blogInfo.imageUrl}
+              alt=""
+              className="w-full h-40 rounded-lg object-cover"
+            />
+          )}
+          <p className="text-3xl font-medium mt-2">{blogInfo.title}</p>
+        </div>
+        <div dangerouslySetInnerHTML={{ __html: blogInfo.content }} />
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">Comments</h3>
+          {/* <h3 className="text-lg font-semibold text-gray-900">Comments</h3> */}
 
           <CommentInput />
           <CommentSection comments={blogInfo.comments} />
