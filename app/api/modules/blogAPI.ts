@@ -1,9 +1,11 @@
 import axiosClient from "../axiosClient";
 
 export const blogAPI = {
-  getAll: (filter) =>
-    axiosClient.post("/graphql", {
-      query: `
+  getAll: (filter, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       query GetAllBlogs($filter: ListBlogType) {
         blogs(filter: $filter){
           id
@@ -14,6 +16,7 @@ export const blogAPI = {
           tags
           author{
             userName
+            name
           }
           isInterested
           interestCount
@@ -23,11 +26,17 @@ export const blogAPI = {
         }
       }
     `,
-      variables: {
-        // id,
-        filter,
+        variables: {
+          // id,
+          filter,
+        },
       },
-    }),
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
   getById: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
@@ -42,11 +51,27 @@ export const blogAPI = {
             author {
               userName
             }
-            isInterested
             interestCount
             commentCount
             views
             createdDate
+            
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    }),
+  getCommentBlogById: (id: number, filter, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+        query Blog($id: ID!, $filter: ListBlogType) {
+          blogs(id: $id, filter: $filter) {
+            id
+            isInterested
             comments{
               id
               parentId
@@ -55,10 +80,13 @@ export const blogAPI = {
                 id
                 name
               }
+              isInterested
+              interestCount
               createdDate
               updatedDate
               children{
                 id
+                interestCount
                 content
                 user{
                   id
@@ -71,10 +99,17 @@ export const blogAPI = {
           }
         }
       `,
-      variables: {
-        id,
+        variables: {
+          id,
+          filter,
+        },
       },
-    }),
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
   add: (blog, token) =>
     axiosClient.post(
       "/graphql",
@@ -99,53 +134,52 @@ export const blogAPI = {
       }
     ),
 
-  update: (blog) =>
-    axiosClient.post("/graphql", {
-      query: `
-    mutation updateBlog($blog: UpdateBlogType) {
-      blog{
-        update(blog: $blog){ 
-          id
-          title
-          description
-          imageUrl
-          content
-          tags
-          
-          isInterested
-          interestCount
-          commentCount
-          views
-        }
-      }
-    }
-  `,
-      variables: {
-        blog: {
-          id: 2,
-          title: "reactjs tutorials",
-          content: "123",
-          description: "123",
-          imageUrl: "",
-          tags: [],
+  update: (blog, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+          mutation updateBlog($blog: UpdateBlogType) {
+            blog{
+              update(blog: $blog){ 
+                id
+              }
+            }
+          }
+        `,
+        variables: {
+          blog,
         },
       },
-    }),
-  delete: (id) =>
-    axiosClient.post("/graphql", {
-      query: `
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  delete: (id, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       mutation deleteBlog($id: Int) {
         blog{
-          delete(id: $id){ 
+          deleteComment(id: $id){ 
             id
           }
         }
       }
     `,
-      variables: {
-        id,
+        variables: {
+          id,
+        },
       },
-    }),
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
   like: (id, token) =>
     axiosClient.post(
       "/graphql",
@@ -176,7 +210,7 @@ export const blogAPI = {
         query: `
       mutation removeInterested($id: Int) {
         blog{
-          removeInterestedComment(id: $id){ 
+          removeInterested(id: $id){ 
             id
           }
         }
@@ -195,9 +229,11 @@ export const blogAPI = {
     ),
 
   //comment
-  comment: (blog) =>
-    axiosClient.post("/graphql", {
-      query: `
+  comment: (comment, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       mutation addComment($comment: AddBlogCommentType) {
         blog{
           addComment(comment: $comment){ 
@@ -206,17 +242,21 @@ export const blogAPI = {
         }
       }
     `,
-      variables: {
-        comment: {
-          blogId: 2,
-          content: "gut chop baby",
-          parentId: 2,
+        variables: {
+          comment,
         },
       },
-    }),
-  updateComment: (comment) =>
-    axiosClient.post("/graphql", {
-      query: `
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  updateComment: (comment, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       mutation updateComment($comment: UpdateBlogCommentType) {
         blog{
           updateComment(comment: $comment){ 
@@ -225,16 +265,24 @@ export const blogAPI = {
         }
       } 
     `,
-      variables: {
-        comment: {
-          content: "aaaaaa",
-          id: 1,
+        variables: {
+          comment: {
+            content: "aaaaaa",
+            id: 1,
+          },
         },
       },
-    }),
-  deleteComponent: (id) =>
-    axiosClient.post("/graphql", {
-      query: `
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  deleteComponent: (id, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       mutation removeComment($id: Int) {
         blog{
           deleteComment(id: $id){ 
@@ -243,13 +291,21 @@ export const blogAPI = {
         }
       }
     `,
-      variables: {
-        id,
+        variables: {
+          id,
+        },
       },
-    }),
-  likeComment: (id) =>
-    axiosClient.post("/graphql", {
-      query: `
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  likeComment: (id, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       mutation addInterestedComment($id: Int) {
         blog{
           addInterestedComment(id: $id){ 
@@ -258,13 +314,21 @@ export const blogAPI = {
         }
       }
     `,
-      variables: {
-        id,
+        variables: {
+          id,
+        },
       },
-    }),
-  unlikeComment: (id) =>
-    axiosClient.post("/graphql", {
-      query: `
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  unlikeComment: (id, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       mutation removeInterestedComment($id: Int) {
         blog{
           removeInterestedComment(id: $id){ 
@@ -273,8 +337,14 @@ export const blogAPI = {
         }
       }
     `,
-      variables: {
-        id,
+        variables: {
+          id,
+        },
       },
-    }),
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
 };

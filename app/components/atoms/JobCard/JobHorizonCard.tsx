@@ -10,7 +10,7 @@ export default function JobHorizonCard(props) {
           <img src={props.imageUrls[0]} alt="Google" />
           <div>
             <p onClick={() => router.push("/job/" + props.id)}>{props.title}</p>
-            <span>{props.address}</span>
+            <span className="text-gray-600">{props.address}</span>
           </div>
         </div>
         <svg

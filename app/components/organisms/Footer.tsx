@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-6">
         <div className="md:max-w-md lg:col-span-2">
           <div className="flex gap-2 items-center">
-            <img src="logo.png" alt="JobBucket" className="h-10 w-10" />
+            <img src="/logo.png" alt="JobBucket" className="h-10 w-10" />
             <span className="ml-2 text-xl font-bold tracking-wide uppercase">
               JobBucket
             </span>

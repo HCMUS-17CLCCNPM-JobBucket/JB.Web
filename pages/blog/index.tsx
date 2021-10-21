@@ -1,17 +1,18 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import Blog from "app/components/atoms/Blog";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function BlogPage() {
-  const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const user = useSelector((state: any) => state.user);
   const [blogs, setBlogs] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
 
   const [filter, setFilter] = useState({
-    isDescending: false,
+    isDescending: true,
     page: 0,
-    size: 10,
-    sortBy: "",
+    size: 12,
+    sortBy: "createDate",
     keyword: "",
     createdDate: [],
     tags: [],
@@ -20,7 +21,7 @@ export default function BlogPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await blogAPI.getAll(filter);
+      const res = await blogAPI.getAll(filter, user.token);
 
       if (res.status === 200) setBlogs(res.data.data.blogs);
     };

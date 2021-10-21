@@ -1,31 +1,11 @@
-import { Tab } from "@headlessui/react";
 import { blogAPI } from "app/api/modules/blogAPI";
 import { imageAPI } from "app/api/modules/imageAPI";
 import BlogTagSelection from "app/components/molecules/BlogTagSelection";
-import helper from "app/utils/helper";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-const config = {
-  placeholderText: "Edit Your Content Here!",
-  charCounterCount: true,
-  imageUploadURL: "https://api.cloudinary.com/v1_1/derekzohar/image/upload",
-  imageUploadParams: {
-    api_key: "866395791528912",
-    upload_preset: "images",
-  },
-  imageUploadMethod: "POST",
-  events: {
-    "froalaEditor.image.uploaded": (e, editor, response) => {
-      response = JSON.parse(response);
-      editor.image.insert(response.url, true, null, editor.image.get(), null);
-      console.log(response);
-      // return false;
-    },
-  },
-};
 const FroalaEditorComponent: React.ComponentType<any> = dynamic(
   () => {
     return new Promise((resolve) =>
@@ -39,12 +19,21 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
     ssr: false,
   }
 );
-export default function AddNewBlog() {
+
+export const getServerSideProps = async ({ params }) => {
+  const res = await blogAPI.getById(parseInt(params.id));
+  if (res.status === 200) return { props: { ...res.data.data } };
+  return {
+    props: { id: params.id },
+  };
+};
+
+export default function AddNewBlog(props) {
+  const blog = props.blogs[0];
   const user = useSelector((state: any) => state.user);
-  const [isUploadImg, setIsUploadImg] = useState(true);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(blog.content);
   const [imageFile, setImageFile] = useState(null);
-  const [previewSource, setPreviewSource] = useState("");
+  const [previewSource, setPreviewSource] = useState(blog.imageUrl);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
@@ -54,15 +43,16 @@ export default function AddNewBlog() {
   const formik = useFormik({
     initialValues: {
       imageUrl: "",
-      title: "",
-      description: "",
+      title: blog.title,
+      description: blog.description,
       content: "",
       tags: [],
     },
     onSubmit: async (values) => {
       const imageRes: any = await imageAPI.uploadImage(imageFile);
-      const res = await blogAPI.add(
+      const res = await blogAPI.update(
         {
+          id: blog.id,
           ...values,
           imageUrl: imageRes.data.url,
           content,
@@ -79,6 +69,8 @@ export default function AddNewBlog() {
       className="px-48 py-4 flex flex-col gap-4"
       onSubmit={formik.handleSubmit}
     >
+      {/* <DropFileInput /> */}
+
       <img
         src={previewSource || "https://via.placeholder.com/1134x160"}
         alt=""
@@ -118,13 +110,16 @@ export default function AddNewBlog() {
       </label>
       <FroalaEditorComponent
         tag="textarea"
-        config={config}
+        config={{
+          placeholderText: "Edit Your Content Here!",
+          charCounterCount: true,
+        }}
         model={content}
         onModelChange={(model) => setContent(model)}
       />
 
       <button className="btn btn-primary w-40" type="submit">
-        Post
+        Update
       </button>
     </form>
   );

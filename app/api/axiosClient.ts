@@ -12,7 +12,7 @@ axiosClient.interceptors.request.use(async (config) => {
   // Handle token here ...
   return config;
 });
-axiosClient.defaults.timeout = 20000;
+// axiosClient.defaults.timeout = 20000;
 axios.interceptors.response.use(
   (response) => {
     if (response.status === 401) {

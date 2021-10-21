@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function CommentInput() {
+export default function CommentInput(props) {
+
   return (
     <div className="w-full flex items-center justify-center ">
       <form className="w-full bg-white pt-2">
@@ -11,7 +12,8 @@ export default function CommentInput() {
               name="body"
               placeholder="Type Your Comment"
               required
-              defaultValue={""}
+              value={props.comment}
+              onChange={(e) => props.setComment(e.target.value)}
             />
           </div>
           <div className="w-full md:w-full flex items-center px-3">
@@ -29,9 +31,11 @@ export default function CommentInput() {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <p className="text-xs md:text-sm pt-px">Some HTML is okay.</p>
+              <p className="text-xs text-red-400 md:text-sm pt-px">Min 3 characters</p>
             </div>
-            <button className="btn primary-btn">Comment</button>
+            <button className="btn primary-btn" onClick={props.callback}>
+              Comment
+            </button>
           </div>
         </div>
       </form>

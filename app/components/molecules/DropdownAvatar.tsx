@@ -80,6 +80,22 @@ export default function DropdownAvatar() {
                   <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                 </svg>
               </DropdownItem>
+              <DropdownItem content="My Blog">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                    clipRule="evenodd"
+                  />
+                  <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
+                </svg>
+              </DropdownItem>
+            </div>
+            <div className="px-1 py-1">
               <DropdownItem content="Settings">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -118,8 +134,6 @@ export default function DropdownAvatar() {
                   <g></g>
                 </svg>
               </DropdownItem>
-            </div>
-            <div className="px-1 py-1">
               <DropdownItem content="Report">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -133,6 +147,8 @@ export default function DropdownAvatar() {
                   />
                 </svg>
               </DropdownItem>
+            </div>
+            <div className="px-1 py-1">
               <DropdownItem content="Logout" onClick={handleLogout}>
                 <svg
                   viewBox="0 0 512.00533 512"

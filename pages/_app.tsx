@@ -1,10 +1,11 @@
 import LoadingTransition from "app/components/atoms/Loading";
+import AuthProvider from "app/components/layouts/AuthProvider";
 import { GoogleAuthProvider } from "app/components/layouts/google-provider";
 import Footer from "app/components/organisms/Footer";
 import Navbar from "app/components/organisms/Navbar";
 import { persistor, store } from "app/redux/store";
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-import 'froala-editor/css/froala_style.min.css';
+import "froala-editor/css/froala_editor.pkgd.min.css";
+import "froala-editor/css/froala_style.min.css";
 import type { AppProps } from "next/app";
 import Router from "next/router";
 import { useState } from "react";
@@ -29,12 +30,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     <GoogleAuthProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
+          <AuthProvider>
           {loading && <LoadingTransition />}
 
           <Navbar />
           <Component {...pageProps} />
 
           <Footer />
+          </AuthProvider>
         </PersistGate>
       </Provider>
     </GoogleAuthProvider>

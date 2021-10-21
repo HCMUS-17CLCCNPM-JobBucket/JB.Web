@@ -22,7 +22,7 @@ export function NavbarItem({ content, path }: any) {
 export function Logo() {
   return (
     <img
-      src="logo.png"
+      src="/logo.png"
       alt="JobBucket"
       className="logo"
       onClick={() => router.push("/")}
