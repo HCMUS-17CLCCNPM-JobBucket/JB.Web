@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function LikeButton(props) {
-  console.log(props);
   const user = useSelector((state: any) => state.user);
 
   const [isInterested, setIsInterested] = useState(props.isInterested);

@@ -5,6 +5,7 @@ import BlogTagSelection from "app/components/molecules/BlogTagSelection";
 import helper from "app/utils/helper";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
+import router from "next/router";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -70,7 +71,7 @@ export default function AddNewBlog() {
         user.token
       );
 
-      if (res.status === 200) console.log(res);
+      if (res.status === 200) router.push("/blog/" + res.data.data.blog.add.id);
     },
   });
 

@@ -41,7 +41,7 @@ export default function Navbar() {
 
   // useOutsideAlerter(wrapperRef, handleOutsideClicked);
   return (
-    <div className="navbar">
+    <div className="navbar sticky top-0 bg-white z-50">
       <Logo />
       <div className="navbar__navigation">
         <p className="navbar__item" onClick={() => router.push("/job")}>

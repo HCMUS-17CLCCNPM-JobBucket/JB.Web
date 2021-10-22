@@ -1,15 +1,16 @@
-// import { useQuery } from "@apollo/client";
 import { blogAPI } from "app/api/modules/blogAPI";
 import LikeBlogButton from "app/components/atoms/Button/LikeButton";
+import RecBlog from "app/components/atoms/RecBlog";
 import CommentInput from "app/components/molecules/CommentInput";
+import Comments from "app/components/molecules/Comments";
 import CommentSection from "app/components/molecules/CommentSection";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 
 export const getServerSideProps = async ({ params }) => {
-  const res = await blogAPI.getById(parseInt(params.id));
-  if (res.status === 200) return { props: { ...res.data.data } };
+  // const res = await blogAPI.getById(parseInt(params.id));
+  // if (res.status === 200) return { props: { ...res.data.data } };
   return {
     props: { id: params.id },
   };
@@ -17,50 +18,16 @@ export const getServerSideProps = async ({ params }) => {
 
 export default function BlogDetail(props) {
   const user = useSelector((state: any) => state.user);
-  const [shouldRefresh, setShouldRefresh] = useState(false);
-  const [commentVal, setCommentVal] = useState("");
-  const [blogInfo, setBlogInfo] = useState(props.blogs[0]);
-  const [comments, setComments] = useState([]);
+  const [blogInfo, setBlogInfo] = useState<any>({});
 
-  const handleUserComment = async (e) => {
-    e.preventDefault();
-    const res = await blogAPI.comment(
-      {
-        blogId: blogInfo.id,
-        content: commentVal,
-        parentId: null,
-      },
-      user.token
-    );
-    setCommentVal("");
-    setShouldRefresh(true);
-  };
-
+  console.log(blogInfo);
   useEffect(() => {
-    const fetchComments = async () => {
-      const res = await blogAPI.getCommentBlogById(
-        blogInfo.id,
-        {
-          // isDescending: true,
-          // page: 0,
-          // size: 10,
-          // sortBy: "comments.createDate",
-          // keyword: "",
-          // createdDate: [],
-          // tags: [],
-          // authorId: 1,
-        },
-        user.token
-      );
-      setBlogInfo({
-        ...blogInfo,
-        isInterested: res.data.data.blogs[0].isInterested,
-      });
-
-      setComments(res.data.data.blogs[0].comments);
+    const fetchData = async () => {
+      const res = await blogAPI.getById(parseInt(props.id), user.token);
+      setBlogInfo(res.data.data.blogs[0]);
     };
-    fetchComments();
-  }, [shouldRefresh]);
+    fetchData();
+  }, []);
 
   return (
     <div className="relative w-full h-full flex justify-center">
@@ -80,12 +47,7 @@ export default function BlogDetail(props) {
         <div>
           {/* <h3 className="text-lg font-semibold text-gray-900">Comments</h3> */}
 
-          <CommentInput
-            comment={commentVal}
-            setComment={setCommentVal}
-            callback={handleUserComment}
-          />
-          <CommentSection comments={comments} />
+          <CommentSection blogId={props.id} />
         </div>
       </div>
       {/* card */}
@@ -97,7 +59,7 @@ export default function BlogDetail(props) {
             className="h-12 w-12 avatar"
           />
           <div>
-            <p className="text-base font-medium">pulvinar neque</p>
+            <p className="text-base font-medium">{blogInfo.author?.name}</p>
             {/* <p className="text-base font-medium">{blogInfo.author.Name}</p> */}
             <Moment
               format="D MMM YYYY"
@@ -112,7 +74,7 @@ export default function BlogDetail(props) {
         </div>
         <hr className="h-[5px]" />
 
-        <div className="flex justify-between">
+        <div className="flex gap-4">
           {blogInfo.isInterested !== undefined && (
             <LikeBlogButton
               id={blogInfo.id}
@@ -134,10 +96,9 @@ export default function BlogDetail(props) {
             </svg>
             <span>{blogInfo.commentCount}</span>
           </button>
-          <img src="/bookmark.svg" alt="" className="h-6 w-6" />
         </div>
       </div>
-      {/* <div className="fixed top-50 right-16 flex flex-col gap-4 ">
+      <div className="fixed top-50 right-16 flex flex-col gap-4 ">
         <p className="text-xl font-semibold text-center">
           Similar blogs for you
         </p>
@@ -146,14 +107,14 @@ export default function BlogDetail(props) {
         <RecBlog />
         <RecBlog />
 
-        <p className="text-xl font-semibold text-center">
+        {/* <p className="text-xl font-semibold text-center">
           Categories for you
         </p>
         <p>ReactJs</p>
         <p>ReactJs</p>
         <p>ReactJs</p>
-        <p>ReactJs</p>
-      </div> */}
+        <p>ReactJs</p> */}
+      </div>
     </div>
   );
 }
