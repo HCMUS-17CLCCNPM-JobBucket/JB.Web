@@ -14,6 +14,7 @@ import SearchJob from "app/components/atoms/SearchJob";
 import helper from "app/utils/helper";
 import router from "next/router";
 import { Fragment, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -71,6 +72,7 @@ const categories = [
 ];
 
 export default function Job() {
+  const user = useSelector((state: any) => state.user);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -89,7 +91,7 @@ export default function Job() {
   });
   useEffect(() => {
     const fetchData = async () => {
-      const res = await jobAPI.getAll(filterOptions);
+      const res = await jobAPI.getAll(filterOptions, user.token);
       if (res.status === 200) setJobs(res.data.data.jobs);
     };
     fetchData();

@@ -2,7 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import router from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "app/redux/features/user";
 
 function DropdownItem(props) {
@@ -17,6 +17,7 @@ function DropdownItem(props) {
   );
 }
 export default function DropdownAvatar() {
+  const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -29,11 +30,15 @@ export default function DropdownAvatar() {
           <Menu.Button>
             <div className="p-1 rounded-full flex gap-2 items-center hover:bg-gray-200 ">
               <img
-                src="https://picsum.photos/id/1005/200/200"
+                src={
+                  user.user.avatarUrl || "https://picsum.photos/id/1005/200/200"
+                }
                 className="border border-gray-200 rounded-full h-10 w-10 "
                 alt="avatar"
               />
-              <p className="text-base font-semibold">{"User"}</p>
+              <p className="text-base font-semibold">
+                {user.user.name || "User"}
+              </p>
             </div>
           </Menu.Button>
         </div>

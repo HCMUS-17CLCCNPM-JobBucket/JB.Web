@@ -2,13 +2,15 @@
 import { jobAPI } from "app/api/modules/jobAPI";
 import Badge from "app/components/atoms/Badge";
 import ApplyButton from "app/components/atoms/Button/ApplyButton";
+import SaveJobButton from "app/components/atoms/Button/SaveJobButton";
 import Divider from "app/components/atoms/Divider";
 import RecJob from "app/components/atoms/RecJob";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
+import { useSelector } from "react-redux";
 
 export const getServerSideProps = async ({ params }) => {
-  const res = await jobAPI.getJobById(parseInt(params.id));
+  const res = await jobAPI.getJobByIdWithoutToken(parseInt(params.id));
   if (res.status === 200) return { props: { ...res.data.data } };
   return {
     props: { id: params.id },
@@ -16,16 +18,19 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function JobDetail(props) {
-  console.log(props);
+  const user = useSelector((state: any) => state.user);
+  const [jobStatus, setJobStatus] = useState({
+    isJobInterested: false,
+    isJobApplied: false,
+  });
   const [jobInfo, setjobInfo] = useState<any>(props.jobs[0]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await jobAPI.getJobById(parseInt(props.id));
-  //     // if (res.status === 200) setjobInfo(res.data.data.jobs[0]);
-  //     console.log(res.data.data.jobs[0]);
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await jobAPI.getJobById(parseInt(jobInfo.id), user.token);
+      setJobStatus(res.data.data.jobs[0]);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="flex-1 px-16 py-4">
       <img
@@ -126,33 +131,14 @@ export default function JobDetail(props) {
             </div>
           </div>
         </div>
-        <div className="w-64 mt-5 flex justify-between lg:mt-0 lg:ml-4">
-          <span className="hidden sm:block">
-            <button
-              type="button"
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              {/* Heroicon name: solid/pencil */}
-              <svg
-                className="-ml-1 mr-2 h-5 w-5 text-gray-500"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                />
-                <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
-              </svg>
-              Save Job
-            </button>
-          </span>
-          <span className="sm:ml-3">
-            <ApplyButton />
-          </span>
+        <div className="w-64 mt-5 flex justify-between items-center lg:mt-0 lg:ml-4">
+          <ApplyButton />
+
+          <SaveJobButton
+            isInterested={jobStatus.isJobInterested}
+            jobId={jobInfo.id}
+          />
+
           <span className="ml-3 relative sm:hidden">
             <button
               type="button"

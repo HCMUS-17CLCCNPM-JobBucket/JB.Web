@@ -4,7 +4,8 @@ import RecBlog from "app/components/atoms/RecBlog";
 import CommentInput from "app/components/molecules/CommentInput";
 import Comments from "app/components/molecules/Comments";
 import CommentSection from "app/components/molecules/CommentSection";
-import React, { useEffect, useState } from "react";
+import helper from "app/utils/helper";
+import React, { useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 
@@ -17,10 +18,11 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function BlogDetail(props) {
-  const user = useSelector((state: any) => state.user);
   const [blogInfo, setBlogInfo] = useState<any>({});
 
-  console.log(blogInfo);
+  const user = useSelector((state: any) => state.user);
+  const commentRef = useRef(null);
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await blogAPI.getById(parseInt(props.id), user.token);
@@ -30,6 +32,11 @@ export default function BlogDetail(props) {
     fetchData();
   }, []);
 
+  const handleScrollToCommentSection = () => {
+    if (commentRef && commentRef.current)
+      // commentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      helper.scrollToRef(commentRef);
+  };
   return (
     <div className="relative w-full h-full flex justify-center">
       {/* content */}
@@ -44,8 +51,7 @@ export default function BlogDetail(props) {
           />
         )}
         <div dangerouslySetInnerHTML={{ __html: blogInfo.content }} />
-
-        <div>
+        <div ref={commentRef}>
           {/* <h3 className="text-lg font-semibold text-gray-900">Comments</h3> */}
 
           <CommentSection blogId={props.id} />
@@ -85,7 +91,11 @@ export default function BlogDetail(props) {
             />
           )}
 
-          <button type="button" className="flex items-center p-1 space-x-1.5">
+          <button
+            onClick={handleScrollToCommentSection}
+            type="button"
+            className="flex items-center p-1 space-x-1.5"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
