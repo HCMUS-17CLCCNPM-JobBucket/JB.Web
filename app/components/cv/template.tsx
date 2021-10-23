@@ -200,7 +200,7 @@ export default function template() {
                 <View style={styles.exArea}>
                   {EducationList.map((data) => (
                     <View style={styles.exElement}>
-                      {data.status == "Granduated" ? (
+                      {data.status == "Graduated" ? (
                         <View style={styles.introArea}>
                           <Text style={styles.granduated}>{data.school}</Text>
                           <Image
@@ -218,6 +218,7 @@ export default function template() {
                         </View>
                       )}
                       <Text>{data.major}</Text>
+                      <Text>{data.profession}</Text>
                     </View>
                   ))}
                 </View>
@@ -231,7 +232,7 @@ export default function template() {
                 </View>
                 {SkillList.map((data) => (
                   <View style={styles.skillElement}>
-                    <Text>{data}</Text>
+                    <Text>{data.skillName}</Text>
                   </View>
                 ))}
               </View>

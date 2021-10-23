@@ -23,6 +23,24 @@ const cvSlice = createSlice({
   name: "cv",
   initialState: initialCvState,
   reducers: {
+    initData(state, actions) {
+      state.name = actions.payload.name;
+      state.email = actions.payload.email;
+      state.phonenumber = actions.payload.phone;
+      state.address = actions.payload.address;
+      state.website = actions.payload.website;
+      state.github = actions.payload.github;
+      state.reference = actions.payload.reference;
+      state.gender = actions.payload.gender;
+      state.introduction = actions.payload.introduction;
+      state.birthDate = actions.payload.birthdate;
+      state.experience = actions.payload.experiences;
+      // state.skill = actions.payload.skills;
+      state.education = actions.payload.educations;
+      state.award = actions.payload.awards;
+      state.activity = actions.payload.activities;
+      state.certification = actions.payload.certifications;
+    },
     changeBirthdate(state, actions) {
       state.birthDate = actions.payload;
     },
