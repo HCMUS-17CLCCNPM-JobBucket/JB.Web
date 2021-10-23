@@ -2,7 +2,7 @@ import axios from "axios";
 // Set up default config for http requests here
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://jobbucket.azurewebsites.net",
   headers: {
     "content-type": "application/json",
   },
