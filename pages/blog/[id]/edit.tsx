@@ -21,8 +21,8 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
 );
 
 export const getServerSideProps = async ({ params }) => {
-  const res = await blogAPI.getById(parseInt(params.id));
-  if (res.status === 200) return { props: { ...res.data.data } };
+  const res = await blogAPI.getByIdWithoutToken(parseInt(params.id));
+  // if (res.status === 200) return { props: { ...res.data.data } };
   return {
     props: { id: params.id },
   };

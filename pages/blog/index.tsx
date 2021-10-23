@@ -22,7 +22,7 @@ export default function BlogPage() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await blogAPI.getAll(filter, user.token);
-
+      console.log(res);
       if (res.status === 200) setBlogs(res.data.data.blogs);
     };
     fetchData();

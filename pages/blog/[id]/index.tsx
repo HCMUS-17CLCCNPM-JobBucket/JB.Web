@@ -25,6 +25,7 @@ export default function BlogDetail(props) {
     const fetchData = async () => {
       const res = await blogAPI.getById(parseInt(props.id), user.token);
       setBlogInfo(res.data.data.blogs[0]);
+      console.log(res.data.data);
     };
     fetchData();
   }, []);

@@ -73,6 +73,34 @@ export const blogAPI = {
         },
       }
     ),
+  getByIdWithoutToken: (id: number) =>
+    axiosClient.post("/graphql", {
+      query: `
+        query Blog($id: ID!) {
+          blogs(id: $id) {
+            id
+            title
+            description
+            imageUrl
+            content
+            tags
+            author {
+              userName
+              name
+            }
+            isInterested
+            interestCount
+            commentCount
+            views
+            createdDate
+            
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    }),
   getCommentBlogById: (id: number, filter, token) =>
     axiosClient.post(
       "/graphql",

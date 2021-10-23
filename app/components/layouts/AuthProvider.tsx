@@ -1,5 +1,5 @@
 import { authAPI } from "app/api/modules/authAPI";
-import { getAccessToken, updateProfile } from "app/redux/features/user";
+import { getAccessToken, logout, updateProfile } from "app/redux/features/user";
 import jwt_decode from "jwt-decode";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,14 +12,14 @@ export default function AuthProvider(props) {
     const fetchInfo = async () => {
       var expRefreshToken = jwt_decode(user.refreshToken)["exp"];
       if (expRefreshToken <= new Date().getTime() / 1000) {
-        //you must login to access my features
+        dispatch(logout());
       } else {
         //handle jwt expire
         var exp = jwt_decode(user.token)["exp"];
         if (exp <= new Date().getTime() / 1000) {
           const res = await authAPI.getAccessToken(user.refreshToken);
           if (res.status === 200) {
-            // console.log(res.data);
+            console.log(res.data);
             dispatch(getAccessToken(res.data.accessToken));
           }
         }

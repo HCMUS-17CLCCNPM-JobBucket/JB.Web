@@ -60,4 +60,36 @@ export const jobAPI = {
         id: id,
       },
     }),
+
+  like: (id: number) =>
+    axiosClient.post("/graphql", {
+      query: `
+      query LikeJob($id: Int ) {
+        job{
+          interest(id: $id){
+            id
+          }
+        }
+      }
+    `,
+      variables: {
+        id,
+      },
+    }),
+
+  unlike: (id: number) =>
+    axiosClient.post("/graphql", {
+      query: `
+      query unLikeJob($id: Int ) {
+        job{
+          interest(id: $id){
+            id
+          }
+        }
+      }
+    `,
+      variables: {
+        id,
+      },
+    }),
 };
