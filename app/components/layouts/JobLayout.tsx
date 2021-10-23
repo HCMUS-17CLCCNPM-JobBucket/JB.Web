@@ -328,7 +328,7 @@ export default function Job() {
 
             <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-8 gap-y-10">
               {/* Filters */}
-              <form className="h-[520px] hidden lg:block lg:col-span-2 overflow-y-scroll">
+              <form className="sticky top-24 h-[520px] hidden lg:block lg:col-span-2 overflow-y-scroll">
                 {/* <h3 className="">Hot Categories</h3>
                 <ul
                   role="list"
