@@ -1,44 +1,54 @@
 import { blogAPI } from "app/api/modules/blogAPI";
+import { actions } from "app/redux/features/notification";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function LikeButton(props) {
   const user = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
 
   const [isInterested, setIsInterested] = useState(props.isInterested);
   const [interestCount, setInterestCount] = useState(props.interestCount);
   const handleLike = async () => {
-    if (props.type === "comment") {
-      if (isInterested) {
-        const res = await blogAPI.unlikeComment(props.id, user.token);
-        console.log(res);
-        setInterestCount(interestCount - 1);
-        setIsInterested(false);
+    if (user.token !== "")
+      if (props.type === "comment") {
+        if (isInterested) {
+          await blogAPI.unlikeComment(props.id, user.token);
+          setInterestCount(interestCount - 1);
+          setIsInterested(false);
+        } else {
+          await blogAPI.likeComment(props.id, user.token);
+          setInterestCount(interestCount + 1);
+          setIsInterested(true);
+        }
       } else {
-        const res = await blogAPI.likeComment(props.id, user.token);
-        console.log(res);
-        setInterestCount(interestCount + 1);
-        setIsInterested(true);
+        if (isInterested) {
+          await blogAPI.unlike(props.id, user.token);
+          setInterestCount(interestCount - 1);
+          setIsInterested(false);
+        } else {
+          await blogAPI.like(props.id, user.token);
+          setInterestCount(interestCount + 1);
+          setIsInterested(true);
+        }
       }
-    } else {
-      if (isInterested) {
-        const res = await blogAPI.unlike(props.id, user.token);
-        console.log(res);
-        setInterestCount(interestCount - 1);
-        setIsInterested(false);
-      } else {
-        const res = await blogAPI.like(props.id, user.token);
-        console.log(res);
-        setInterestCount(interestCount + 1);
-        setIsInterested(true);
-      }
+    else {
+      dispatch(
+        actions.createAlert({
+          message: "Please login to continue",
+          type: "Warning",
+        })
+      );
     }
   };
   return (
     <button
       onClick={handleLike}
       type="button"
-      className="flex items-center p-1 space-x-1.5"
+      className={
+        (user.token === "" ? "cursor-not-allowed" : "") +
+        " flex items-center p-1 space-x-1.5"
+      }
     >
       {isInterested ? (
         <svg

@@ -1,10 +1,7 @@
-import { Dialog, Disclosure, Menu, Tab, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+import { Menu, Tab, Transition } from "@headlessui/react";
 import {
   ChevronDownIcon,
   FilterIcon,
-  MinusSmIcon,
-  PlusSmIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid";
 import { jobAPI } from "app/api/modules/jobAPI";
@@ -15,6 +12,9 @@ import helper from "app/utils/helper";
 import router from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Loading from "../atoms/Loading";
+import Filters from "../molecules/Filters";
+import MobileFilterDialog from "../molecules/MobileFilterDialog";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -23,11 +23,7 @@ const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
-const subCategories = [
-  { name: "IT", href: "#" },
-  { name: "Marketing", href: "#" },
-  { name: "Business", href: "#" },
-];
+
 const filters = [
   {
     id: "Level",
@@ -73,6 +69,7 @@ const categories = [
 
 export default function Job() {
   const user = useSelector((state: any) => state.user);
+  const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -91,134 +88,23 @@ export default function Job() {
   });
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const res = await jobAPI.getAll(filterOptions, user.token);
       if (res.status === 200) setJobs(res.data.data.jobs);
+      setLoading(false);
     };
     fetchData();
   }, [isFiltered]);
+
   return (
     <div className="bg-white">
       <div>
         {/* Mobile filter dialog */}
-        <Transition.Root show={mobileFiltersOpen} as={Fragment}>
-          <Dialog
-            as="div"
-            className="fixed inset-0 flex z-40 lg:hidden"
-            onClose={setMobileFiltersOpen}
-          >
-            <Transition.Child
-              as={Fragment}
-              enter="transition-opacity ease-linear duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity ease-linear duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
-            </Transition.Child>
-
-            <Transition.Child
-              as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="translate-x-full"
-            >
-              <div className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-12 flex flex-col overflow-y-auto">
-                <div className="px-4 flex items-center justify-between">
-                  <h2 className="text-lg font-medium text-gray-900">Filters</h2>
-                  <button
-                    type="button"
-                    className="-mr-2 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400"
-                    onClick={() => setMobileFiltersOpen(false)}
-                  >
-                    <span className="sr-only">Close menu</span>
-                    <XIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-
-                {/* Filters */}
-                <form className="mt-4 border-t border-gray-200">
-                  <h3 className="sr-only">Categories</h3>
-                  <ul
-                    role="list"
-                    className="font-medium text-gray-900 px-2 py-3"
-                  >
-                    {subCategories.map((category) => (
-                      <li key={category.name}>
-                        <a href={category.href} className="block px-2 py-3">
-                          {category.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {filters.map((section) => (
-                    <Disclosure
-                      as="div"
-                      key={section.id}
-                      className="border-t border-gray-200 px-4 py-6"
-                    >
-                      {({ open }) => (
-                        <>
-                          <h3 className="-mx-2 -my-3 flow-root">
-                            <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">
-                                {section.name}
-                              </span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusSmIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                ) : (
-                                  <PlusSmIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-6">
-                              {section.options.map((option, optionIdx) => (
-                                <div
-                                  key={option.value}
-                                  className="flex items-center"
-                                >
-                                  <input
-                                    id={`filter-mobile-${section.id}-${optionIdx}`}
-                                    name={`${section.id}[]`}
-                                    defaultValue={option.value}
-                                    type="checkbox"
-                                    defaultChecked={option.checked}
-                                    className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                  <label
-                                    htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                    className="ml-3 min-w-0 flex-1 text-gray-500"
-                                  >
-                                    {option.label}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
-                  ))}
-                </form>
-              </div>
-            </Transition.Child>
-          </Dialog>
-        </Transition.Root>
-
+        <MobileFilterDialog
+          mobileFiltersOpen={mobileFiltersOpen}
+          setMobileFiltersOpen={setMobileFiltersOpen}
+          filters={filters}
+        />
         <div className="flex justify-center">
           <SearchJob styles="lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" />
         </div>
@@ -328,91 +214,17 @@ export default function Job() {
 
             <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-8 gap-y-10">
               {/* Filters */}
-              <form className="sticky top-24 h-[520px] hidden lg:block lg:col-span-2 overflow-y-scroll">
-                {/* <h3 className="">Hot Categories</h3>
-                <ul
-                  role="list"
-                  className="text-sm font-medium text-gray-900 space-y-2 pb-6 border-b border-gray-200"
-                >
-                  {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
-                    </li>
-                  ))}
-                </ul> */}
-                {filters.map((section) => (
-                  <Disclosure
-                    as="div"
-                    key={section.id}
-                    className="border-b border-gray-200 py-6"
-                  >
-                    {({ open }) => (
-                      <>
-                        <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
-                            <span className="font-medium text-gray-900">
-                              {section.name}
-                            </span>
-                            <span className="ml-6 flex items-center">
-                              {open ? (
-                                <MinusSmIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              ) : (
-                                <PlusSmIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              )}
-                            </span>
-                          </Disclosure.Button>
-                        </h3>
-                        <Disclosure.Panel className="pt-6">
-                          <div className="space-y-4">
-                            {section.options.map((option, optionIdx) => (
-                              <div
-                                key={option.value}
-                                className="flex items-center"
-                              >
-                                <input
-                                  id={`filter-${section.id}-${optionIdx}`}
-                                  name={`${section.id}[]`}
-                                  defaultValue={option.value}
-                                  type="checkbox"
-                                  defaultChecked={option.checked}
-                                  className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                />
-                                <label
-                                  htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
-                                >
-                                  {option.label}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </Disclosure.Panel>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
-                <div className="fixed bottom-5 left-20 flex justify-center mt-4">
-                  <button
-                    onClick={() => setIsFiltered(!isFiltered)}
-                    type="button"
-                    className="px-8 py-3 font-semibold rounded-full bg-blue-600 text-white "
-                  >
-                    Apply Filters
-                  </button>
-                </div>
-              </form>
-
+              <Filters
+                filters={filters}
+                callback={() => setIsFiltered(!isFiltered)}
+              />
               {/* Product grid */}
               <div className="lg:col-span-8">
                 {/* Replace with your content */}
                 <div className="flex flex-col gap-4 w-full h-full">
-                  {jobs.length === 0 ? (
+                  {loading ? (
+                    <Loading />
+                  ) : jobs.length === 0 ? (
                     <ListEmpty />
                   ) : (
                     jobs.map((item, index) => (

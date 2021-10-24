@@ -6,4 +6,5 @@ const helper = {
     window.scrollTo({ top: ref.current.offsetTop, behavior: "smooth" }),
   scrollToTop: () => window.scrollTo({ top: 0, behavior: "smooth" }),
 };
+
 export default helper;

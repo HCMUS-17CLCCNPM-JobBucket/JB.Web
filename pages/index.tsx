@@ -4,22 +4,17 @@ import Hero from "app/components/organisms/Hero";
 import JobCategory from "app/components/organisms/JobCategory";
 import JobMayYouLike from "app/components/organisms/JobMayYouLike";
 import MobileApp from "app/components/organisms/MobileApp";
+import { actions } from "app/redux/features/notification";
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await jobAPI.getJobById(1).then((res) => console.log(res));
-  //   };
-  //   fetchData();
-  // }, []);
   return (
     <div className="">
       <Hero />
       <JobCategory />
       <JobMayYouLike />
       <MobileApp />
-      
     </div>
   );
 }
