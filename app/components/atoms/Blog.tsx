@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import LikeBlogButton from "./Button/LikeButton";
 
 export default function Blog(props) {
+  console.log(window.location.href);
   const handleRedirect = async () => router.push("blog/" + props.id);
   return (
     <div className="flex justify-between flex-col max-w-lg p-6 space-y-4 overflow-hidden bg-gray-50 rounded-lg shadow-md text-gray-800">
@@ -28,7 +29,7 @@ export default function Blog(props) {
         <a
           target="_blank"
           rel="noreferrer"
-          href={"http://localhost:3000/blog/" + props.id}
+          href={window.location.href + "/" + props.id}
         >
           <img
             onClick={handleRedirect}
