@@ -1,4 +1,5 @@
-import LoadingTransition from "app/components/atoms/Loading";
+import LoadingTransition from "app/components/atoms/LoadingTransition";
+import Alerts from "app/components/atoms/notification/alerts";
 import AuthProvider from "app/components/layouts/AuthProvider";
 import { GoogleAuthProvider } from "app/components/layouts/google-provider";
 import Footer from "app/components/organisms/Footer";
@@ -31,12 +32,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AuthProvider>
-          {loading && <LoadingTransition />}
+            <Alerts />
+            {loading && <LoadingTransition />}
 
-          <Navbar />
-          <Component {...pageProps} />
+            <Navbar />
+            <Component {...pageProps} />
 
-          <Footer />
+            <Footer />
           </AuthProvider>
         </PersistGate>
       </Provider>

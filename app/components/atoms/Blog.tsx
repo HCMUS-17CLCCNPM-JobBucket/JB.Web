@@ -8,6 +8,7 @@ import LikeBlogButton from "./Button/LikeButton";
 export default function Blog(props) {
   console.log(window.location.href);
   const handleRedirect = async () => router.push("blog/" + props.id);
+  console.log(process.env.BASE_URL);
   return (
     <div className="flex justify-between flex-col max-w-lg p-6 space-y-4 overflow-hidden bg-gray-50 rounded-lg shadow-md text-gray-800">
       <div>
@@ -44,7 +45,7 @@ export default function Blog(props) {
         target="_blank"
         rel="noreferrer"
         className="mb-1 text-xl font-semibold cursor-pointer hover:text-blue-600 ease-in-transition"
-        href={"http://localhost:3000/blog/" + props.id}
+        href={"http://" + window.location.host + "/blog/" + props.id}
       >
         {props.title}
       </a>

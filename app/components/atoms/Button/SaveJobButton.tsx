@@ -13,19 +13,21 @@ export default function SaveJobButton({ isInterested, jobId }) {
   }, [isInterested]);
 
   const handleClick = async () => {
-    if (isSaved === true) {
-      const res = await jobAPI.unlike(jobId, user.token);
-      setIsSaved(false);
-    } else {
-      const res = await jobAPI.like(jobId, user.token);
-      setIsSaved(true);
-    }
+    if (user.token !== "")
+      if (isSaved === true) {
+        const res = await jobAPI.unlike(jobId, user.token);
+        setIsSaved(false);
+      } else {
+        const res = await jobAPI.like(jobId, user.token);
+        setIsSaved(true);
+      }
   };
   return (
     <button
       onClick={handleClick}
       type="button"
       className={
+        (user.token === "" && "cursor-not-allowed") +
         (isSaved
           ? "bg-blue-600 text-white"
           : "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 ") +
