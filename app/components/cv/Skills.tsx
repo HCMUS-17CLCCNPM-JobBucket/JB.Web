@@ -27,7 +27,7 @@ export default function Skills() {
           className="border-gray-300 border flex flex-row w-1/3 px-4 justify-between mb-4 items-center"
         >
           <div className="flex flex-row items-center">
-            <p>{data}</p>
+            <p>{data.skillName}</p>
           </div>
           <div>
             <button

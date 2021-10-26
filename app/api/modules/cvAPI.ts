@@ -1,6 +1,20 @@
 import axiosClient from "../axiosClient";
 
 export const CvAPI = {
+  getAll: () =>
+    axiosClient.post("/graphql", {
+      query: `
+      query {
+        cv {
+          id
+          cVName
+        }
+      }
+    `,
+      variables: {
+        // id,
+      },
+    }),
   getCvById: (id: number) =>
     axiosClient.post("/graphql", {
       query: `

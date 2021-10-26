@@ -9,7 +9,7 @@ export default function PersonalInfo() {
   return (
     <div className="border-gray-300 border p-10 bg-white mb-8">
       <div>
-        <img className="h-28 w-28" src="/test.png"></img>
+        <img className="h-28 w-28" src={cv.avatar}></img>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">
@@ -17,6 +17,7 @@ export default function PersonalInfo() {
             Full name
           </label>
           <input
+            defaultValue={cv.name}
             type="text"
             id="fullname"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
@@ -29,6 +30,7 @@ export default function PersonalInfo() {
             Email
           </label>
           <input
+            defaultValue={cv.email}
             type="email"
             id="email"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
@@ -41,6 +43,7 @@ export default function PersonalInfo() {
             Phone Number
           </label>
           <input
+            defaultValue={cv.phonenumber}
             type="tel"
             id="phone"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
@@ -55,6 +58,7 @@ export default function PersonalInfo() {
             Address
           </label>
           <input
+            defaultValue={cv.address}
             type="text"
             id="address"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
@@ -67,6 +71,7 @@ export default function PersonalInfo() {
             Website
           </label>
           <input
+            defaultValue={cv.website}
             type="url"
             id="website"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
@@ -79,6 +84,7 @@ export default function PersonalInfo() {
             Github
           </label>
           <input
+            defaultValue={cv.github}
             type="url"
             id="github"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
@@ -91,6 +97,7 @@ export default function PersonalInfo() {
             Reference
           </label>
           <input
+            defaultValue={cv.reference}
             type="text"
             id="reference"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
@@ -141,6 +148,7 @@ export default function PersonalInfo() {
             Introduction
           </label>
           <textarea
+            defaultValue={cv.introduction}
             id="introduction"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none"
             placeholder="Introduction"

@@ -16,16 +16,16 @@ export default function CvEditor() {
     ssr: false,
   });
     const dispatch = useDispatch();
-  useEffect(() => {
-    const fetchcv = async () => {
-      await CvAPI.getCvById(1).then((res) =>{
-        dispatch(cvActions.initData(res.data.data.cv[0]));
-        console.log(res.data.data.cv[0])
-      }
-      );
-    };
-    fetchcv();
-  }, []);
+  // useEffect(() => {
+  //   const fetchcv = async () => {
+  //     await CvAPI.getCvById(1).then((res) =>{
+  //       dispatch(cvActions.initData(res.data.data.cv[0]));
+  //       console.log(res.data.data.cv[0])
+  //     }
+  //     );
+  //   };
+  //   fetchcv();
+  // }, []);
 
   return (
     <div className="grid grid-cols-3 w-full bg-gray-50">

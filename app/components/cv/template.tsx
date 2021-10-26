@@ -117,53 +117,53 @@ export default function template() {
       <Document>
         <Page size="A4" style={styles.page} orientation="portrait">
           <View style={styles.introArea}>
-            <Image style={styles.avatar} src="/test.png"></Image>
+            <Image style={styles.avatar} src={cv.avatar}></Image>
             <View style={styles.contactArea}>
               <Text style={styles.Name}>{cv.name}</Text>
               <View style={styles.contact}>
-                {cv.email != "" && (
+                {cv.email != "" && cv.email != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/email.png"></Image>
                     <Text>{cv.email}</Text>
                   </View>
                 )}
-                {cv.phonenumber != "" && (
+                {cv.phonenumber != "" && cv.phonenumber != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/call.png"></Image>
                     <Text>{cv.phonenumber}</Text>
                   </View>
                 )}
-                {cv.address != "" && (
+                {cv.address != "" && cv.address != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/home.png"></Image>
                     <Text>{cv.address}</Text>
                   </View>
                 )}
-                {cv.website != "" && (
+                {cv.website != "" && cv.website != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/global.png"></Image>
                     <Text>{cv.website}</Text>
                   </View>
                 )}
-                {cv.github != "" && (
+                {cv.github != "" && cv.github != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/github.png"></Image>
                     <Text>{cv.github}</Text>
                   </View>
                 )}
-                {cv.reference != "" && (
+                {cv.reference != null && cv.reference != "" && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/reference.jpg"></Image>
                     <Text>{cv.reference}</Text>
                   </View>
                 )}
-                {cv.birthDate != "" && (
+                {cv.birthDate != "" && cv.birthDate != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/calendar.png"></Image>
                     <Text>{moment(cv.birthDate).format("DD/MM/YYYY")}</Text>
                   </View>
                 )}
-                {cv.gender != "" && (
+                {cv.gender != "" && cv.gender != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/gender.png"></Image>
                     <Text>{cv.gender}</Text>

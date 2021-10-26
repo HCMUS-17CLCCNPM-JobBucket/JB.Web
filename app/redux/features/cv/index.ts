@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialCvState = {
   name: "",
+  avatar: "",
   email: "",
   phonenumber: "",
   address: "",
@@ -25,6 +26,7 @@ const cvSlice = createSlice({
   reducers: {
     initData(state, actions) {
       state.name = actions.payload.name;
+      state.avatar = actions.payload.avatarUrl
       state.email = actions.payload.email;
       state.phonenumber = actions.payload.phone;
       state.address = actions.payload.address;
@@ -35,7 +37,7 @@ const cvSlice = createSlice({
       state.introduction = actions.payload.introduction;
       state.birthDate = actions.payload.birthdate;
       state.experience = actions.payload.experiences;
-      // state.skill = actions.payload.skills;
+      state.skill = actions.payload.skills;
       state.education = actions.payload.educations;
       state.award = actions.payload.awards;
       state.activity = actions.payload.activities;
