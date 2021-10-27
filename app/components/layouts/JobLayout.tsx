@@ -11,6 +11,7 @@ import SearchJob from "app/components/atoms/SearchJob";
 import helper from "app/utils/helper";
 import router from "next/router";
 import { Fragment, useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import Loading from "../atoms/Loading";
 import Filters from "../molecules/Filters";
@@ -86,6 +87,11 @@ export default function Job() {
     position: [],
     salary: [],
   });
+
+  const fetchMoreData = async () => {
+    const res = await jobAPI.getAll({ ...filterOptions, page: 0 }, user.token);
+    setJobs(jobs.concat(res.data.data.jobs));
+  };
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -221,7 +227,18 @@ export default function Job() {
               {/* Product grid */}
               <div className="lg:col-span-8">
                 {/* Replace with your content */}
-                <div className="flex flex-col gap-4 w-full h-full">
+                <InfiniteScroll
+                  dataLength={jobs.length}
+                  next={fetchMoreData}
+                  hasMore={true}
+                  loader={<h4>Loading...</h4>}
+                  scrollableTarget="scrollableDiv"
+                >
+                  {jobs.map((item, index) => (
+                    <JobHorizonCard key={index} {...item} />
+                  ))}
+                </InfiniteScroll>
+                {/* <div className="flex flex-col gap-4 w-full h-full">
                   {loading ? (
                     <Loading />
                   ) : jobs.length === 0 ? (
@@ -231,7 +248,7 @@ export default function Job() {
                       <JobHorizonCard key={index} {...item} />
                     ))
                   )}
-                </div>
+                </div> */}
                 {/* <Pagination
                   pages={20}
                   currentPage={1}
