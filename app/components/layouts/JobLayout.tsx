@@ -11,6 +11,7 @@ import SearchJob from "app/components/atoms/SearchJob";
 import helper from "app/utils/helper";
 import router from "next/router";
 import { Fragment, useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import Loading from "../atoms/Loading";
 import Filters from "../molecules/Filters";
@@ -69,13 +70,14 @@ const categories = [
 
 export default function Job() {
   const user = useSelector((state: any) => state.user);
-  const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [filterOptions, setFilterOptions] = useState({
     isDescending: false,
-    page: 0,
+    page: 1,
     size: 10,
     sortBy: "",
     keyword: "",
@@ -86,12 +88,20 @@ export default function Job() {
     position: [],
     salary: [],
   });
+
+  const fetchMoreData = async () => {
+    const res = await jobAPI.getAll(
+      { ...filterOptions, page: filterOptions.page + 1 },
+      user.token
+    );
+    setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
+    setJobs(jobs.concat(res.data.data.jobs));
+    setHasMore(res.data.data.jobs.length > 0);
+  };
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const res = await jobAPI.getAll(filterOptions, user.token);
       if (res.status === 200) setJobs(res.data.data.jobs);
-      setLoading(false);
     };
     fetchData();
   }, [isFiltered]);
@@ -221,23 +231,17 @@ export default function Job() {
               {/* Product grid */}
               <div className="lg:col-span-8">
                 {/* Replace with your content */}
-                <div className="flex flex-col gap-4 w-full h-full">
-                  {loading ? (
-                    <Loading />
-                  ) : jobs.length === 0 ? (
-                    <ListEmpty />
-                  ) : (
-                    jobs.map((item, index) => (
-                      <JobHorizonCard key={index} {...item} />
-                    ))
-                  )}
-                </div>
-                {/* <Pagination
-                  pages={20}
-                  currentPage={1}
-                  setCurrentPage={() => console.log(123)}
-                /> */}
-                {/* /End replace */}
+                <InfiniteScroll
+                  dataLength={jobs.length}
+                  next={fetchMoreData}
+                  hasMore={hasMore}
+                  loader={<h4>Loading...</h4>}
+                  scrollableTarget="scrollableDiv"
+                >
+                  {jobs.map((item, index) => (
+                    <JobHorizonCard key={index} {...item} />
+                  ))}
+                </InfiniteScroll>
               </div>
             </div>
           </section>

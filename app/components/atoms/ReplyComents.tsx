@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Comment from "./Comment";
 
-export default function Reply({ length, children }) {
+export default function Reply({ length, childrenCmt, callback }) {
   {
     const [isOpened, setIsOpened] = useState(false);
 
@@ -9,8 +9,8 @@ export default function Reply({ length, children }) {
       return (
         <div className="px-16">
           <div className="flex flex-col gap-2 ">
-            {children.map((child, index) => (
-              <Comment key={index} {...child} />
+            {childrenCmt.map((child, index) => (
+              <Comment key={index} {...child} callback={callback} />
             ))}
           </div>
           <div

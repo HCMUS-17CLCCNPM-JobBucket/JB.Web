@@ -1,16 +1,17 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import Blog from "app/components/atoms/Blog";
 import React, { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 
 export default function BlogPage() {
   const user = useSelector((state: any) => state.user);
   const [blogs, setBlogs] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
-
+  const [hasMore, setHasMore] = useState(true);
   const [filter, setFilter] = useState({
     isDescending: true,
-    page: 0,
+    page: 1,
     size: 12,
     sortBy: "createDate",
     keyword: "",
@@ -19,10 +20,18 @@ export default function BlogPage() {
     // authorId: 1,
   });
 
+  const fetchMoreData = async () => {
+    const res = await blogAPI.getAll(
+      { ...filter, page: filter.page + 1 },
+      user.token
+    );
+    setBlogs(blogs.concat(res.data.data.blogs));
+    setFilter({ ...filter, page: filter.page + 1 });
+    setHasMore(res.data.data.blogs.length > 0);
+  };
   useEffect(() => {
     const fetchData = async () => {
       const res = await blogAPI.getAll(filter, user.token);
-      console.log(res);
       if (res.status === 200) setBlogs(res.data.data.blogs);
     };
     fetchData();
@@ -50,16 +59,24 @@ export default function BlogPage() {
             </p>
           </div>
         </a>
-        <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <InfiniteScroll
+          dataLength={blogs.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          loader={
+            <div className="flex justify-center">
+              <button className="px-6 py-3 text-sm rounded-md hover:underline bg-gray-50 text-gray-600">
+                Load more blogs...
+              </button>
+            </div>
+          }
+          scrollableTarget="scrollableDiv"
+        >
           {blogs.map((item, index) => (
             <Blog key={index} {...item} />
           ))}
-        </div>
-        <div className="flex justify-center">
-          <button className="px-6 py-3 text-sm rounded-md hover:underline bg-gray-50 text-gray-600">
-            Load more posts...
-          </button>
-        </div>
+        </InfiniteScroll>
       </div>
     </section>
   );

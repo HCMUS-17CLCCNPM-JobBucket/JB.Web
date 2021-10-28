@@ -109,7 +109,6 @@ export const blogAPI = {
         query Blog($id: ID!, $filter: ListBlogType) {
           blogs(id: $id, filter: $filter) {
             id
-            isInterested
             comments{
               id
               parentId
@@ -291,7 +290,7 @@ export const blogAPI = {
         },
       }
     ),
-  updateComment: (comment, token) =>
+  updateComment: (comment, id, token) =>
     axiosClient.post(
       "/graphql",
       {
@@ -306,8 +305,8 @@ export const blogAPI = {
     `,
         variables: {
           comment: {
-            content: "aaaaaa",
-            id: 1,
+            content: comment,
+            id,
           },
         },
       },

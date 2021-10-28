@@ -13,16 +13,19 @@ export default function CommentSection({ blogId }) {
 
   const handleUserComment = async (e) => {
     e.preventDefault();
-    const res = await blogAPI.comment(
-      {
-        blogId,
-        content: commentVal,
-        parentId: null,
-      },
-      user.token
-    );
-    setCommentVal("");
-    setShouldRefresh(true);
+    if (user.token !== "") {
+      console.log(blogId);
+      const res = await blogAPI.comment(
+        {
+          blogId,
+          content: commentVal,
+          parentId: null,
+        },
+        user.token
+      );
+      setCommentVal("");
+      setShouldRefresh(!shouldRefresh);
+    }
   };
 
   useEffect(() => {
@@ -30,22 +33,11 @@ export default function CommentSection({ blogId }) {
       const res = await blogAPI.getCommentBlogById(
         blogId,
         {
-          // isDescending: true,
           page: 0,
           size: 10,
-          // sortBy: "comments.createDate",
-          // keyword: "",
-          // createdDate: [],
-          // tags: [],
-          // authorId: 1,
         },
         user.token
       );
-      //   setBlogInfo({
-      //     ...blogInfo,
-      //     isInterested: res.data.data.blogs[0].isInterested,
-      //   });
-
       setComments(res.data.data.blogs[0].comments);
     };
     fetchComments();
