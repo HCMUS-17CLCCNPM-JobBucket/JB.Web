@@ -54,29 +54,24 @@ export default function BlogPage() {
             </p>
           </div>
         </a>
-        {/* <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"> */}
         <InfiniteScroll
           dataLength={blogs.length}
           next={fetchMoreData}
           hasMore={true}
-          // style={{ display: "grid" }}
           className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          loader={<h4>Loading...</h4>}
+          loader={
+            <div className="flex justify-center">
+              <button className="px-6 py-3 text-sm rounded-md hover:underline bg-gray-50 text-gray-600">
+                Load more blogs...
+              </button>
+            </div>
+          }
           scrollableTarget="scrollableDiv"
         >
           {blogs.map((item, index) => (
             <Blog key={index} {...item} />
           ))}
         </InfiniteScroll>
-        {/* {blogs.map((item, index) => (
-            <Blog key={index} {...item} />
-          ))} */}
-        {/* </div> */}
-        <div className="flex justify-center">
-          <button className="px-6 py-3 text-sm rounded-md hover:underline bg-gray-50 text-gray-600">
-            Load more posts...
-          </button>
-        </div>
       </div>
     </section>
   );

@@ -76,7 +76,7 @@ export default function Job() {
   const [isFiltered, setIsFiltered] = useState(false);
   const [filterOptions, setFilterOptions] = useState({
     isDescending: false,
-    page: 0,
+    page: 1,
     size: 10,
     sortBy: "",
     keyword: "",
@@ -89,7 +89,11 @@ export default function Job() {
   });
 
   const fetchMoreData = async () => {
-    const res = await jobAPI.getAll({ ...filterOptions, page: 0 }, user.token);
+    const res = await jobAPI.getAll(
+      { ...filterOptions, page: filterOptions.page + 1 },
+      user.token
+    );
+    setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
     setJobs(jobs.concat(res.data.data.jobs));
   };
   useEffect(() => {
@@ -238,23 +242,6 @@ export default function Job() {
                     <JobHorizonCard key={index} {...item} />
                   ))}
                 </InfiniteScroll>
-                {/* <div className="flex flex-col gap-4 w-full h-full">
-                  {loading ? (
-                    <Loading />
-                  ) : jobs.length === 0 ? (
-                    <ListEmpty />
-                  ) : (
-                    jobs.map((item, index) => (
-                      <JobHorizonCard key={index} {...item} />
-                    ))
-                  )}
-                </div> */}
-                {/* <Pagination
-                  pages={20}
-                  currentPage={1}
-                  setCurrentPage={() => console.log(123)}
-                /> */}
-                {/* /End replace */}
               </div>
             </div>
           </section>
