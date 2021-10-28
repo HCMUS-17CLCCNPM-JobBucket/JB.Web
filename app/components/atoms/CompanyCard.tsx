@@ -26,8 +26,8 @@ export default function CompanyCard(props) {
         <div className="flex justify-between">
           <div>
             <p
-              onClick={() => router.push("/job/" + props.id)}
-              className="text-xl font-semibold"
+              onClick={() => router.push("/company/" + props.id)}
+              className="text-xl font-semibold hover:underline cursor-pointer"
             >
               {props.name}
             </p>

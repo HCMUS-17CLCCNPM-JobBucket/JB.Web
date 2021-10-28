@@ -70,7 +70,8 @@ const categories = [
 
 export default function Job() {
   const user = useSelector((state: any) => state.user);
-  const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -95,13 +96,12 @@ export default function Job() {
     );
     setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
     setJobs(jobs.concat(res.data.data.jobs));
+    setHasMore(res.data.data.jobs.length > 0);
   };
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const res = await jobAPI.getAll(filterOptions, user.token);
       if (res.status === 200) setJobs(res.data.data.jobs);
-      setLoading(false);
     };
     fetchData();
   }, [isFiltered]);
@@ -234,7 +234,7 @@ export default function Job() {
                 <InfiniteScroll
                   dataLength={jobs.length}
                   next={fetchMoreData}
-                  hasMore={true}
+                  hasMore={hasMore}
                   loader={<h4>Loading...</h4>}
                   scrollableTarget="scrollableDiv"
                 >

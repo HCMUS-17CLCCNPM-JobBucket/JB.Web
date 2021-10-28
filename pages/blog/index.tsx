@@ -8,10 +8,10 @@ export default function BlogPage() {
   const user = useSelector((state: any) => state.user);
   const [blogs, setBlogs] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
-
+  const [hasMore, setHasMore] = useState(true);
   const [filter, setFilter] = useState({
     isDescending: true,
-    page: 0,
+    page: 1,
     size: 12,
     sortBy: "createDate",
     keyword: "",
@@ -21,8 +21,13 @@ export default function BlogPage() {
   });
 
   const fetchMoreData = async () => {
-    const res = await blogAPI.getAll({ ...filter, page: 0 }, user.token);
+    const res = await blogAPI.getAll(
+      { ...filter, page: filter.page + 1 },
+      user.token
+    );
     setBlogs(blogs.concat(res.data.data.blogs));
+    setFilter({ ...filter, page: filter.page + 1 });
+    setHasMore(res.data.data.blogs.length > 0);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +62,7 @@ export default function BlogPage() {
         <InfiniteScroll
           dataLength={blogs.length}
           next={fetchMoreData}
-          hasMore={true}
+          hasMore={hasMore}
           className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           loader={
             <div className="flex justify-center">
