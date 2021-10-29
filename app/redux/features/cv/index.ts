@@ -26,7 +26,7 @@ const cvSlice = createSlice({
   reducers: {
     initData(state, actions) {
       state.name = actions.payload.name;
-      state.avatar = actions.payload.avatarUrl
+      state.avatar = actions.payload.avatarUrl;
       state.email = actions.payload.email;
       state.phonenumber = actions.payload.phone;
       state.address = actions.payload.address;
@@ -42,6 +42,9 @@ const cvSlice = createSlice({
       state.award = actions.payload.awards;
       state.activity = actions.payload.activities;
       state.certification = actions.payload.certifications;
+    },
+    resetState() {
+      return initialCvState;
     },
     changeBirthdate(state, actions) {
       state.birthDate = actions.payload;

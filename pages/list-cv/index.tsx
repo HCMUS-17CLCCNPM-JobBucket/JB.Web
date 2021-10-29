@@ -23,11 +23,32 @@ export default function ListCv() {
     };
     fetchData();
   }, []);
+  const createCv = () => {
+    dispatch(cvActions.resetState());
+    router.push("/cv-editor")
+  };
   return (
-    <div>
-      {myCv.map((data) => (
-        <p onClick={() => toEditor(data.id)}>{data.cVName}</p>
-      ))}
+    <div className="px-16 py-4">
+      <div className="flex justify-between mb-4">
+        <h1 className="mb-2">My CV List</h1>
+        <button
+          onClick={() => createCv()}
+          className="bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-semibold"
+        >
+          Create new CV
+        </button>
+      </div>
+      <div className="grid grid-cols-4 gap-4 cursor-pointer">
+        {myCv.map((data, index) => (
+          <div
+            key={index}
+            className="border-gray-300 border text-center py-4"
+            onClick={() => toEditor(data.id)}
+          >
+            {data.cVName}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

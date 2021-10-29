@@ -35,7 +35,6 @@ export default function experience() {
           <div className="flex flex-row items-center">
             <div className="border bg-gray-50 p-1 text-center mr-2">
               <p>{data.duration}</p>
-              <p>Months</p>
             </div>
             <div>
               <p>{data.company}</p>
@@ -86,7 +85,7 @@ export default function experience() {
           </label>
           <input
             value={duration}
-            type="number"
+            type="text"
             id="duaration"
             className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             placeholder="Your name"

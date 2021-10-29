@@ -34,7 +34,7 @@ export default function Educations() {
         >
           <div className="flex flex-row items-center">
             <div className="mr-2">
-              {data.status == "Granduated" ? (
+              {data.status == "Graduated" ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -122,7 +122,7 @@ export default function Educations() {
                 type="radio"
                 name="status"
                 value="Granduated"
-                onChange={(e) => setStatus("Granduated")}
+                onChange={(e) => setStatus("Graduated")}
               />
               <span className="ml-2 text-gray-700">Granduated</span>
             </label>

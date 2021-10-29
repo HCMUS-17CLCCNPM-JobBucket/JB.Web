@@ -7,22 +7,26 @@ export default function Skills() {
   const dispatch = useDispatch();
   const SkillList = useSelector((state: any) => state.cv.skill);
   const onHandleAdd = () => {
-    dispatch(cvActions.addSkill(skill));
+    const newSkill = {
+      skillName: skill,
+      level: 5,
+    }
+    dispatch(cvActions.addSkill(newSkill));
     setSkill("");
   };
   const deleteHandler = (index) => {
     dispatch(cvActions.deleteSkill(index));
   };
-  const editHandler = (data, index) => {
-    dispatch(cvActions.deleteSkill(index));
-    setSkill(data);
-  };
+  // const editHandler = (data, index) => {
+  //   dispatch(cvActions.deleteSkill(index));
+  //   setSkill(data);
+  // };
   return (
     <div className="border-gray-300 border p-10 bg-white mb-8">
       <p className="font-bold mb-4">Skills</p>
       {SkillList.map((data, index) => (
         <div
-          onClick={() => editHandler(data, index)}
+          // onClick={() => editHandler(data, index)}
           key={index}
           className="border-gray-300 border flex flex-row w-1/3 px-4 justify-between mb-4 items-center"
         >

@@ -114,6 +114,7 @@ export default function PersonalInfo() {
           <div className="w-full py-2 text-base">
             <label className="inline-flex items-center">
               <input
+                checked={cv.gender == "Male"}
                 type="radio"
                 name="gender"
                 value="Male"
@@ -123,6 +124,7 @@ export default function PersonalInfo() {
             </label>
             <label className="inline-flex items-center ml-6">
               <input
+                checked={cv.gender == "Female"}
                 type="radio"
                 name="gender"
                 value="Female"

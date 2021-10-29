@@ -48,7 +48,9 @@ export default function Navbar() {
           Find Jobs
         </p>
         <p className="navbar__item">Company</p>
-        <p className="navbar__item">CV Editor</p>
+        <p className="navbar__item" onClick={() => router.push("/list-cv")}>
+          My CV
+        </p>
         <p className="navbar__item">Blog</p>
       </div>
       <div>
