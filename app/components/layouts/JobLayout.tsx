@@ -237,6 +237,7 @@ export default function Job() {
                   hasMore={hasMore}
                   loader={<h4>Loading...</h4>}
                   scrollableTarget="scrollableDiv"
+                  className="flex flex-col gap-4 p-4"
                 >
                   {jobs.map((item, index) => (
                     <JobHorizonCard key={index} {...item} />
