@@ -52,15 +52,16 @@ export default function AddNewJob() {
     setPreviewSource(URL.createObjectURL(e.target.files[0]));
   };
 
+  const list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const formik = useFormik({
     initialValues: {
       title: "",
       imageUrls: [],
       description: "",
-      activeStatus: 0,
-      priority: 0,
-      addresses: [""],
-      cities: [""],
+      activeStatus: 0, //
+      priority: 0, //
+      addresses: [],
+      cities: [],
       minSalary: 0,
       maxSalary: 0,
       salaryCurrency: "",
@@ -113,17 +114,16 @@ export default function AddNewJob() {
       className="px-48 py-4 flex flex-col gap-4"
       onSubmit={formik.handleSubmit}
     >
-      <img
+      {/* <img
         src={previewSource || "https://via.placeholder.com/1134x160"}
         alt=""
         className="h-40 w-full object-cover rounded-lg"
       />
-      <input type="file" onChange={handleImageChange} />
+      <input type="file" onChange={handleImageChange} /> */}
       {/* <div className="flex justify-between">
         <div></div>
       </div> */}
 
-      <BlogTagSelection />
       <input
         type="text"
         id="title"
@@ -136,6 +136,7 @@ export default function AddNewJob() {
           focus:ring-purple-600 focus:border-transparent"
         placeholder="Title"
       />
+      <input type="file" onChange={handleImageChange} />
       <label className="text-gray-700">
         <textarea
           className="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 
@@ -150,6 +151,50 @@ export default function AddNewJob() {
           cols={40}
         ></textarea>
       </label>
+      <div>
+        <input type="text" id="Address" placeholder="Enter your Address" />
+        <div>{/* list address */}</div>
+      </div>
+      <div>
+        <input type="text" id="City" placeholder="Enter your City" />
+        <div>{/* list City */}</div>
+      </div>
+      <div className="flex gap-2">
+        <input
+          type="number"
+          id="minSalary"
+          defaultValue={0}
+          value={formik.values.minSalary}
+          onChange={formik.handleChange}
+        />
+        <input
+          type="number"
+          id="minSalary"
+          defaultValue={0}
+          value={formik.values.maxSalary}
+          onChange={formik.handleChange}
+        />
+        <input type="text" />
+      </div>
+      <div>
+        <input type="text" id="Skill" placeholder="Enter your Skill" />
+        <div>{/* list Skill */}</div>
+      </div>
+      <div>
+        <input type="text" id="Positions" placeholder="Enter your Positions" />
+        <div>{/* list Positions */}</div>
+      </div>
+      <div>
+        <div className="flex">
+          <input
+            type="text"
+            id="applications"
+            placeholder="Enter your applications"
+          />
+          <input type="number" id="applicationCount" defaultValue={0} />
+        </div>
+        <div>{/* list applications */}</div>
+      </div>
       <FroalaEditorComponent
         tag="textarea"
         config={config}

@@ -38,25 +38,31 @@ function MyApp({ Component, pageProps }: AppProps) {
 
             <Navbar />
             <Component {...pageProps} />
-            <button
-              onClick={handleScrollToTop}
-              className="fixed bottom-6 right-6 p-2 rounded-full border border-gray-700"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <div className="fixed bottom-6 right-6 flex flex-col gap-2">
+              <button
+                onClick={handleScrollToTop}
+                className="p-2 rounded-full border border-gray-700"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 15l7-7 7 7"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 15l7-7 7 7"
+                  />
+                </svg>
+              </button>
+              <button onClick={handleScrollToTop} className="">
+                <img src="common/chat.png" alt="chat" className="h-10 w-10" />
+              </button>
+            </div>
+
             <Footer />
           </AuthProvider>
         </PersistGate>
