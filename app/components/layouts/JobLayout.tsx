@@ -89,6 +89,14 @@ export default function Job() {
     salary: [],
   });
 
+  const handleSearch = (keyword: string) => {
+    setFilterOptions({
+      ...filterOptions,
+      keyword,
+    });
+    setIsFiltered(!isFiltered);
+  };
+
   const fetchMoreData = async () => {
     const res = await jobAPI.getAll(
       { ...filterOptions, page: filterOptions.page + 1 },
@@ -116,7 +124,10 @@ export default function Job() {
           filters={filters}
         />
         <div className="flex justify-center">
-          <SearchJob styles="lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" />
+          <SearchJob
+            styles="lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg"
+            handleSearch={handleSearch}
+          />
         </div>
         <main className=" px-4 sm:px-6 lg:px-16">
           <div className="relative z-10 flex items-baseline justify-between pt-4 pb-6 border-b border-gray-200">
