@@ -42,8 +42,8 @@ export default function ToolbarBottom() {
           />
         </svg>
       </button>
-      <button onClick={handleScrollToTop} className="">
-        <img src="common/chat.png" alt="chat" className="h-10 w-10" />
+      <button className="">
+        <img src="/common/chat.png" alt="chat" className="h-10 w-10" />
       </button>
     </div>
   );

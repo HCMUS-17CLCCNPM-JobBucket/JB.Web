@@ -24,3 +24,9 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
+.input {
+  @apply rounded-lg border-transparent flex-1 appearance-none 
+  border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 
+  placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 
+  focus:ring-purple-600 focus:border-transparent;
+}

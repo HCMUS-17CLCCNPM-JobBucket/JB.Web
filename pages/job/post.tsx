@@ -1,16 +1,15 @@
-import { Tab } from "@headlessui/react";
 import { blogAPI } from "app/api/modules/blogAPI";
 import { imageAPI } from "app/api/modules/imageAPI";
-import BlogTagSelection from "app/components/molecules/BlogTagSelection";
-import helper from "app/utils/helper";
+import { jobAPI } from "app/api/modules/jobAPI";
+import SalaryCurrencySelect from "app/components/atoms/Select/SalaryCurrencySelect";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 import router from "next/router";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Select, { StylesConfig } from "react-select";
 
 const config = {
-  placeholderText: "Edit Your Content Here!",
   charCounterCount: true,
   imageUploadURL: "https://api.cloudinary.com/v1_1/derekzohar/image/upload",
   imageUploadParams: {
@@ -40,6 +39,27 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
     ssr: false,
   }
 );
+
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided,
+  }),
+  control: (provided) => ({
+    ...provided,
+    borderRadius: "0.5rem",
+    border: "1px solid #D1D5DB",
+  }),
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = "opacity 300ms";
+
+    return { ...provided, opacity, transition };
+  },
+  placeholder: (provided, state) => ({
+    ...provided,
+    color: "#9CA3C1",
+  }),
+};
 export default function AddNewJob() {
   const user = useSelector((state: any) => state.user);
   const [isUploadImg, setIsUploadImg] = useState(true);
@@ -58,25 +78,18 @@ export default function AddNewJob() {
       title: "",
       imageUrls: [],
       description: "",
-      activeStatus: 0, //
-      priority: 0, //
+      priority: 0, // 0: low, 1: medium, 2: high
       addresses: [],
       cities: [],
       minSalary: 0,
       maxSalary: 0,
       salaryCurrency: "",
       salaryDuration: "",
-      skills: [],
-      positions: [],
-      applications: [],
-      applicationCount: 0,
-      interests: [],
-      interestCount: 0,
-      types: [],
-      categories: [],
+      skillIds: [],
+      positionIds: [],
+      typeIds: [],
+      categoryIds: [],
       isVisaSponsorship: false,
-      employerId: 0,
-      employer: null,
       expireDate: null,
       benefits: "",
       experiences: "",
@@ -88,24 +101,20 @@ export default function AddNewJob() {
       numberEmployeesToApplied: 0,
       jobForm: "",
       gender: 0,
-      views: 0,
-      isJobInterested: false,
-      isJobApplied: false,
-      organizationId: 0,
-      organization: null,
     },
     onSubmit: async (values) => {
-      const imageRes: any = await imageAPI.uploadImage(imageFile);
-      const res = await blogAPI.add(
+      // const imageRes: any = await imageAPI.uploadImage(imageFile);
+      const res = await jobAPI.add(
         {
           ...values,
-          imageUrl: imageRes.data.url,
-          content,
+          // imageUrl: imageRes.data.url,
+          // content,
         },
         user.token
       );
 
-      if (res.status === 200) router.push("/blog/" + res.data.data.blog.add.id);
+      // if (res.status === 200) router.push("/blog/" + res.data.data.blog.add.id);
+      console.log(res);
     },
   });
 
@@ -123,40 +132,40 @@ export default function AddNewJob() {
       {/* <div className="flex justify-between">
         <div></div>
       </div> */}
-
+      <SalaryCurrencySelect
+        values={[
+          { name: "Emergency" },
+          { name: "Actively hiring" },
+          { name: "None" },
+        ]}
+        callback={() => {}}
+      />
       <input
         type="text"
         id="title"
         name="title"
         value={formik.values.title}
         onChange={formik.handleChange}
-        className=" rounded-lg border-transparent flex-1 appearance-none 
-          border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 
-          placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 
-          focus:ring-purple-600 focus:border-transparent"
+        className="input"
         placeholder="Title"
       />
-      <input type="file" onChange={handleImageChange} />
-      <label className="text-gray-700">
-        <textarea
-          className="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 
-          bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base 
-          focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-          id="description"
-          placeholder="Enter your description"
-          name="description"
-          value={formik.values.description}
-          onChange={formik.handleChange}
-          rows={5}
-          cols={40}
-        ></textarea>
-      </label>
+      <input type="file" onChange={handleImageChange} className="input" />
       <div>
-        <input type="text" id="Address" placeholder="Enter your Address" />
+        <input
+          type="text"
+          id="Address"
+          placeholder="Enter your Address"
+          className="input"
+        />
         <div>{/* list address */}</div>
       </div>
       <div>
-        <input type="text" id="City" placeholder="Enter your City" />
+        <input
+          type="text"
+          id="City"
+          placeholder="Enter your City"
+          className="input"
+        />
         <div>{/* list City */}</div>
       </div>
       <div className="flex gap-2">
@@ -166,40 +175,47 @@ export default function AddNewJob() {
           defaultValue={0}
           value={formik.values.minSalary}
           onChange={formik.handleChange}
+          className="input"
         />
         <input
           type="number"
-          id="minSalary"
+          id="maxSalary"
           defaultValue={0}
           value={formik.values.maxSalary}
           onChange={formik.handleChange}
+          className="input"
         />
-        <input type="text" />
+
+        <SalaryCurrencySelect
+          values={[{ name: "VND" }, { name: "USD" }, { name: "Euro" }]}
+          callback={() => {}}
+        />
+        <SalaryCurrencySelect
+          values={[{ name: "Week" }, { name: "Month" }, { name: "Year" }]}
+          callback={() => {}}
+        />
       </div>
-      <div>
-        <input type="text" id="Skill" placeholder="Enter your Skill" />
-        <div>{/* list Skill */}</div>
-      </div>
-      <div>
-        <input type="text" id="Positions" placeholder="Enter your Positions" />
-        <div>{/* list Positions */}</div>
-      </div>
-      <div>
-        <div className="flex">
-          <input
-            type="text"
-            id="applications"
-            placeholder="Enter your applications"
-          />
-          <input type="number" id="applicationCount" defaultValue={0} />
-        </div>
-        <div>{/* list applications */}</div>
-      </div>
+      <Select styles={customStyles} placeholder="Skills" />
+      <Select styles={customStyles} placeholder="Positions" />
       <FroalaEditorComponent
         tag="textarea"
-        config={config}
+        config={{ ...config, placeholderText: "Benefits" }}
         model={content}
         onModelChange={(model) => setContent(model)}
+      />
+      <FroalaEditorComponent
+        tag="textarea"
+        config={{ ...config, placeholderText: "Experiences" }}
+        model={content}
+        onModelChange={(model) => setContent(model)}
+      />
+      <FroalaEditorComponent
+        tag="textarea"
+        config={{ ...config, placeholderText: "Descriptions" }}
+        // model={content}
+        // onModelChange={(model) => setContent(model)}
+        model={formik.values.description}
+        onModelChange={formik.handleChange}
       />
 
       <button className="btn btn-primary w-40" type="submit">

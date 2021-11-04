@@ -13,7 +13,7 @@ export default function SearchJob({ styles, handleSearch }) {
 
   return (
     <div
-      className={`${styles} flex flex-col gap-2 lg:flex-row items-center rounded-lg lg:rounded-full border-2 border-gray-100`}
+      className={`${styles} h-16 flex gap-2 items-center rounded-full border-2 border-gray-100`}
     >
       <div className="lg:w-5/6 w-full flex">
         <div className="w-full flex gap-2 dark:text-white dark:bg-gray-900">
@@ -36,13 +36,18 @@ export default function SearchJob({ styles, handleSearch }) {
             type="text"
             placeholder="Job Type or Keyword"
             onChange={handleChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch(keyword);
+              }
+            }}
           />
         </div>
       </div>
       <button
         onClick={handleSubmit}
         type="button"
-        className=" py-3 px-6 w-32 bg-blue-600 hover:bg-blue-700 
+        className=" py-3 px-6 w-32 hidden lg:block bg-blue-600 hover:bg-blue-700 
         focus:ring-blue-500 focus:ring-offset-blue-200 text-white  ease-in-transition
         text-center text-base font-semibold shadow-md focus:outline-none rounded-full"
       >

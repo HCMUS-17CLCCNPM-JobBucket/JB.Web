@@ -5,18 +5,19 @@ import {
   ViewGridIcon,
 } from "@heroicons/react/solid";
 import { jobAPI } from "app/api/modules/jobAPI";
+import { orgAPI } from "app/api/modules/organization";
+import CompanyCard from "app/components/atoms/CompanyCard";
 import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
 import ListEmpty from "app/components/atoms/ListEmpty";
 import SearchJob from "app/components/atoms/SearchJob";
+import Filters from "app/components/molecules/Filters";
+import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
+import MobileFilterDialog from "app/components/molecules/MobileFilterDialog";
 import helper from "app/utils/helper";
 import router from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
-import Loading from "../atoms/Loading";
-import Filters from "../molecules/Filters";
-import JobInfinityScroll from "../molecules/JobInfinityScroll";
-import MobileFilterDialog from "../molecules/MobileFilterDialog";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -72,8 +73,10 @@ const categories = [
 export default function Job() {
   const user = useSelector((state: any) => state.user);
 
+  const [orgs, setOrgs] = useState([]);
+  const [page, setPage] = useState(1);
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [jobs, setJobs] = useState<any>([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [filterOptions, setFilterOptions] = useState({
     isDescending: false,
@@ -99,11 +102,21 @@ export default function Job() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await jobAPI.getAll(filterOptions, user.token);
-      if (res.status === 200) setJobs(res.data.data.jobs);
+      const res = await orgAPI.getAll({
+        page,
+        size: 10,
+      });
+      setOrgs(res.data.data.organizations);
     };
     fetchData();
-  }, [isFiltered]);
+  }, []);
+  console.log(page);
+
+  const fetchMoreData = async () => {
+    const res = await orgAPI.getAll({ size: 10, page: page + 1 });
+    setPage(page + 1);
+    setOrgs(orgs.concat(res.data.data.organizations));
+  };
 
   return (
     <div className="bg-white">
@@ -245,12 +258,18 @@ export default function Job() {
                     <JobHorizonCard key={index} {...item} />
                   ))}
                 </InfiniteScroll> */}
-                <JobInfinityScroll
-                  jobs={jobs}
-                  setJobs={setJobs}
-                  filterOptions={filterOptions}
-                  setFilterOptions={setFilterOptions}
-                />
+                <InfiniteScroll
+                  dataLength={orgs.length}
+                  next={fetchMoreData}
+                  hasMore={true}
+                  loader={<h4>Loading...</h4>}
+                  scrollableTarget="scrollableDiv"
+                  className="flex flex-col gap-4 max-w-4xl p-2"
+                >
+                  {orgs.map((item, index) => (
+                    <CompanyCard key={index} {...item} />
+                  ))}
+                </InfiniteScroll>
               </div>
             </div>
           </section>

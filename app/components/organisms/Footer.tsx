@@ -50,87 +50,67 @@ export default function Footer() {
           </div>
           <div>
             <p className="font-semibold tracking-wide text-gray-800">
-              Business
+              Job Form
             </p>
             <ul className="mt-2 space-y-2">
               <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Web
+                  Full Time
                 </a>
               </li>
               <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  eCommerce
+                  Part Time
                 </a>
               </li>
               <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Business
-                </a>
-              </li>
-              <li>
-                <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Entertainment
-                </a>
-              </li>
-              <li>
-                <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Portfolio
+                  Remote
                 </a>
               </li>
             </ul>
           </div>
           <div>
-            <p className="font-semibold tracking-wide text-gray-800">Apples</p>
+            <p className="font-semibold tracking-wide text-gray-800">City</p>
             <ul className="mt-2 space-y-2">
               <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Media
+                  Ho Chi Minh
                 </a>
               </li>
               <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Brochure
+                  Ha Noi
                 </a>
               </li>
               <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Nonprofit
+                  Da Nang
                 </a>
               </li>
               <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Educational
-                </a>
-              </li>
-              <li>
-                <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Projects
+                  Hai Phong
                 </a>
               </li>
             </ul>
           </div>
           <div>
-            <p className="font-semibold tracking-wide text-gray-800">Cherry</p>
+            <p className="font-semibold tracking-wide text-gray-800">Contact</p>
             <ul className="mt-2 space-y-2">
               <li>
+                <p className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                  +84 987 654 321
+                </p>
+              </li>
+              <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Infopreneur
+                  jobbucket@gmail.com
                 </a>
               </li>
               <li>
                 <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Personal
-                </a>
-              </li>
-              <li>
-                <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Wiki
-                </a>
-              </li>
-              <li>
-                <a className="text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">
-                  Forum
+                  Nguyen Van A, Ho Chi Minh City, Vietnam
                 </a>
               </li>
             </ul>

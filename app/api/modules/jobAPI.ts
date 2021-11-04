@@ -1,6 +1,29 @@
 import axiosClient from "../axiosClient";
 
 export const jobAPI = {
+  add: (job, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+          mutation addJob($job: AddJobType) {
+            job{
+              add(job: $job){ 
+                id
+              }
+            }
+          }
+    `,
+        variables: {
+          job,
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
   getAll: (filter, token) =>
     axiosClient.post(
       "/graphql",

@@ -1,4 +1,5 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Tab, Transition } from "@headlessui/react";
+import helper from "app/utils/helper";
 import { Fragment, useState } from "react";
 import Checkbox from "../Toggle/Checkbox";
 import CVButton from "./CVButton";
@@ -13,10 +14,10 @@ export default function ApplyButton() {
   function openModal() {
     setIsOpen(true);
   }
-
+  let [categories] = useState(["Online", "Local"]);
   return (
     <>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center relative">
         <button
           onClick={openModal}
           type="button"
@@ -48,7 +49,7 @@ export default function ApplyButton() {
           className="fixed inset-0 z-10 overflow-y-auto"
           onClose={closeModal}
         >
-          <div className="min-h-screen px-4 text-center">
+          <div className=" px-4 text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -63,7 +64,7 @@ export default function ApplyButton() {
 
             {/* This element is to trick the browser into centering the modal contents. */}
             <span
-              className="inline-block h-screen align-middle"
+              className="inline-block h-screen align-middle "
               aria-hidden="true"
             >
               &#8203;
@@ -77,60 +78,97 @@ export default function ApplyButton() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block h-82 w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-full max-w-md h-[400px] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
                   Choose your CV
                 </Dialog.Title>
-                <div className=" relative ">
-                  <input
-                    type="text"
-                    id="rounded-email"
-                    className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                    placeholder="Name CV"
-                  />
-                </div>
-                <div className="mt-2 flex flex-col justify-between">
-                  <Checkbox
-                    active={false}
-                    content="CV-User.pdf"
-                    callback={() => console.log(123)}
-                  />
-                  <Checkbox
-                    active={false}
-                    content="CV-User.pdf"
-                    callback={() => console.log(123)}
-                  />
-                  <Checkbox
-                    active={false}
-                    content="CV-User.pdf"
-                    callback={() => console.log(123)}
-                  />
-                  <Checkbox
-                    active={false}
-                    content="CV-User.pdf"
-                    callback={() => console.log(123)}
-                  />
-                  <Checkbox
-                    active={false}
-                    content="CV-User.pdf"
-                    callback={() => console.log(123)}
-                  />
-                  <Checkbox
-                    active={false}
-                    content="CV-User.pdf"
-                    callback={() => console.log(123)}
-                  />
-                  <Checkbox
-                    active={false}
-                    content="CV-User.pdf"
-                    callback={() => console.log(123)}
-                  />
-                </div>
 
-                <div className="mt-4 w-full flex flex-row-reverse gap-2">
+                <Tab.Group>
+                  <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
+                    {categories.map((category, index) => (
+                      <Tab
+                        key={index}
+                        className={({ selected }) =>
+                          helper.classNames(
+                            "w-full py-2.5 text-sm leading-5 font-medium rounded-lg",
+                            "focus:outline-none ",
+                            selected
+                              ? "text-blue-600 bg-white shadow font-semibold"
+                              : "text-gray-600 hover:bg-gray-600/[0.12] hover:text-white"
+                          )
+                        }
+                      >
+                        {category}
+                      </Tab>
+                    ))}
+                  </Tab.List>
+                  <Tab.Panels className="mt-2">
+                    <Tab.Panel
+                      className={helper.classNames(
+                        "bg-white rounded-xl p-3",
+                        "focus:outline-none "
+                      )}
+                    >
+                      <div className=" relative ">
+                        <input
+                          type="text"
+                          id="rounded-email"
+                          className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                          placeholder="Name CV"
+                        />
+                      </div>
+                      <div className="mt-2 flex flex-col justify-between">
+                        <Checkbox
+                          active={false}
+                          content="CV-User.pdf"
+                          callback={() => console.log(123)}
+                        />
+                        <Checkbox
+                          active={false}
+                          content="CV-User.pdf"
+                          callback={() => console.log(123)}
+                        />
+                        <Checkbox
+                          active={false}
+                          content="CV-User.pdf"
+                          callback={() => console.log(123)}
+                        />
+                        <Checkbox
+                          active={false}
+                          content="CV-User.pdf"
+                          callback={() => console.log(123)}
+                        />
+                        <Checkbox
+                          active={false}
+                          content="CV-User.pdf"
+                          callback={() => console.log(123)}
+                        />
+                        <Checkbox
+                          active={false}
+                          content="CV-User.pdf"
+                          callback={() => console.log(123)}
+                        />
+                        <Checkbox
+                          active={false}
+                          content="CV-User.pdf"
+                          callback={() => console.log(123)}
+                        />
+                      </div>
+                    </Tab.Panel>
+                    <Tab.Panel
+                      className={helper.classNames(
+                        "bg-white rounded-xl p-3",
+                        "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
+                      )}
+                    >
+                      <input type="file" />
+                    </Tab.Panel>
+                  </Tab.Panels>
+                </Tab.Group>
+                <div className="absolute right-4 bottom-4 w-full flex flex-row-reverse gap-2">
                   <button
                     type="button"
                     className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none ease-in-transition"
