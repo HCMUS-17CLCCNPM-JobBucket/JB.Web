@@ -112,6 +112,9 @@ const cvSlice = createSlice({
     deleteAward(state, actions) {
       state.award.splice(actions.payload, 1);
     },
+    editAward(state, actions) {
+      state.award.splice(actions.payload.index, 0, actions.payload.data);
+    },
   },
 });
 
