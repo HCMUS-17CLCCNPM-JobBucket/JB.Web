@@ -1,44 +1,89 @@
 import { Dialog, Tab, Transition } from "@headlessui/react";
+import { imageAPI } from "app/api/modules/imageAPI";
+import { jobAPI } from "app/api/modules/jobAPI";
 import helper from "app/utils/helper";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Checkbox from "../Toggle/Checkbox";
 import CVButton from "./CVButton";
 
-export default function ApplyButton() {
+export default function ApplyButton({ value, jobId }) {
+  const user = useSelector((state: any) => state.user);
+  const [hasActive, setHasActive] = useState(value);
+  const [imageFile, setImageFile] = useState(null);
   let [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (hasActive !== value) {
+      setHasActive(value);
+    }
+  }, [value]);
 
   function closeModal() {
     setIsOpen(false);
   }
 
-  function openModal() {
-    setIsOpen(true);
-  }
+  const openModal = async () => {
+    if (hasActive) {
+      const res = await jobAPI.unApply(jobId, user.token);
+      if (res.data.errors) {
+      }
+      if (res.status === 200) {
+        closeModal();
+        setHasActive(false);
+      }
+    } else {
+      setIsOpen(true);
+    }
+  };
   let [categories] = useState(["Online", "Local"]);
+
+  const handleApply = async (e) => {
+    if (imageFile !== null) {
+      const pdfRes: any = await imageAPI.uploadCV(imageFile);
+      console.log(pdfRes);
+      console.log(imageFile);
+      if (pdfRes.status === 200) {
+        const res = await jobAPI.apply(jobId, -1, pdfRes.data.url, user.token);
+        if (res.data.errors) {
+        }
+        if (res.status === 200) {
+          closeModal();
+          setHasActive(true);
+        }
+      }
+    }
+  };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+  };
   return (
     <>
       <div className="flex items-center justify-center relative">
         <button
           onClick={openModal}
           type="button"
-          className="inline-flex items-center px-4 py-2 border border-transparent 
-          rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 
-          hover:bg-blue-700 focus:outline-none "
+          className={`${
+            hasActive ? "bg-gray-400" : "bg-red-600 hover:bg-red-700"
+          } inline-flex items-center px-4 py-2 border border-transparent 
+          rounded-md shadow-sm text-sm font-medium text-white focus:outline-none`}
         >
-          {/* Heroicon name: solid/check */}
-          <svg
-            className="-ml-1 mr-2 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
+          {hasActive && (
+            <svg
+              className="-ml-1 mr-2 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          )}
           Apply Job
         </button>
       </div>
@@ -164,12 +209,13 @@ export default function ApplyButton() {
                         "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
                       )}
                     >
-                      <input type="file" />
+                      <input type="file" onChange={handleImageChange} />
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>
                 <div className="absolute right-4 bottom-4 w-full flex flex-row-reverse gap-2">
                   <button
+                    onClick={handleApply}
                     type="button"
                     className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none ease-in-transition"
                   >

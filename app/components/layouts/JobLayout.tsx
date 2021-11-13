@@ -5,15 +5,11 @@ import {
   ViewGridIcon,
 } from "@heroicons/react/solid";
 import { jobAPI } from "app/api/modules/jobAPI";
-import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
-import ListEmpty from "app/components/atoms/ListEmpty";
 import SearchJob from "app/components/atoms/SearchJob";
 import helper from "app/utils/helper";
 import router from "next/router";
 import { Fragment, useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
-import Loading from "../atoms/Loading";
 import Filters from "../molecules/Filters";
 import JobInfinityScroll from "../molecules/JobInfinityScroll";
 import MobileFilterDialog from "../molecules/MobileFilterDialog";
