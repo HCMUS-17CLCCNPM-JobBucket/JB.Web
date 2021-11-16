@@ -9,7 +9,7 @@ import { persistor, store } from "app/redux/store";
 import "froala-editor/css/froala_editor.pkgd.min.css";
 import "froala-editor/css/froala_style.min.css";
 import type { AppProps } from "next/app";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -17,7 +17,7 @@ import "../styles/globals.scss";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   Router.events.on("routeChangeStart", (url) => {
     // if (router.pathname.includes("/chat") !== true) {
     setLoading(true);
@@ -27,6 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   Router.events.on("routeChangeComplete", () => setLoading(false));
   Router.events.on("routeChangeError", () => setLoading(false));
 
+  const listExclude = ["/login", "/register", "/chat"];
   return (
     <GoogleAuthProvider>
       <Provider store={store}>
@@ -35,10 +36,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Alerts />
             {loading && <LoadingTransition />}
 
-            <Navbar />
+            {!listExclude.includes(router.pathname) && <Navbar />}
             <Component {...pageProps} />
             <ToolbarBottom />
-            <Footer />
+            {!listExclude.includes(router.pathname) && <Footer />}
           </AuthProvider>
         </PersistGate>
       </Provider>
