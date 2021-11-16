@@ -1,6 +1,75 @@
 import axiosClient from "../axiosClient";
 
 export const jobAPI = {
+  apply: (jobId: string, cVId: number, cVPDFUrl: string, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+        mutation applyJob($application: ApplyJobType) {
+          job{
+            apply(application: $application){ 
+							jobId            
+            }
+          }
+        }
+  `,
+        variables: {
+          application: { jobId, cVId, cVPDFUrl },
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  unApply: (jobId: string, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+        mutation unApplyJob($id: Int) {
+          job{
+            unapply(id: $id){ 
+              jobId
+            }
+          }
+        }
+  `,
+        variables: {
+          id: jobId,
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  add: (job, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+          mutation addJob($job: AddJobType) {
+            job{
+              add(job: $job){ 
+                id
+              }
+            }
+          }
+    `,
+        variables: {
+          job,
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
   getAll: (filter, token) =>
     axiosClient.post(
       "/graphql",

@@ -7,7 +7,7 @@ import SaveJobButton from "../Button/SaveJobButton";
 
 export default function JobHorizonCard(props) {
   return (
-    <div className="job-horizon-card">
+    <div className="job-horizon-card hover:shadow-lg">
       <div className="job-horizon-card__header">
         <div className="job-horizon-card__company">
           <img src={props.imageUrls[0]} alt="Google" />

@@ -14,7 +14,10 @@ export default function Blog(props) {
         <div className="flex space-x-4">
           <img
             alt=""
-            src="https://source.unsplash.com/100x100/?portrait"
+            src={
+              props.avatarUrl ||
+              "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper.png"
+            }
             className="object-cover w-12 h-12 rounded-full shadow bg-gray-500"
           />
           <div className="flex flex-col space-y-1">

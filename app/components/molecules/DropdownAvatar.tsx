@@ -31,9 +31,10 @@ export default function DropdownAvatar() {
             <div className="p-1 rounded-full flex gap-2 items-center hover:bg-gray-200 ">
               <img
                 src={
-                  user.user.avatarUrl || "https://picsum.photos/id/1005/200/200"
+                  user.user.avatarUrl ||
+                  "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper.png"
                 }
-                className="border border-gray-200 rounded-full h-10 w-10 "
+                className="border border-gray-200 rounded-full h-10 w-10 object-cover"
                 alt="avatar"
               />
               <p className="text-base font-semibold">
@@ -55,7 +56,10 @@ export default function DropdownAvatar() {
             <div className="px-1 py-1">
               <div className="flex items-center gap-4 px-2 py-2 hover:bg-gray-200 rounded-md cursor-pointer">
                 <img
-                  src="https://picsum.photos/id/1005/200/200"
+                  src={
+                    user.user.avatarUrl ||
+                    "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper.png"
+                  }
                   alt="avatar"
                   className="h-10 w-10 avatar"
                 />
