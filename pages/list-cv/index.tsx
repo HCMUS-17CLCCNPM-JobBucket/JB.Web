@@ -5,7 +5,24 @@ import { useSelector, useDispatch } from "react-redux";
 import router from "next/router";
 
 export default function ListCv() {
-  const [myCv, setmyCv] = useState([]);
+  const [myCv, setmyCv] = useState([
+    {
+      cVName: "Cv01",
+      id: 1,
+    },
+    {
+      cVName: "Cv02",
+      id: 1,
+    },
+    {
+      cVName: "Cv03",
+      id: 1,
+    },
+    {
+      cVName: "Cv04",
+      id: 1,
+    },
+  ]);
   const dispatch = useDispatch();
   const toEditor = async (id) => {
     await CvAPI.getCvById(id).then((res) => {
@@ -14,15 +31,15 @@ export default function ListCv() {
       router.push("/cv-editor");
     });
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      await CvAPI.getAll().then((res) => {
-        setmyCv(res.data.data.cv);
-        console.log(myCv);
-      });
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await CvAPI.getAll().then((res) => {
+  //       setmyCv(res.data.data.cv);
+  //       console.log(myCv);
+  //     });
+  //   };
+  //   fetchData();
+  // }, []);
   const createCv = () => {
     dispatch(cvActions.resetState());
     router.push("/cv-editor")

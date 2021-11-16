@@ -14,7 +14,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 
-export default function template() {
+export default function template(props) {
   const cv = useSelector((state: any) => state.cv);
   const experienceList = useSelector((state: any) => state.cv.experience);
   const EducationList = useSelector((state: any) => state.cv.education);
@@ -62,7 +62,7 @@ export default function template() {
     },
     granduated: {
       fontFamily: "NunitoBold",
-      color: "#1e88e5",
+      color: props.color,
       marginRight: 5,
     },
 
@@ -81,7 +81,7 @@ export default function template() {
       fontSize: 26,
       marginBottom: 2,
       fontFamily: "NunitoBold",
-      color: "#1e88e5",
+      color: props.color,
     },
     Description: {
       fontFamily: "NunitoBold",

@@ -15,6 +15,7 @@ export default function CvEditor() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
     ssr: false,
   });
+  const [color, setColor] = useState("#1e88e5");
 
   return (
     <div className="grid grid-cols-3 w-full bg-gray-50">
@@ -28,7 +29,12 @@ export default function CvEditor() {
         <Awards></Awards>
       </div>
       <div className="col-span-1 fixed right-8 top-32">
-        <PDFViewer></PDFViewer>
+        <div>
+          <button onClick={() => setColor("red")}>red</button>
+          <button onClick={() => setColor("#1e88e5")}>blue</button>
+          <button onClick={() => setColor("yellow")}>yellow</button>
+        </div>
+        <PDFViewer color={color}></PDFViewer>
       </div>
     </div>
   );
