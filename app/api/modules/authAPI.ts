@@ -12,6 +12,8 @@ export const authAPI = {
     const url = "api/Authenticate/register";
     return axiosClient.post(url, { ...params });
   },
+  verifyEmail: (params) =>
+    axiosClient.get("/api/Authenticate/ConfirmEmail", { params: params }),
   resend: (email) =>
     axiosClient.get("api/Authenticate/ResendConfirmationEmail", {
       params: { email },

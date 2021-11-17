@@ -18,6 +18,7 @@ export const userSlice = createSlice({
       return state;
     },
     logout: (state) => {
+      state.user = {};
       state.token = "";
       state.refreshToken = "";
       return state;

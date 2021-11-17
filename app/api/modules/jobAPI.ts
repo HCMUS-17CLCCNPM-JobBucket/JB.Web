@@ -1,16 +1,20 @@
 import axiosClient from "../axiosClient";
 
-export const JobAPI = {
-  getAll: (filter) =>
-    axiosClient.post("/graphql", {
-      query: `
-      query {
-        jobs {
+export const jobAPI = {
+  getAll: (filter, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+      query GetAllJobs($filter: ListJobType ) {
+        jobs(filter: $filter) {
           id
           title
           jobForm
+          isJobApplied
+    			isJobInterested
           description
-          address
+          addresses
           imageUrls
           expireDate
           minSalary
@@ -18,21 +22,52 @@ export const JobAPI = {
         }
       }
     `,
-      variables: {
-        // id,
-        ...filter,
+        variables: {
+          filter,
+        },
       },
-    }),
-  getJobById: (id: number) =>
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  getJobById: (id: number, token: string) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+        query Job($id: ID!) {
+          jobs(id: $id) {
+            isJobApplied
+    			  isJobInterested
+          }
+        }
+      `,
+        variables: {
+          id,
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  getJobByIdWithoutToken: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
         query Job($id: ID!) {
           jobs(id: $id) {
+            id
             title
             organization {
               name
             }
-            address
+            types{
+              name
+            }
+            addresses
             views
             jobForm
             expireDate
@@ -55,7 +90,55 @@ export const JobAPI = {
         }
       `,
       variables: {
-        id,
+        id: id,
       },
     }),
+
+  like: (id: number, token: string) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+        mutation LikeJob($id: Int ) {
+        job{
+          interest(id: $id){
+            id
+          }
+        }
+      }
+    `,
+        variables: {
+          id,
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+
+  unlike: (id: number, token: string) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+      mutation unLikeJob($id: Int ) {
+        job{
+          uninterest(id: $id){
+            id
+          }
+        }
+      }
+    `,
+        variables: {
+          id,
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
 };

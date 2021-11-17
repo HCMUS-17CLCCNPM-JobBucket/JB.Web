@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/google-font-display */
 import Document, {
   DocumentContext,
   Html,
@@ -28,7 +29,7 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
             href="https://fonts.googleapis.com/css?family=Nunito"
           />
-          <link rel="icon" type="image/png" href="logo.png" />
+          <link rel="icon" type="image/png" href="/logo.png" />
         </Head>
         <body>
           <Main />

@@ -2,7 +2,7 @@ import axios from "axios";
 // Set up default config for http requests here
 
 const axiosClient = axios.create({
-  baseURL: "https://jobbucket.azurewebsites.net/",
+  baseURL: "https://jobbucket.azurewebsites.net",
   headers: {
     "content-type": "application/json",
   },
@@ -12,7 +12,7 @@ axiosClient.interceptors.request.use(async (config) => {
   // Handle token here ...
   return config;
 });
-axiosClient.defaults.timeout = 20000;
+// axiosClient.defaults.timeout = 20000;
 axios.interceptors.response.use(
   (response) => {
     if (response.status === 401) {

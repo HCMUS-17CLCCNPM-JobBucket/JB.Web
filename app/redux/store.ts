@@ -22,7 +22,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
-  job: jobReducer,
   notifications: notiReducer,
   company: companyReducer,
   cv: cvReducer,
@@ -45,6 +44,5 @@ const store = configureStore({
 });
 // sagaMiddleware.run(rootSaga);
 let persistor = persistStore(store);
-// let getToken = store.getState()
-//...
+
 export { store, persistor };

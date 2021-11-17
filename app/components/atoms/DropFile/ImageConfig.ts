@@ -1,11 +1,11 @@
-import fileDefault from '../assets/file-blank-solid-240.png';
-import fileCSS from '../assets/file-css-solid-240.png';
-import filePdf from '../assets/file-pdf-solid-240.png';
-import filePng from '../assets/file-png-solid-240.png';
+import fileDefault from "public/dropFile/file-blank-solid-240.png";
+import fileCSS from "public/dropFile/file-css-solid-240.png";
+import filePdf from "public/dropFile/file-pdf-solid-240.png";
+import filePng from "public/dropFile/file-png-solid-240.png";
 
 export const ImageConfig = {
-    default: fileDefault,
-    pdf: filePdf,
-    png: filePng,
-    css: fileCSS
-}
+  default: fileDefault,
+  pdf: filePdf,
+  png: filePng,
+  css: fileCSS,
+};

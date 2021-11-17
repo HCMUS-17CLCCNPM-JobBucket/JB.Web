@@ -12,3 +12,15 @@
 .profile-title {
   @apply text-2xl font-semibold mb-2;
 }
+
+.ease-in-transition {
+  @apply transition duration-200 ease-in;
+}
+
+.avatar {
+  @apply rounded-full border border-gray-200 object-cover;
+}
+.alert-shadow {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}

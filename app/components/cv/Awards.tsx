@@ -47,7 +47,7 @@ export default function Awards() {
       {AwardList.map((data, index) => (
         <div
           key={index}
-          className="border-gray-300 border flex flex-row w-1/3 px-4 justify-between mb-4 items-center"
+          className="rounded-lg border-gray-300 border flex flex-row w-1/3 px-4 justify-between mb-4 items-center"
         >
           <div className="flex flex-row items-center">
             <p>{data}</p>
@@ -57,9 +57,22 @@ export default function Awards() {
               disabled={isEdit}
               onClick={() => editHander(index, data)}
               type="button"
-              className="my-4 h-10 px-4 text-white transition-colors duration-150 bg-red-500 rounded-lg focus:outline-none hover:bg-red-600 disabled:opacity-50"
+              className="my-4 h-10 mr-2 px-4 text-white transition-colors duration-150 bg-red-500 rounded-lg focus:outline-none hover:bg-red-600 disabled:opacity-50"
             >
-              Edit
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
             </button>
             <button
               disabled={isEdit}
@@ -67,7 +80,20 @@ export default function Awards() {
               type="button"
               className="my-4 h-10 px-4 text-white transition-colors duration-150 bg-red-500 rounded-lg focus:outline-none hover:bg-red-600 disabled:opacity-50"
             >
-              Delete
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
             </button>
           </div>
         </div>

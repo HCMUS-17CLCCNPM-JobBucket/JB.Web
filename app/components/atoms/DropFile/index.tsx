@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-import "./drop-file-input.css";
+
 
 import { ImageConfig } from "./ImageConfig";
 
@@ -36,7 +36,7 @@ const DropFileInput = (props) => {
     <>
       <div
         ref={wrapperRef}
-        className="drop-file-input"
+        className="drop-file-input border border-blue-400"
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
         onDrop={onDrop}

@@ -10,16 +10,16 @@ import Certifications from "app/components/cv/Certifications";
 import Educations from "app/components/cv/Educations";
 import { CvAPI } from "app/api/modules/cvAPI";
 import { cvActions } from "app/redux/features/cv";
+import Review from "app/components/cv/reviewCv";
 
 export default function CvEditor() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
     ssr: false,
   });
-  const [color, setColor] = useState("#1e88e5");
 
   return (
-    <div className="grid grid-cols-3 w-full bg-gray-50">
-      <div className="col-span-2 p-10">
+    <div className="w-full bg-gray-50">
+      <div className="p-10">
         <PersonalInfo></PersonalInfo>
         <Experience></Experience>
         <Skills></Skills>
@@ -27,15 +27,16 @@ export default function CvEditor() {
         <Activities></Activities>
         <Certifications></Certifications>
         <Awards></Awards>
+        <Review></Review>
       </div>
-      <div className="col-span-1 fixed right-8 top-32">
+      {/* <div className="col-span-1 fixed right-8 top-32">
         <div>
           <button onClick={() => setColor("red")}>red</button>
           <button onClick={() => setColor("#1e88e5")}>blue</button>
           <button onClick={() => setColor("yellow")}>yellow</button>
         </div>
         <PDFViewer color={color}></PDFViewer>
-      </div>
+      </div> */}
     </div>
   );
 }

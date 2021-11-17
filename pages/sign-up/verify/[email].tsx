@@ -1,4 +1,5 @@
 // import UserAPI from "app/api/modules/userAPI";
+import { authAPI } from "app/api/modules/authAPI";
 import axios from "axios";
 import { useFormik } from "formik";
 import router from "next/router";
@@ -10,10 +11,10 @@ export function getServerSideProps({ params }) {
 }
 export default function VerifyPage(props) {
   const handleResend = async () => {
-    // const res = await UserAPI.resend(props.email);
-    // if (res.status !== 200) {
-    //   //error
-    // }
+    const res = await authAPI.resend(props.email);
+    if (res.status !== 200) {
+      //error
+    }
   };
 
   const formik = useFormik({
@@ -25,15 +26,8 @@ export default function VerifyPage(props) {
     //   code: Yup.number().required("Required!"),
     // }),
     onSubmit: async (values) => {
-      await axios
-        .get(process.env.url + process.env.confirmEmailAPI, {
-          params: { ...values },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            router.push("/login");
-          }
-        });
+      const res = await authAPI.verifyEmail(values);
+      if (res.status === 200) router.push("/login");
     },
   });
   return (
@@ -54,7 +48,7 @@ export default function VerifyPage(props) {
                 onChange={formik.handleChange}
                 type="text"
                 placeholder=""
-                className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-indigo-600 border-coolGray-300 text-coolGray-900"
+                className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-600 border-gray-300 text-gray-900"
               />
               {formik.errors.code && formik.touched.code && (
                 <p>{formik.errors.code}</p>
@@ -69,7 +63,7 @@ export default function VerifyPage(props) {
           </div>
           <button
             type="submit"
-            className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+            className="py-2 px-4  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
           >
             Verify
           </button>

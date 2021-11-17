@@ -11,5 +11,6 @@
 
 @import "components/button", "./modules/navbar", "./components/avatar",
   "./components/common", "./components/Toggle/toggles", "./components/selection",
-  "./components/jobCard", "./components/dropFile";
-@import "./pages/404";
+  "./components/jobCard", "./components/dropFile",
+  "./components/loading-transition";
+@import "./pages/404", "./pages/job";
