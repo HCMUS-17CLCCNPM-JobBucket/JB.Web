@@ -2,7 +2,6 @@ import { logger } from "redux-logger";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import jobReducer from "app/redux/features/job";
 import userReducer from "app/redux/features/user";
-import notiReducer from "app/redux/features/notification";
 import { combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
@@ -21,7 +20,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
-  notifications: notiReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

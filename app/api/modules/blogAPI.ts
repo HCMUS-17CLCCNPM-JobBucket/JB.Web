@@ -1,6 +1,47 @@
 import axiosClient from "../axiosClient";
 
 export const blogAPI = {
+  getMyBlogs: (userId, token) => {
+    return axiosClient.post(
+      "/graphql",
+      {
+        query: `
+        query GetMyBlogs($filter: ListBlogType) {
+          blogs(filter: $filter){
+            id
+            title
+            description
+            imageUrl
+            content
+            tags
+            author{
+              userName
+              name
+            }
+            isInterested
+            interestCount
+            commentCount
+            views
+            createdDate
+              author{
+                id
+                name
+              }
+            }
+        }
+      `,
+        variables: {
+          // id,
+          filter: { authorId: userId },
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+  },
   getAll: (filter, token) =>
     axiosClient.post(
       "/graphql",
@@ -17,6 +58,7 @@ export const blogAPI = {
           author{
             userName
             name
+            id
           }
           isInterested
           interestCount
@@ -76,7 +118,7 @@ export const blogAPI = {
   getByIdWithoutToken: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
-        query Blog($id: ID!) {
+        query Blog($id: ID) {
           blogs(id: $id) {
             id
             title

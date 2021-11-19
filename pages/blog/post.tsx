@@ -61,17 +61,31 @@ export default function AddNewBlog() {
       tags: [],
     },
     onSubmit: async (values) => {
-      const imageRes: any = await imageAPI.uploadImage(imageFile);
-      const res = await blogAPI.add(
-        {
-          ...values,
-          imageUrl: imageRes.data.url,
-          content,
-        },
-        user.token
-      );
-
-      if (res.status === 200) router.push("/blog/" + res.data.data.blog.add.id);
+      if (values.imageUrl === "") {
+        const imageRes: any = await imageAPI.uploadImage(imageFile);
+        const res = await blogAPI.add(
+          {
+            ...values,
+            content,
+            imageUrl: imageRes.data.url ? imageRes.data.url : "",
+          },
+          user.token
+        );
+        if (res.status === 201) {
+          router.push("/" + res.data.id);
+        }
+      } else {
+        const res = await blogAPI.add(
+          {
+            ...values,
+            content,
+          },
+          user.token
+        );
+        if (res.status === 201) {
+          router.push("/blog/" + res.data.id);
+        }
+      }
     },
   });
 
