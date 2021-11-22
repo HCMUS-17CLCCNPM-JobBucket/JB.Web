@@ -11,6 +11,7 @@ import Educations from "app/components/cv/Educations";
 import { CvAPI } from "app/api/modules/cvAPI";
 import { cvActions } from "app/redux/features/cv";
 import Review from "app/components/cv/reviewCv";
+import Create from "app/components/cv/dialog/addCV";
 
 export default function CvEditor() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
@@ -27,7 +28,12 @@ export default function CvEditor() {
         <Activities></Activities>
         <Certifications></Certifications>
         <Awards></Awards>
-        <Review></Review>
+        <div className="flex fixed bottom-0 w-full bg-white py-4">
+          <div className="mr-4">
+            <Review></Review>
+          </div>
+          <Create></Create>
+        </div>
       </div>
       {/* <div className="col-span-1 fixed right-8 top-32">
         <div>

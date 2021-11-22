@@ -28,7 +28,6 @@ export default function ReviewCv() {
           rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 
           hover:bg-blue-700 focus:outline-none "
         >
-          {/* Heroicon name: solid/check */}
           <svg
             className="-ml-1 mr-2 h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +55,7 @@ export default function ReviewCv() {
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
-            className="fixed inset-0 z-10 overflow-y-auto"
+            className="fixed inset-0 z-10 overflow-y-auto bg-opacity-50 bg-gray-400"
             onClose={closeModal}
           >
             <div className="min-h-screen px-4 text-center">
@@ -88,7 +87,7 @@ export default function ReviewCv() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <div className=" inline-block w-full max-w-7xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-300 shadow-xl rounded-2xl">
+                <div className=" inline-block w-full max-w-7xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <div className="flex flex-col">
                     {/* <svg
                       xmlns="http://www.w3.org/2000/svg"

@@ -9,7 +9,7 @@ export const CvAPI = {
       query {
         cv {
           id
-          name
+          cVName
         }
       }
     `,
@@ -94,4 +94,27 @@ export const CvAPI = {
         id,
       },
     }),
+  add: (cv, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+      mutation addCV($cv: AddCVType) {
+        cv{
+          add(cv: $cv){ 
+            id
+          }
+        }
+      }
+    `,
+        variables: {
+          cv,
+        },
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    ),
 };
