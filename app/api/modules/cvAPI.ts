@@ -1,20 +1,51 @@
 import axiosClient from "../axiosClient";
 
 export const CvAPI = {
-  getAll: () =>
-    axiosClient.post("/graphql", {
-      query: `
+  getAll: (token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
       query {
         cv {
           id
-          cVName
+          name
         }
       }
     `,
-      variables: {
-        // id,
+        variables: {},
       },
-    }),
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    ),
+
+  delete: (id, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+      mutation deleteCV($id: Int) {
+        cv{
+          delete(id: $id){ 
+            id
+          }
+        }
+      }
+    `,
+        variables: {
+          id,
+        },
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    ),
+
   getCvById: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
