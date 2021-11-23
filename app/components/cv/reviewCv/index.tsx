@@ -87,7 +87,7 @@ export default function ReviewCv() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <div className=" inline-block w-full max-w-7xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className=" inline-block w-full max-w-7xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <div className="flex flex-col">
                     {/* <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -103,12 +103,12 @@ export default function ReviewCv() {
                         d="M6 18L18 6M6 6l12 12"
                       />
                     </svg> */}
-                    <div>
+                    {/* <div>
                       <button onClick={() => setColor("red")}>red</button>
                       <button onClick={() => setColor("#1e88e5")}>blue</button>
                       <button onClick={() => setColor("yellow")}>yellow</button>
-                    </div>
-                    <PDFViewer color={color}></PDFViewer>
+                    </div> */}
+                    <PDFViewer color="#1e88e5"></PDFViewer>
                   </div>
                 </div>
               </Transition.Child>

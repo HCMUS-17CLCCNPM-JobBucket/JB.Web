@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { CvAPI } from "app/api/modules/cvAPI";
 import { cvActions } from "app/redux/features/cv";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,8 +6,22 @@ import router from "next/router";
 import Loading from "app/components/atoms/Loading";
 import LoadingTransition from "app/components/atoms/LoadingTransition";
 import DeleteDialog from "app/components/cv/dialog/deleteCV";
+import { Dialog, Transition } from "@headlessui/react";
+import dynamic from "next/dynamic";
 
 export default function ListCv() {
+  const PDFViewer = dynamic(import("app/components/cv/template"), {
+    ssr: false,
+  });
+  let [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadingTrans, setLoadTrans] = useState(false);
@@ -18,8 +32,16 @@ export default function ListCv() {
     setLoadTrans(true);
     await CvAPI.getCvById(id).then((res) => {
       dispatch(cvActions.initData(res.data.data.cv[0]));
+      dispatch(cvActions.changeUpdateState(true));
+      dispatch(cvActions.changeID(id));
       router.push("/cv-editor");
       setLoadTrans(false);
+    });
+  };
+  const toReview = async (id) => {
+    await CvAPI.getCvById(id).then((res) => {
+      dispatch(cvActions.initData(res.data.data.cv[0]));
+      openModal();
     });
   };
   useEffect(() => {
@@ -33,6 +55,7 @@ export default function ListCv() {
   }, [shouldRefresh]);
   const createCv = () => {
     dispatch(cvActions.resetState());
+    dispatch(cvActions.changeUpdateState(false));
     router.push("/cv-editor");
   };
   const handleCallback = () => {
@@ -57,7 +80,7 @@ export default function ListCv() {
             <div className="job-horizon-card__header">
               <div className="job-horizon-card__company">
                 <div className="flex justify-between w-full">
-                  <div>
+                  <div onClick={() => toReview(data.id)}>
                     <p>{data.cVName}</p>
                   </div>
                   <div className="flex">
@@ -87,6 +110,52 @@ export default function ListCv() {
             </div>
           </div>
         ))}
+      </div>
+      <div>
+        <Transition appear show={isOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="fixed inset-0 z-10 overflow-y-auto bg-opacity-50 bg-gray-400"
+            onClose={closeModal}
+          >
+            <div className="min-h-screen px-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0" />
+              </Transition.Child>
+
+              {/* This element is to trick the browser into centering the modal contents. */}
+              <span
+                className="inline-block h-screen align-middle"
+                aria-hidden="true"
+              >
+                &#8203;
+              </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className=" inline-block w-full max-w-7xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <div className="flex flex-col">
+                    <PDFViewer color="#1e88e5"></PDFViewer>
+                  </div>
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
       </div>
     </>
   );

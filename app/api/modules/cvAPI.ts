@@ -17,7 +17,7 @@ export const CvAPI = {
       },
       {
         headers: {
-          Authorization: token,
+          Authorization: "Bearer " + token,
         },
       }
     ),
@@ -41,7 +41,7 @@ export const CvAPI = {
       },
       {
         headers: {
-          Authorization: token,
+          Authorization: "Bearer " + token,
         },
       }
     ),
@@ -113,7 +113,30 @@ export const CvAPI = {
       },
       {
         headers: {
-          Authorization: token,
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  update: (cv, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+           mutation updateCV ($cv: UpdateCVType) {
+            cv{
+              update(cv: $cv){ 
+                id
+              }
+            }
+          }
+        `,
+        variables: {
+          cv,
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
         },
       }
     ),

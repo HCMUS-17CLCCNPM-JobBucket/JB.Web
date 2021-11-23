@@ -113,7 +113,7 @@ export default function template(props) {
     },
   });
   return (
-    <PDFViewer width="100%" height="500px">
+    <PDFViewer width="100%" height="550px">
       <Document>
         <Page size="A4" style={styles.page} orientation="portrait">
           <View style={styles.introArea}>

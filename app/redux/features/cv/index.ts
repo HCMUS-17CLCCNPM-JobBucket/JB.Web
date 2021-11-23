@@ -18,12 +18,20 @@ const initialCvState = {
   activity: [],
   certification: [],
   award: [],
+  isUpdate: false,
+  id: 0,
 };
 
 const cvSlice = createSlice({
   name: "cv",
   initialState: initialCvState,
   reducers: {
+    changeID(state, actions) {
+      state.id = actions.payload;
+    },
+    changeUpdateState(state, actions) {
+      state.isUpdate = actions.payload;
+    },
     initData(state, actions) {
       state.name = actions.payload.name;
       state.avatar = actions.payload.avatarUrl;

@@ -16,7 +16,7 @@ const persistConfig = {
   key: "root",
   storage: storage,
   stateReconciler: autoMergeLevel2,
-  whitelist: ["user"],
+  whitelist: ["user","cv"],
 };
 // let sagaMiddleware = createSagaMiddleware();
 
