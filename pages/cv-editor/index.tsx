@@ -43,7 +43,9 @@ export default function CvEditor() {
       // awards: cvInfo.award,
     };
     await CvAPI.update(cv, userToken.token).then((res) => {
-      console.log(res);
+      if (res.status === 200) {
+        alert("Change success");
+      }
     });
   };
 

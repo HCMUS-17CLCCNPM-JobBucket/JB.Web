@@ -31,24 +31,29 @@ export default function ListCv() {
   const toEditor = async (id) => {
     setLoadTrans(true);
     await CvAPI.getCvById(id).then((res) => {
-      dispatch(cvActions.initData(res.data.data.cv[0]));
-      dispatch(cvActions.changeUpdateState(true));
-      dispatch(cvActions.changeID(id));
-      router.push("/cv-editor");
-      setLoadTrans(false);
+      if (res.status === 200) {
+        dispatch(cvActions.initData(res.data.data.cv[0]));
+        dispatch(cvActions.changeUpdateState(true));
+        dispatch(cvActions.changeID(id));
+        router.push("/cv-editor");
+        setLoadTrans(false);
+      }
     });
   };
   const toReview = async (id) => {
     await CvAPI.getCvById(id).then((res) => {
-      dispatch(cvActions.initData(res.data.data.cv[0]));
+      if (res.status === 200){ dispatch(cvActions.initData(res.data.data.cv[0]));
       openModal();
+      }
     });
   };
   useEffect(() => {
     const fetchData = async () => {
       await CvAPI.getAll(userToken.token).then((res) => {
-        setLoading(false);
-        setmyCv(res.data.data.cv);
+        if (res.status === 200) {
+          setLoading(false);
+          setmyCv(res.data.data.cv);
+        }
       });
     };
     fetchData();

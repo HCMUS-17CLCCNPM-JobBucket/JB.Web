@@ -3,7 +3,7 @@ import { Fragment, useState } from "react";
 import { CvAPI } from "app/api/modules/cvAPI";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function DeleteCV({index,callback}) {
+export default function DeleteCV({ index, callback }) {
   let [isOpen, setIsOpen] = useState(false);
   const userToken = useSelector((state: any) => state.user);
 
@@ -16,9 +16,12 @@ export default function DeleteCV({index,callback}) {
   }
 
   const deleteCV = async () => {
-    await CvAPI.delete(index, userToken.token).then((res) => {});
-    closeModal();
-    callback();
+    await CvAPI.delete(index, userToken.token).then((res) => {
+      if (res.status === 200) {
+        closeModal();
+        callback();
+      }
+    });
   };
 
   return (
@@ -86,20 +89,20 @@ export default function DeleteCV({index,callback}) {
                       Do you want to delete this CV?
                     </p>
                     <div className="flex justify-between mt-4">
-                    <button
-                      type="button"
-                      className=" px-4 py-2 text-sm font-semibold text-white bg-blue-500 border border-transparent rounded-md hover:bg-blue-800"
-                      onClick={() => deleteCV()}
-                    >
-                      Yes
-                    </button>
-                    <button
-                      type="button"
-                      className="px-4 py-2 text-sm font-semibold text-white bg-red-500 border border-transparent rounded-md hover:bg-red-800"
-                      onClick={closeModal}
-                    >
-                      Cancel
-                    </button>
+                      <button
+                        type="button"
+                        className=" px-4 py-2 text-sm font-semibold text-white bg-blue-500 border border-transparent rounded-md hover:bg-blue-800"
+                        onClick={() => deleteCV()}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        type="button"
+                        className="px-4 py-2 text-sm font-semibold text-white bg-red-500 border border-transparent rounded-md hover:bg-red-800"
+                        onClick={closeModal}
+                      >
+                        Cancel
+                      </button>
                     </div>
                   </div>
                 </div>

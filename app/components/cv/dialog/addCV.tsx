@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { CvAPI } from "app/api/modules/cvAPI";
 import { useSelector, useDispatch } from "react-redux";
+import router from "next/router";
 
 export default function AddCV() {
   let [isOpen, setIsOpen] = useState(false);
@@ -29,18 +30,21 @@ export default function AddCV() {
       reference: cvInfo.reference,
       gender: cvInfo.gender,
       introduction: cvInfo.introduction,
-    //   birthdate: cvInfo.birthDate,
-    //   experiences: cvInfo.experience,
-    //   skills: cvInfo.skill,
-    //   educations: cvInfo.education,
+      //   birthdate: cvInfo.birthDate,
+      //   experiences: cvInfo.experience,
+      //   skills: cvInfo.skill,
+      //   educations: cvInfo.education,
       activities: cvInfo.activity,
       certifications: cvInfo.certification,
       awards: cvInfo.award,
     };
     await CvAPI.add(cv, userToken.token).then((res) => {
-      console.log(res);
+      if (res.status === 200) {
+        alert("Add success");
+        closeModal();
+        router.push("/list-cv");
+      }
     });
-    closeModal();
   };
 
   return (
