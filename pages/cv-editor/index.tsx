@@ -35,12 +35,12 @@ export default function CvEditor() {
       gender: cvInfo.gender,
       introduction: cvInfo.introduction,
       //   birthdate: cvInfo.birthDate,
-      //   experiences: cvInfo.experience,
-      //   skills: cvInfo.skill,
-      //   educations: cvInfo.education,
-      // activities: cvInfo.activity,
-      // certifications: cvInfo.certification,
-      // awards: cvInfo.award,
+      experiences: cvInfo.experience,
+      skills: cvInfo.skill,
+      educations: cvInfo.education,
+      activities: cvInfo.activity,
+      certifications: cvInfo.certification,
+      awards: cvInfo.award,
     };
     await CvAPI.update(cv, userToken.token).then((res) => {
       if (res.status === 200) {

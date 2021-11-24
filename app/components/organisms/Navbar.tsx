@@ -51,7 +51,7 @@ export default function Navbar() {
           Company
         </p>
         <p className="navbar__item" onClick={() => router.push("/list-cv")}>
-          MY CV
+          My CV
         </p>
         <p className="navbar__item" onClick={() => router.push("/blog")}>
           Blog

@@ -4,15 +4,20 @@ import { cvActions } from "app/redux/features/cv";
 
 export default function Skills() {
   const [skill, setSkill] = useState("");
+  const [level, setLevel] = useState("1");
   const dispatch = useDispatch();
   const SkillList = useSelector((state: any) => state.cv.skill);
   const onHandleAdd = () => {
     const newSkill = {
       skillName: skill,
-      level: 5,
-    }
+      level: parseInt(level),
+    };
     dispatch(cvActions.addSkill(newSkill));
     setSkill("");
+    setLevel("1");
+  };
+  const handleChangeLevel = (e) => {
+    setLevel(e.target.value);
   };
   const deleteHandler = (index) => {
     dispatch(cvActions.deleteSkill(index));
@@ -44,15 +49,33 @@ export default function Skills() {
           </div>
         </div>
       ))}
-      <div className="flex flex-col">
-        <input
-          onChange={(e) => setSkill(e.target.value)}
-          value={skill}
-          type="text"
-          id="skill"
-          className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-          placeholder="Skill"
-        />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col">
+          <label className="text-gray-700">Skill Name</label>
+          <input
+            onChange={(e) => setSkill(e.target.value)}
+            value={skill}
+            type="text"
+            id="skill"
+            className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+            placeholder="Skill"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-gray-700">Level</label>
+
+          <select
+            value={level}
+            onChange={handleChangeLevel}
+            className=" rounded-lg border-transparent border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="4">5</option>
+          </select>
+        </div>
       </div>
       <button
         onClick={onHandleAdd}

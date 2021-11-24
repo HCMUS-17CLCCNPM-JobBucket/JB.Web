@@ -30,7 +30,7 @@ export default function ListCv() {
   const userToken = useSelector((state: any) => state.user);
   const toEditor = async (id) => {
     setLoadTrans(true);
-    await CvAPI.getCvById(id).then((res) => {
+    await CvAPI.getCvById(id,userToken.token).then((res) => {
       if (res.status === 200) {
         dispatch(cvActions.initData(res.data.data.cv[0]));
         dispatch(cvActions.changeUpdateState(true));
@@ -41,7 +41,7 @@ export default function ListCv() {
     });
   };
   const toReview = async (id) => {
-    await CvAPI.getCvById(id).then((res) => {
+    await CvAPI.getCvById(id,userToken.token).then((res) => {
       if (res.status === 200){ dispatch(cvActions.initData(res.data.data.cv[0]));
       openModal();
       }

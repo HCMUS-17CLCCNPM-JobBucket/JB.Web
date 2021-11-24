@@ -5,7 +5,7 @@ import { cvActions } from "app/redux/features/cv";
 export default function Educations() {
   const [school, setSchool] = useState("");
   const [major, setMajor] = useState("");
-  const [status, setStatus] = useState("Granduated");
+  const [status, setStatus] = useState("Graduated");
   const educationList = useSelector((state: any) => state.cv.education);
   const dispatch = useDispatch();
 
@@ -121,10 +121,10 @@ export default function Educations() {
                 defaultChecked
                 type="radio"
                 name="status"
-                value="Granduated"
+                value="Graduated"
                 onChange={(e) => setStatus("Graduated")}
               />
-              <span className="ml-2 text-gray-700">Granduated</span>
+              <span className="ml-2 text-gray-700">Graduated</span>
             </label>
             <label className="inline-flex items-center ml-6">
               <input

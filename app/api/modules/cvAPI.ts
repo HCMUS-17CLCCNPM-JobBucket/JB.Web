@@ -27,7 +27,7 @@ export const CvAPI = {
       "/graphql",
       {
         query: `
-      mutation deleteCV($id: Int) {
+      mutation deleteCV($id: Int!) {
         cv{
           delete(id: $id){ 
             id
@@ -46,10 +46,12 @@ export const CvAPI = {
       }
     ),
 
-  getCvById: (id: number) =>
-    axiosClient.post("/graphql", {
-      query: `
-        query cv($id: ID!) {
+  getCvById: (id: number, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+        query cv($id: Int!) {
   cv (id : $id) {
     id
     cVName
@@ -90,16 +92,22 @@ export const CvAPI = {
   }
 }
       `,
-      variables: {
-        id,
+        variables: {
+          id,
+        },
       },
-    }),
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
   add: (cv, token) =>
     axiosClient.post(
       "/graphql",
       {
         query: `
-      mutation addCV($cv: AddCVType) {
+      mutation addCV($cv: AddCVRequestInput!) {
         cv{
           add(cv: $cv){ 
             id
@@ -122,7 +130,7 @@ export const CvAPI = {
       "/graphql",
       {
         query: `
-           mutation updateCV ($cv: UpdateCVType) {
+           mutation updateCV ($cv: UpdateCVRequestInput!) {
             cv{
               update(cv: $cv){ 
                 id
