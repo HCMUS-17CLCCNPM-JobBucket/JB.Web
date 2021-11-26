@@ -90,11 +90,17 @@ const cvSlice = createSlice({
     deleteexperience(state, actions) {
       state.experience.splice(actions.payload, 1);
     },
+    editexperience(state, actions) {
+      state.experience.splice(actions.payload.index, 0, actions.payload.data);
+    },
     addSkill(state, actions) {
       state.skill.push(actions.payload);
     },
     deleteSkill(state, actions) {
       state.skill.splice(actions.payload, 1);
+    },
+    editSkill(state, actions) {
+      state.skill.splice(actions.payload.index, 0, actions.payload.data);
     },
     addEducation(state, actions) {
       state.education.push(actions.payload);
@@ -102,17 +108,30 @@ const cvSlice = createSlice({
     deleteEducation(state, actions) {
       state.education.splice(actions.payload, 1);
     },
+    editEducation(state, actions) {
+      state.education.splice(actions.payload.index, 0, actions.payload.data);
+    },
     addActivity(state, actions) {
       state.activity.push(actions.payload);
     },
     deleteActivity(state, actions) {
       state.activity.splice(actions.payload, 1);
     },
+    editActivity(state, actions) {
+      state.activity.splice(actions.payload.index, 0, actions.payload.data);
+    },
     addCertification(state, actions) {
       state.certification.push(actions.payload);
     },
     deleteCertification(state, actions) {
       state.certification.splice(actions.payload, 1);
+    },
+    editCertification(state, actions) {
+      state.certification.splice(
+        actions.payload.index,
+        0,
+        actions.payload.data
+      );
     },
     addAward(state, actions) {
       state.award.push(actions.payload);

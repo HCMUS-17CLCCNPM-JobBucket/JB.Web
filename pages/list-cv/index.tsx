@@ -52,6 +52,7 @@ export default function ListCv() {
       await CvAPI.getAll(userToken.token).then((res) => {
         if (res.status === 200) {
           setLoading(false);
+          console.log(res.data.data.cv)
           setmyCv(res.data.data.cv);
         }
       });
