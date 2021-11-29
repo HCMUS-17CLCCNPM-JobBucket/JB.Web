@@ -2,10 +2,23 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cvActions } from "app/redux/features/cv";
 // import { DatePicker } from "react-rainbow-components";
+import { DatePicker } from "antd";
+import "antd/dist/antd.css";
+import locale from "antd/es/date-picker/locale/zh_CN";
+import moment from "moment";
 
 export default function PersonalInfo() {
   const cv = useSelector((state: any) => state.cv);
   const dispatch = useDispatch();
+  const birthdate = moment(cv.birthDate);
+  const isUpdate = useSelector((state: any) => state.cv.isUpdate);
+  const handleChangeBirthdate = (value) => {
+    if (value != null) {
+      dispatch(cvActions.changeBirthdate(value.toISOString()));
+    } else {
+      dispatch(cvActions.changeBirthdate(""));
+    }
+  };
   return (
     <div className="border-gray-300 border p-10 bg-white mb-8">
       <div>
@@ -108,7 +121,7 @@ export default function PersonalInfo() {
           />
         </div>
         <div className="flex flex-col ">
-          <label htmlFor="reference" className="text-gray-700">
+          <label htmlFor="gender" className="text-gray-700">
             Gender
           </label>
           <div className="w-full py-2 text-base">
@@ -135,9 +148,23 @@ export default function PersonalInfo() {
           </div>
         </div>
         <div className="flex flex-col ">
-          <label htmlFor="reference" className="text-gray-700">
+          <label htmlFor="birthdate" className="text-gray-700">
             BirthDate
           </label>
+          {isUpdate ? (
+            <DatePicker
+              defaultValue={birthdate}
+              onChange={(value) => handleChangeBirthdate(value)}
+              style={{ borderRadius: "0.5rem" }}
+              size="large"
+            ></DatePicker>
+          ) : (
+            <DatePicker
+              onChange={(value) => handleChangeBirthdate(value)}
+              style={{ borderRadius: "0.5rem" }}
+              size="large"
+            ></DatePicker>
+          )}
         </div>
         <div className="flex flex-col col-span-2 ">
           <label htmlFor="introduction" className="text-gray-700">

@@ -34,7 +34,7 @@ export default function CvEditor() {
       reference: cvInfo.reference,
       gender: cvInfo.gender,
       introduction: cvInfo.introduction,
-      //   birthdate: cvInfo.birthDate,
+      birthdate: cvInfo.birthDate,
       experiences: cvInfo.experience,
       skills: cvInfo.skill,
       educations: cvInfo.education,
