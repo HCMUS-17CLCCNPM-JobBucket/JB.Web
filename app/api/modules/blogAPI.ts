@@ -1,12 +1,13 @@
 import axiosClient from "../axiosClient";
 
 export const blogAPI = {
+  
   getMyBlogs: (userId, token) => {
     return axiosClient.post(
       "/graphql",
       {
         query: `
-        query GetMyBlogs($filter: ListBlogType) {
+        query GetMyBlogs($filter: ListBlogRequestInput) {
           blogs(filter: $filter){
             id
             title
@@ -47,7 +48,7 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      query GetAllBlogs($filter: ListBlogType) {
+      query GetAllBlogs($filter: ListBlogRequestInput) {
         blogs(filter: $filter){
           id
           title
@@ -79,12 +80,13 @@ export const blogAPI = {
         },
       }
     ),
+
   getById: (id: number, token) =>
     axiosClient.post(
       "/graphql",
       {
         query: `
-        query Blog($id: ID!) {
+        query Blog($id: Int) {
           blogs(id: $id) {
             id
             title
@@ -118,7 +120,7 @@ export const blogAPI = {
   getByIdWithoutToken: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
-        query Blog($id: ID) {
+        query Blog($id: Int) {
           blogs(id: $id) {
             id
             title
@@ -126,6 +128,7 @@ export const blogAPI = {
             imageUrl
             content
             tags
+            authorId
             author {
               userName
               name
@@ -148,7 +151,7 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-        query Blog($id: ID!, $filter: ListBlogType) {
+        query Blog($id: Int, $filter: ListBlogRequestInput) {
           blogs(id: $id, filter: $filter) {
             id
             comments{
@@ -219,7 +222,7 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-          mutation updateBlog($blog: UpdateBlogType) {
+          mutation updateBlog($blog: UpdateBlogRequestInput) {
             blog{
               update(blog: $blog){ 
                 id
@@ -265,7 +268,7 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      mutation addInterested($id: Int) {
+      mutation addInterested($id: Int!) {
         blog{
           addInterested(id: $id){ 
             id
@@ -288,7 +291,7 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      mutation removeInterested($id: Int) {
+      mutation removeInterested($id: Int!) {
         blog{
           removeInterested(id: $id){ 
             id
@@ -314,7 +317,7 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      mutation addComment($comment: AddBlogCommentType) {
+      mutation addComment($comment: AddBlogCommentRequestInput) {
         blog{
           addComment(comment: $comment){ 
             id
@@ -337,7 +340,7 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      mutation updateComment($comment: UpdateBlogCommentType) {
+      mutation updateComment($comment: UpdateBlogCommentRequestInput) {
         blog{
           updateComment(comment: $comment){ 
             id
@@ -386,13 +389,13 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      mutation addInterestedComment($id: Int) {
-        blog{
-          addInterestedComment(id: $id){ 
-            id
+        mutation addInterestedComment($id: Int) {
+          blog{
+            addInterestedComment(id: $id){ 
+              id
+            }
           }
         }
-      }
     `,
         variables: {
           id,
@@ -432,7 +435,7 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      mutation addComment($comment: AddBlogCommentType) {
+      mutation addComment($comment: AddBlogCommentRequestInput) {
         blog{
           addComment(comment: $comment){ 
             id

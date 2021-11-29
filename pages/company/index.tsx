@@ -17,7 +17,6 @@ export default function CompanyPage() {
     };
     fetchData();
   }, []);
-  console.log(page);
 
   const fetchMoreData = async () => {
     const res = await orgAPI.getAll({ size: 10, page: page + 1 });

@@ -4,8 +4,8 @@ export const orgAPI = {
   getAll: (filter) =>
     axiosClient.post("/graphql", {
       query: `
-        query GetAll { #($filter: ListOrganizationType )
-            organizations{ #(filter: $filter)
+        query GetAll ($filter: ListOrganizationType ){ 
+            organizations(filter: $filter){ 
                 id
                 name
                 bio

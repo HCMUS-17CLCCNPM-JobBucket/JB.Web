@@ -33,9 +33,10 @@ export default function AddNewBlog(props) {
   const blog = props.blogs[0];
   const user = useSelector((state: any) => state.user);
 
+  console.log(blog);
   useEffect(() => {
     if (blog.authorId !== user.user.id) {
-      router.push("/");
+      router.push("/blog");
       toast("🦄 You are not author of this blog", {
         position: "top-center",
         autoClose: 5000,
@@ -66,6 +67,7 @@ export default function AddNewBlog(props) {
       tags: [],
     },
     onSubmit: async (values) => {
+      console.table(values);
       if (values.imageUrl === "") {
         const imageRes: any = await imageAPI.uploadImage(imageFile);
         const res = await blogAPI.update(

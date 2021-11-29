@@ -17,7 +17,7 @@ export default function BlogPage() {
     keyword: "",
     createdDate: [],
     tags: [],
-    // authorId: 1,
+    authorId: -1,
   });
 
   const fetchMoreData = async () => {
