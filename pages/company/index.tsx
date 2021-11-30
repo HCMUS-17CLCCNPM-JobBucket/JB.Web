@@ -32,7 +32,7 @@ export default function CompanyPage() {
         hasMore={true}
         loader={<h4>Loading...</h4>}
         scrollableTarget="scrollableDiv"
-        className="flex flex-col gap-4 max-w-4xl p-2"
+        className="flex w-[900px  ] flex-col gap-4 p-2"
       >
         {orgs.map((item, index) => (
           <CompanyCard key={index} {...item} />

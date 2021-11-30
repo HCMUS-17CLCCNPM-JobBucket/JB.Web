@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialCvState = {
+  file: null,
   name: "",
   avatar: "",
   email: "",
@@ -11,7 +12,7 @@ const initialCvState = {
   reference: "",
   gender: "",
   introduction: "",
-  birthDate: "",
+  birthDate: null,
   experience: [],
   skill: [],
   education: [],
@@ -26,6 +27,12 @@ const cvSlice = createSlice({
   name: "cv",
   initialState: initialCvState,
   reducers: {
+    setFile(state,actions){
+      state.file = actions.payload;
+    },
+    setAvatarURL(state,actions){
+      state.avatar = actions.payload;
+    },
     changeID(state, actions) {
       state.id = actions.payload;
     },
@@ -33,6 +40,7 @@ const cvSlice = createSlice({
       state.isUpdate = actions.payload;
     },
     initData(state, actions) {
+      state.file = null;
       state.name = actions.payload.name;
       state.avatar = actions.payload.avatarUrl;
       state.email = actions.payload.email;

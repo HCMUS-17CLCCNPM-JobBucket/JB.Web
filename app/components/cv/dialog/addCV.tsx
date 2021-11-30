@@ -3,6 +3,7 @@ import { Fragment, useState } from "react";
 import { CvAPI } from "app/api/modules/cvAPI";
 import { useSelector, useDispatch } from "react-redux";
 import router from "next/router";
+import { imageAPI } from "app/api/modules/imageAPI";
 
 export default function AddCV() {
   let [isOpen, setIsOpen] = useState(false);
@@ -18,10 +19,13 @@ export default function AddCV() {
   }
 
   const CreateCV = async () => {
+    if (cvInfo.file != null) {
+      const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
+    }
     const cv = {
       cVName: cvName,
       name: cvInfo.name,
-      // avatarUrl: cvInfo.avatar,
+      avatarUrl: cvInfo.avatar,
       email: cvInfo.email,
       phone: cvInfo.phonenumber,
       address: cvInfo.address,

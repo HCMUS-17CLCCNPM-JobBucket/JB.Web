@@ -12,6 +12,7 @@ import { CvAPI } from "app/api/modules/cvAPI";
 import { cvActions } from "app/redux/features/cv";
 import Review from "app/components/cv/reviewCv";
 import Create from "app/components/cv/dialog/addCV";
+import { imageAPI } from "app/api/modules/imageAPI";
 
 export default function CvEditor() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
@@ -22,10 +23,13 @@ export default function CvEditor() {
   const cvInfo = useSelector((state: any) => state.cv);
 
   const updateCV = async () => {
+    if (cvInfo.file != null) {
+      const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
+    }
     const cv = {
       id: cvInfo.id,
       name: cvInfo.name,
-      // avatarUrl: cvInfo.avatar,
+      avatarUrl: cvInfo.avatar,
       email: cvInfo.email,
       phone: cvInfo.phonenumber,
       address: cvInfo.address,

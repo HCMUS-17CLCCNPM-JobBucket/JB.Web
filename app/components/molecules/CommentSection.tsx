@@ -38,6 +38,8 @@ export default function CommentSection({ blogId }) {
         },
         user.token
       );
+
+      console.log(res.data.data.blogs[0].comments);
       setComments(res.data.data.blogs[0].comments);
     };
     fetchComments();

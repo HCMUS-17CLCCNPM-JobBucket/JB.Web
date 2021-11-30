@@ -16,13 +16,24 @@ export default function PersonalInfo() {
     if (value != null) {
       dispatch(cvActions.changeBirthdate(value.toISOString()));
     } else {
-      dispatch(cvActions.changeBirthdate(""));
+      dispatch(cvActions.changeBirthdate(null));
     }
+  };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    dispatch(cvActions.setFile(file));
+    dispatch(cvActions.setAvatarURL(URL.createObjectURL(e.target.files[0])));
   };
   return (
     <div className="border-gray-300 border p-10 bg-white mb-8">
-      <div>
-        <img className="h-28 w-28" src={cv.avatar}></img>
+      <div className="mb-4">
+        <label className="text-gray-700">Avatar</label>
+        <img
+          src={ cv.avatar || "https://via.placeholder.com/160x160"}
+          alt=""
+          className="h-52 w-auto object-cover rounded-lg mb-4"
+        />
+        <input type="file" onChange={handleImageChange} />
       </div>
       <div className="md:grid md:grid-cols-2 gap-4">
         <div className="flex flex-col">

@@ -72,7 +72,9 @@ export default function JobDetail(props) {
                   />
                   <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                 </svg>
-                <p className="capitalize">{jobInfo?.types[0].name}</p>
+                <p className="capitalize">
+                  {jobInfo.types.length !== 0 && jobInfo.types[0].name}
+                </p>
               </div>
               {/* Heroicon name: solid/location-marker */}
               {/* <div className="mt-2 flex items-center text-sm text-gray-500">
@@ -132,7 +134,7 @@ export default function JobDetail(props) {
           </div>
         </div>
         <div className="w-64 mt-5 flex justify-between items-center lg:mt-0 lg:ml-4">
-          <ApplyButton />
+          <ApplyButton value={jobStatus.isJobApplied} jobId={jobInfo.id} />
 
           <SaveJobButton
             isInterested={jobStatus.isJobInterested}
