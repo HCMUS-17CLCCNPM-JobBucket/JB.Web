@@ -21,43 +21,10 @@ const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
-
-const filters = [
-  {
-    id: "Level",
-    name: "Level",
-    options: [
-      { value: "Fresher", label: "Fresher", checked: false },
-      { value: "Junior", label: "Junior", checked: false },
-      { value: "Middle", label: "Middle", checked: true },
-      { value: "Senior", label: "Senior", checked: false },
-      { value: "Director", label: "Director", checked: false },
-      { value: "PM", label: "PM", checked: false },
-    ],
-  },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "new-arrivals", label: "New Arrivals", checked: false },
-      { value: "sale", label: "Sale", checked: false },
-      { value: "travel", label: "Travel", checked: true },
-      { value: "organization", label: "Organization", checked: false },
-      { value: "accessories", label: "Accessories", checked: false },
-    ],
-  },
-  {
-    id: "size",
-    name: "Size",
-    options: [
-      { value: "2l", label: "2L", checked: false },
-      { value: "6l", label: "6L", checked: false },
-      { value: "12l", label: "12L", checked: false },
-      { value: "18l", label: "18L", checked: false },
-      { value: "20l", label: "20L", checked: false },
-      { value: "40l", label: "40L", checked: true },
-    ],
-  },
+const categories = [
+  { title: "Browse All", path: "/" },
+  { title: "Recommend", path: "/rec" },
+  { title: "Remote Job", path: "/rec" },
 ];
 export default function Job() {
   const user = useSelector((state: any) => state.user);
@@ -141,7 +108,7 @@ export default function Job() {
             <div className="w-full max-w-md px-2 ">
               <Tab.Group>
                 <Tab.List className="flex p-1 space-x-1 bg-gray-900/20 rounded-xl">
-                  {filterOptions.categories.map((category, index) => (
+                  {categories.map((category, index) => (
                     <Tab
                       onClick={() => router.push(category.path)}
                       key={index}
