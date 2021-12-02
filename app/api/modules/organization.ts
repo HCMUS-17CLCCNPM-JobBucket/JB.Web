@@ -26,36 +26,23 @@ export const orgAPI = {
   getById: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
-      query getOrganizationDetailById{
-        organizationEmployersDetail(orgId:1){
-          id 
-          name 
-          bio 
-          country 
-          phoneNumber 
-          email 
-          addresses
-          imageUrls 
-          avatarUrl 
-          employerIds
-          managersIds
-          managers
-          {
-            id
-            name
-            avatarUrl
-            roleId
-          }
-          employers
-          {
-            id
-            name
-            avatarUrl
-            roleId
+        query getOrganizationById{
+          organizations(id:1){
+            id 
+            name 
+            bio 
+            country 
+            phoneNumber 
+            email 
+            addresses
+            imageUrls 
+            avatarUrl 
           }
         }
-      }
       `,
+      variables: {
+        id,
+      },
     }),
   add: (org, token) =>
     axiosClient.post(
@@ -294,6 +281,49 @@ export const orgAPI = {
           }
         }
         `,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ),
+  getOrganizationDetailById: (orgId, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `query getOrganizationDetailById($id: Int){
+          organizationEmployersDetail(orgId: $id)
+          {
+            id 
+            name 
+            bio 
+            country 
+            phoneNumber 
+            email 
+            addresses
+            imageUrls 
+            avatarUrl 
+            managers
+            {
+              id
+              name
+              avatarUrl
+              roleId
+            }
+            employers
+            {
+              id
+              name
+              avatarUrl
+              roleId
+            }
+          }
+        }
+        `,
+        variables: {
+          id: orgId,
+        },
       },
       {
         headers: {

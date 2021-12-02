@@ -1,49 +1,47 @@
+import { jobAPI } from "app/api/modules/jobAPI";
 import { orgAPI } from "app/api/modules/organization";
 import Divider from "app/components/atoms/Divider";
+import user from "app/redux/features/user";
 import router from "next/router";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Moment from "react-moment";
+import { useSelector } from "react-redux";
 
-export const getServerSideProps = async ({ params }) => {
-  const res = await orgAPI.getById(parseInt(params.id));
-  if (res.status === 200)
-    return { props: { ...res.data.data.organizations[0] } };
-  return {
-    props: { id: parseInt(params.id) },
-  };
-};
-
-const JobCard = (props) => {
+const JobCard = (company) => {
+  const user = useSelector((state: any) => state.user);
   return (
     <div className="flex flex-col gap-2 pt-4">
       <div className="flex justify-between">
         <p
           className="cursor-pointer max-w-xl text-blue-600 text-lg hover:underline"
-          onClick={() => router.push("/job/" + props.id)}
+          onClick={() => router.push("/job/" + company.id)}
         >
-          {props.title} Sales Executive (Up To $5000)
+          {company.title} Sales Executive (Up To $5000)
         </p>
         <p className="text-gray-400">
-          Expire in <Moment format="DD/MM/YYYY" date={props.expiredDate} />
+          Expire in <Moment format="DD/MM/YYYY" date={company.expiredDate} />
         </p>
       </div>
       {/* content */}
 
       <div
         className="line-clamp-5 overflow-hidden"
-        dangerouslySetInnerHTML={{ __html: props.description }}
+        dangerouslySetInnerHTML={{ __html: company.description }}
       />
       <div className="flex justify-between">
         <div>
           <p>
-            {props.city}HCM • {props.jobForm}Fulltime
+            {company.city}HCM • {company.jobForm}Fulltime
           </p>
           <p>
-            ${props.minSalary} 1.500 – ${props.maxSalary}2.500
+            ${company.minSalary} – ${company.maxSalary}
           </p>
         </div>
 
-        <button className="h-10 px-10 text-white transition-colors duration-150 bg-blue-500 rounded-lg focus:shadow-outline hover:bg-blue-600">
+        <button
+          disabled={user.user.roleId === 1}
+          className="h-10 px-10 text-white transition-colors duration-150 bg-blue-500 rounded-lg focus:shadow-outline hover:bg-blue-600"
+        >
           Apply now
         </button>
       </div>
@@ -51,13 +49,32 @@ const JobCard = (props) => {
   );
 };
 
-export default function CompanyDetail(props) {
-  const list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export default function CompanyDetail() {
+  const user = useSelector((state: any) => state.user);
+  const [company, setCompany] = React.useState<any>({});
+  useEffect(() => {
+    orgAPI
+      .getOrganizationDetailById(user.user.organizationId, user.token)
+      .then((res) => {
+        console.log(res.data.data);
+        setCompany(res.data.data.organizationEmployersDetail);
+      });
+    Promise.all([
+      orgAPI.getOrganizationDetailById(user.user.organizationId, user.token),
+      jobAPI.getAll({ organizationId: user.user.organizationId }, user.token),
+    ]).then((res) => {
+      setCompany({
+        ...res[0].data.data.organizationEmployersDetail,
+        jobs: res[1].data.data.jobs,
+      });
+    });
+  }, []);
+
   return (
     <div className="py-4 px-16 w-full ">
       <img
         src="https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg"
-        alt={props.name}
+        alt={company?.name}
         className="w-full h-[400px] rounded-lg"
       />
       <div className="mx-auto w-11/12 -translate-y-24 bg-white rounded-lg">
@@ -65,12 +82,12 @@ export default function CompanyDetail(props) {
           <div className="flex justify-between">
             <div className="flex gap-8">
               <img
-                src={props.avatarUrl}
-                alt={props.name}
+                src={company?.avatarUrl}
+                alt={company?.name}
                 className="h-40 w-40 rounded-md object-cover"
               />
               <div>
-                <p className="text-3xl font-semibold">{props.name}</p>
+                <p className="text-3xl font-semibold">{company?.name}</p>
 
                 <div className="mt-4">
                   <div className="flex gap-2">
@@ -86,7 +103,7 @@ export default function CompanyDetail(props) {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <p>{props.addresses || "Updating"}</p>
+                    <p>{company?.addresses || "Updating"}</p>
                   </div>
                   <div className="flex gap-2">
                     <svg
@@ -97,7 +114,7 @@ export default function CompanyDetail(props) {
                     >
                       <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                     </svg>
-                    <p>{props.phoneNumber}</p>
+                    <p>{company?.phoneNumber}</p>
                   </div>
                   <div className="flex gap-2">
                     <svg
@@ -109,7 +126,7 @@ export default function CompanyDetail(props) {
                       <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                       <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                     </svg>
-                    <p>{props.email}</p>
+                    <p>{company?.email}</p>
                   </div>
                   <div className="flex gap-2">
                     <svg
@@ -121,22 +138,22 @@ export default function CompanyDetail(props) {
                       <path d="m12 17 1-2V9.858c1.721-.447 3-2 3-3.858 0-2.206-1.794-4-4-4S8 3.794 8 6c0 1.858 1.279 3.411 3 3.858V15l1 2z"></path>
                       <path d="m16.267 10.563-.533 1.928C18.325 13.207 20 14.584 20 16c0 1.892-3.285 4-8 4s-8-2.108-8-4c0-1.416 1.675-2.793 4.267-3.51l-.533-1.928C4.197 11.54 2 13.623 2 16c0 3.364 4.393 6 10 6s10-2.636 10-6c0-2.377-2.197-4.46-5.733-5.437z"></path>
                     </svg>
-                    <p>{props.country}</p>
+                    <p>{company?.country}</p>
                   </div>
                 </div>
               </div>
             </div>
             <button className="btn btn-primary h-12 w-40">Write Review</button>
           </div>
-          <p className="mt-4">{props.bio}</p>
+          <p className="mt-4">{company?.bio}</p>
         </div>
         <div className="flex flex-col mt-8">
           <p className="text-2xl font-semibold">
-            We have {list.length} jobs for you
+            We have {company?.jobs?.length} jobs for you
           </p>
-          {list.map((item, index) => (
+          {company?.jobs?.map((item, index) => (
             <div key={index}>
-              <JobCard />
+              <JobCard {...item} />
               <hr className="my-4" />
             </div>
           ))}
