@@ -39,8 +39,12 @@ const JobCard = (company) => {
         </div>
 
         <button
-          disabled={user.user.roleId === 1}
-          className="h-10 px-10 text-white transition-colors duration-150 bg-blue-500 rounded-lg focus:shadow-outline hover:bg-blue-600"
+          disabled={user.user.roleId !== 1}
+          className={`${
+            user.user.roleId !== 1
+              ? "cursor-not-allowed bg-gray-400"
+              : "bg-blue-500 focus:shadow-outline hover:bg-blue-600"
+          } h-10 px-10 text-white transition-colors duration-150 rounded-lg `}
         >
           Apply now
         </button>
@@ -49,6 +53,42 @@ const JobCard = (company) => {
   );
 };
 
+const TabSection = (props) => {
+  return (
+    <div className="tabs">
+      <input type="radio" id="radio-1" name="tabs" defaultChecked />
+      <label htmlFor="radio-1">
+        <span className="tab">
+          Upcoming<span className="notification">2</span>
+        </span>
+      </label>
+      <input type="radio" id="radio-2" name="tabs" />
+      <label htmlFor="radio-2">
+        <span className="tab">Development</span>
+      </label>
+      <span className="glider" />
+    </div>
+  );
+};
+
+const MemberCard = (member) => {
+  console.log(member);
+  return (
+    <div className="flex gap-2 items-center w-[300px]">
+      <img
+        src={
+          member.avatarUrl || "https://freesvg.org/img/abstract-user-flat-1.png"
+        }
+        alt={member.name}
+        className="h-24 w-24 rounded-full"
+      />
+      <div className="flex flex-col">
+        <p className="text-lg font-semibold">{member.name}</p>
+        <p>{member.roleId === 2 ? "Recruiter" : "Manager"}</p>
+      </div>
+    </div>
+  );
+};
 export default function CompanyDetail() {
   const user = useSelector((state: any) => state.user);
   const [company, setCompany] = React.useState<any>({});
@@ -56,7 +96,6 @@ export default function CompanyDetail() {
     orgAPI
       .getOrganizationDetailById(user.user.organizationId, user.token)
       .then((res) => {
-        console.log(res.data.data);
         setCompany(res.data.data.organizationEmployersDetail);
       });
     Promise.all([
@@ -66,6 +105,10 @@ export default function CompanyDetail() {
       setCompany({
         ...res[0].data.data.organizationEmployersDetail,
         jobs: res[1].data.data.jobs,
+        members: [
+          ...res[0].data.data.organizationEmployersDetail.managers,
+          ...res[0].data.data.organizationEmployersDetail.employers,
+        ],
       });
     });
   }, []);
@@ -147,6 +190,7 @@ export default function CompanyDetail() {
           </div>
           <p className="mt-4">{company?.bio}</p>
         </div>
+        {/* <TabSection /> */}
         <div className="flex flex-col mt-8">
           <p className="text-2xl font-semibold">
             We have {company?.jobs?.length} jobs for you
@@ -157,6 +201,16 @@ export default function CompanyDetail() {
               <hr className="my-4" />
             </div>
           ))}
+        </div>
+        <div className="flex flex-col mt-8">
+          <p className="text-2xl font-semibold">
+            We have {company?.members?.length} members
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            {company?.members?.map((item, index) => (
+              <MemberCard key={index} {...item} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
