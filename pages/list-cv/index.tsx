@@ -87,7 +87,7 @@ export default function ListCv() {
               <div className="job-horizon-card__company">
                 <div className="flex justify-between w-full">
                   <div onClick={() => toReview(data.id)}>
-                    <p>{data.cVName}</p>
+                    <p className="m-0">{data.cVName}</p>
                   </div>
                   <div className="flex">
                     <button className="mr-2" onClick={() => toEditor(data.id)}>

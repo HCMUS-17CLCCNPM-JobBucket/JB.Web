@@ -74,18 +74,17 @@ export default function experience() {
     <div className="border-gray-300 border p-10 bg-white mb-8">
       <p className="font-bold mb-4">Work experience</p>
       {experienceList.map((data, index) => (
-        <div className="md:grid md:grid-cols-2 md:gap-4">
-          <div
-            key={index}
-            className="rounded-lg border-gray-300 border flex flex-col md:flex-row p-4 md:justify-between mb-4 md:items-center"
-          >
-            <div className="flex flex-row items-center">
-              <div className="border bg-gray-50 p-1 text-center mr-2">
-                <p>{data.duration}</p>
-              </div>
+        <div key={index} className="md:grid md:grid-cols-2 md:gap-4">
+          <div className="rounded-lg border-gray-300 border flex flex-col md:flex-row p-4 md:justify-between mb-4 md:items-center">
+            <div className="flex flex-row items-center mb-2 md:mb-0 md:mr-2">
+              {data.duration != "" && (
+                <div className="border bg-gray-50 p-1 text-center mr-2">
+                  <p className="mb-0">{data.duration}</p>
+                </div>
+              )}
               <div>
-                <p>{data.company}</p>
-                <p>{data.position}</p>
+                <p className="mb-2">{data.company}</p>
+                <p className="mb-0">{data.position}</p>
               </div>
             </div>
             <div className="flex flex-row">

@@ -73,12 +73,9 @@ export default function Educations() {
     <div className="border-gray-300 border p-10 bg-white mb-8">
       <p className="font-bold mb-4">Education</p>
       {educationList.map((data, index) => (
-        <div className="md:grid md:grid-cols-2 md:gap-4">
-          <div
-            key={index}
-            className="rounded-lg border-gray-300 border flex flex-col md:flex-row p-4 md:justify-between mb-4 md:items-center"
-          >
-            <div className="flex flex-row items-center">
+        <div className="md:grid md:grid-cols-2 md:gap-4" key={index}>
+          <div className="rounded-lg border-gray-300 border flex flex-col md:flex-row p-4 md:justify-between mb-4 md:items-center">
+            <div className="flex flex-row items-center mb-2 md:mb-0 md:mr-2">
               <div className="mr-2">
                 {data.status == "Graduated" ? (
                   <svg
@@ -115,8 +112,8 @@ export default function Educations() {
                 )}
               </div>
               <div>
-                <p>{data.school}</p>
-                <p>{data.major}</p>
+                <p className="mb-2">{data.school}</p>
+                <p className="mb-0">{data.major}</p>
               </div>
             </div>
             <div className="flex flex-row">

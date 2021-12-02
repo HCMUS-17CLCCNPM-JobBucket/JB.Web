@@ -41,16 +41,15 @@ export default function template(props) {
       fontFamily: "NunitoRegular",
     },
     workView: {
-      flexDirection: "column",
+      // flexDirection: "column",
     },
     avatar: {
-      width: 100,
-      height: 100,
+      width: "auto",
+      height: 150,
     },
     infos: {
       marginVertical: 2,
       flexDirection: "row",
-      alignItems: "flex-end",
     },
     icon: {
       width: 15,
@@ -68,18 +67,19 @@ export default function template(props) {
 
     studying: {
       fontFamily: "NunitoBold",
-      color: "red",
+      color: "#f8d768",
       marginRight: 5,
     },
 
     contactArea: {
       marginLeft: 20,
-      flexDirection: "column",
+      // flexDirection: "column",
       justifyContent: "center",
     },
     Name: {
       fontSize: 26,
       marginBottom: 2,
+      width: "65%",
       fontFamily: "NunitoBold",
       color: props.color,
     },
@@ -88,22 +88,26 @@ export default function template(props) {
       color: "#1e88e5",
     },
     contact: {
+      width: "65%",
       justifyContent: "space-between",
     },
     introduction: {
       marginVertical: 15,
     },
     destext: {
+      display: "flex",
       width: 130,
       alignItems: "flex-end",
       marginRight: 10,
     },
     workElement: {
+      width: "70%",
+      display: "flex",
       flexDirection: "row",
       marginBottom: 15,
     },
     exArea: {
-      flexDirection: "column",
+      // flexDirection: "column",
     },
     exElement: {
       marginBottom: 5,
@@ -111,11 +115,21 @@ export default function template(props) {
     skillElement: {
       marginRight: 15,
     },
+    boxblue: {
+      height: 12,
+      width: 12,
+      backgroundColor: "#1e88e5",
+    },
+    boxgray: {
+      height: 12,
+      width: 12,
+      backgroundColor: "gray",
+    },
   });
   return (
     <PDFViewer width="100%" height="550px">
       <Document>
-        <Page size="A4" style={styles.page} orientation="portrait">
+        <Page size="A4" style={styles.page} orientation="portrait" wrap>
           <View style={styles.introArea}>
             <Image style={styles.avatar} src={cv.avatar}></Image>
             <View style={styles.contactArea}>
@@ -177,7 +191,7 @@ export default function template(props) {
           </View>
           <View style={styles.workView}>
             {experienceList.length != 0 && (
-              <View style={styles.workElement}>
+              <View style={styles.workElement} wrap>
                 <View style={styles.destext}>
                   <Text style={styles.Description}>WORKS EXPERIENCES</Text>
                 </View>
@@ -186,14 +200,14 @@ export default function template(props) {
                     <View style={styles.exElement}>
                       <Text style={styles.Description}>{data.company}</Text>
                       <Text>{data.position}</Text>
-                      <Text>{data.duration + " months"} </Text>
+                      <Text>{data.duration} </Text>
                     </View>
                   ))}
                 </View>
               </View>
             )}
             {EducationList.length != 0 && (
-              <View style={styles.workElement}>
+              <View style={styles.workElement} wrap>
                 <View style={styles.destext}>
                   <Text style={styles.Description}>EDUCATION</Text>
                 </View>
@@ -226,19 +240,29 @@ export default function template(props) {
             )}
 
             {SkillList.length != 0 && (
-              <View style={styles.workElement}>
+              <View style={styles.workElement} wrap>
                 <View style={styles.destext}>
                   <Text style={styles.Description}>SKILLS</Text>
                 </View>
-                {SkillList.map((data) => (
-                  <View style={styles.skillElement}>
-                    <Text>{data.skillName}</Text>
-                  </View>
-                ))}
+                <View wrap>
+                  {SkillList.map((data) => (
+                    <View style={styles.skillElement}>
+                      <Text>{data.skillName}</Text>
+                      <View style={styles.introArea}>
+                        {[...Array(parseInt(data.level))].map(() => (
+                          <View style={styles.boxblue}></View>
+                        ))}
+                        {[...Array(5 - parseInt(data.level))].map(() => (
+                          <View style={styles.boxgray}></View>
+                        ))}
+                      </View>
+                    </View>
+                  ))}
+                </View>
               </View>
             )}
             {ActivityList.length != 0 && (
-              <View style={styles.workElement}>
+              <View style={styles.workElement} wrap>
                 <View style={styles.destext}>
                   <Text style={styles.Description}>ACTIVITIES</Text>
                 </View>
@@ -252,7 +276,7 @@ export default function template(props) {
               </View>
             )}
             {CertiList.length != 0 && (
-              <View style={styles.workElement}>
+              <View style={styles.workElement} wrap>
                 <View style={styles.destext}>
                   <Text style={styles.Description}>CERTIFICATIONS</Text>
                 </View>
@@ -266,7 +290,7 @@ export default function template(props) {
               </View>
             )}
             {AwardList.length != 0 && (
-              <View style={styles.workElement}>
+              <View style={styles.workElement} wrap>
                 <View style={styles.destext}>
                   <Text style={styles.Description}>AWARDS</Text>
                 </View>

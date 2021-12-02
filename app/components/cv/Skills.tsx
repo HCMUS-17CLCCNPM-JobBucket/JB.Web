@@ -66,13 +66,10 @@ export default function Skills() {
     <div className="border-gray-300 border p-10 bg-white mb-8">
       <p className="font-bold mb-4">Skills</p>
       {SkillList.map((data, index) => (
-        <div className="md:grid md:grid-cols-2 md:gap-4">
-          <div
-            key={index}
-            className="rounded-lg border-gray-300 border flex flex-col md:flex-row p-4 md:justify-between mb-4 md:items-center"
-          >
-            <div className="flex flex-col mb-2 md:mb-0">
-              <p>{data.skillName}</p>
+        <div className="md:grid md:grid-cols-2 md:gap-4" key={index}>
+          <div className="rounded-lg border-gray-300 border flex flex-col md:flex-row p-4 md:justify-between mb-4 md:items-center">
+            <div className="flex flex-col mb-2 md:mb-0 md:mr-2">
+              <p className="mb-0">{data.skillName}</p>
               <div className="flex flex-row">
                 {[...Array(parseInt(data.level))].map(() => (
                   <div className="border-b-4 border-blue-600 w-8 mr-2"></div>

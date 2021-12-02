@@ -45,13 +45,10 @@ export default function Certifications() {
     <div className="border-gray-300 border p-10 bg-white mb-8">
       <p className="font-bold mb-4">Certifications</p>
       {CertiList.map((data, index) => (
-        <div className="md:grid md:grid-cols-2">
-          <div
-            key={index}
-            className="rounded-lg border-gray-300 border flex flex-col md:flex-row p-4 md:justify-between mb-4 md:items-center"
-          >
+        <div className="md:grid md:grid-cols-2" key={index}>
+          <div className="rounded-lg border-gray-300 border flex flex-col md:flex-row p-4 md:justify-between mb-4 md:items-center">
             <div className="mb-2 mr-0 md:mb-0 md:mr-2">
-              <p>{data}</p>
+              <p className="mb-0">{data}</p>
             </div>
             <div className="flex flex-row">
               <button

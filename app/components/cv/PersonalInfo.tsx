@@ -29,7 +29,7 @@ export default function PersonalInfo() {
       <div className="mb-4">
         <label className="text-gray-700">Avatar</label>
         <img
-          src={ cv.avatar || "https://via.placeholder.com/160x160"}
+          src={cv.avatar || "https://via.placeholder.com/160x160"}
           alt=""
           className="h-52 w-auto object-cover rounded-lg mb-4"
         />
@@ -165,6 +165,7 @@ export default function PersonalInfo() {
           {isUpdate ? (
             <DatePicker
               defaultValue={birthdate}
+              format="DD-MM-YYYY"
               onChange={(value) => handleChangeBirthdate(value)}
               style={{ borderRadius: "0.5rem" }}
               size="large"
@@ -172,6 +173,7 @@ export default function PersonalInfo() {
           ) : (
             <DatePicker
               onChange={(value) => handleChangeBirthdate(value)}
+              format="DD-MM-YYYY"
               style={{ borderRadius: "0.5rem" }}
               size="large"
             ></DatePicker>
