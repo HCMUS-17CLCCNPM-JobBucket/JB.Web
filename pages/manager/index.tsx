@@ -76,9 +76,7 @@ const MemberCard = (member) => {
   return (
     <div className="flex gap-2 items-center w-[300px]">
       <img
-        src={
-          member.avatarUrl || "https://freesvg.org/img/abstract-user-flat-1.png"
-        }
+        src={member.avatarUrl || "/avatar/avatar.png"}
         alt={member.name}
         className="h-24 w-24 rounded-full"
       />
