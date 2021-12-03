@@ -1,7 +1,7 @@
 import { blogAPI } from "app/api/modules/blogAPI";
-import { actions } from "app/redux/features/notification";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function LikeButton(props) {
   const user = useSelector((state: any) => state.user);
@@ -33,12 +33,15 @@ export default function LikeButton(props) {
         }
       }
     else {
-      dispatch(
-        actions.createAlert({
-          message: "Please login to continue",
-          type: "Warning",
-        })
-      );
+      toast("Please login to continue", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
   return (

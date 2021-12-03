@@ -1,6 +1,30 @@
 import axiosClient from "../axiosClient";
 
 export const jobAPI = {
+  getJobProperties: () =>
+    axiosClient.post("/graphql", {
+      query: `query listCategory {
+      jobProperties {
+        skills {
+          id
+          name
+        }
+        positions {
+          id
+          name
+        }
+        types {
+          id
+          name
+        }
+        categories {
+          id
+          name
+        }
+      }
+    }
+    `,
+    }),
   apply: (jobId: string, cVId: number, cVPDFUrl: string, token) =>
     axiosClient.post(
       "/graphql",
@@ -75,7 +99,7 @@ export const jobAPI = {
       "/graphql",
       {
         query: `
-      query GetAllJobs($filter: ListJobType ) {
+      query GetAllJobs($filter: ListJobRequestInput ) {
         jobs(filter: $filter) {
           id
           title
@@ -106,7 +130,7 @@ export const jobAPI = {
       "/graphql",
       {
         query: `
-        query Job($id: ID!) {
+        query Job($id: Int) {
           jobs(id: $id) {
             isJobApplied
     			  isJobInterested
@@ -126,7 +150,7 @@ export const jobAPI = {
   getJobByIdWithoutToken: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
-        query Job($id: ID!) {
+        query Job($id: Int) {
           jobs(id: $id) {
             id
             title

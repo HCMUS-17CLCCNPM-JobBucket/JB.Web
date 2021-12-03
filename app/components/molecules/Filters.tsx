@@ -1,21 +1,18 @@
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/outline";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Filters({ filters, callback }) {
+  const [scrollOverHeight, setScrollOverHeight] = useState(false);
+
+  useEffect(() => {
+    setScrollOverHeight(window.scrollY > 100);
+  }, []);
+
   return (
-    <form className="sticky top-24 h-[520px] hidden lg:block lg:col-span-2 overflow-y-scroll">
-      {/* <h3 className="">Hot Categories</h3>
-        <ul
-          role="list"
-          className="text-sm font-medium text-gray-900 space-y-2 pb-6 border-b border-gray-200"
-        >
-          {subCategories.map((category) => (
-            <li key={category.name}>
-              <a href={category.href}>{category.name}</a>
-            </li>
-          ))}
-        </ul> */}
+    <form
+      className={`sticky top-24 h-[400px] hidden lg:block lg:col-span-2 overflow-y-scroll`}
+    >
       {filters.map((section) => (
         <Disclosure
           as="div"
@@ -41,20 +38,20 @@ export default function Filters({ filters, callback }) {
               <Disclosure.Panel className="pt-6">
                 <div className="space-y-4">
                   {section.options.map((option, optionIdx) => (
-                    <div key={option.value} className="flex items-center">
+                    <div key={option.id} className="flex items-center">
                       <input
                         id={`filter-${section.id}-${optionIdx}`}
                         name={`${section.id}[]`}
-                        defaultValue={option.value}
+                        defaultValue={option.id}
                         type="checkbox"
-                        defaultChecked={option.checked}
+                        defaultChecked={false}
                         className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                       />
                       <label
                         htmlFor={`filter-${section.id}-${optionIdx}`}
                         className="ml-3 text-sm text-gray-600"
                       >
-                        {option.label}
+                        {option.name}
                       </label>
                     </div>
                   ))}

@@ -22,6 +22,8 @@ export default function JobInfinityScroll({
       setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
     setJobs(jobs.concat(res.data.data.jobs));
     setHasMore(res.data.data.jobs.length > 0);
+
+    console.log(res);
   };
   return (
     <InfiniteScroll

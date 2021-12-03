@@ -8,41 +8,55 @@ import LikeBlogButton from "./Button/LikeButton";
 export default function Blog(props) {
   console.log(window.location.href);
   const handleRedirect = async () => router.push("blog/" + props.id);
+  const user = useSelector((state: any) => state.user);
+  console.log(props.id === user.user.id);
   return (
     <div className="flex justify-between flex-col max-w-lg p-6 space-y-4 overflow-hidden bg-gray-50 rounded-lg shadow-md text-gray-800">
-      <div>
-        <div className="flex space-x-4">
-          <img
-            alt=""
-            src={
-              props.avatarUrl ||
-              "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper.png"
-            }
-            className="object-cover w-12 h-12 rounded-full shadow bg-gray-500"
-          />
-          <div className="flex flex-col space-y-1">
-            <a href="#" className="text-sm font-semibold">
-              {props.author.name}
-            </a>
-            <span className="text-xs text-gray-600">
-              <Moment add={{ hours: 7 }} fromNow date={props.createdDate} />
-            </span>
+      <div className="flex justify-between items-center">
+        <div>
+          <div className="flex space-x-4">
+            <img
+              alt=""
+              src={
+                props.avatarUrl ||
+                "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper.png"
+              }
+              className="object-cover w-12 h-12 rounded-full shadow bg-gray-500"
+            />
+            <div className="flex flex-col space-y-1">
+              <a href="#" className="text-sm font-semibold">
+                {props.author.name}
+              </a>
+              <span className="text-xs text-gray-600">
+                <Moment add={{ hours: 7 }} fromNow date={props.createdDate} />
+              </span>
+            </div>
           </div>
         </div>
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href={window.location.href + "/" + props.id}
-        >
-          <img
-            onClick={handleRedirect}
-            src={props.imageUrl}
-            alt=""
-            className="object-cover w-full mt-4 h-60 sm:h-80 bg-gray-500 rounded-md cursor-pointer"
-          />
-        </a>
+        {props.author.id === user.user.id && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 cursor-pointer text-gray-400 hover:text-black"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            onClick={() => router.push("/blog/" + props.id + "/edit")}
+          >
+            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+          </svg>
+        )}
       </div>
-
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={"http://localhost:3000/blog/" + props.id}
+      >
+        <img
+          onClick={handleRedirect}
+          src={props.imageUrl}
+          alt=""
+          className="object-cover w-full mt-4 h-60 sm:h-80 bg-gray-500 rounded-md cursor-pointer"
+        />
+      </a>
       <a
         target="_blank"
         rel="noreferrer"

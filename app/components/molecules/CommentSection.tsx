@@ -35,11 +35,11 @@ export default function CommentSection({ blogId }) {
         {
           page: 0,
           size: 10,
+          authorId: -1,
         },
         user.token
       );
 
-      console.log(res.data.data.blogs[0].comments);
       setComments(res.data.data.blogs[0].comments);
     };
     fetchComments();

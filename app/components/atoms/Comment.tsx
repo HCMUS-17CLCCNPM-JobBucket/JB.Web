@@ -43,10 +43,11 @@ export default function Comment({
   };
 
   const handleSubComment = async () => {
-    await blogAPI.addSubComment(
-      { blogId: blogId, content: commentVal, parentId: id },
+    const res = await blogAPI.addSubComment(
+      { blogId, content: commentVal, parentId: id },
       userToken.token
     );
+    console.log(123);
     setCommentVal("");
     setIsReplied(false);
     callback();

@@ -1,5 +1,4 @@
 import LoadingTransition from "app/components/atoms/LoadingTransition";
-import Alerts from "app/components/atoms/notification/alerts";
 import ToolbarBottom from "app/components/atoms/ToolbarBottom";
 import AuthProvider from "app/components/layouts/AuthProvider";
 import { GoogleAuthProvider } from "app/components/layouts/google-provider";
@@ -10,8 +9,10 @@ import "froala-editor/css/froala_editor.pkgd.min.css";
 import "froala-editor/css/froala_style.min.css";
 import type { AppProps } from "next/app";
 import Router, { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { PersistGate } from "redux-persist/integration/react";
 import "../styles/globals.scss";
 
@@ -33,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AuthProvider>
-            <Alerts />
+            <ToastContainer />
             {loading && <LoadingTransition />}
 
             {!listExclude.includes(router.pathname) && <Navbar />}

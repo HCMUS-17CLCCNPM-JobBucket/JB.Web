@@ -30,10 +30,7 @@ export default function DropdownAvatar() {
           <Menu.Button>
             <div className="p-1 rounded-full flex gap-2 items-center hover:bg-gray-200 ">
               <img
-                src={
-                  user.user.avatarUrl ||
-                  "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper.png"
-                }
+                src={user.user.avatarUrl || "/avatar/avatar.png"}
                 className="border border-gray-200 rounded-full h-10 w-10 object-cover"
                 alt="avatar"
               />
