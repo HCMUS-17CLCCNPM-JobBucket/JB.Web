@@ -192,9 +192,9 @@ export const jobAPI = {
       "/graphql",
       {
         query: `
-        mutation LikeJob($id: Int ) {
+        mutation LikeJob($id: Int!) {
         job{
-          interest(id: $id){
+          addInterested(id: $id){
             id
           }
         }
@@ -216,14 +216,14 @@ export const jobAPI = {
       "/graphql",
       {
         query: `
-      mutation unLikeJob($id: Int ) {
-        job{
-          uninterest(id: $id){
-            id
+          mutation unLikeJob($id: Int!) {
+            job{
+              removeInterested(id: $id){
+                id
+              }
+            }
           }
-        }
-      }
-    `,
+        `,
         variables: {
           id,
         },
