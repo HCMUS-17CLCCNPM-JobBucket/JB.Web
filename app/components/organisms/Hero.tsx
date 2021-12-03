@@ -13,7 +13,7 @@ export default function Hero() {
       <p className="text-gray-400 font-semibold dark:text-gray-400">
         1,232,120 jobs listed here!Your dream job is waiting
       </p>
-      <SearchJob styles="mt-8 lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" />
+      {/* <SearchJob styles="mt-8 lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" /> */}
     </div>
   );
 }

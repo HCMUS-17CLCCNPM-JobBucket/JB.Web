@@ -1,9 +1,5 @@
-import JobAPI from "app/api/modules/jobAPI";
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useRef } from "react";
+import React, { useRef, useState } from "react";
 import CreatableSelect from "react-select/creatable";
-import * as Yup from "yup";
 
 const sortOptionsCity = [
   { value: "hcm", label: "Ho Chi Minh" },
