@@ -268,9 +268,9 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      mutation deleteBlog($id: Int) {
+      mutation deleteBlog($id: Int!) {
         blog{
-          deleteComment(id: $id){ 
+          delete(id: $id){ 
             id
           }
         }
@@ -384,7 +384,7 @@ export const blogAPI = {
         },
       }
     ),
-  deleteComponent: (id, token) =>
+  deleteComment: (id, token) =>
     axiosClient.post(
       "/graphql",
       {
