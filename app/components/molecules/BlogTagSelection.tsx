@@ -1,7 +1,11 @@
-import React from "react";
-import Select from "react-select";
+import { blogAPI } from "app/api/modules/blogAPI";
+import React, { useMemo, useState } from "react";
 
-export default function BlogTagSelection() {
+import CreatableSelect from "react-select/creatable";
+import { ActionMeta, OnChangeValue } from "react-select";
+
+export default function BlogTagSelection({ value, setValue }) {
+  const [tags, setTags] = useState([]);
   const customStyles = {
     // option: (provided, state) => ({
     //   ...provided,
@@ -22,12 +26,28 @@ export default function BlogTagSelection() {
     //   return { ...provided, opacity, transition };
     // },
   };
+  useMemo(() => {
+    blogAPI.getBlogTags().then((res) => {
+      setTags(
+        res.data.data.blogTags.map((tag) => ({
+          value: tag.id,
+          label: tag.name,
+        }))
+      );
+    });
+  }, []);
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  const handleChange = (newValue: OnChangeValue, actionMeta: ActionMeta) => {
+    setValue(newValue.map((tag) => tag.value.toLowerCase().trim()));
+  };
 
-  return <Select isMulti styles={customStyles} options={options} />;
+  return (
+    <CreatableSelect
+      isClearable
+      isMulti
+      styles={customStyles}
+      onChange={handleChange}
+      options={tags}
+    />
+  );
 }

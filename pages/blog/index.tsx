@@ -1,5 +1,6 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import Blog from "app/components/atoms/Blog";
+import DeleteAlert from "app/components/atoms/DeleteAlert";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
@@ -37,7 +38,8 @@ export default function BlogPage() {
     fetchData();
   }, [isFiltered]);
   return (
-    <section className="text-gray-800">
+    <section className="text-gray-800 relative">
+      <DeleteAlert callback={() => console.log(123)} />
       <div className="container max-w-8xl p-6 mx-auto space-y-6 ">
         <a
           href="#"

@@ -1,8 +1,6 @@
-import { Tab } from "@headlessui/react";
 import { blogAPI } from "app/api/modules/blogAPI";
 import { imageAPI } from "app/api/modules/imageAPI";
 import BlogTagSelection from "app/components/molecules/BlogTagSelection";
-import helper from "app/utils/helper";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 import router from "next/router";
@@ -42,10 +40,11 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
 );
 export default function AddNewBlog() {
   const user = useSelector((state: any) => state.user);
-  const [isUploadImg, setIsUploadImg] = useState(true);
+  const [tags, setTags] = useState([]);
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
@@ -61,28 +60,30 @@ export default function AddNewBlog() {
       tags: [],
     },
     onSubmit: async (values) => {
-      if (values.imageUrl === "") {
+      if (previewSource !== "") {
         const imageRes: any = await imageAPI.uploadImage(imageFile);
         const res = await blogAPI.add(
           {
             ...values,
+            tags,
             content,
             imageUrl: imageRes.data.url ? imageRes.data.url : "",
           },
           user.token
         );
-        if (res.status === 201) {
+        if (res.status === 200) {
           router.push("/" + res.data.id);
         }
       } else {
         const res = await blogAPI.add(
           {
             ...values,
+            tags,
             content,
           },
           user.token
         );
-        if (res.status === 201) {
+        if (res.status === 200) {
           router.push("/blog/" + res.data.id);
         }
       }
@@ -104,7 +105,7 @@ export default function AddNewBlog() {
         <div></div>
       </div> */}
 
-      <BlogTagSelection />
+      <BlogTagSelection value={tags} setValue={setTags} />
       <input
         type="text"
         id="title"

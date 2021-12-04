@@ -1,7 +1,16 @@
 import axiosClient from "../axiosClient";
 
 export const blogAPI = {
-  
+  getBlogTags: () =>
+    axiosClient.post("/graphql", {
+      query: `query listTag {
+        blogTags (filter : {
+          page : 1
+          size : 20
+        })
+      }
+    `,
+    }),
   getMyBlogs: (userId, token) => {
     return axiosClient.post(
       "/graphql",
@@ -198,14 +207,28 @@ export const blogAPI = {
       "/graphql",
       {
         query: `
-      mutation addBlog($blog: AddBlogType) {
-        blog{
-          add(blog: $blog){ 
-            id
+        mutation addBlog {
+          blog {
+            add(
+              blog: {
+                content: "It is a very important skill for developers to be able to differentiate deployment from a release. Code deployment is a technical task, whereas releasing features to customers is more of a business activity. With advanced use of feature flags, releasing a feature to a subset of customers significantly reduces the blast radius if anything goes wrong with the new feature."
+                description: "Feature flags are powerful mechanisms devs can use to release software safely. They enable development teams to add or remove a feature from a software system on the fly, without the need for any code changes with deployments."
+                imageUrl: "https://blog.logrocket.com/wp-content/uploads/2021/10/how-to-implement-feature-flags-react-web-nocdn.png"
+                tags: ["react","ui","frontend"]
+                title: "How to implement feature flags in React"
+              }
+            ) {
+              id
+              title
+              updatedDate
+              createdDate
+              imageUrl
+              content
+              tags
+            }
           }
         }
-      }
-    `,
+      `,
         variables: {
           blog,
         },

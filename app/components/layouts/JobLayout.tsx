@@ -79,7 +79,6 @@ export default function Job() {
         { ...filterOptionsInput, page: 0 },
         user.token
       );
-      console.log(response);
       setJobs(response.data.data.jobs);
     };
     fetchData();

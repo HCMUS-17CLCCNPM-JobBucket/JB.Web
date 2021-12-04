@@ -1,6 +1,7 @@
 import { jobAPI } from "app/api/modules/jobAPI";
 import { orgAPI } from "app/api/modules/organization";
 import Divider from "app/components/atoms/Divider";
+import SalaryRange from "app/components/atoms/SalaryRange";
 import user from "app/redux/features/user";
 import router from "next/router";
 import React, { useEffect, useMemo } from "react";
@@ -33,9 +34,10 @@ const JobCard = (company) => {
           <p>
             {company.city}HCM • {company.jobForm}Fulltime
           </p>
-          <p>
-            ${company.minSalary} – ${company.maxSalary}
-          </p>
+          <SalaryRange
+            minSalary={company.minSalary}
+            maxSalary={company.maxSalary}
+          />
         </div>
 
         <button

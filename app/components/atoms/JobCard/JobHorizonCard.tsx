@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import SaveJobButton from "../Button/SaveJobButton";
+import SalaryRange from "../SalaryRange";
 
 export default function JobHorizonCard(props) {
   return (
@@ -20,9 +21,10 @@ export default function JobHorizonCard(props) {
                 {props.addresses == null ? "No addresses" : props.addresses[0]}
               </span>
             </div>
-            <p>
-              ${props.minSalary} - ${props.maxSalary}
-            </p>
+            <SalaryRange
+              minSalary={props.minSalary}
+              maxSalary={props.maxSalary}
+            />
           </div>
         </div>
         <div className="job-horizon-card__desc line-clamp">
