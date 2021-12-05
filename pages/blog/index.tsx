@@ -1,11 +1,13 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import Blog from "app/components/atoms/Blog";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 
 export default function BlogPage() {
   const user = useSelector((state: any) => state.user);
+  const [loading, setLoading] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -29,16 +31,20 @@ export default function BlogPage() {
     setFilter({ ...filter, page: filter.page + 1 });
     setHasMore(res.data.data.blogs.length > 0);
   };
+  const refreshData = async () => setIsFiltered(!isFiltered);
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const res = await blogAPI.getAll(filter, user.token);
       if (res.status === 200) setBlogs(res.data.data.blogs);
+      setLoading(false);
     };
     fetchData();
   }, [isFiltered]);
   return (
-    <div className="container max-w-8xl p-6 mx-auto space-y-6 ">
-      <a
+    <div className="relative w-full h-full max-w-7xl p-6 mx-auto space-y-6 ">
+      {loading && <LoadingFullPage />}
+      {/* <a
         href="#"
         className="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 bg-gray-50"
       >
@@ -57,23 +63,18 @@ export default function BlogPage() {
             graece fuisset, eos affert putent doctus id.
           </p>
         </div>
-      </a>
+      </a> */}
+      {blogs.length === 0 && <div className="h-[300px]" />}
       <InfiniteScroll
         dataLength={blogs.length}
         next={fetchMoreData}
         hasMore={hasMore}
         className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        loader={
-          <div className="flex justify-center">
-            <button className="px-6 py-3 text-sm rounded-md hover:underline bg-gray-50 text-gray-600">
-              Load more blogs...
-            </button>
-          </div>
-        }
+        loader={<LoadingFullPage />}
         scrollableTarget="scrollableDiv"
       >
         {blogs.map((item, index) => (
-          <Blog key={index} {...item} />
+          <Blog key={index} {...item} refreshData={refreshData} />
         ))}
       </InfiniteScroll>
     </div>

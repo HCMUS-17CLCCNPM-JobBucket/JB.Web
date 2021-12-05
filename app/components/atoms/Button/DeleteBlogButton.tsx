@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-export default function DeleteBlogButton({ blogId }) {
+export default function DeleteBlogButton({ blogId, refreshData }) {
   const user = useSelector((state: any) => state.user);
   let [isOpen, setIsOpen] = useState(false);
 
@@ -19,6 +19,8 @@ export default function DeleteBlogButton({ blogId }) {
   async function handleDelete() {
     const res = await blogAPI.delete(blogId, user.token);
     if (res.status === 200) {
+      closeModal();
+      refreshData();
       toast.success("Blog has been deleted", {
         position: "top-right",
         autoClose: 5000,
@@ -28,7 +30,6 @@ export default function DeleteBlogButton({ blogId }) {
         draggable: true,
         progress: undefined,
       });
-      closeModal();
     }
   }
 
