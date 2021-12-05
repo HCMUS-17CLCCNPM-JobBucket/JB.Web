@@ -67,7 +67,24 @@ export default function Navbar() {
             </button>
           </div>
         ) : (
-          <DropdownAvatar />
+          <div className="flex gap-2 justify-center items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-9 w-9 p-2 rounded-full border-2 border-gray-400 cursor-pointer"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              onClick={() => router.push("/blog/post")}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            <DropdownAvatar />
+          </div>
         )}
       </div>
     </div>

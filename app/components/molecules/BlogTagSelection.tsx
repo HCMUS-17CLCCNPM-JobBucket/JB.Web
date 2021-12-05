@@ -28,17 +28,20 @@ export default function BlogTagSelection({ value, setValue }) {
   };
   useMemo(() => {
     blogAPI.getBlogTags().then((res) => {
+      console.log(res);
       setTags(
         res.data.data.blogTags.map((tag) => ({
-          value: tag.id,
-          label: tag.name,
+          value: tag,
+          label: tag,
+          // label: tag.capitalize(),
         }))
       );
     });
   }, []);
 
   const handleChange = (newValue: OnChangeValue, actionMeta: ActionMeta) => {
-    setValue(newValue.map((tag) => tag.value.toLowerCase().trim()));
+    if (newValue !== "")
+      setValue(newValue.map((tag) => tag.value.toLowerCase().trim()));
   };
 
   return (

@@ -72,7 +72,7 @@ export default function AddNewBlog() {
           user.token
         );
         if (res.status === 200) {
-          router.push("/" + res.data.id);
+          router.push("/" + res.data.data.blog.add.id);
         }
       } else {
         const res = await blogAPI.add(
@@ -84,7 +84,7 @@ export default function AddNewBlog() {
           user.token
         );
         if (res.status === 200) {
-          router.push("/blog/" + res.data.id);
+          router.push("/blog/" + res.data.data.blog.add.id);
         }
       }
     },
