@@ -1,12 +1,11 @@
 import { jobAPI } from "app/api/modules/jobAPI";
 import { orgAPI } from "app/api/modules/organization";
-import Divider from "app/components/atoms/Divider";
 import SalaryRange from "app/components/atoms/SalaryRange";
-import user from "app/redux/features/user";
 import router from "next/router";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 
 const JobCard = (company) => {
   const user = useSelector((state: any) => state.user);
@@ -186,7 +185,9 @@ export default function CompanyDetail() {
                 </div>
               </div>
             </div>
-            <button className="btn btn-primary h-12 w-40">Write Review</button>
+            <Link href="/manager/edit" passHref>
+              <button className="btn btn-primary h-10 w-36">Edit</button>
+            </Link>
           </div>
           <p className="mt-4">{company?.bio}</p>
         </div>

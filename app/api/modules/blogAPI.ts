@@ -1,6 +1,13 @@
 import axiosClient from "../axiosClient";
 
 export const blogAPI = {
+  handleBlogByType: (blogId, blog, token, type) => {
+    if (type === "post") {
+      return blogAPI.add(blog, token);
+    }
+    return blogAPI.update({ ...blog, id: blogId }, token);
+  },
+  //
   getBlogTags: () =>
     axiosClient.post("/graphql", {
       query: `query listTag {
@@ -147,7 +154,6 @@ export const blogAPI = {
             commentCount
             views
             createdDate
-            
           }
         }
       `,
