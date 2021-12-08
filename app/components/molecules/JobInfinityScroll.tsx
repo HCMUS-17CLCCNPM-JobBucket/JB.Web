@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import JobHorizonCard from "../atoms/JobCard/JobHorizonCard";
+import ListEmpty from "../atoms/ListEmpty";
 
 export default function JobInfinityScroll({
   jobs,
@@ -22,21 +23,25 @@ export default function JobInfinityScroll({
       setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
     setJobs(jobs.concat(res.data.data.jobs));
     setHasMore(res.data.data.jobs.length > 0);
-
-    console.log(res);
   };
   return (
-    <InfiniteScroll
-      dataLength={jobs.length}
-      next={fetchMoreData}
-      hasMore={hasMore}
-      loader={<h4>Loading...</h4>}
-      scrollableTarget="scrollableDiv"
-      className="flex flex-col gap-4 p-4"
-    >
-      {jobs.map((item, index) => (
-        <JobHorizonCard key={index} {...item} />
-      ))}
-    </InfiniteScroll>
+    <div>
+      {jobs.length === 0 ? (
+        <ListEmpty message="No result match" />
+      ) : (
+        <InfiniteScroll
+          dataLength={jobs.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="scrollableDiv"
+          className="flex flex-col gap-4 p-4"
+        >
+          {jobs.map((item, index) => (
+            <JobHorizonCard key={index} {...item} />
+          ))}
+        </InfiniteScroll>
+      )}
+    </div>
   );
 }

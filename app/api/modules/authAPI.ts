@@ -2,6 +2,7 @@ import axiosClient from "../axiosClient";
 
 export const authAPI = {
   login: (params) => axiosClient.post("api/Authenticate/Login", { ...params }),
+
   loginWithGoogle: (values) =>
     axiosClient.post(
       "api/Authenticate/login/google",

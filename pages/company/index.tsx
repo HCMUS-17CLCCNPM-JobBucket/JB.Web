@@ -24,14 +24,14 @@ export default function CompanyPage() {
     setOrgs(orgs.concat(res.data.data.organizations));
   };
   return (
-    <div className="w-full flex justify-center">
+    <div className="flex justify-center">
       <InfiniteScroll
         dataLength={orgs.length}
         next={fetchMoreData}
         hasMore={true}
         loader={<h4>Loading...</h4>}
         scrollableTarget="scrollableDiv"
-        className="flex w-[900px  ] flex-col gap-4 p-2"
+        className="flex w-full flex-col gap-4"
       >
         {orgs.map((item, index) => (
           <CompanyCard key={index} {...item} />

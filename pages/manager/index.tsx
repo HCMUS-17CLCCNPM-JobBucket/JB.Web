@@ -7,48 +7,38 @@ import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 
-const JobCard = (company) => {
+const JobCard = (job) => {
   const user = useSelector((state: any) => state.user);
   return (
     <div className="flex flex-col gap-2 pt-4">
       <div className="flex justify-between">
         <p
           className="cursor-pointer max-w-xl text-blue-600 text-lg hover:underline"
-          onClick={() => router.push("/job/" + company.id)}
+          onClick={() => router.push("/manager/job/" + job.id)}
         >
-          {company.title} Sales Executive (Up To $5000)
+          {job.title} Sales Executive (Up To $5000)
         </p>
         <p className="text-gray-400">
-          Expire in <Moment format="DD/MM/YYYY" date={company.expiredDate} />
+          Expire in <Moment format="DD/MM/YYYY" date={job.expiredDate} />
         </p>
       </div>
       {/* content */}
 
       <div
         className="line-clamp-5 overflow-hidden"
-        dangerouslySetInnerHTML={{ __html: company.description }}
+        dangerouslySetInnerHTML={{ __html: job.description }}
       />
       <div className="flex justify-between">
         <div>
           <p>
-            {company.city}HCM • {company.jobForm}Fulltime
+            {job.city}HCM • {job.jobForm}Fulltime
           </p>
-          <SalaryRange
-            minSalary={company.minSalary}
-            maxSalary={company.maxSalary}
-          />
+          <SalaryRange minSalary={job.minSalary} maxSalary={job.maxSalary} />
         </div>
 
-        <button
-          disabled={user.user.roleId !== 1}
-          className={`${
-            user.user.roleId !== 1
-              ? "cursor-not-allowed bg-gray-400"
-              : "bg-blue-500 focus:shadow-outline hover:bg-blue-600"
-          } h-10 px-10 text-white transition-colors duration-150 rounded-lg `}
-        >
-          Apply now
-        </button>
+        <Link href={"/manager/job/" + job.id + "/edit"} passHref>
+          <button className="btn btn-primary h-10 w-36">Edit</button>
+        </Link>
       </div>
     </div>
   );
@@ -88,9 +78,10 @@ const MemberCard = (member) => {
     </div>
   );
 };
-export default function CompanyDetail() {
+function CompanyProfile() {
   const user = useSelector((state: any) => state.user);
   const [company, setCompany] = React.useState<any>({});
+
   useEffect(() => {
     orgAPI
       .getOrganizationDetailById(user.user.organizationId, user.token)
@@ -217,3 +208,4 @@ export default function CompanyDetail() {
     </div>
   );
 }
+export default React.memo(CompanyProfile);

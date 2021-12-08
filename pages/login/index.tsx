@@ -3,6 +3,7 @@
 // import { login } from "app/redux/features/user";
 import { authAPI } from "app/api/modules/authAPI";
 import { useGoogleAuth } from "app/components/layouts/google-provider";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import { login } from "app/redux/features/user";
 import { clear } from "console";
 import { useFormik } from "formik";
@@ -12,6 +13,8 @@ import router from "next/router";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { Toast } from "react-toastify/dist/components";
 import * as Yup from "yup";
 
 function Login() {
@@ -31,14 +34,35 @@ function Login() {
         .min(8, "Minimum 8 characters")
         .required("Required!"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       setIsLogin(true);
-      const res = await authAPI.login(values);
-      if (res.status === 200) {
-        dispatch(login(res.data));
-
-        router.push("/");
-      }
+      authAPI
+        .login(values)
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch(login(res.data));
+            router.push("/");
+          }
+        })
+        .catch((err) => {
+          setIsLogin(false);
+          toast(err.response.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        });
+      // if (res.status === 200) {
+      //   setIsLogin(false);
+      //   dispatch(login(res.data));
+      //   router.push("/");
+      // } else {
+      //   console.log(res);
+      // }
     },
   });
 
@@ -68,8 +92,9 @@ function Login() {
         <title>Login | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      {isLogin && <LoadingFullPage />}
       <div className="lg:w-1/2 xl:max-w-screen-sm">
-        <div className="mt-16 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
+        <div className="mt-16 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
           <h2
             className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
               xl:text-bold"
@@ -97,7 +122,7 @@ function Login() {
             <form onSubmit={formik.handleSubmit}>
               <div>
                 <div className="text-sm font-bold text-gray-700 tracking-wide">
-                  username Address
+                  Username
                 </div>
 
                 <input
@@ -145,20 +170,7 @@ function Login() {
                   type="submit"
                   // onClick={() => }
                 >
-                  {isLogin ? (
-                    <svg
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      className="mr-2 animate-spin"
-                      viewBox="0 0 1792 1792"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M526 1394q0 53-37.5 90.5t-90.5 37.5q-52 0-90-38t-38-90q0-53 37.5-90.5t90.5-37.5 90.5 37.5 37.5 90.5zm498 206q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-704-704q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm1202 498q0 52-38 90t-90 38q-53 0-90.5-37.5t-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-964-996q0 66-47 113t-113 47-113-47-47-113 47-113 113-47 113 47 47 113zm1170 498q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-640-704q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm530 206q0 93-66 158.5t-158 65.5q-93 0-158.5-65.5t-65.5-158.5q0-92 65.5-158t158.5-66q92 0 158 66t66 158z"></path>
-                    </svg>
-                  ) : (
-                    "Login"
-                  )}
+                  Login
                 </button>
               </div>
             </form>

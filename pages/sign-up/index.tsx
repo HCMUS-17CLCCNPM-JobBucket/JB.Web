@@ -56,7 +56,7 @@ export default function SignUp(props) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="lg:w-1/2 xl:max-w-screen-sm ">
-        <div className="mt-16 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
+        <div className="mt-16 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
           <h2
             className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
               xl:text-bold"
@@ -95,6 +95,7 @@ export default function SignUp(props) {
                   type="text"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Your Name"
+                  required
                 />
                 {formik.errors.email && formik.touched.email && (
                   <p>{formik.errors.email}</p>
@@ -114,6 +115,7 @@ export default function SignUp(props) {
                   type="password"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Your password"
+                  required
                 />
               </div>
               <div className="mt-4">
@@ -130,10 +132,11 @@ export default function SignUp(props) {
                   type="password"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Confirm password"
+                  required
                 />
                 {formik.errors.confirmPassword &&
                   formik.touched.confirmPassword && (
-                    <p className="text-red-accent-400">
+                    <p className="text-red-500">
                       {formik.errors.confirmPassword}
                     </p>
                   )}

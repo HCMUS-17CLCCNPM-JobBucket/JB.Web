@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ListEmpty() {
+export default function ListEmpty(props) {
   return (
     <div className="container mx-auto flex py-4 items-center justify-center flex-col">
       <img
@@ -12,7 +12,9 @@ export default function ListEmpty() {
         <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
           Nothing
         </h1>
-        <p className="mb-8 leading-relaxed">Collection list is empty.</p>
+        <p className="mb-8 leading-relaxed">
+          {props.message || "Collection list is empty."}
+        </p>
       </div>
     </div>
   );

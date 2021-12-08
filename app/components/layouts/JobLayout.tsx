@@ -38,6 +38,7 @@ export default function Job() {
     positions: [],
     types: [],
   });
+
   const [filterOptionsInput, setFilterOptionsInput] = useState({
     isDescending: false,
     page: 1,

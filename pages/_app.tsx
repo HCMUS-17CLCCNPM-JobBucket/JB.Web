@@ -5,16 +5,18 @@ import { GoogleAuthProvider } from "app/components/layouts/google-provider";
 import Footer from "app/components/organisms/Footer";
 import Navbar from "app/components/organisms/Navbar";
 import { persistor, store } from "app/redux/store";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/css/froala_style.min.css";
+
 import type { AppProps } from "next/app";
 import Router, { useRouter } from "next/router";
 import { useState } from "react";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { PersistGate } from "redux-persist/integration/react";
+
 import "../styles/globals.scss";
+import "react-toastify/dist/ReactToastify.css";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+import "froala-editor/css/froala_style.min.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(false);
@@ -28,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   Router.events.on("routeChangeComplete", () => setLoading(false));
   Router.events.on("routeChangeError", () => setLoading(false));
 
-  const listExclude = ["/login", "/register", "/chat"];
+  const listExclude = ["/chat"];
   return (
     <GoogleAuthProvider>
       <Provider store={store}>

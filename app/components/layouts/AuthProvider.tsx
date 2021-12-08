@@ -19,7 +19,6 @@ export default function AuthProvider(props) {
         if (exp <= new Date().getTime() / 1000) {
           const res = await authAPI.getAccessToken(user.refreshToken);
           if (res.status === 200) {
-            console.log(res.data);
             dispatch(getAccessToken(res.data.accessToken));
           }
         }
