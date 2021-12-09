@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import LikeButton from "./Button/LikeButton";
-import DeleteAlert from "./DeleteAlert";
 import Reply from "./ReplyComents";
 
 export default function Comment({
