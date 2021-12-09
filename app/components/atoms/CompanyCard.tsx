@@ -16,7 +16,7 @@ export const getServerSideProps = async ({ params }) => {
 
 export default function CompanyCard(props) {
   return (
-    <div className="flex w-[800px] border border-gray-200 rounded-lg hover:shadow-lg ease-in-transition">
+    <div className="flex w-[850px] border border-gray-200 rounded-lg hover:shadow-lg ease-in-transition">
       <img
         className="h-40 w-40 rounded-l-lg object-cover"
         src={props.avatarUrl}

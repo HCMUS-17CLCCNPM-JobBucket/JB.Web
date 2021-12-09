@@ -1,19 +1,12 @@
+import { jobAPI } from "app/api/modules/jobAPI";
 import { orgAPI } from "app/api/modules/organization";
 import Divider from "app/components/atoms/Divider";
 import router from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
-
-export const getServerSideProps = async ({ params }) => {
-  const res = await orgAPI.getById(parseInt(params.id));
-  if (res.status === 200)
-    return { props: { ...res.data.data.organizations[0] } };
-  return {
-    props: { id: parseInt(params.id) },
-  };
-};
-
+import { useSelector } from "react-redux";
 const JobCard = (props) => {
+  console.log(props);
   return (
     <div className="flex flex-col gap-2 pt-4">
       <div className="flex justify-between">
@@ -43,16 +36,46 @@ const JobCard = (props) => {
           </p>
         </div>
 
-        <button className="h-10 px-10 text-white transition-colors duration-150 bg-blue-500 rounded-lg focus:shadow-outline hover:bg-blue-600">
-          Apply now
+        <button
+          className={`${
+            props.isJobApplied
+              ? "bg-gray-500 hover:bg-gray-600"
+              : "bg-blue-500 hover:bg-blue-600"
+          } h-10 px-10 text-white transition-colors duration-150 
+        rounded-lg focus:shadow-outline`}
+        >
+          {props.isJobApplied ? "Applied" : "Apply now"}
         </button>
       </div>
     </div>
   );
 };
+export const getServerSideProps = async ({ params }) => {
+  const res = await orgAPI.getById(parseInt(params.id));
+  if (res.status === 200)
+    return {
+      props: { id: parseInt(params.id), ...res.data.data.organizations[0] },
+    };
+  return {
+    props: { id: parseInt(params.id) },
+  };
+};
 
 export default function CompanyDetail(props) {
   const list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const user = useSelector((state: any) => state.user);
+
+  const [jobs, setJobs] = useState<any>([]);
+  if (user.token === "") router.push("/");
+  useEffect(() => {
+    jobAPI.getAll({ organizationId: props.id }, user.token).then((res) => {
+      if (res.status === 200) {
+        console.log(jobs);
+        setJobs(res.data.data.jobs);
+      }
+    });
+  }, []);
   return (
     <div className="py-4 px-16 w-full ">
       <img
@@ -134,9 +157,9 @@ export default function CompanyDetail(props) {
           <p className="text-2xl font-semibold">
             We have {list.length} jobs for you
           </p>
-          {list.map((item, index) => (
+          {jobs.map((item, index) => (
             <div key={index}>
-              <JobCard />
+              <JobCard {...item} />
               <hr className="my-4" />
             </div>
           ))}

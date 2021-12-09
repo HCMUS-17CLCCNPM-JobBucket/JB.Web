@@ -1,5 +1,5 @@
 import React from "react";
-import SearchJob from "../atoms/SearchJob";
+import SearchJob from "../atoms/SearchBar/SearchJob";
 
 export default function Hero() {
   return (

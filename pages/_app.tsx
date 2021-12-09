@@ -19,16 +19,16 @@ import "froala-editor/css/froala_editor.pkgd.min.css";
 import "froala-editor/css/froala_style.min.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const router = useRouter();
-  Router.events.on("routeChangeStart", (url) => {
-    // if (router.pathname.includes("/chat") !== true) {
-    setLoading(true);
-    // }
-    // NProgress.start();
-  });
-  Router.events.on("routeChangeComplete", () => setLoading(false));
-  Router.events.on("routeChangeError", () => setLoading(false));
+  // Router.events.on("routeChangeStart", (url) => {
+  //   // if (router.pathname.includes("/chat") !== true) {
+  //   setLoading(true);
+  //   // }
+  //   // NProgress.start();
+  // });
+  // Router.events.on("routeChangeComplete", () => setLoading(false));
+  // Router.events.on("routeChangeError", () => setLoading(false));
 
   const listExclude = ["/chat"];
   return (
@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <PersistGate loading={null} persistor={persistor}>
           <AuthProvider>
             <ToastContainer />
-            {loading && <LoadingTransition />}
+            {/* {loading && <LoadingTransition />} */}
 
             {!listExclude.includes(router.pathname) && <Navbar />}
             <Component {...pageProps} />

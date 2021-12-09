@@ -4,8 +4,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import JobHorizonCard from "../atoms/JobCard/JobHorizonCard";
 import ListEmpty from "../atoms/ListEmpty";
+import Loading from "../atoms/Loading";
 
 export default function JobInfinityScroll({
+  loading,
   jobs,
   filterOptions,
   setJobs,
@@ -26,14 +28,14 @@ export default function JobInfinityScroll({
   };
   return (
     <div>
-      {jobs.length === 0 ? (
+      {jobs.length === 0 && loading === false ? (
         <ListEmpty message="No result match" />
       ) : (
         <InfiniteScroll
           dataLength={jobs.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
+          loader={<Loading />}
           scrollableTarget="scrollableDiv"
           className="flex flex-col gap-4 p-4"
         >

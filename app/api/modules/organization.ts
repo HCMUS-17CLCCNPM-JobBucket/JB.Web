@@ -26,8 +26,8 @@ export const orgAPI = {
   getById: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
-        query getOrganizationById{
-          organizations(id:1){
+        query getOrganizationById($id: Int!){
+          organizations(id: $id){
             id 
             name 
             bio 
@@ -84,39 +84,29 @@ export const orgAPI = {
         },
       }
     ),
-  update: (org, token) =>
+  update: (addOrg, token) =>
     axiosClient.post(
       "/graphql",
       {
-        query: `mutation updateOrganization ($updateOrg: UpdateOrganizationRequestInput!) {
-      organization {
-        update (organization : $updateOrg)
-        {
-          id
-          name
-          bio
-          country
-          phoneNumber
-          email
-          addresses
-          imageUrls
-          avatarUrl
+        query: `mutation addOrganization ($addOrg: AddOrganizationRequestInput!) {
+          organization {
+            add (organization : $addOrg)
+            {
+              id
+              name
+              bio
+              country
+              phoneNumber
+              email
+              addresses
+              imageUrls
+              avatarUrl
+            }
+          }
         }
-      }
-    }
     `,
         variables: {
-          updateOrg: {
-            id: 0,
-            name: "",
-            address: [],
-            avatarUrl: "",
-            bio: "",
-            country: "",
-            email: "",
-            imageUrls: [],
-            phoneNumber: "",
-          },
+          addOrg,
         },
       },
       {

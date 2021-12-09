@@ -5,7 +5,7 @@ import {
   ViewGridIcon,
 } from "@heroicons/react/solid";
 import { jobAPI } from "app/api/modules/jobAPI";
-import SearchJob from "app/components/atoms/SearchJob";
+import SearchJob from "app/components/atoms/SearchBar/SearchJob";
 import helper from "app/utils/helper";
 import router from "next/router";
 import { Fragment, useEffect, useMemo, useState } from "react";
@@ -29,6 +29,7 @@ const categories = [
 export default function Job() {
   const user = useSelector((state: any) => state.user);
 
+  const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -54,21 +55,27 @@ export default function Job() {
   });
 
   const handleSearch = (keyword: string) => {
-    setFilterOptionsInput({
-      ...filterOptionsInput,
-      keyword,
-    });
-    setIsFiltered(!isFiltered);
+    let temp = keyword.trim();
+    if (temp.length > 0 || jobs.length === 0) {
+      setFilterOptionsInput({
+        ...filterOptionsInput,
+        keyword,
+      });
+      setIsFiltered(!isFiltered);
+    }
   };
 
   useMemo(() => {
     const fetchData = async () => {
+      setLoading(true);
       Promise.all([
         jobAPI.getAll(filterOptionsInput, user.token),
         jobAPI.getJobProperties(),
       ]).then(([res, res2]) => {
         if (res.status === 200) setJobs(res.data.data.jobs);
         if (res2.status === 200) setFilterOptions(res2.data.data.jobProperties);
+
+        setLoading(false);
       });
     };
     fetchData();
@@ -247,6 +254,7 @@ export default function Job() {
                   ))}
                 </InfiniteScroll> */}
                 <JobInfinityScroll
+                  loading={loading}
                   jobs={jobs}
                   setJobs={setJobs}
                   filterOptions={filterOptionsInput}

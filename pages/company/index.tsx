@@ -1,5 +1,6 @@
 import { orgAPI } from "app/api/modules/organization";
 import CompanyCard from "app/components/atoms/CompanyCard";
+import SearchOrg from "app/components/atoms/SearchBar/SearchOrg";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -24,7 +25,8 @@ export default function CompanyPage() {
     setOrgs(orgs.concat(res.data.data.organizations));
   };
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col items-center justify-center">
+      <SearchOrg />
       <InfiniteScroll
         dataLength={orgs.length}
         next={fetchMoreData}

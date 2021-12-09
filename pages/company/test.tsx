@@ -9,7 +9,7 @@ import { orgAPI } from "app/api/modules/organization";
 import CompanyCard from "app/components/atoms/CompanyCard";
 import JobHorizonCard from "app/components/atoms/JobCard/JobHorizonCard";
 import ListEmpty from "app/components/atoms/ListEmpty";
-import SearchJob from "app/components/atoms/SearchJob";
+import SearchJob from "app/components/atoms/SearchBar/SearchJob";
 import Filters from "app/components/molecules/Filters";
 import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
 import MobileFilterDialog from "app/components/molecules/MobileFilterDialog";

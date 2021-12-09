@@ -1,5 +1,6 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import { imageAPI } from "app/api/modules/imageAPI";
+import { orgAPI } from "app/api/modules/organization";
 import CountrySelect from "app/components/atoms/Select/CountrySelect";
 import BlogTagSelection from "app/components/molecules/BlogTagSelection";
 import { useFormik } from "formik";
@@ -23,42 +24,53 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
   }
 );
 
-export default function AddNewBlog(props) {
-  const [country, setCountry] = useState("");
+export default function UpdateOrg(props) {
+  const user = useSelector((state: any) => state.user);
+  const [company, setCompany] = useState<any>({ name: " " });
+
+  const [country, setCountry] = useState(company.country || "");
   const [address, setAddress] = useState<any>([]);
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
+
+  useEffect(() => {
+    orgAPI.getById(user.user.organizationId).then((res) => {
+      setCompany(res.data.data.organizations[0]);
+    });
+  }, []);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
     setPreviewSource(URL.createObjectURL(e.target.files[0]));
   };
 
-  const handleCountrySelected = (country) => {
-    console.log(country);
-    /* returns the details on selected country as an object
-    	{
-          name: "United States of America", 
-          code: "US", 
-          capital: "Washington, D.C.", 
-          region: "Americas", 
-          latlng: [38, -97]
-        }
-    */
-  };
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      name: "",
-      address: [],
-      avatarUrl: "",
-      bio: "",
-      country: "",
-      email: "",
+      name: company?.name || "",
+      addresses: "",
+      avatarUrl: company?.avatarUrl || "",
+      bio: company?.bio || "",
+      country: company?.country || "",
+      email: company?.email || "",
       imageUrls: [],
-      phoneNumber: "",
+      phoneNumber: company?.phoneNumber || "",
     },
     onSubmit: async (values) => {
-      console.log(country);
+      console.log(values);
+      console.log({ ...values, addresses: [values.addresses], country });
+      const res = await orgAPI.update(
+        { ...values, addresses: [values.addresses], country },
+        user.token
+      );
+      console.log(res);
+      if (res.status === 200) {
+        toast.success("Organization updated successfully");
+        router.push("/manager");
+      } else {
+        toast.error("Organization update failed");
+      }
     },
   });
 
@@ -131,15 +143,15 @@ export default function AddNewBlog(props) {
       </label>
       <input
         type="text"
-        id="address"
-        name="address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
+        id="addresses"
+        name="addresses"
+        value={formik.values.addresses}
+        onChange={formik.handleChange}
         className="col-span-1 rounded-lg border-transparent flex-1 appearance-none 
           border border-gray-300 py-2 px-4 bg-white text-gray-700 
           placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 
           focus:ring-purple-600 focus:border-transparent"
-        placeholder="address"
+        placeholder="addresses"
       />
       {/* <FroalaEditorComponent
         tag="textarea"

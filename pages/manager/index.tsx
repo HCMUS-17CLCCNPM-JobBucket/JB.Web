@@ -81,7 +81,7 @@ const MemberCard = (member) => {
 function CompanyProfile() {
   const user = useSelector((state: any) => state.user);
   const [company, setCompany] = React.useState<any>({});
-
+  console.log(company);
   useEffect(() => {
     orgAPI
       .getOrganizationDetailById(user.user.organizationId, user.token)
