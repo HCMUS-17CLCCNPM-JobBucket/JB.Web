@@ -29,7 +29,7 @@ export default function UpdateOrg(props) {
   const [company, setCompany] = useState<any>({ name: " " });
 
   const [country, setCountry] = useState(company.country || "");
-  const [address, setAddress] = useState<any>([]);
+  // const [address, setAddress] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
 
@@ -49,7 +49,7 @@ export default function UpdateOrg(props) {
     enableReinitialize: true,
     initialValues: {
       name: company?.name || "",
-      addresses: "",
+      addresses: company.addresses,
       avatarUrl: company?.avatarUrl || "",
       bio: company?.bio || "",
       country: company?.country || "",
@@ -58,13 +58,14 @@ export default function UpdateOrg(props) {
       phoneNumber: company?.phoneNumber || "",
     },
     onSubmit: async (values) => {
-      console.log(values);
-      console.log({ ...values, addresses: [values.addresses], country });
-      const res = await orgAPI.update(
-        { ...values, addresses: [values.addresses], country },
-        user.token
-      );
-      console.log(res);
+      const dataToSend = {
+        ...values,
+        addresses: [values.addresses],
+        country,
+        id: company.id,
+      };
+      console.log(dataToSend);
+      const res = await orgAPI.update(dataToSend, user.token);
       if (res.status === 200) {
         toast.success("Organization updated successfully");
         router.push("/manager");

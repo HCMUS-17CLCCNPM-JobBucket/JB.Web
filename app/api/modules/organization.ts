@@ -84,13 +84,13 @@ export const orgAPI = {
         },
       }
     ),
-  update: (addOrg, token) =>
+  update: (updateOrg, token) =>
     axiosClient.post(
       "/graphql",
       {
-        query: `mutation addOrganization ($addOrg: AddOrganizationRequestInput!) {
+        query: `mutation updateOrganization ($updateOrg: UpdateOrganizationRequestInput!) {
           organization {
-            add (organization : $addOrg)
+            update (organization : $updateOrg)
             {
               id
               name
@@ -106,7 +106,7 @@ export const orgAPI = {
         }
     `,
         variables: {
-          addOrg,
+          updateOrg,
         },
       },
       {
