@@ -8,7 +8,7 @@ export default function Hero() {
         <p className="dark:text-white">
           Get the <span className="text-blue-600"> Right Job</span>
         </p>
-        <p className="dark:text-white">You Deserve</p>
+        <p className="text-black dark:text-white">You Deserve</p>
       </div>
       <p className="text-gray-400 font-semibold dark:text-gray-400">
         1,232,120 jobs listed here!Your dream job is waiting

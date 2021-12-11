@@ -2,10 +2,11 @@ import { jobAPI } from "app/api/modules/jobAPI";
 import { orgAPI } from "app/api/modules/organization";
 import SalaryRange from "app/components/atoms/SalaryRange";
 import router from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 
 const JobCard = (job) => {
   const user = useSelector((state: any) => state.user);
@@ -80,9 +81,10 @@ const MemberCard = (member) => {
 };
 function CompanyProfile() {
   const user = useSelector((state: any) => state.user);
-  const [company, setCompany] = React.useState<any>({});
-  console.log(company);
+  const [company, setCompany] = useState<any>({});
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     orgAPI
       .getOrganizationDetailById(user.user.organizationId, user.token)
       .then((res) => {
@@ -100,11 +102,13 @@ function CompanyProfile() {
           ...res[0].data.data.organizationEmployersDetail.employers,
         ],
       });
+      setLoading(false);
     });
   }, []);
 
   return (
     <div className="py-4 px-16 w-full ">
+      {loading && <LoadingFullPage />}
       <img
         src="https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg"
         alt={company?.name}

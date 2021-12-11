@@ -3,6 +3,7 @@ import { imageAPI } from "app/api/modules/imageAPI";
 import { orgAPI } from "app/api/modules/organization";
 import CountrySelect from "app/components/atoms/Select/CountrySelect";
 import BlogTagSelection from "app/components/molecules/BlogTagSelection";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 import router from "next/router";
@@ -29,6 +30,7 @@ export default function UpdateOrg(props) {
   const [company, setCompany] = useState<any>({ name: " " });
 
   const [country, setCountry] = useState(company.country || "");
+  const [loading, setLoading] = useState(false);
   // const [address, setAddress] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
@@ -58,13 +60,13 @@ export default function UpdateOrg(props) {
       phoneNumber: company?.phoneNumber || "",
     },
     onSubmit: async (values) => {
+      setLoading(true);
       const dataToSend = {
         ...values,
         addresses: [values.addresses],
         country,
         id: company.id,
       };
-      console.log(dataToSend);
       const res = await orgAPI.update(dataToSend, user.token);
       if (res.status === 200) {
         toast.success("Organization updated successfully");
@@ -72,6 +74,7 @@ export default function UpdateOrg(props) {
       } else {
         toast.error("Organization update failed");
       }
+      setLoading(false);
     },
   });
 
@@ -80,6 +83,7 @@ export default function UpdateOrg(props) {
       className="px-48 py-4 flex flex-col gap-4"
       onSubmit={formik.handleSubmit}
     >
+      {loading && <LoadingFullPage />}
       <img
         src={previewSource || "https://via.placeholder.com/1134x160"}
         alt=""
