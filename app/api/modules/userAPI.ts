@@ -81,43 +81,43 @@ const UserAPI = {
       "/graphql",
       {
         query: `query getProfileById {
-        profiles (myProfile : true) {
-          id
-          userName
-          skills {
-            skillName
-            level
+          profiles (myProfile : true) {
+            id
+            userName
+            skills {
+              skillName
+              level
+            }
+            name
+            email
+            awards
+            introduction
+            gender
+            avatarUrl
+            createdDate
+            updatedDate
+            address
+            introduction
+            website
+            birthdate
+            phone
+            github
+            experiences {
+              company
+              position
+              duration
+            }
+            educations {
+              school
+              major
+              status
+              profession
+            }
+            activities
+            certifications
+            views
           }
-          name
-          email
-          awards
-          introduction
-          gender
-          avatarUrl
-          createdDate
-          updatedDate
-          address
-          introduction
-          website
-          birthdate
-          phone
-          github
-          experiences {
-            company
-            position
-            duration
-          }
-          educations {
-            school
-            major
-            status
-            profession
-          }
-          activities
-          certifications
-          views
-        }
-      }`,
+        }`,
       },
       {
         headers: {

@@ -104,7 +104,7 @@ export const orgAPI = {
             }
           }
         }
-    `,
+        `,
         variables: {
           updateOrg,
         },

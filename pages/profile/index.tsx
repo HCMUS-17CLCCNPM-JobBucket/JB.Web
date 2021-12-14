@@ -2,136 +2,153 @@ import UserAPI from "app/api/modules/userAPI";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const Contact = (props) => {
+function ExperienceItem({ company, position, duration, description }) {
   return (
-    <div className="flex gap-2 items-center">
-      <img src={props.icon} alt="" className="h-4 w-4" />
-      <p className="text-base font-semibold text-gray-600">{props.content}</p>
+    <div>
+      <p className="text-lg font-semibold">{company}</p>
+      <p className="text-base text-gray-400">{position + "  |  " + duration}</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
     </div>
   );
-};
-
-const ExperienceCard = (props) => {
+}
+function EducationItem({ school, major, profession, status }) {
   return (
-    <div className="flex justify-between border-b-2 border-gray-200 pb-4">
-      <div>
-        <p className="text-xl font-medium">{props.position}</p>
-        <p className="text-sm text-gray-400 hover:underline cursor-pointer">
-          {props.company}
-        </p>
-      </div>
-      <div>
-        <a
-          className="inline-block rounded-full text-black 
-            bg-green-200 hover:bg-green-400 duration-300 
-            text-sm font-medium 
-            mr-1 md:mr-2 mb-2 px-2 md:px-4 py-1 
-            cursor-pointer"
-        >
-          {props.jobType}
-        </a>
-
-        <p className="text-xs text-gray-400">{props.workDate}</p>
-      </div>
+    <div>
+      <p className="text-lg font-semibold">
+        {school} - <span className="text-red-500">{status}</span>
+      </p>
+      <p className="text-base text-gray-400">{major + "  |  " + profession}</p>
     </div>
-  );
-};
-
-export default function Profile() {
-  const user = useSelector((state: any) => state.user);
-  const [profile, setProfile] = useState<any>({});
-  console.log(profile);
-  // useEffect(() => {
-  //   UserAPI.getProfile(user.token).then((res) => {
-  //     if (res.status === 200) setProfile(res.data.data.profiles[0]);
-  //   });
-  // }, []);
-  return (
-    
   );
 }
 
-<div className="container">
-            <div className="flex flex-col md:grid grid-cols-9 mx-auto p-2 text-blue-50">
-              {/* left */}
-              <div className="flex flex-row-reverse md:contents">
-                <div className="bg-blue-500 col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
-                  <h3 className="font-semibold text-lg mb-1">Lorem ipsum</h3>
-                  <p className="leading-tight text-justify">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Modi, quaerat?
-                  </p>
-                </div>
-                <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
-                  <div className="h-full w-6 flex items-center justify-center">
-                    <div className="h-full w-1 bg-blue-800 pointer-events-none" />
-                  </div>
-                  <div className="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow" />
-                </div>
+function SkillButton({ skillName, level }) {
+  return (
+    <button className="px-4 py-1 rounded-full border border-blue-600">
+      {skillName + " (" + level + "/5) "}
+    </button>
+  );
+}
+
+export default function Profile() {
+  const user = useSelector((state: any) => state.user);
+  const [profile, setProfile] = useState<any>({
+    awards: [],
+    certifications: [],
+    skills: [],
+  });
+  useEffect(() => {
+    UserAPI.getProfile(user.token).then((res) => {
+      console.log(res.data.data);
+      setProfile(res.data.data.profiles[0]);
+    });
+  }, []);
+  return (
+    <div className="px-20 py-10 flex flex-col gap-12">
+      <div className="flex gap-12">
+        <img
+          src="https://c4.wallpaperflare.com/wallpaper/295/163/719/anime-anime-boys-picture-in-picture-kimetsu-no-yaiba-kamado-tanjir%C5%8D-hd-wallpaper-thumb.jpg"
+          alt=""
+          className="rounded-full h-40 w-40 object-cover"
+        />
+
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between">
+            <div>
+              <p className="text-4xl font-semibold">{profile.name}</p>
+              <p className="text-sm text-gray-400">
+                Web Dev | Software Engineer
+              </p>
+            </div>
+            <button className="btn btn-primary w-40 h-10">Edit</button>
+          </div>
+          <p className="mt-2 text-gray-600">{profile.introduction}</p>
+        </div>
+      </div>
+      <hr className="h-[1px] w-full text-gray-400" />
+
+      <div className="ml-52 ">
+        <div>
+          <p className="text-lg font-semibold">Skills</p>
+          <div className="flex gap-2 flex-wrap mt-2">
+            {profile.skills.map((item, index) => (
+              <div key={index}>
+                <SkillButton {...item} />
               </div>
-              {/* right */}
-              <div className="flex md:contents">
-                <div className="col-start-5 col-end-6 mr-10 md:mx-auto relative">
-                  <div className="h-full w-6 flex items-center justify-center">
-                    <div className="h-full w-1 bg-blue-800 pointer-events-none" />
-                  </div>
-                  <div className="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow" />
-                </div>
-                <div className="bg-blue-500 col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
-                  <h3 className="font-semibold text-lg mb-1">Lorem ipsum</h3>
-                  <p className="leading-tight text-justify">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Vitae, facilis.
-                  </p>
-                </div>
-              </div>
-              {/* left */}
-              <div className="flex flex-row-reverse md:contents">
-                <div className="bg-blue-500 col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
-                  <h3 className="font-semibold text-lg mb-1">Lorem ipsum</h3>
-                  <p className="leading-tight text-justify">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Modi, quaerat?
-                  </p>
-                </div>
-                <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
-                  <div className="h-full w-6 flex items-center justify-center">
-                    <div className="h-full w-1 bg-blue-800 pointer-events-none" />
-                  </div>
-                  <div className="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow" />
-                </div>
-              </div>
-              {/* left */}
-              <div className="flex flex-row-reverse md:contents">
-                <div className="bg-blue-500 col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
-                  <h3 className="font-semibold text-lg mb-1">Lorem ipsum</h3>
-                  <p className="leading-tight text-justify">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Modi, quaerat?
-                  </p>
-                </div>
-                <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
-                  <div className="h-full w-6 flex items-center justify-center">
-                    <div className="h-full w-1 bg-blue-800 pointer-events-none" />
-                  </div>
-                  <div className="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow" />
-                </div>
-              </div>
-              {/* right */}
-              <div className="flex md:contents">
-                <div className="col-start-5 col-end-6 mr-10 md:mx-auto relative">
-                  <div className="h-full w-6 flex items-center justify-center">
-                    <div className="h-full w-1 bg-blue-800 pointer-events-none" />
-                  </div>
-                  <div className="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow" />
-                </div>
-                <div className="bg-blue-500 col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
-                  <h3 className="font-semibold text-lg mb-1">Lorem ipsum</h3>
-                  <p className="leading-tight text-justify">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Vitae, facilis.
-                  </p>
-                </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 mt-4">
+          {/* left */}
+          <div className="flex flex-col gap-4">
+            <div>
+              <p className="text-2xl font-semibold text-gray-500">
+                Experiences
+              </p>
+              <div className="mt-2 flex flex-col gap-4">
+                {profile.experiences
+                  ? profile.experiences.map((experience) => (
+                      <div key={experience.id}>
+                        <ExperienceItem {...experience} />
+                      </div>
+                    ))
+                  : "Updating..."}
               </div>
             </div>
+            {profile.awards.length > 0 && (
+              <div>
+                <p className="text-2xl font-semibold text-gray-500">Awards</p>
+                <div className="mt-2 flex flex-col">
+                  {profile.awards.map((item) => (
+                    <p key={item.id}>{item}</p>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* right */}
+          <div className="flex flex-col gap-4">
+            <div>
+              <p className="text-2xl font-semibold text-gray-500">Educations</p>
+              <div className="mt-2 flex flex-col gap-4">
+                {profile.educations
+                  ? profile.educations.map((education) => (
+                      <div key={education.id}>
+                        <EducationItem {...education} />
+                      </div>
+                    ))
+                  : "Updating..."}
+              </div>
+            </div>
+            {profile.certifications.length > 0 && (
+              <div>
+                <p className="text-2xl font-semibold text-gray-500">
+                  Certifications
+                </p>
+                <div className="mt-2 flex flex-col">
+                  {profile.certifications.map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+            {profile.certifications.length > 0 && (
+              <div>
+                <p className="text-2xl font-semibold text-gray-500">
+                  Activities
+                </p>
+                <div className="mt-2 flex flex-col">
+                  {profile.activities.map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
