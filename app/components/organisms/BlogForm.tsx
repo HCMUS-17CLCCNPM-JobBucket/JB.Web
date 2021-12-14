@@ -47,11 +47,8 @@ export default function BlogForm(props) {
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState(props.imageUrl);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
-    setPreviewSource(URL.createObjectURL(e.target.files[0]));
-  };
+  const [imageFile, setImageFile] = useState(null);
+  const [previewSource, setPreviewSource] = useState(props.imageUrl);
 
   const handleRedirect = (res) =>
     res.status === 200 &&

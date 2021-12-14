@@ -240,19 +240,6 @@ export default function Job() {
               />
               {/* Product grid */}
               <div className="lg:col-span-8">
-                {/* Replace with your content */}
-                {/* <InfiniteScroll
-                  dataLength={jobs.length}
-                  next={fetchMoreData}
-                  hasMore={hasMore}
-                  loader={<h4>Loading...</h4>}
-                  scrollableTarget="scrollableDiv"
-                  className="flex flex-col gap-4 p-4"
-                >
-                  {jobs.map((item, index) => (
-                    <JobHorizonCard key={index} {...item} />
-                  ))}
-                </InfiniteScroll> */}
                 <JobInfinityScroll
                   loading={loading}
                   jobs={jobs}

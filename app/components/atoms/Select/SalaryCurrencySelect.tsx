@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 
-export default function SalaryCurrencySelect({ values, callback }) {
+export default function DropdownComponent({ values, callback }) {
   const [selected, setSelected] = useState(values[0]);
 
   return (

@@ -76,5 +76,60 @@ const UserAPI = {
         },
       }
     ),
+  getProfile: (token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `query getProfileById {
+        profiles (myProfile : true) {
+          id
+          userName
+          skills {
+            skillName
+            level
+          }
+          name
+          email
+          awards
+          introduction
+          gender
+          avatarUrl
+          createdDate
+          updatedDate
+          address
+          introduction
+          website
+          birthdate
+          phone
+          github
+          experiences {
+            company
+            position
+            duration
+          }
+          educations {
+            school
+            major
+            status
+            profession
+          }
+          activities
+          certifications
+          views
+        }
+      }`,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
+  updateProfile: (data, token) =>
+    axiosClient.put("/aggregate/user/profile", data, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }),
 };
 export default UserAPI;
