@@ -47,9 +47,11 @@ export default function BlogForm(props) {
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState(props.imageUrl);
 
-  const [imageFile, setImageFile] = useState(null);
-  const [previewSource, setPreviewSource] = useState(props.imageUrl);
-
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    setPreviewSource(URL.createObjectURL(e.target.files[0]));
+  };
   const handleRedirect = (res) =>
     res.status === 200 &&
     router.push(
@@ -78,7 +80,6 @@ export default function BlogForm(props) {
           user.token,
           props.type
         );
-        console.log(res);
         handleRedirect(res);
       } else {
         const res = await blogAPI.handleBlogByType(

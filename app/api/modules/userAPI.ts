@@ -126,10 +126,23 @@ const UserAPI = {
       }
     ),
   updateProfile: (data, token) =>
-    axiosClient.put("/aggregate/user/profile", data, {
-      headers: {
-        Authorization: "Bearer " + token,
+    axiosClient.post(
+      "graphql",
+      {
+        query: `mutation updateProfile ($updateProfile : UpdateUserProfileRequestInput) {
+          profile {
+            update (profile : $updateProfile)
+            {
+              id
+            }
+          }
+        }`,
       },
-    }),
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
 };
 export default UserAPI;

@@ -1,8 +1,9 @@
+import { XIcon } from "@heroicons/react/solid";
 import UserAPI from "app/api/modules/userAPI";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-function ExperienceItem({ company, position, duration, description }) {
+export function ExperienceItem({ company, position, duration, description }) {
   return (
     <div>
       <p className="text-lg font-semibold">{company}</p>
@@ -11,7 +12,7 @@ function ExperienceItem({ company, position, duration, description }) {
     </div>
   );
 }
-function EducationItem({ school, major, profession, status }) {
+export function EducationItem({ school, major, profession, status }) {
   return (
     <div>
       <p className="text-lg font-semibold">
@@ -22,11 +23,17 @@ function EducationItem({ school, major, profession, status }) {
   );
 }
 
-function SkillButton({ skillName, level }) {
+export function SkillButton({ skillName, level, onDelete }) {
   return (
-    <button className="px-4 py-1 rounded-full border border-blue-600">
-      {skillName + " (" + level + "/5) "}
-    </button>
+    <div className="px-4 py-1 rounded-full border border-blue-600 flex gap-2 items-center group">
+      <p>{skillName + " (" + level + "/5) "}</p>
+      {onDelete !== null && (
+        <XIcon
+          className="h-4 w-4 text-red-600 hidden group-hover:block cursor-pointer"
+          onClick={onDelete}
+        />
+      )}
+    </div>
   );
 }
 
@@ -39,7 +46,6 @@ export default function Profile() {
   });
   useEffect(() => {
     UserAPI.getProfile(user.token).then((res) => {
-      console.log(res.data.data);
       setProfile(res.data.data.profiles[0]);
     });
   }, []);
@@ -47,7 +53,7 @@ export default function Profile() {
     <div className="px-20 py-10 flex flex-col gap-12">
       <div className="flex gap-12">
         <img
-          src="https://c4.wallpaperflare.com/wallpaper/295/163/719/anime-anime-boys-picture-in-picture-kimetsu-no-yaiba-kamado-tanjir%C5%8D-hd-wallpaper-thumb.jpg"
+          src={profile.avatarUrl || "/avatar/avatar.png"}
           alt=""
           className="rounded-full h-40 w-40 object-cover"
         />
@@ -81,7 +87,7 @@ export default function Profile() {
 
         <div className="grid grid-cols-2 mt-4">
           {/* left */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-8">
             <div>
               <p className="text-2xl font-semibold text-gray-500">
                 Experiences
@@ -109,7 +115,7 @@ export default function Profile() {
           </div>
 
           {/* right */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-8">
             <div>
               <p className="text-2xl font-semibold text-gray-500">Educations</p>
               <div className="mt-2 flex flex-col gap-4">
