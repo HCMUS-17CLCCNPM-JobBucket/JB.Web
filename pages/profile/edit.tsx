@@ -1,5 +1,7 @@
-import ActivitySection from "app/components/molecules/ActivitySection";
+import AddStringSection from "app/components/molecules/AddStringSection";
 import ComponentWithLabel from "app/components/molecules/ComponentWithLabel";
+import EducationSection from "app/components/molecules/EducationSection";
+import ExperienceSection from "app/components/molecules/ExperienceSection";
 import SkillSection from "app/components/molecules/SkillSection";
 import { useFormik } from "formik";
 import React, { useState } from "react";
@@ -13,6 +15,7 @@ export default function UpdateProfile() {
   const [certifications, setCertifications] = useState([]);
   const [awards, setAwards] = useState([]);
   const [educations, setEducations] = useState([]);
+  const [experiences, setExperiences] = useState([]);
 
   const [imageFile, setImageFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState("");
@@ -193,35 +196,24 @@ export default function UpdateProfile() {
           />
         </ComponentWithLabel>
         <SkillSection values={skills} setValues={setSkills} />
-        <ActivitySection values={activities} setValues={setActivities} />
-        <ActivitySection
+        <AddStringSection
+          values={activities}
+          setValues={setActivities}
+          label="Activities"
+        />
+        <AddStringSection
           values={certifications}
           setValues={setCertifications}
+          label="Certifications"
+        />
+        <AddStringSection
+          values={awards}
+          setValues={setAwards}
+          label="Awards"
         />
 
-        <ComponentWithLabel label="Awards">
-          <input
-            type="text"
-            id=""
-            name=""
-            className="input"
-            placeholder=""
-            value={formik.values.avatarUrl}
-            onChange={formik.handleChange}
-          />
-        </ComponentWithLabel>
-        <ComponentWithLabel label="Educations">
-          <input
-            type="text"
-            id=""
-            name=""
-            className="input"
-            placeholder=""
-            value={formik.values.avatarUrl}
-            onChange={formik.handleChange}
-          />
-        </ComponentWithLabel>
-
+        <EducationSection values={educations} setValues={setEducations} />
+        <ExperienceSection values={experiences} setValues={setExperiences} />
         <button className="btn btn-primary w-40" type="submit">
           Update
         </button>

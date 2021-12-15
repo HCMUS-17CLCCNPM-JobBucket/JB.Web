@@ -3,7 +3,7 @@ import { SkillButton } from "pages/profile";
 import React, { useState } from "react";
 import ComponentWithLabel from "./ComponentWithLabel";
 
-export default function ActivitySection({ values, setValues }) {
+export default function AddStringSection({ values, setValues, label }) {
   const [value, setValue] = useState("");
 
   const handleAdd = () => {
@@ -14,7 +14,7 @@ export default function ActivitySection({ values, setValues }) {
   };
 
   return (
-    <ComponentWithLabel label="Skills">
+    <ComponentWithLabel label={label}>
       <div className="flex flex-col gap-4">
         <div className="flex gap-4">
           <input
