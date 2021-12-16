@@ -56,7 +56,7 @@ export default function ExperienceSection({ values, setValues }) {
           </button>
         </div>
 
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-4 flex-wrap ml-4">
           {values.map((item, index) => (
             <div key={index}>
               <ExperienceItem {...item} />

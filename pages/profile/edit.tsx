@@ -1,13 +1,20 @@
+import { imageAPI } from "app/api/modules/imageAPI";
+import UserAPI from "app/api/modules/userAPI";
 import AddStringSection from "app/components/molecules/AddStringSection";
 import ComponentWithLabel from "app/components/molecules/ComponentWithLabel";
 import EducationSection from "app/components/molecules/EducationSection";
 import ExperienceSection from "app/components/molecules/ExperienceSection";
 import SkillSection from "app/components/molecules/SkillSection";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import router from "next/router";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { SkillButton } from ".";
 
 export default function UpdateProfile() {
+  const user = useSelector((state: any) => state.user);
+  const [profile, setProfile] = useState<any>({});
   //false: female, true: male
   const [gender, setGender] = useState(true);
   const [skills, setSkills] = useState([]);
@@ -19,6 +26,22 @@ export default function UpdateProfile() {
 
   const [imageFile, setImageFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState("");
+
+  useEffect(() => {
+    UserAPI.getProfile(user.token).then((res) => {
+      const data = res.data.data.profiles[0];
+      setProfile(data);
+
+      setGender(data.gender === "Male");
+      setSkills(data.skills);
+      setActivities(data.activities);
+      setCertifications(data.certifications);
+      setAwards(data.awards);
+      setEducations(data.educations);
+      setExperiences(data.experiences);
+      setPreviewSrc(data.avatarUrl);
+    });
+  }, []);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -30,23 +53,57 @@ export default function UpdateProfile() {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: "",
-      avatarUrl: "",
+      name: profile.name || "",
+      avatarUrl: profile.avatarUrl || "",
       gender: "",
-      phone: "",
-      address: "",
-      introduction: "",
-      website: "",
-      github: "",
-      reference: "",
+      phone: profile.phone || "",
+      address: profile.address || "",
+      introduction: profile.introduction || "",
+      website: profile.website || "",
+      github: profile.github || "",
+      reference: profile.reference || "",
       skills: [],
       activities: [],
       certifications: [],
       awards: [],
       educations: [],
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      const dataToPost = {
+        ...values,
+        gender: gender === true ? "Male" : "Female",
+        skills,
+        activities,
+        certifications,
+        awards,
+        educations,
+        experiences,
+      };
+      if (imageFile) {
+        const imageRes: any = await imageAPI.uploadImage(imageFile);
+        UserAPI.updateProfile(
+          {
+            ...dataToPost,
+            avatarUrl: imageRes.data.url ? imageRes.data.url : "",
+          },
+          user.token
+        ).then((res) => {
+          router.push("/profile");
+        });
+      } else {
+        UserAPI.updateProfile(dataToPost, user.token).then((res) => {
+          router.push("/profile");
+          toast("🦄 Your profile has updated", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        });
+      }
     },
   });
   return (
@@ -105,7 +162,7 @@ export default function UpdateProfile() {
                   type="radio"
                   name="vehicle"
                   className="h-5 w-5 text-red-600"
-                  checked={gender}
+                  checked={gender === true}
                   onChange={() => setGender(true)}
                 />
                 <span className="ml-2 text-gray-700">Male</span>
@@ -115,7 +172,7 @@ export default function UpdateProfile() {
                   type="radio"
                   name="vehicle"
                   className="h-5 w-5 text-red-600"
-                  checked={gender}
+                  checked={gender === false}
                   onChange={() => setGender(false)}
                 />
                 <span className="ml-2 text-gray-700">Female</span>
@@ -153,7 +210,7 @@ export default function UpdateProfile() {
           <textarea
             id="introduction"
             name="introduction"
-            className="input"
+            className="input h-[150px]"
             placeholder="Introduction"
             value={formik.values.introduction}
             onChange={formik.handleChange}

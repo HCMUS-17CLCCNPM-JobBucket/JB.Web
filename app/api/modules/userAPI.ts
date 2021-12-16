@@ -91,6 +91,7 @@ const UserAPI = {
             name
             email
             awards
+            reference
             introduction
             gender
             avatarUrl
@@ -137,6 +138,9 @@ const UserAPI = {
             }
           }
         }`,
+        variables: {
+          updateProfile: data,
+        },
       },
       {
         headers: {

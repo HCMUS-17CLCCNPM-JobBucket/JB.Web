@@ -65,7 +65,7 @@ export default function EducationSection({ values, setValues }) {
           </button>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 ml-4">
           {values.map((item, index) => (
             <div key={index}>
               <EducationItem {...item} />

@@ -2,7 +2,7 @@ import { XIcon } from "@heroicons/react/solid";
 import UserAPI from "app/api/modules/userAPI";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
+import Link from "next/link";
 export function ExperienceItem({ company, position, duration, description }) {
   return (
     <div>
@@ -66,7 +66,9 @@ export default function Profile() {
                 Web Dev | Software Engineer
               </p>
             </div>
-            <button className="btn btn-primary w-40 h-10">Edit</button>
+            <Link href="/profile/edit" passHref>
+              <button className="btn btn-primary w-40 h-10">Edit</button>
+            </Link>
           </div>
           <p className="mt-2 text-gray-600">{profile.introduction}</p>
         </div>
