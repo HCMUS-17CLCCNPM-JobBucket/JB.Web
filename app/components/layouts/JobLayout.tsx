@@ -27,8 +27,6 @@ const categories = [
   { title: "Remote Job", path: "/rec" },
 ];
 export default function Job() {
-  const user = useSelector((state: any) => state.user);
-
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
@@ -69,7 +67,7 @@ export default function Job() {
     const fetchData = async () => {
       setLoading(true);
       Promise.all([
-        jobAPI.getAll(filterOptionsInput, user.token),
+        jobAPI.getAll(filterOptionsInput),
         jobAPI.getJobProperties(),
       ]).then(([res, res2]) => {
         if (res.status === 200) setJobs(res.data.data.jobs);
@@ -83,10 +81,7 @@ export default function Job() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await jobAPI.getAll(
-        { ...filterOptionsInput, page: 0 },
-        user.token
-      );
+      const response = await jobAPI.getAll({ ...filterOptionsInput, page: 0 });
       setJobs(response.data.data.jobs);
     };
     fetchData();

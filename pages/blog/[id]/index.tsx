@@ -18,12 +18,11 @@ export const getServerSideProps = async ({ params }) => {
 export default function BlogDetail(props) {
   const [blogInfo, setBlogInfo] = useState<any>({});
 
-  const user = useSelector((state: any) => state.user);
   const commentRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await blogAPI.getById(props.id, user.token);
+      const res = await blogAPI.getById(props.id);
       setBlogInfo(res.data.data.blogs[0]);
     };
     fetchData();

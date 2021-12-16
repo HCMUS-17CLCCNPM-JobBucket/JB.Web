@@ -25,11 +25,9 @@ export const jobAPI = {
     }
     `,
     }),
-  apply: (jobId: string, cVId: number, cVPDFUrl: string, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `
+  apply: (jobId: string, cVId: number, cVPDFUrl: string) =>
+    axiosClient.post("/graphql", {
+      query: `
         mutation applyJob($application: ApplyJobType) {
           job{
             apply(application: $application){ 
@@ -38,21 +36,13 @@ export const jobAPI = {
           }
         }
   `,
-        variables: {
-          application: { jobId, cVId, cVPDFUrl },
-        },
+      variables: {
+        application: { jobId, cVId, cVPDFUrl },
       },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
-  unApply: (jobId: string, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `
+    }),
+  unApply: (jobId: string) =>
+    axiosClient.post("/graphql", {
+      query: `
         mutation unApplyJob($id: Int) {
           job{
             unapply(id: $id){ 
@@ -61,21 +51,13 @@ export const jobAPI = {
           }
         }
   `,
-        variables: {
-          id: jobId,
-        },
+      variables: {
+        id: jobId,
       },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
-  add: (job, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `
+    }),
+  add: (job) =>
+    axiosClient.post("/graphql", {
+      query: `
           mutation addJob($job: AddJobType) {
             job{
               add(job: $job){ 
@@ -84,21 +66,13 @@ export const jobAPI = {
             }
           }
     `,
-        variables: {
-          job,
-        },
+      variables: {
+        job,
       },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
-  getAll: (filter, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `
+    }),
+  getAll: (filter) =>
+    axiosClient.post("/graphql", {
+      query: `
       query GetAllJobs($filter: ListJobRequestInput ) {
         jobs(filter: $filter) {
           id
@@ -115,21 +89,13 @@ export const jobAPI = {
         }
       }
     `,
-        variables: {
-          filter,
-        },
+      variables: {
+        filter,
       },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
-  getJobById: (id: number, token: string) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `
+    }),
+  getJobById: (id: number) =>
+    axiosClient.post("/graphql", {
+      query: `
         query Job($id: Int) {
           jobs(id: $id) {
             isJobApplied
@@ -137,16 +103,10 @@ export const jobAPI = {
           }
         }
       `,
-        variables: {
-          id,
-        },
+      variables: {
+        id,
       },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
+    }),
   getJobByIdWithoutToken: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
@@ -187,11 +147,9 @@ export const jobAPI = {
       },
     }),
 
-  like: (id: number, token: string) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `
+  like: (id: number) =>
+    axiosClient.post("/graphql", {
+      query: `
         mutation LikeJob($id: Int!) {
         job{
           addInterested(id: $id){
@@ -200,22 +158,14 @@ export const jobAPI = {
         }
       }
     `,
-        variables: {
-          id,
-        },
+      variables: {
+        id,
       },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
+    }),
 
-  unlike: (id: number, token: string) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `
+  unlike: (id: number) =>
+    axiosClient.post("/graphql", {
+      query: `
           mutation unLikeJob($id: Int!) {
             job{
               removeInterested(id: $id){
@@ -224,14 +174,8 @@ export const jobAPI = {
             }
           }
         `,
-        variables: {
-          id,
-        },
+      variables: {
+        id,
       },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
+    }),
 };

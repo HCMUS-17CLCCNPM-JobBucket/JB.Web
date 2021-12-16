@@ -9,7 +9,6 @@ import Link from "next/link";
 import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 
 const JobCard = (job) => {
-  const user = useSelector((state: any) => state.user);
   return (
     <div className="flex flex-col gap-2 pt-4">
       <div className="flex justify-between">
@@ -85,14 +84,12 @@ function CompanyProfile() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    orgAPI
-      .getOrganizationDetailById(user.user.organizationId, user.token)
-      .then((res) => {
-        setCompany(res.data.data.organizationEmployersDetail);
-      });
+    orgAPI.getOrganizationDetailById(user.user.organizationId).then((res) => {
+      setCompany(res.data.data.organizationEmployersDetail);
+    });
     Promise.all([
-      orgAPI.getOrganizationDetailById(user.user.organizationId, user.token),
-      jobAPI.getAll({ organizationId: user.user.organizationId }, user.token),
+      orgAPI.getOrganizationDetailById(user.user.organizationId),
+      jobAPI.getAll({ organizationId: user.user.organizationId }),
     ]).then((res) => {
       setCompany({
         ...res[0].data.data.organizationEmployersDetail,

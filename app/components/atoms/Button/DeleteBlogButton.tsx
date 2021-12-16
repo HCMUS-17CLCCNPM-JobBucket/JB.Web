@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 export default function DeleteBlogButton({ blogId, refreshData }) {
-  const user = useSelector((state: any) => state.user);
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -17,7 +16,7 @@ export default function DeleteBlogButton({ blogId, refreshData }) {
   }
 
   async function handleDelete() {
-    const res = await blogAPI.delete(blogId, user.token);
+    const res = await blogAPI.delete(blogId);
     if (res.status === 200) {
       closeModal();
       refreshData();

@@ -32,7 +32,6 @@ export function Logo() {
 
 export default function Navbar() {
   const user = useSelector((state: any) => state.user);
-
   const [open, setOpen] = useState(false);
   // const wrapperRef = useRef(null);
   // const handleOutsideClicked = () => {

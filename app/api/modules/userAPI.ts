@@ -24,63 +24,33 @@ const UserAPI = {
   getAccessToken: (token) => {
     return axiosClient.post("/user/refreshToken", { refreshToken: token });
   },
-  getUserDetail: (token) => {
-    return axiosClient.get("/user/details", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+  getUserDetail: () => {
+    return axiosClient.get("/user/details", {});
   },
-  getUserDetailVer2: (token) => {
-    return axiosClient.get("/aggregate/user", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+  getUserDetailVer2: () => {
+    return axiosClient.get("/aggregate/user", {});
   },
-  getUserDetailById: (userId, token) => {
-    return axiosClient.get(`/aggregate/user/${userId}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+  getUserDetailById: (userId) => {
+    return axiosClient.get(`/aggregate/user/${userId}`, {});
   },
-  updateUserDetail: (data, token) =>
-    axiosClient.put("/aggregate/user/employee", data, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }),
-  updateEmployerDetail: (data, token) =>
-    axiosClient.put("/aggregate/user/company", data, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }),
+  updateUserDetail: (data) =>
+    axiosClient.put("/aggregate/user/employee", data, {}),
+  updateEmployerDetail: (data) =>
+    axiosClient.put("/aggregate/user/company", data, {}),
   getListCompany: (page) =>
     axiosClient.post("/job/user/listCompany", {
       page: page,
       size: 10,
     }),
-  getListEmployee: (page, token, keyword) =>
-    axiosClient.post(
-      "/job/user/listEmployee",
-      {
-        keyword,
-        page: page,
-        size: 10,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
-  getProfile: (token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `query getProfileById {
+  getListEmployee: (page, keyword) =>
+    axiosClient.post("/job/user/listEmployee", {
+      keyword,
+      page: page,
+      size: 10,
+    }),
+  getProfile: () =>
+    axiosClient.post("/graphql", {
+      query: `query getProfileById {
           profiles (myProfile : true) {
             id
             userName
@@ -119,18 +89,10 @@ const UserAPI = {
             views
           }
         }`,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
-  updateProfile: (data, token) =>
-    axiosClient.post(
-      "graphql",
-      {
-        query: `mutation updateProfile ($updateProfile : UpdateUserProfileRequestInput) {
+    }),
+  updateProfile: (data) =>
+    axiosClient.post("graphql", {
+      query: `mutation updateProfile ($updateProfile : UpdateUserProfileRequestInput) {
           profile {
             update (profile : $updateProfile)
             {
@@ -138,15 +100,9 @@ const UserAPI = {
             }
           }
         }`,
-        variables: {
-          updateProfile: data,
-        },
+      variables: {
+        updateProfile: data,
       },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ),
+    }),
 };
 export default UserAPI;

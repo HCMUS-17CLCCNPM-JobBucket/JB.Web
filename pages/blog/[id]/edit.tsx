@@ -32,7 +32,6 @@ export const getServerSideProps = async ({ params }) => {
 
 export default function AddNewBlog(props) {
   const blog = props.blogs[0];
-  console.log(blog);
   const user = useSelector((state: any) => state.user);
 
   useEffect(() => {
@@ -71,23 +70,17 @@ export default function AddNewBlog(props) {
       console.table(values);
       if (values.imageUrl === "") {
         const imageRes: any = await imageAPI.uploadImage(imageFile);
-        const res = await blogAPI.update(
-          {
-            id: blog.id,
-            ...values,
-            content,
-            imageUrl: imageRes.data.url ? imageRes.data.url : "",
-          },
-          user.token
-        );
+        const res = await blogAPI.update({
+          id: blog.id,
+          ...values,
+          content,
+          imageUrl: imageRes.data.url ? imageRes.data.url : "",
+        });
         if (res.status === 200) {
           router.push("/" + blog.id);
         }
       } else {
-        const res = await blogAPI.update(
-          { id: blog.id, ...values, content },
-          user.token
-        );
+        const res = await blogAPI.update({ id: blog.id, ...values, content });
         console.log(res);
         if (res.status === 200) {
           router.push("/blog/" + blog.id);

@@ -66,7 +66,6 @@ const customStyles = {
 };
 
 export default function AddNewJob() {
-  const user = useSelector((state: any) => state.user);
   const [isUploadImg, setIsUploadImg] = useState(true);
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -114,14 +113,11 @@ export default function AddNewJob() {
     },
     onSubmit: async (values) => {
       const imageRes: any = await imageAPI.uploadImage(imageFile);
-      const res = await jobAPI.add(
-        {
-          ...values,
-          imageUrl: imageRes.data.url,
-          content,
-        },
-        user.token
-      );
+      const res = await jobAPI.add({
+        ...values,
+        imageUrl: imageRes.data.url,
+        content,
+      });
 
       if (res.status === 200) router.push("/blog/" + res.data.data.blog.add.id);
     },

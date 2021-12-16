@@ -17,8 +17,8 @@ function DropdownItem(props) {
   );
 }
 export default function DropdownAvatar() {
-  const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
+  const user = useSelector((state: any) => state.user);
 
   const handleLogout = () => {
     dispatch(logout());

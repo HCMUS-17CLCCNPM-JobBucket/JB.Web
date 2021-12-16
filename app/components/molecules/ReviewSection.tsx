@@ -13,7 +13,6 @@ function SubReviewItem({ label, value, callback }) {
 }
 
 export default function ReviewSection({ companyId }) {
-  const user = useSelector((state: any) => state.user);
   const [review, setReview] = useState({
     content: "",
     organizationId: 1,
@@ -26,7 +25,7 @@ export default function ReviewSection({ companyId }) {
 
   const handleReview = () => {
     reviewAPI
-      .addReview({ ...review, organizationId: companyId }, user.token)
+      .addReview({ ...review, organizationId: companyId })
       .then((res) => {
         console.log(res);
       });

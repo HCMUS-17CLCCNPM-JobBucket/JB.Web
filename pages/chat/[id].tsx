@@ -18,7 +18,7 @@
 //   const chatRef = useRef(null);
 //   const [isChat, setIsChat] = useState(false);
 //   const [value, setValue] = useState("");
-//   const user = useSelector((state: any) => state.user);
+//
 //   const [conversations, setConversations] = useState([]);
 //   const [page, setPage] = useState(0);
 //   const [headerInfo, setHeaderInfo] = useState<any>({

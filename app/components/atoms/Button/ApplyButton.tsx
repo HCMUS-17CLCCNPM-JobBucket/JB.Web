@@ -8,7 +8,6 @@ import Checkbox from "../Toggle/Checkbox";
 import CVButton from "./CVButton";
 
 export default function ApplyButton({ value, jobId }) {
-  const user = useSelector((state: any) => state.user);
   const [hasActive, setHasActive] = useState(value);
   const [imageFile, setImageFile] = useState(null);
   let [isOpen, setIsOpen] = useState(false);
@@ -25,7 +24,7 @@ export default function ApplyButton({ value, jobId }) {
 
   const openModal = async () => {
     if (hasActive) {
-      const res = await jobAPI.unApply(jobId, user.token);
+      const res = await jobAPI.unApply(jobId);
       if (res.data.errors) {
       }
       if (res.status === 200) {
@@ -44,7 +43,7 @@ export default function ApplyButton({ value, jobId }) {
       console.log(pdfRes);
       console.log(imageFile);
       if (pdfRes.status === 200) {
-        const res = await jobAPI.apply(jobId, -1, pdfRes.data.url, user.token);
+        const res = await jobAPI.apply(jobId, -1, pdfRes.data.url);
         if (res.data.errors) {
         }
         if (res.status === 200) {

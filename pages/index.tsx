@@ -7,10 +7,9 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  const user = useSelector((state: any) => state.user);
   useEffect(() => {
     console.log(123213);
-    UserAPI.getProfile(user.token).then((res) => {
+    UserAPI.getProfile().then((res) => {
       console.log(res.data.data);
     });
   }, []);

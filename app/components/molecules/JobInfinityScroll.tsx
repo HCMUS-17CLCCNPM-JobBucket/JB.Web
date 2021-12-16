@@ -13,14 +13,13 @@ export default function JobInfinityScroll({
   setJobs,
   setFilterOptions,
 }) {
-  const user = useSelector((state: any) => state.user);
   const [hasMore, setHasMore] = useState(true);
 
   const fetchMoreData = async () => {
-    const res = await jobAPI.getAll(
-      { ...filterOptions, page: filterOptions.page + 1 },
-      user.token
-    );
+    const res = await jobAPI.getAll({
+      ...filterOptions,
+      page: filterOptions.page + 1,
+    });
     setFilterOptions !== null &&
       setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
     setJobs(jobs.concat(res.data.data.jobs));

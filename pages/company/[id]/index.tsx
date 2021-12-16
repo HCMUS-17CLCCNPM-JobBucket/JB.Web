@@ -23,11 +23,10 @@ export const getServerSideProps = async ({ params }) => {
 
 export default function CompanyDetail(props) {
   const user = useSelector((state: any) => state.user);
-
   const [jobs, setJobs] = useState<any>([]);
   if (user.token === "") router.push("/");
   useEffect(() => {
-    jobAPI.getAll({ organizationId: props.id }, user.token).then((res) => {
+    jobAPI.getAll({ organizationId: props.id }).then((res) => {
       if (res.status === 200) {
         setJobs(res.data.data.jobs);
       }

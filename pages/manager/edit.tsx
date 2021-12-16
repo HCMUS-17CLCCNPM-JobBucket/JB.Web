@@ -26,7 +26,6 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
 );
 
 export default function UpdateOrg(props) {
-  const user = useSelector((state: any) => state.user);
   const [company, setCompany] = useState<any>({ name: " " });
 
   const [country, setCountry] = useState(company.country || "");
@@ -34,6 +33,7 @@ export default function UpdateOrg(props) {
   // const [address, setAddress] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
+  const user = useSelector((state: any) => state.user);
 
   useEffect(() => {
     orgAPI.getById(user.user.organizationId).then((res) => {
@@ -67,7 +67,7 @@ export default function UpdateOrg(props) {
         country,
         id: company.id,
       };
-      const res = await orgAPI.update(dataToSend, user.token);
+      const res = await orgAPI.update(dataToSend);
       if (res.status === 200) {
         toast.success("Organization updated successfully");
         router.push("/manager");

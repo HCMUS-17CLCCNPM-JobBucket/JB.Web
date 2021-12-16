@@ -44,11 +44,9 @@ export const orgAPI = {
         id,
       },
     }),
-  add: (org, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation addOrganization ($addOrg: AddOrganizationRequestInput!) {
+  add: (org) =>
+    axiosClient.post("/graphql", {
+      query: `mutation addOrganization ($addOrg: AddOrganizationRequestInput!) {
         organization {
           add (organization : $addOrg)
           {
@@ -65,30 +63,22 @@ export const orgAPI = {
         }
       }
       `,
-        variables: {
-          addOrg: {
-            name: "",
-            address: [],
-            avatarUrl: "",
-            bio: "",
-            country: "",
-            email: "",
-            imageUrls: [],
-            phoneNumber: "",
-          },
+      variables: {
+        addOrg: {
+          name: "",
+          address: [],
+          avatarUrl: "",
+          bio: "",
+          country: "",
+          email: "",
+          imageUrls: [],
+          phoneNumber: "",
         },
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  update: (updateOrg, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation updateOrganization ($updateOrg: UpdateOrganizationRequestInput!) {
+    }),
+  update: (updateOrg) =>
+    axiosClient.post("/graphql", {
+      query: `mutation updateOrganization ($updateOrg: UpdateOrganizationRequestInput!) {
           organization {
             update (organization : $updateOrg)
             {
@@ -105,21 +95,13 @@ export const orgAPI = {
           }
         }
         `,
-        variables: {
-          updateOrg,
-        },
+      variables: {
+        updateOrg,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  delete: (id, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation deleteOrg($id: Int!) {
+    }),
+  delete: (id) =>
+    axiosClient.post("/graphql", {
+      query: `mutation deleteOrg($id: Int!) {
           organization {
             delete(id: $id) {
               id
@@ -135,21 +117,13 @@ export const orgAPI = {
           }
         }
         `,
-        variables: {
-          id,
-        },
+      variables: {
+        id,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  addNewOrgRecruiter: (orgId, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation AddEmployer ($empInfo :AddEmployerRequestInput) {
+    }),
+  addNewOrgRecruiter: (orgId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation AddEmployer ($empInfo :AddEmployerRequestInput) {
         organization{
           addEmployer(
             organizationEmployer : $empInfo
@@ -167,25 +141,17 @@ export const orgAPI = {
         }
       }
       `,
-        variables: {
-          empInfo: {
-            name: "",
-            userName: "",
-            passwordPlain: "",
-          },
+      variables: {
+        empInfo: {
+          name: "",
+          userName: "",
+          passwordPlain: "",
         },
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  deleteOrgRecruiterById: (orgId, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation deleteEmployer{
+    }),
+  deleteOrgRecruiterById: (orgId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation deleteEmployer{
           organization{
             deleteEmployer(id:12){
               id
@@ -199,19 +165,11 @@ export const orgAPI = {
           }
         }
         `,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
+    }),
   // reset organization recruiter(employer) password by id
-  resetOrgRecruiterPasswordById: (orgId, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation resetPassEmployer{
+  resetOrgRecruiterPasswordById: (orgId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation resetPassEmployer{
           organization{
             resetPassEmployer(id:12){
               passwordPlain
@@ -219,19 +177,11 @@ export const orgAPI = {
           }
         }
         `,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
+    }),
   // promote organization recruiter(employer) to manager by id
-  promoteOrgRecruiterToManagerById: (orgId, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation promoteEmployer{
+  promoteOrgRecruiterToManagerById: (orgId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation promoteEmployer{
           organization{
             promoteEmployer(id:12){
               id
@@ -245,19 +195,11 @@ export const orgAPI = {
           }
         }
         `,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
+    }),
   //demote organization manager to recruiter(employer) by id
-  demoteOrgManagerToRecruiterById: (orgId, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation demoteEmployer{
+  demoteOrgManagerToRecruiterById: (orgId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation demoteEmployer{
           organization{
             demoteEmployer(id:12){
               id
@@ -271,18 +213,10 @@ export const orgAPI = {
           }
         }
         `,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  getOrganizationDetailById: (orgId, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `query getOrganizationDetailById($id: Int){
+    }),
+  getOrganizationDetailById: (orgId) =>
+    axiosClient.post("/graphql", {
+      query: `query getOrganizationDetailById($id: Int){
           organizationEmployersDetail(orgId: $id)
           {
             id 
@@ -311,14 +245,8 @@ export const orgAPI = {
           }
         }
         `,
-        variables: {
-          id: orgId,
-        },
+      variables: {
+        id: orgId,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
+    }),
 };

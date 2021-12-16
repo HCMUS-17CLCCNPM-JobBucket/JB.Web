@@ -9,7 +9,7 @@ export default function Contact() {
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState([]);
   const [content, setContent] = useState("");
-  // const user = useSelector((state: any) => state.user);
+  //
   // const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {

@@ -18,7 +18,6 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function JobDetail(props) {
-  const user = useSelector((state: any) => state.user);
   const [jobStatus, setJobStatus] = useState({
     isJobInterested: false,
     isJobApplied: false,
@@ -26,7 +25,7 @@ export default function JobDetail(props) {
   const [jobInfo, setjobInfo] = useState<any>(props.jobs[0]);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await jobAPI.getJobById(parseInt(jobInfo.id), user.token);
+      const res = await jobAPI.getJobById(parseInt(jobInfo.id));
       setJobStatus(res.data.data.jobs[0]);
     };
     fetchData();

@@ -4,7 +4,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 export default function FoundUser(props) {
-  const user = useSelector((state: any) => state.user);
   const handleChatClick = async () => {
     // const chatRes = await chatAPI.createConversationOfEmployer(
     //   user.token,

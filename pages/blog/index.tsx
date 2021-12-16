@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function BlogPage() {
   const user = useSelector((state: any) => state.user);
+
   const [loading, setLoading] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -23,10 +24,7 @@ export default function BlogPage() {
   });
 
   const fetchMoreData = async () => {
-    const res = await blogAPI.getAll(
-      { ...filter, page: filter.page + 1 },
-      user.token
-    );
+    const res = await blogAPI.getAll({ ...filter, page: filter.page + 1 });
     setBlogs(blogs.concat(res.data.data.blogs));
     setFilter({ ...filter, page: filter.page + 1 });
     setHasMore(res.data.data.blogs.length > 0);
@@ -35,7 +33,7 @@ export default function BlogPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await blogAPI.getAll(filter, user.token);
+      const res = await blogAPI.getAll(filter);
       if (res.status === 200) setBlogs(res.data.data.blogs);
       setLoading(false);
     };

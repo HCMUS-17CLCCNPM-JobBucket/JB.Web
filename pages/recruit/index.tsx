@@ -26,7 +26,7 @@ const customStyles = {
 
 function JobPage() {
   const [categories, setCategories] = useState([]);
-  const user = useSelector((state: any) => state.user);
+
   const [currentPage, setCurrentPage] = useState(0);
 
   const [jobLength, setJobLength] = useState(0);
@@ -38,14 +38,11 @@ function JobPage() {
   const [category, setCategory] = useState(0);
 
   const [isTimeOuted, IsTimeOuted] = useState(false);
+  const user = useSelector((state: any) => state.user);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await UserAPI.getListEmployee(
-        currentPage,
-        user.token,
-        keyword
-      );
+      const res = await UserAPI.getListEmployee(currentPage, keyword);
       if (res.status === 200) {
         setJobs(res.data.data);
         setLoading(false);

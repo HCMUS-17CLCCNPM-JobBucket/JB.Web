@@ -5,7 +5,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 
 export default function MyBlog() {
-  const user = useSelector((state: any) => state.user);
   const [blogs, setBlogs] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -19,19 +18,17 @@ export default function MyBlog() {
     tags: [],
     // authorId: 1,
   });
+  const user = useSelector((state: any) => state.user);
 
   const fetchMoreData = async () => {
-    const res = await blogAPI.getAll(
-      { ...filter, page: filter.page + 1 },
-      user.token
-    );
+    const res = await blogAPI.getAll({ ...filter, page: filter.page + 1 });
     setBlogs(blogs.concat(res.data.data.blogs));
     setFilter({ ...filter, page: filter.page + 1 });
     setHasMore(res.data.data.blogs.length > 0);
   };
   useEffect(() => {
     const fetchData = async () => {
-      const res = await blogAPI.getMyBlogs(user.user.id, user.token);
+      const res = await blogAPI.getMyBlogs(user.user.id);
       console.log(res);
       if (res.status === 200) setBlogs(res.data.data.blogs);
     };

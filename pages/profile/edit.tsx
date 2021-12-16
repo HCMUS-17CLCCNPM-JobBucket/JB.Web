@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 import { SkillButton } from ".";
 
 export default function UpdateProfile() {
-  const user = useSelector((state: any) => state.user);
   const [profile, setProfile] = useState<any>({});
   //false: female, true: male
   const [gender, setGender] = useState(true);
@@ -28,7 +27,7 @@ export default function UpdateProfile() {
   const [previewSrc, setPreviewSrc] = useState("");
 
   useEffect(() => {
-    UserAPI.getProfile(user.token).then((res) => {
+    UserAPI.getProfile().then((res) => {
       const data = res.data.data.profiles[0];
       setProfile(data);
 
@@ -81,17 +80,14 @@ export default function UpdateProfile() {
       };
       if (imageFile) {
         const imageRes: any = await imageAPI.uploadImage(imageFile);
-        UserAPI.updateProfile(
-          {
-            ...dataToPost,
-            avatarUrl: imageRes.data.url ? imageRes.data.url : "",
-          },
-          user.token
-        ).then((res) => {
+        UserAPI.updateProfile({
+          ...dataToPost,
+          avatarUrl: imageRes.data.url ? imageRes.data.url : "",
+        }).then((res) => {
           router.push("/profile");
         });
       } else {
-        UserAPI.updateProfile(dataToPost, user.token).then((res) => {
+        UserAPI.updateProfile(dataToPost).then((res) => {
           router.push("/profile");
           toast("🦄 Your profile has updated", {
             position: "top-right",

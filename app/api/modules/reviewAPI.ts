@@ -1,11 +1,9 @@
 import axiosClient from "../axiosClient";
 
 const reviewAPI = {
-  getReviewById: (id, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `query getReviewById{
+  getReviewById: (id) =>
+    axiosClient.post("/graphql", {
+      query: `query getReviewById{
             reviews(id:4){
               id 
               rating
@@ -17,21 +15,13 @@ const reviewAPI = {
               interestCount
             }
           }`,
-        variables: {
-          id,
-        },
+      variables: {
+        id,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  getReviewByCompany: (companyId, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `query listReview {
+    }),
+  getReviewByCompany: (companyId) =>
+    axiosClient.post("/graphql", {
+      query: `query listReview {
                 reviews (filterRequest : {
                   page : 1
                   size : 20
@@ -63,21 +53,13 @@ const reviewAPI = {
                 }
               }
             `,
-        variables: {
-          companyId,
-        },
+      variables: {
+        companyId,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  addReview: (review, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation addReview ($addReview: AddReviewRequestInput) {
+    }),
+  addReview: (review) =>
+    axiosClient.post("/graphql", {
+      query: `mutation addReview ($addReview: AddReviewRequestInput) {
             review {
               add (review : $addReview)
               {
@@ -97,21 +79,13 @@ const reviewAPI = {
               }
             }
           }`,
-        variables: {
-          addReview: review,
-        },
+      variables: {
+        addReview: review,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  updateReview: (review, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation updateReview ($updateReview: UpdateReviewRequestInput) {
+    }),
+  updateReview: (review) =>
+    axiosClient.post("/graphql", {
+      query: `mutation updateReview ($updateReview: UpdateReviewRequestInput) {
                 review {
                   update (review : $updateReview)
                   {
@@ -141,21 +115,13 @@ const reviewAPI = {
               }
               }
             `,
-        variables: {
-          updateReview: review,
-        },
+      variables: {
+        updateReview: review,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  deleteReview: (id, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation deleteReview {
+    }),
+  deleteReview: (id) =>
+    axiosClient.post("/graphql", {
+      query: `mutation deleteReview {
                 review {
                   delete(id: 2) {
                     id
@@ -164,21 +130,13 @@ const reviewAPI = {
                 }
               }
             `,
-        variables: {
-          id,
-        },
+      variables: {
+        id,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  likeReview: (id, token) =>
-    axiosClient.post(
-      "/graphql",
-      {
-        query: `mutation interestReview {
+    }),
+  likeReview: (id) =>
+    axiosClient.post("/graphql", {
+      query: `mutation interestReview {
             review {
                 interest(id: 5) {
                 id
@@ -188,13 +146,7 @@ const reviewAPI = {
                 }
             }
         }`,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
+    }),
 };
 
 export default reviewAPI;

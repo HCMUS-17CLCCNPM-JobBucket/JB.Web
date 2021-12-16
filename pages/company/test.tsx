@@ -71,8 +71,6 @@ const categories = [
 ];
 
 export default function Job() {
-  const user = useSelector((state: any) => state.user);
-
   const [orgs, setOrgs] = useState([]);
   const [page, setPage] = useState(1);
 

@@ -24,14 +24,14 @@ const MyCalendar = (props) => (
 
 export default function JobSaved() {
   const [jobs, setJobs] = useState([]);
-  const user = useSelector((state: any) => state.user);
+
   const [loading, setLoading] = useState(false);
 
   //call api to get saved jobs
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const response = await jobAPI.getAll({}, user.token);
+      const response = await jobAPI.getAll({});
       setJobs(response.data.data.jobs);
       setLoading(false);
     };

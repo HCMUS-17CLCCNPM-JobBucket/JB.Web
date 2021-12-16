@@ -13,21 +13,21 @@ export default function LikeButton(props) {
     if (user.token !== "")
       if (props.type === "comment") {
         if (isInterested) {
-          await blogAPI.unlikeComment(props.id, user.token);
+          await blogAPI.unlikeComment(props.id);
           setInterestCount(interestCount - 1);
           setIsInterested(false);
         } else {
-          await blogAPI.likeComment(props.id, user.token);
+          await blogAPI.likeComment(props.id);
           setInterestCount(interestCount + 1);
           setIsInterested(true);
         }
       } else {
         if (isInterested) {
-          await blogAPI.unlike(props.id, user.token);
+          await blogAPI.unlike(props.id);
           setInterestCount(interestCount - 1);
           setIsInterested(false);
         } else {
-          await blogAPI.like(props.id, user.token);
+          await blogAPI.like(props.id);
           setInterestCount(interestCount + 1);
           setIsInterested(true);
         }

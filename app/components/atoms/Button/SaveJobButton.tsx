@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function SaveJobButton({ isInterested, jobId }) {
-  const user = useSelector((state: any) => state.user);
   const [isSaved, setIsSaved] = useState(isInterested);
+  const user = useSelector((state: any) => state.user);
 
   useEffect(() => {
     if (isInterested !== isSaved) {
@@ -15,10 +15,10 @@ export default function SaveJobButton({ isInterested, jobId }) {
   const handleClick = async () => {
     if (user.token !== "")
       if (isSaved === true) {
-        const res = await jobAPI.unlike(jobId, user.token);
+        const res = await jobAPI.unlike(jobId);
         setIsSaved(false);
       } else {
-        const res = await jobAPI.like(jobId, user.token);
+        const res = await jobAPI.like(jobId);
         setIsSaved(true);
       }
   };

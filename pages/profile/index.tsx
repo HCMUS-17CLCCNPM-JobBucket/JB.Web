@@ -38,14 +38,13 @@ export function SkillButton({ skillName, level, onDelete }) {
 }
 
 export default function Profile() {
-  const user = useSelector((state: any) => state.user);
   const [profile, setProfile] = useState<any>({
     awards: [],
     certifications: [],
     skills: [],
   });
   useEffect(() => {
-    UserAPI.getProfile(user.token).then((res) => {
+    UserAPI.getProfile().then((res) => {
       setProfile(res.data.data.profiles[0]);
     });
   }, []);

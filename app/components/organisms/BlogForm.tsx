@@ -40,8 +40,6 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
 );
 
 export default function BlogForm(props) {
-  const user = useSelector((state: any) => state.user);
-
   const [tags, setTags] = useState(props.tags);
   const [content, setContent] = useState(props.content);
   const [imageFile, setImageFile] = useState(null);
@@ -77,7 +75,6 @@ export default function BlogForm(props) {
             content,
             imageUrl: imageRes.data.url ? imageRes.data.url : "",
           },
-          user.token,
           props.type
         );
         handleRedirect(res);
@@ -89,7 +86,6 @@ export default function BlogForm(props) {
             tags,
             content,
           },
-          user.token,
           props.type
         );
         console.log(res);

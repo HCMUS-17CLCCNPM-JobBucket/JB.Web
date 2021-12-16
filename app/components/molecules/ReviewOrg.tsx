@@ -88,11 +88,10 @@ function SubReviewItem({ label, value, callback }) {
 }
 
 export default function ReviewOrg({ companyId }) {
-  const user = useSelector((state: any) => state.user);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    reviewAPI.getReviewByCompany({ companyId }, user.token).then((res) => {
+    reviewAPI.getReviewByCompany({ companyId }).then((res) => {
       setReviews(res.data.data.reviews);
     });
   }, []);

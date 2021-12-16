@@ -27,25 +27,22 @@ export default function Comment({
     isEdited: false,
   });
   const handleEdit = async () => {
-    const res = await blogAPI.updateComment(
-      editState.content,
-      id,
-      userToken.token
-    );
+    const res = await blogAPI.updateComment(editState.content, id);
     console.log(res);
     setEditState({ ...editState, isEdited: false });
     callback();
   };
   const handleDelete = async () => {
-    await blogAPI.delete(id, userToken.token);
+    await blogAPI.delete(id);
     callback();
   };
 
   const handleSubComment = async () => {
-    const res = await blogAPI.addSubComment(
-      { blogId, content: commentVal, parentId: id },
-      userToken.token
-    );
+    const res = await blogAPI.addSubComment({
+      blogId,
+      content: commentVal,
+      parentId: id,
+    });
     console.log(123);
     setCommentVal("");
     setIsReplied(false);
