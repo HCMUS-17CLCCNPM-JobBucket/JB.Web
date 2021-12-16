@@ -53,8 +53,6 @@ export default function Comment({
   };
   return (
     <div>
-      {/* <DeleteAlert callback="" /> */}
-
       <div className="relative flex items-center group">
         <div className="flex">
           <div className="flex-shrink-0 mr-3 ">

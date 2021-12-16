@@ -1,7 +1,6 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import { imageAPI } from "app/api/modules/imageAPI";
 import { jobAPI } from "app/api/modules/jobAPI";
-import DropdownComponent from "app/components/atoms/Select/DropdownComponent";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 import router from "next/router";
@@ -130,14 +129,14 @@ export default function AddNewJob() {
       {/* <div className="flex justify-between">
         <div></div>
       </div> */}
-      <DropdownComponent
+      {/* <DropdownComponent
         values={[
           { name: "Emergency" },
           { name: "Actively hiring" },
           { name: "None" },
         ]}
         callback={() => {}}
-      />
+      /> */}
       <input
         type="text"
         id="title"
@@ -184,14 +183,14 @@ export default function AddNewJob() {
           className="input"
         />
 
-        <DropdownComponent
+        {/* <DropdownComponent
           values={[{ name: "VND" }, { name: "USD" }, { name: "Euro" }]}
           callback={() => {}}
         />
         <DropdownComponent
           values={[{ name: "Week" }, { name: "Month" }, { name: "Year" }]}
           callback={() => {}}
-        />
+        /> */}
       </div>
       <Select styles={customStyles} placeholder="Skills" />
       <Select styles={customStyles} placeholder="Positions" />
