@@ -6,7 +6,11 @@ module.exports = {
   ],
   darkMode: "class", // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        my: "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
+      },
+    },
   },
   variants: {
     extend: {},
