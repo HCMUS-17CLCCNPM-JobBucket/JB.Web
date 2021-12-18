@@ -67,7 +67,12 @@ export default function InfoOrg(props) {
             </div>
           </div>
         </div>
-        <button className="btn btn-primary h-12 w-40">Write Review</button>
+        <button
+          className="btn btn-primary h-12 w-40"
+          onClick={props.handleScroll}
+        >
+          Write Review
+        </button>
       </div>
     </div>
   );

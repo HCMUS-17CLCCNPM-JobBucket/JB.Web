@@ -19,42 +19,49 @@ const reviewAPI = {
         id,
       },
     }),
-  getReviewByCompany: (companyId) =>
+  getReviewByCompany: (companyId, page) =>
     axiosClient.post("/graphql", {
-      query: `query listReview {
-                reviews (filterRequest : {
-                  page : 1
-                  size : 20
-                  organizationId : 1
-                })
-                {
-                  id
-                  rating
-                  ratingBenefit
-                  ratingLearning
-                  ratingCulture
-                  ratingWorkspace
-                  content
-                  interestCount
-                  user{
-                    id name avatarUrl userName email
-                  }
-                  userId
-                  createdDate
-                  updatedDate
-                  isInterested
-                  organizationId
-                  organization{
-                    id name bio avatarUrl
-                  }
-                  interests{
-                    userId
-                  }
-                }
-              }
+      query: `query listReview($filterRequest: ListReviewRequestInput) {
+        reviews(filterRequest: $filterRequest) {
+          id
+          rating
+          ratingBenefit
+          ratingLearning
+          ratingCulture
+          ratingWorkspace
+          content
+          interestCount
+          user {
+            id
+            name
+            avatarUrl
+            userName
+            email
+          }
+          userId
+          createdDate
+          updatedDate
+          isInterested
+          organizationId
+          organization {
+            id
+            name
+            bio
+            avatarUrl
+          }
+          interests {
+            userId
+          }
+        }
+      }
             `,
       variables: {
-        companyId,
+        filter: {
+          isDescending: true,
+          organizationId: companyId,
+          page,
+          size: 10,
+        },
       },
     }),
   addReview: (review) =>
@@ -121,9 +128,9 @@ const reviewAPI = {
     }),
   deleteReview: (id) =>
     axiosClient.post("/graphql", {
-      query: `mutation deleteReview {
+      query: `mutation deleteReview($id: Int!) {
                 review {
-                  delete(id: 2) {
+                  delete(id: $id) {
                     id
                     
                   }
@@ -136,16 +143,18 @@ const reviewAPI = {
     }),
   likeReview: (id) =>
     axiosClient.post("/graphql", {
-      query: `mutation interestReview {
-            review {
-                interest(id: 5) {
-                id
-                interests{
-                    userId
-                }
-                }
-            }
-        }`,
+      query: `mutation interestReview($id: Int!) {
+        review {
+          interest(id: $id) {
+            isInterested
+            interestCount
+          }
+        }
+      }
+      `,
+      variables: {
+        id,
+      },
     }),
 };
 

@@ -5,8 +5,9 @@ import ReviewOrgBoard from "app/components/atoms/ReviewOrgBoard";
 import InfoOrg from "app/components/molecules/InfoOrg";
 import ListJobOrg from "app/components/molecules/ListJobOrg";
 import ReviewOrg from "app/components/molecules/ReviewOrg";
+import helper from "app/utils/helper";
 import router from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 
@@ -24,6 +25,8 @@ export const getServerSideProps = async ({ params }) => {
 export default function CompanyDetail(props) {
   const user = useSelector((state: any) => state.user);
   const [jobs, setJobs] = useState<any>([]);
+  const refReview = useRef(null);
+
   if (user.token === "") router.push("/");
   useEffect(() => {
     jobAPI.getAll({ organizationId: props.id }).then((res) => {
@@ -32,6 +35,11 @@ export default function CompanyDetail(props) {
       }
     });
   }, []);
+  const handleScroll = () => {
+    if (refReview.current) {
+      helper.scrollToRef(refReview);
+    }
+  };
   return (
     <div className="py-4 px-16 w-full ">
       <img
@@ -40,7 +48,7 @@ export default function CompanyDetail(props) {
         className="w-full h-[400px] rounded-lg"
       />
       <div className="mx-auto w-11/12 -translate-y-24 bg-white rounded-lg">
-        <InfoOrg {...props} />
+        <InfoOrg {...props} handleScroll={handleScroll} />
         <div className="flex gap-8 mt-8">
           <div className="w-2/3">
             <div className="p-8 shadow-lg rounded-lg">
@@ -54,6 +62,8 @@ export default function CompanyDetail(props) {
 
           <ReviewOrgBoard />
         </div>
+        <div ref={refReview}></div>
+
         <ReviewOrg companyId={props.id} />
       </div>
     </div>

@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <AuthProvider>
-          <ToastContainer />
+          <ToastContainer limit={3} />
           {/* {loading && <LoadingTransition />} */}
 
           {!listExclude.includes(router.pathname) && <Navbar />}
