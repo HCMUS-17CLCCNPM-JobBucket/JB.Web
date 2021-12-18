@@ -23,6 +23,14 @@ export default function DropdownAvatar() {
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  const handleRedirectToProfile = () => {
+    if (user.user.roleId === 3) {
+      router.push("/manager");
+    } else {
+      router.push("/profile");
+    }
+  };
   return (
     <div className="z-50">
       <Menu as="div" className="relative inline-block text-left">
@@ -62,7 +70,7 @@ export default function DropdownAvatar() {
                 />
                 <div
                   className="profile-btn__info"
-                  onClick={() => router.push("/profile")}
+                  onClick={handleRedirectToProfile}
                 >
                   <p className="profile-btn__name">Thang</p>
                   <p className="text-xs font-medium text-gray-400">
