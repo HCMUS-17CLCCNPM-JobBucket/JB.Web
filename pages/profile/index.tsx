@@ -57,7 +57,7 @@ export default function Profile() {
           className="rounded-full h-40 w-40 object-cover"
         />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
           <div className="flex justify-between">
             <div>
               <p className="text-4xl font-semibold">{profile.name}</p>
@@ -76,7 +76,7 @@ export default function Profile() {
 
       <div className="ml-52 ">
         <div>
-          <p className="text-lg font-semibold">Skills</p>
+          <p className="text-2xl font-semibold text-blue-500">Skills</p>
           <div className="flex gap-2 flex-wrap mt-2">
             {profile.skills.map((item, index) => (
               <div key={index}>
@@ -90,7 +90,7 @@ export default function Profile() {
           {/* left */}
           <div className="flex flex-col gap-8">
             <div>
-              <p className="text-2xl font-semibold text-gray-500">
+              <p className="text-2xl font-semibold text-blue-500">
                 Experiences
               </p>
               <div className="mt-2 flex flex-col gap-4">
@@ -105,7 +105,7 @@ export default function Profile() {
             </div>
             {profile.awards.length > 0 && (
               <div>
-                <p className="text-2xl font-semibold text-gray-500">Awards</p>
+                <p className="text-2xl font-semibold text-blue-500">Awards</p>
                 <div className="mt-2 flex flex-col">
                   {profile.awards.map((item) => (
                     <p key={item.id}>{item}</p>
@@ -118,7 +118,7 @@ export default function Profile() {
           {/* right */}
           <div className="flex flex-col gap-8">
             <div>
-              <p className="text-2xl font-semibold text-gray-500">Educations</p>
+              <p className="text-2xl font-semibold text-blue-500">Educations</p>
               <div className="mt-2 flex flex-col gap-4">
                 {profile.educations
                   ? profile.educations.map((education) => (
@@ -131,7 +131,7 @@ export default function Profile() {
             </div>
             {profile.certifications.length > 0 && (
               <div>
-                <p className="text-2xl font-semibold text-gray-500">
+                <p className="text-2xl font-semibold text-blue-500">
                   Certifications
                 </p>
                 <div className="mt-2 flex flex-col">
@@ -143,7 +143,7 @@ export default function Profile() {
             )}
             {profile.certifications.length > 0 && (
               <div>
-                <p className="text-2xl font-semibold text-gray-500">
+                <p className="text-2xl font-semibold text-blue-500">
                   Activities
                 </p>
                 <div className="mt-2 flex flex-col">
