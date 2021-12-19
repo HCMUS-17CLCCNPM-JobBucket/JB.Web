@@ -3,7 +3,7 @@ import axios from "axios";
 // Set up default config for http requests here
 
 const axiosClient = axios.create({
-  baseURL: "http://api.jobbucket.xyz",
+  baseURL: "https://api.jobbucket.xyz",
   headers: {
     "content-type": "application/json",
   },
