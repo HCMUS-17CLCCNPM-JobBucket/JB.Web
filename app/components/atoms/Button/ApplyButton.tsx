@@ -40,8 +40,7 @@ export default function ApplyButton({ value, jobId }) {
   const handleApply = async (e) => {
     if (imageFile !== null) {
       const pdfRes: any = await imageAPI.uploadCV(imageFile);
-      console.log(pdfRes);
-      console.log(imageFile);
+
       if (pdfRes.status === 200) {
         const res = await jobAPI.apply(jobId, -1, pdfRes.data.url);
         if (res.data.errors) {

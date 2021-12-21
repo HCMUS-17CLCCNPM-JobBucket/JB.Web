@@ -26,8 +26,8 @@ export default function CompanyDetail(props) {
   const user = useSelector((state: any) => state.user);
   const [jobs, setJobs] = useState<any>([]);
   const refReview = useRef(null);
-
-  if (user.token === "") router.push("/");
+  const [ratingPercentages, setRatingPercentages] = useState({ data: [] });
+  // if (user.token === "") router.push("/");
   useEffect(() => {
     jobAPI.getAll({ organizationId: props.id }).then((res) => {
       if (res.status === 200) {
@@ -60,11 +60,14 @@ export default function CompanyDetail(props) {
             <ListJobOrg jobs={jobs} styles=" p-8 shadow-lg rounded-lg" />
           </div>
 
-          <ReviewOrgBoard />
+          <ReviewOrgBoard values={ratingPercentages} />
         </div>
         <div ref={refReview}></div>
 
-        <ReviewOrg companyId={props.id} />
+        <ReviewOrg
+          companyId={props.id}
+          setRatingPercent={setRatingPercentages}
+        />
       </div>
     </div>
   );

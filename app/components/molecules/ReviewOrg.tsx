@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ReviewItem from "../atoms/ReviewItem";
 import ReviewSection from "./ReviewSection";
 
-export default function ReviewOrg({ companyId }) {
+export default function ReviewOrg({ companyId, setRatingPercent }) {
   const [reviews, setReviews] = useState([]);
   const [page, setPage] = useState(1);
   const user = useSelector((state: any) => state.user);
@@ -19,7 +19,11 @@ export default function ReviewOrg({ companyId }) {
       loading: true,
     });
     reviewAPI.getReviewByCompany(companyId, page).then((res) => {
-      setReviews(res.data.data.reviews);
+      setReviews(res.data.data.reviews.reviewResponses);
+      setRatingPercent({
+        data: res.data.data.reviews.ratingPercentages,
+        total: res.data.data.reviews.reviewResponses.length,
+      });
     });
     setStatus({
       ...status,
@@ -39,7 +43,7 @@ export default function ReviewOrg({ companyId }) {
 
       <hr className="divide-y" />
       <div className="">
-        <p className="text-xl font-semibold">{21} Employee reviews</p>
+        <p className="text-xl font-semibold">{reviews.length} reviews</p>
         <div className="flex flex-col gap-8 mt-8">
           {reviews.map((review, index) => (
             <ReviewItem
