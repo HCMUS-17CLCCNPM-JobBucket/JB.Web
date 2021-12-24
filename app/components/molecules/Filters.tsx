@@ -11,7 +11,7 @@ export default function Filters({ filters, callback }) {
 
   return (
     <form
-      className={`sticky top-24 h-[400px] hidden lg:block lg:col-span-2 overflow-y-scroll`}
+      className={`filter sticky top-24 h-[400px] hidden lg:block lg:col-span-2 overflow-y-scroll`}
     >
       {filters.map((section) => (
         <Disclosure

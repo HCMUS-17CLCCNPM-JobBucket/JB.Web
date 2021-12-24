@@ -27,7 +27,9 @@ export default function JobInfinityScroll({
   };
   return (
     <div>
-      {jobs.length === 0 && loading === false ? (
+      {loading ? (
+        <Loading />
+      ) : jobs.length === 0 && loading === false ? (
         <ListEmpty message="No result match" />
       ) : (
         <InfiniteScroll
@@ -36,7 +38,7 @@ export default function JobInfinityScroll({
           hasMore={hasMore}
           loader={<Loading />}
           scrollableTarget="scrollableDiv"
-          className="flex flex-col gap-4 p-4"
+          className="flex flex-col gap-4 p-4 min-h-40 "
         >
           {jobs.map((item, index) => (
             <JobHorizonCard key={index} {...item} />

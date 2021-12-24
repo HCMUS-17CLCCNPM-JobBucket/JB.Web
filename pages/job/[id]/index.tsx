@@ -5,6 +5,7 @@ import ApplyButton from "app/components/atoms/Button/ApplyButton";
 import SaveJobButton from "app/components/atoms/Button/SaveJobButton";
 import Divider from "app/components/atoms/Divider";
 import RecJob from "app/components/atoms/RecJob";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
@@ -18,18 +19,24 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function JobDetail(props) {
+  const [isExpired, setIsExpired] = useState(false);
   const [jobStatus, setJobStatus] = useState({
     isJobInterested: false,
     isJobApplied: false,
   });
   const [jobInfo, setjobInfo] = useState<any>(props.jobs[0]);
   useEffect(() => {
+    var date1 = moment("2016-10-08 10:29:23");
+    var date2 = moment();
+    setIsExpired(date1.diff(date2) < 0);
+
     const fetchData = async () => {
       const res = await jobAPI.getJobById(parseInt(jobInfo.id));
       setJobStatus(res.data.data.jobs[0]);
     };
     fetchData();
   }, []);
+
   return (
     <div className="flex-1 px-16 py-4">
       <img
@@ -41,7 +48,7 @@ export default function JobDetail(props) {
         className="h-52 w-full rounded-lg"
       />
       <div className="mt-4 lg:flex lg:items-center lg:justify-between">
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <img
             src={
               jobInfo?.imageUrls[0] ||
@@ -133,7 +140,11 @@ export default function JobDetail(props) {
           </div>
         </div>
         <div className="w-64 mt-5 flex justify-between items-center lg:mt-0 lg:ml-4">
-          <ApplyButton value={jobStatus.isJobApplied} jobId={jobInfo.id} />
+          <ApplyButton
+            value={jobStatus.isJobApplied}
+            jobId={jobInfo.id}
+            expire={isExpired}
+          />
 
           <SaveJobButton
             isInterested={jobStatus.isJobInterested}
@@ -194,7 +205,7 @@ export default function JobDetail(props) {
           </span>
         </div>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-6">
         <div className="flex-1 flex flex-col gap-4">
           <div className="mt-4">
             <p className="text-xl font-semibold">Benefits</p>

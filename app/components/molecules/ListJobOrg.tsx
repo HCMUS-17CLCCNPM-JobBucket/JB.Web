@@ -1,6 +1,7 @@
 import router from "next/router";
 import React from "react";
 import Moment from "react-moment";
+import Link from "next/link";
 
 const JobCard = (props) => {
   console.log(props);
@@ -33,16 +34,18 @@ const JobCard = (props) => {
           </p>
         </div>
 
-        <button
-          className={`${
-            props.isJobApplied
-              ? "bg-gray-500 hover:bg-gray-600"
-              : "bg-blue-500 hover:bg-blue-600"
-          } h-10 px-10 text-white transition-colors duration-150 
+        <Link href={"/job/" + props.id} passHref>
+          <button
+            className={`${
+              props.isJobApplied
+                ? "bg-gray-500 hover:bg-gray-600"
+                : "bg-blue-500 hover:bg-blue-600"
+            } h-10 px-10 text-white transition-colors duration-150 
           rounded-lg focus:shadow-outline`}
-        >
-          {props.isJobApplied ? "Applied" : "Apply now"}
-        </button>
+          >
+            Read More
+          </button>
+        </Link>
       </div>
     </div>
   );

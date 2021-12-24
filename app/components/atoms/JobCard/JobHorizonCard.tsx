@@ -11,12 +11,14 @@ export default function JobHorizonCard(props) {
     <div className="job-horizon-card hover:shadow-lg">
       <div className="job-horizon-card__header">
         <div className="job-horizon-card__company">
-          <img src={props.imageUrls[0]} alt="Google" />
+          <a href={"/job/" + props.id} target="_blank" rel="noreferrer">
+            <img src={props.imageUrls[0]} alt="Google" />
+          </a>
           <div className="flex justify-between w-full">
             <div>
-              <p onClick={() => router.push("/job/" + props.id)}>
-                {props.title}
-              </p>
+              <a href={"/job/" + props.id} target="_blank" rel="noreferrer">
+                <p>{props.title}</p>
+              </a>
               <span className="text-gray-600">
                 {props.addresses == null ? "No addresses" : props.addresses[0]}
               </span>
