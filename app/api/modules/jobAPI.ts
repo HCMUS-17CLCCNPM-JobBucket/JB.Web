@@ -234,4 +234,33 @@ export const jobAPI = {
         },
       }
     ),
+  getlistbyemployer: (filter, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+    query listJob {
+  jobs (filter : $filter)
+  {
+    id
+    title
+    description
+    addresses
+    imageUrls
+    expireDate
+    minSalary
+    maxSalary
+  }
+}
+    `,
+        variables: {
+          filter,
+        },
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
 };
