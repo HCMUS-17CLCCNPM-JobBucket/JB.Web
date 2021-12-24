@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import router from "next/router";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const config = {
   placeholderText: "Edit Your Content Here!",
@@ -50,11 +51,15 @@ export default function BlogForm(props) {
     setImageFile(file);
     setPreviewSource(URL.createObjectURL(e.target.files[0]));
   };
-  const handleRedirect = (res) =>
-    res.status === 200 &&
-    router.push(
-      "/blog/" + (props.type === "edit" ? props.id : res.data.data.blog.add.id)
-    );
+  const handleRedirect = (res) => {
+    if (res.data.errors) {
+      toast.warning("Please fill all the fields");
+    } else
+      router.push(
+        "/blog/" +
+          (props.type === "edit" ? props.id : res.data.data.blog.add.id)
+      );
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -88,7 +93,6 @@ export default function BlogForm(props) {
           },
           props.type
         );
-        console.log(res);
         handleRedirect(res);
       }
     },
@@ -99,6 +103,9 @@ export default function BlogForm(props) {
       className="px-48 py-4 flex flex-col gap-4"
       onSubmit={formik.handleSubmit}
     >
+      <p className="text-2xl font-semibold">
+        {router.pathname === "/blog/post" ? "Add New Blog" : "Edit Blog"}
+      </p>
       <img
         src={previewSource || "https://via.placeholder.com/1134x160"}
         alt=""

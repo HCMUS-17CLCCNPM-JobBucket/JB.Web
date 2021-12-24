@@ -1,3 +1,4 @@
+import { LockClosedIcon } from "@heroicons/react/solid";
 import reviewAPI from "app/api/modules/reviewAPI";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,6 +7,7 @@ import RatingComponent from "../atoms/RatingComponent";
 import SubReviewItem from "../atoms/SubReviewItem";
 
 export default function ReviewSection({ companyId, callback }) {
+  const user = useSelector((state: any) => state.user);
   const [loading, setLoading] = useState(false);
   const [review, setReview] = useState({
     content: "",
@@ -18,8 +20,9 @@ export default function ReviewSection({ companyId, callback }) {
   });
 
   const handleReview = () => {
+    const content = review.content.trim();
     if (
-      review.content.length > 0 &&
+      content.length > 10 &&
       review.rating > 0 &&
       review.ratingBenefit > 0 &&
       review.ratingCulture > 0 &&
@@ -28,7 +31,7 @@ export default function ReviewSection({ companyId, callback }) {
     ) {
       setLoading(true);
       reviewAPI
-        .addReview({ ...review, organizationId: companyId })
+        .addReview({ ...review, content, organizationId: companyId })
         .then((res) => {
           setReview({
             content: "",
@@ -44,9 +47,12 @@ export default function ReviewSection({ companyId, callback }) {
           setLoading(false);
         });
     } else {
-      toast.warn("Please fill all fields");
+      toast.warn(
+        "Rating must be greater than 0 and content must be more than 10 characters"
+      );
     }
   };
+
   return (
     <div>
       <div className={`${loading && "opacity-50 cursor-not-allowed"}`}>
@@ -94,9 +100,21 @@ export default function ReviewSection({ companyId, callback }) {
         onChange={(e) => setReview({ ...review, content: e.target.value })}
       />
 
-      <button className="btn btn-primary w-48 h-12 " onClick={handleReview}>
-        Review
-      </button>
+      <div className="flex justify-between">
+        <button
+          disabled={user.token === ""}
+          className={`${
+            user.token === ""
+              ? "rounded-lg bg-gray-400 flex gap-2 justify-center items-center cursor-not-allowed"
+              : "btn btn-primary "
+          } w-48 h-12`}
+          onClick={handleReview}
+        >
+          {user.token === "" && <LockClosedIcon className="h-4 w-4" />}
+          Review
+        </button>
+        <p className="text-sm text-red-600">Min 10 characters</p>
+      </div>
     </div>
   );
 }

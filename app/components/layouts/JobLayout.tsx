@@ -53,6 +53,7 @@ export default function Job() {
   });
 
   const handleSearch = (keyword: string) => {
+    setLoading(true);
     let temp = keyword.trim();
     if (temp.length > 0 || jobs.length === 0) {
       setFilterOptionsInput({
@@ -61,6 +62,7 @@ export default function Job() {
       });
       setIsFiltered(!isFiltered);
     }
+    setLoading(false);
   };
 
   useMemo(() => {
@@ -206,7 +208,7 @@ export default function Job() {
               Products
             </h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-8 gap-y-10">
+            <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-6 gap-y-10">
               {/* Filters */}
               <Filters
                 filters={[

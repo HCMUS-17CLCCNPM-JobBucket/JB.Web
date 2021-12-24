@@ -77,7 +77,10 @@ export default function DropdownAvatar() {
               </div>
             </div>
             <div className="px-1 py-1">
-              <DropdownItem content="My Job">
+              <DropdownItem
+                content="My Job"
+                onClick={() => router.push("/job/saved")}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -91,7 +94,11 @@ export default function DropdownAvatar() {
                   <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                 </svg>
               </DropdownItem>
-              <DropdownItem content="My Blog">
+
+              <DropdownItem
+                content="My Blog"
+                onClick={() => router.push("/my-blog")}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"

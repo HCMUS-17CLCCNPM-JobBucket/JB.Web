@@ -21,8 +21,11 @@ const reviewAPI = {
     }),
   getReviewByCompany: (companyId, page) =>
     axiosClient.post("/graphql", {
-      query: `query listReview($filterRequest: ListReviewRequestInput) {
-        reviews(filterRequest: $filterRequest) {
+      query: `query listReviews($filter :ListReviewRequestInput) {
+        reviews (filterRequest : $filter)
+      {
+         ratingPercentages{ rating, percentage}
+         reviewResponses{
           id
           rating
           ratingBenefit
@@ -31,36 +34,28 @@ const reviewAPI = {
           ratingWorkspace
           content
           interestCount
-          user {
-            id
-            name
-            avatarUrl
-            userName
-            email
+          user{
+            id name avatarUrl userName email
           }
           userId
           createdDate
           updatedDate
           isInterested
           organizationId
-          organization {
-            id
-            name
-            bio
-            avatarUrl
+          organization{
+            id name bio avatarUrl
           }
-          interests {
+          interests{
             userId
           }
         }
-      }
-            `,
+        }
+      }`,
       variables: {
         filter: {
-          isDescending: true,
-          organizationId: companyId,
-          page,
+          organizationId: [companyId],
           size: 10,
+          page,
         },
       },
     }),
