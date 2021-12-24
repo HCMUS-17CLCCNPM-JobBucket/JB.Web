@@ -4,7 +4,6 @@ import Moment from "react-moment";
 import Link from "next/link";
 
 const JobCard = (props) => {
-  console.log(props);
   return (
     <div className="flex flex-col gap-2 pt-4">
       <div className="flex justify-between">

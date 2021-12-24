@@ -17,11 +17,8 @@ export default function Blog(props) {
           <div className="flex space-x-4">
             <img
               alt=""
-              src={
-                props.avatarUrl ||
-                "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper.png"
-              }
-              className="object-cover w-12 h-12 rounded-full shadow bg-gray-500"
+              src={props.avatarUrl || "/avatar/avatar.png"}
+              className="object-cover w-12 h-12 rounded-full shadow"
             />
             <div className="flex flex-col space-y-1">
               <a href="#" className="text-sm font-semibold">
@@ -94,7 +91,7 @@ export default function Blog(props) {
             </svg>
           </button>
         </div>
-        <div className="flex space-x-2 text-sm text-gray-600">
+        <div className="flex space-x-2 text-sm ">
           <button type="button" className="flex items-center p-1 space-x-1.5">
             <svg
               xmlns="http://www.w3.org/2000/svg"

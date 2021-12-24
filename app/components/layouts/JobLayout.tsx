@@ -53,6 +53,7 @@ export default function Job() {
   });
 
   const handleSearch = (keyword: string) => {
+    setLoading(true);
     let temp = keyword.trim();
     if (temp.length > 0 || jobs.length === 0) {
       setFilterOptionsInput({
@@ -61,6 +62,7 @@ export default function Job() {
       });
       setIsFiltered(!isFiltered);
     }
+    setLoading(false);
   };
 
   useMemo(() => {

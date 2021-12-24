@@ -61,10 +61,7 @@ export default function DropdownAvatar() {
             <div className="px-1 py-1">
               <div className="flex items-center gap-4 px-2 py-2 hover:bg-gray-200 rounded-md cursor-pointer">
                 <img
-                  src={
-                    user.user.avatarUrl ||
-                    "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper.png"
-                  }
+                  src={user.user.avatarUrl || "/avatar/avatar.png"}
                   alt="avatar"
                   className="h-10 w-10 avatar"
                 />
@@ -72,7 +69,7 @@ export default function DropdownAvatar() {
                   className="profile-btn__info"
                   onClick={handleRedirectToProfile}
                 >
-                  <p className="profile-btn__name">Thang</p>
+                  <p className="profile-btn__name">{user.user.name}</p>
                   <p className="text-xs font-medium text-gray-400">
                     View your profile
                   </p>
