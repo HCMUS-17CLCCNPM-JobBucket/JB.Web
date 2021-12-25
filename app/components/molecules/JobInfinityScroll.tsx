@@ -1,5 +1,5 @@
 import { jobAPI } from "app/api/modules/jobAPI";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import JobHorizonCard from "../atoms/JobCard/JobHorizonCard";
@@ -13,8 +13,14 @@ export default function JobInfinityScroll({
   setJobs,
   setFilterOptions,
 }) {
+  const [isLoading, setIsLoading] = useState(loading);
   const [hasMore, setHasMore] = useState(true);
 
+  useEffect(() => {
+    if (isLoading !== loading) {
+      setIsLoading(loading);
+    }
+  }, [loading]);
   const fetchMoreData = async () => {
     const res = await jobAPI.getAll({
       ...filterOptions,
@@ -27,7 +33,7 @@ export default function JobInfinityScroll({
   };
   return (
     <div>
-      {loading ? (
+      {isLoading ? (
         <Loading />
       ) : jobs.length === 0 && loading === false ? (
         <ListEmpty message="No result match" />

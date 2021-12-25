@@ -1,17 +1,9 @@
 import { jobAPI } from "app/api/modules/jobAPI";
 import { orgAPI } from "app/api/modules/organization";
-import SalaryRange from "app/components/atoms/SalaryRange";
+import OrgLayout from "app/components/layouts/OrgLayout";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
-import Moment from "react-moment";
 import { useSelector } from "react-redux";
-import Link from "next/link";
-import LoadingFullPage from "app/components/molecules/LoadingFullPage";
-import InfoOrg from "app/components/molecules/InfoOrg";
-import ReviewOrg from "app/components/molecules/ReviewOrg";
-import ListJobOrg from "app/components/molecules/ListJobOrg";
-import ReviewOrgBoard from "app/components/atoms/ReviewOrgBoard";
-import OrgLayout from "app/components/layouts/OrgLayout";
 
 function CompanyProfile() {
   const user = useSelector((state: any) => state.user);

@@ -12,6 +12,7 @@ import { Fragment, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import Filters from "../molecules/Filters";
 import JobInfinityScroll from "../molecules/JobInfinityScroll";
+import LoadingFullPage from "../molecules/LoadingFullPage";
 import MobileFilterDialog from "../molecules/MobileFilterDialog";
 
 const sortOptions = [
@@ -53,16 +54,16 @@ export default function Job() {
   });
 
   const handleSearch = (keyword: string) => {
-    setLoading(true);
     let temp = keyword.trim();
     if (temp.length > 0 || jobs.length === 0) {
+      console.log("search", keyword);
+
       setFilterOptionsInput({
         ...filterOptionsInput,
         keyword,
       });
       setIsFiltered(!isFiltered);
     }
-    setLoading(false);
   };
 
   useMemo(() => {
@@ -82,11 +83,11 @@ export default function Job() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await jobAPI.getAll({ ...filterOptionsInput, page: 0 });
-      setJobs(response.data.data.jobs);
-    };
-    fetchData();
+    setLoading(true);
+    jobAPI.getAll({ ...filterOptionsInput, page: 0 }).then((res) => {
+      if (res.status === 200) setJobs(res.data.data.jobs);
+      setLoading(false);
+    });
   }, [isFiltered, filterOptionsInput]);
 
   return (
