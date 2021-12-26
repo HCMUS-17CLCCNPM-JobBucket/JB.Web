@@ -1,4 +1,5 @@
 // import { chatAPI } from "app/api/modules/chatAPI";
+import { getUserInfo } from "app/redux/store";
 import { useEffect, useRef, useState } from "react";
 
 export function useChat(
@@ -61,3 +62,5 @@ export function usePrevious(value) {
   });
   return ref.current;
 }
+
+export const useUserInfo = () => getUserInfo();

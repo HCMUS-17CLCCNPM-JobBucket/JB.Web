@@ -30,9 +30,9 @@ function Login() {
       username: Yup.string()
         .email("Invalid username format")
         .required("Required!"),
-      password: Yup.string()
-        .min(8, "Minimum 8 characters")
-        .required("Required!"),
+      // password: Yup.string()
+      //   .min(8, "Minimum 8 characters")
+      //   .required("Required!"),
     }),
     onSubmit: (values) => {
       setIsLogin(true);

@@ -45,4 +45,10 @@ export function getAccessToken(): string {
   const state: any = store.getState();
   return state.user.token;
 }
+
+export function getUserInfo(): any {
+  const state: any = store.getState();
+  return state.user.user;
+}
+
 export { store, persistor };
