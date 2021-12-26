@@ -1,29 +1,39 @@
 import { jobAPI } from "app/api/modules/jobAPI";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import JobHorizonCard from "../atoms/JobCard/JobHorizonCard";
 import ListEmpty from "../atoms/ListEmpty";
 import Loading from "../atoms/Loading";
 
-export default function JobInfinityScroll({
-  loading,
-  jobs,
-  filterOptions,
-  setJobs,
-  setFilterOptions,
-}) {
-  const [hasMore, setHasMore] = useState(true);
+export default function JobInfinityScroll({ hasMore, loading, jobs, setPage }) {
+  const [isLoading, setIsLoading] = useState(loading);
+  const [jobValues, setJobValues] = useState(jobs);
+  const [hasMoreValue, setHasMoreValue] = useState(hasMore);
 
-  const fetchMoreData = async () => {
-    const res = await jobAPI.getAll({
-      ...filterOptions,
-      page: filterOptions.page + 1,
-    });
-    setFilterOptions !== null &&
-      setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
-    setJobs(jobs.concat(res.data.data.jobs));
-    setHasMore(res.data.data.jobs.length > 0);
+  useEffect(() => {
+    if (isLoading !== loading) {
+      setIsLoading(loading);
+    }
+    if (jobs !== jobValues) {
+      setJobValues(jobs);
+    }
+    if (hasMore !== hasMoreValue) {
+      setHasMoreValue(hasMore);
+    }
+  }, [loading, jobs, hasMore]);
+
+  const fetchMoreData = () => {
+    // const res = await jobAPI.getAll({
+    //   ...filterOptions,
+    //   page: filterOptions.page + 1,
+    // });
+
+    // setFilterOptions !== null &&
+    //   setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
+
+    console.log("fetch more data");
+    setPage();
   };
   return (
     <div>
@@ -45,6 +55,7 @@ export default function JobInfinityScroll({
           ))}
         </InfiniteScroll>
       )}
+      {!hasMore && <p className="text-center">No more data</p>}
     </div>
   );
 }

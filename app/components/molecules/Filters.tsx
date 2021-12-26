@@ -4,10 +4,30 @@ import React, { useEffect, useState } from "react";
 
 export default function Filters({ filters, callback }) {
   const [scrollOverHeight, setScrollOverHeight] = useState(false);
-
+  const [selectedFilter, setSelectedFilter] = useState({});
   useEffect(() => {
     setScrollOverHeight(window.scrollY > 100);
   }, []);
+
+  const handleChange = (e, section, option) => {
+    if (e.target.checked) {
+      if (selectedFilter[section.name.toLowerCase()])
+        setSelectedFilter({
+          ...selectedFilter,
+          [section.name.toLowerCase()]: [
+            ...selectedFilter[section.name.toLowerCase()],
+            option.id,
+          ],
+        });
+      else
+        setSelectedFilter({
+          ...selectedFilter,
+          [section.name.toLowerCase()]: [option.id],
+        });
+    }
+  };
+
+  const handleSubmit = () => callback(selectedFilter);
 
   return (
     <form
@@ -45,6 +65,7 @@ export default function Filters({ filters, callback }) {
                         defaultValue={option.id}
                         type="checkbox"
                         defaultChecked={false}
+                        onChange={(e) => handleChange(e, section, option)}
                         className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                       />
                       <label
@@ -63,7 +84,7 @@ export default function Filters({ filters, callback }) {
       ))}
       <div className="fixed bottom-5 left-20 flex justify-center mt-4">
         <button
-          onClick={callback}
+          onClick={handleSubmit}
           type="button"
           className="px-8 py-3 font-semibold rounded-full bg-blue-600 text-white "
         >
