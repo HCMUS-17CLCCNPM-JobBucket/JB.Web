@@ -31,7 +31,7 @@ export default function JobApplied() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const response = await jobAPI.getAll({});
+      const response = await jobAPI.getAppliedJobs(page);
       setJobs(response.data.data.jobs);
       setLoading(false);
       setHasMore(response.data.data.jobs.length > 0);

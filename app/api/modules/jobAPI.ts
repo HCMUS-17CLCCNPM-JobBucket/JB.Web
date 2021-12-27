@@ -182,4 +182,79 @@ export const jobAPI = {
         id,
       },
     }),
+  getInterestedJobs: (page) =>
+    axiosClient.post("/graphql", {
+      query: `query listJob($filter: ListJobRequestInput ) {
+        jobs(filter: $filter) {
+          id
+          title
+          organization {
+            name
+          }
+          types {
+            name
+          }
+          isJobInterested
+          addresses
+          views
+          jobForm
+          expireDate
+          createdDate
+          benefits
+          description
+          experiences
+          requirements
+          minSalary
+          maxSalary
+          skills {
+            id
+            name
+          }
+          imageUrls
+          positions {
+            id
+          }
+        }
+      }
+      `,
+      variables: {
+        filter: { page, size: 10, isInterested: true },
+      },
+    }),
+  getAppliedJobs: (page) =>
+    axiosClient.post("/graphql", {
+      query: `query listAppliedUserOfJob($filter: ListJobApplicationRequestInput ) {
+        jobApplications(filter: $filter) {
+          id
+          title
+          organization {
+            name
+          }
+          types {
+            name
+          }
+          isJobApplied
+          addresses
+          views
+          jobForm
+          expireDate
+          createdDate
+          benefits
+          description
+          experiences
+          requirements
+          minSalary
+          maxSalary
+          skills {
+            id
+            name
+          }
+          imageUrls
+          positions {
+            id
+          }
+        }
+      }
+      `,
+    }),
 };
