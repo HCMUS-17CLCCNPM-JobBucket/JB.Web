@@ -5,7 +5,6 @@ import ReviewItem from "../atoms/ReviewItem";
 import ReviewSection from "./ReviewSection";
 
 export default function ReviewOrg({ companyId, setRatingPercent }) {
-  console.log(companyId);
   const [reviews, setReviews] = useState([]);
   const [page, setPage] = useState(1);
   const user = useSelector((state: any) => state.user);

@@ -12,6 +12,8 @@ function CompanyProfile() {
 
   const [company, setCompany] = useState<any>({ members: [] });
   const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     orgAPI.getOrganizationDetailById(user.user.organizationId).then((res) => {
@@ -31,10 +33,22 @@ function CompanyProfile() {
       });
       setLoading(false);
     });
-  }, []);
+  }, [refresh]);
+
+  const refreshPage = () => setRefresh(!refresh);
 
   return (
-    <OrgLayout company={company} organizationId={user.user.organizationId} />
+    <>
+      {loading ? (
+        <LoadingFullPage />
+      ) : (
+        <OrgLayout
+          company={company}
+          organizationId={user.user.organizationId}
+          refreshPage={refreshPage}
+        />
+      )}
+    </>
   );
 }
 export default React.memo(CompanyProfile);

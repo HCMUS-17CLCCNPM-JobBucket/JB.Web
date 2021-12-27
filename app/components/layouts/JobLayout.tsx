@@ -7,6 +7,7 @@ import {
 import { jobAPI } from "app/api/modules/jobAPI";
 import SearchJob from "app/components/atoms/SearchBar/SearchJob";
 import helper from "app/utils/helper";
+import { usePrevious } from "app/utils/hooks";
 import router from "next/router";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
@@ -31,7 +32,8 @@ export default function Job() {
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
-  const [isFiltered, setIsFiltered] = useState(false);
+
+  const [page, setPage] = useState(1);
   const [filterOptions, setFilterOptions] = useState({
     categories: [],
     skills: [],
@@ -39,6 +41,8 @@ export default function Job() {
     types: [],
   });
 
+  // const [isLoadMore, setIsLoadMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [filterOptionsInput, setFilterOptionsInput] = useState({
     isDescending: false,
     page: 1,
@@ -53,6 +57,8 @@ export default function Job() {
     salary: [],
   });
 
+  const preKeyword = usePrevious(filterOptionsInput.keyword);
+
   const handleSearch = (keyword: string) => {
     let temp = keyword.trim();
     if (temp.length > 0 || jobs.length === 0) {
@@ -62,8 +68,11 @@ export default function Job() {
         ...filterOptionsInput,
         keyword,
       });
-      setIsFiltered(!isFiltered);
     }
+  };
+
+  const handleFilter = (values: any) => {
+    setFilterOptionsInput({ ...filterOptionsInput, ...values });
   };
 
   useMemo(() => {
@@ -83,12 +92,24 @@ export default function Job() {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-    jobAPI.getAll({ ...filterOptionsInput, page: 0 }).then((res) => {
-      if (res.status === 200) setJobs(res.data.data.jobs);
-      setLoading(false);
-    });
-  }, [isFiltered, filterOptionsInput]);
+    if (page === 1) {
+      setLoading(true);
+      jobAPI.getAll({ ...filterOptionsInput, page: 1 }).then((res) => {
+        if (res.status === 200) setJobs(res.data.data.jobs);
+        setLoading(false);
+      });
+    } else if (page > 1) {
+      const dataToPost = {
+        ...filterOptionsInput,
+        page: page,
+      };
+      jobAPI.getAll(dataToPost).then((res) => {
+        if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
+
+        setHasMore(res.data.data.jobs.length > 0);
+      });
+    }
+  }, [filterOptionsInput, page]);
 
   return (
     <div className="bg-white">
@@ -209,13 +230,13 @@ export default function Job() {
               Products
             </h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-6 gap-y-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-10">
               {/* Filters */}
               <Filters
                 filters={[
                   {
                     id: "Skills",
-                    name: "Skills",
+                    name: "Skill",
                     options: filterOptions.skills,
                   },
                   {
@@ -225,7 +246,7 @@ export default function Job() {
                   },
                   {
                     id: "Types",
-                    name: "Types",
+                    name: "Type",
                     options: filterOptions.types,
                   },
                   {
@@ -234,16 +255,17 @@ export default function Job() {
                     options: filterOptions.categories,
                   },
                 ]}
-                callback={() => setIsFiltered(!isFiltered)}
+                callback={handleFilter}
               />
               {/* Product grid */}
-              <div className="lg:col-span-8">
+              <div className="lg:col-span-9">
                 <JobInfinityScroll
+                  setPage={() => setPage(page + 1)}
+                  hasMore={hasMore}
                   loading={loading}
                   jobs={jobs}
-                  setJobs={setJobs}
-                  filterOptions={filterOptionsInput}
-                  setFilterOptions={setFilterOptionsInput}
+                  // filterOptions={filterOptionsInput}
+                  // setFilterOptions={setFilterOptionsInput}
                 />
               </div>
             </div>

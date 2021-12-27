@@ -121,7 +121,7 @@ export const orgAPI = {
         id,
       },
     }),
-  addNewOrgRecruiter: (orgId) =>
+  addNewOrgRecruiter: (empInfo) =>
     axiosClient.post("/graphql", {
       query: `mutation AddEmployer ($empInfo :AddEmployerRequestInput) {
         organization{
@@ -142,18 +142,14 @@ export const orgAPI = {
       }
       `,
       variables: {
-        empInfo: {
-          name: "",
-          userName: "",
-          passwordPlain: "",
-        },
+        empInfo,
       },
     }),
-  deleteOrgRecruiterById: (orgId) =>
+  deleteOrgRecruiterById: (id: string) =>
     axiosClient.post("/graphql", {
-      query: `mutation deleteEmployer{
+      query: `mutation deleteEmployer($id: Int!) {
           organization{
-            deleteEmployer(id:12){
+            deleteEmployer(id: $id){
               id
               name
               organizationId
@@ -165,6 +161,9 @@ export const orgAPI = {
           }
         }
         `,
+      variables: {
+        id,
+      },
     }),
   // reset organization recruiter(employer) password by id
   resetOrgRecruiterPasswordById: (orgId) =>

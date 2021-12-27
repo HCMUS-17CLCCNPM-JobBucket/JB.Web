@@ -24,9 +24,9 @@ const MyCalendar = (props) => (
 
 export default function JobSaved() {
   const [jobs, setJobs] = useState([]);
-
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-
   //call api to get saved jobs
   useEffect(() => {
     const fetchData = async () => {
@@ -34,19 +34,22 @@ export default function JobSaved() {
       const response = await jobAPI.getAll({});
       setJobs(response.data.data.jobs);
       setLoading(false);
+      setHasMore(response.data.data.jobs.length > 0);
     };
     fetchData();
-  }, []);
+  }, [page]);
 
   return (
     <JobDashboard>
-      <JobInfinityScroll
-        loading={loading}
-        jobs={jobs}
-        setJobs={setJobs}
-        filterOptions={{}}
-        setFilterOptions={null}
-      />
+      <div className="flex">
+        <JobInfinityScroll
+          hasMore={hasMore}
+          loading={loading}
+          jobs={jobs}
+          setPage={setPage}
+        />
+        <MyCalendar />
+      </div>
     </JobDashboard>
   );
 }

@@ -28,7 +28,6 @@ export default function BlogTagSelection({ value, setValue }) {
   };
   useMemo(() => {
     blogAPI.getBlogTags().then((res) => {
-      console.log(res);
       setTags(
         res.data.data.blogTags.map((tag) => ({
           value: tag,

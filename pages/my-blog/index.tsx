@@ -29,7 +29,6 @@ export default function MyBlog() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await blogAPI.getMyBlogs(user.user.id);
-      console.log(res);
       if (res.status === 200) setBlogs(res.data.data.blogs);
     };
     fetchData();

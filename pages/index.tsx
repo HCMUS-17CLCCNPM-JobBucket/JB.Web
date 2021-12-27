@@ -7,12 +7,6 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  useEffect(() => {
-    console.log(123213);
-    UserAPI.getProfile().then((res) => {
-      console.log(res.data.data);
-    });
-  }, []);
   return (
     <div className="">
       <Hero />

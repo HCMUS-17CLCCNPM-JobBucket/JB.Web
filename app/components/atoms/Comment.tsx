@@ -28,7 +28,6 @@ export default function Comment({
   });
   const handleEdit = async () => {
     const res = await blogAPI.updateComment(editState.content, id);
-    console.log(res);
     setEditState({ ...editState, isEdited: false });
     callback();
   };
@@ -43,7 +42,6 @@ export default function Comment({
       content: commentVal,
       parentId: id,
     });
-    console.log(123);
     setCommentVal("");
     setIsReplied(false);
     callback();

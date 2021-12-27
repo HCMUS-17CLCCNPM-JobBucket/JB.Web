@@ -51,7 +51,6 @@ export default function ApplyButton({ value, jobId, expire }) {
         }
         if (res.status === 200) {
           closeModal();
-          console.log(res);
           setHasActive(true);
         }
       }

@@ -3,9 +3,10 @@ import MemberCard from "../atoms/MemberCard";
 import ReviewOrgBoard from "../atoms/ReviewOrgBoard";
 import InfoOrg from "../molecules/InfoOrg";
 import ListJobOrg from "../molecules/ListJobOrg";
+import MemberOrgSection from "../molecules/MemberOrgSection";
 import ReviewOrg from "../molecules/ReviewOrg";
 
-export default function OrgLayout({ company, organizationId }) {
+export default function OrgLayout({ company, organizationId, refreshPage }) {
   const [ratingPercentages, setRatingPercentages] = useState({ data: [] });
 
   return (
@@ -31,20 +32,11 @@ export default function OrgLayout({ company, organizationId }) {
                 styles=" p-8 shadow-lg rounded-lg"
               />
             )}
-            {company.members && (
-              <div className="p-8 shadow-lg rounded-lg">
-                <p className="text-2xl font-semibold">Members</p>
-                <div className="flex gap-4">
-                  {company.members.map((member) => (
-                    <MemberCard key={member.id} {...member} />
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           <ReviewOrgBoard values={ratingPercentages} />
         </div>
+        <MemberOrgSection company={company} refreshPage={refreshPage} />
         <ReviewOrg
           companyId={organizationId}
           setRatingPercent={setRatingPercentages}
