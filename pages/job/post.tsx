@@ -22,7 +22,6 @@ const config = {
     "froalaEditor.image.uploaded": (e, editor, response) => {
       response = JSON.parse(response);
       editor.image.insert(response.url, true, null, editor.image.get(), null);
-      console.log(response);
       // return false;
     },
   },

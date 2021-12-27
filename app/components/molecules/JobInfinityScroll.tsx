@@ -24,15 +24,6 @@ export default function JobInfinityScroll({ hasMore, loading, jobs, setPage }) {
   }, [loading, jobs, hasMore]);
 
   const fetchMoreData = () => {
-    // const res = await jobAPI.getAll({
-    //   ...filterOptions,
-    //   page: filterOptions.page + 1,
-    // });
-
-    // setFilterOptions !== null &&
-    //   setFilterOptions({ ...filterOptions, page: filterOptions.page + 1 });
-
-    console.log("fetch more data");
     setPage();
   };
   return (

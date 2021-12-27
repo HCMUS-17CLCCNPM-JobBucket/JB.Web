@@ -62,7 +62,6 @@ export default function Job() {
     setLoading(true);
     let temp = keyword.trim();
     if (temp.length > 0 || jobs.length === 0) {
-      console.log("search", keyword);
       setFilterOptionsInput({
         ...filterOptionsInput,
         keyword,
@@ -93,8 +92,6 @@ export default function Job() {
 
   useEffect(() => {
     if (page === 1) {
-      console.log(44);
-
       setLoading(true);
       jobAPI.getAll({ ...filterOptionsInput, page: 1 }).then((res) => {
         if (res.status === 200) setJobs(res.data.data.jobs);
@@ -232,7 +229,7 @@ export default function Job() {
               Products
             </h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-6 gap-y-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-10">
               {/* Filters */}
               <Filters
                 filters={[
@@ -260,7 +257,7 @@ export default function Job() {
                 callback={handleFilter}
               />
               {/* Product grid */}
-              <div className="lg:col-span-8">
+              <div className="lg:col-span-9">
                 <JobInfinityScroll
                   setPage={() => setPage(page + 1)}
                   hasMore={hasMore}

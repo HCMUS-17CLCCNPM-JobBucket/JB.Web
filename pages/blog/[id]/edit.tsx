@@ -81,7 +81,6 @@ export default function AddNewBlog(props) {
         }
       } else {
         const res = await blogAPI.update({ id: blog.id, ...values, content });
-        console.log(res);
         if (res.status === 200) {
           router.push("/blog/" + blog.id);
         }

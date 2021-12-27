@@ -137,8 +137,6 @@ function DeleteMemDialog({ member, refreshPage }) {
 
 const MemberCard = (member) => {
   const user = useUserInfo();
-
-  console.log("member", member);
   return (
     <div className="relative flex gap-2 items-center w-[300px]">
       <img

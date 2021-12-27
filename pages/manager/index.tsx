@@ -43,7 +43,6 @@ function CompanyProfile() {
     });
   }, [refresh]);
 
-  console.log(refresh);
   const refreshPage = () => setRefresh(!refresh);
 
   return (
