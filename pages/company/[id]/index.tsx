@@ -41,5 +41,11 @@ export default function CompanyDetail(props) {
       helper.scrollToRef(refReview);
     }
   };
-  return <OrgLayout company={{ ...props, jobs }} organizationId={props.id} />;
+  return (
+    <OrgLayout
+      company={{ ...props, jobs }}
+      organizationId={props.id}
+      refreshPage={null}
+    />
+  );
 }
