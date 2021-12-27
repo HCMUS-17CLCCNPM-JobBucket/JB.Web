@@ -1,6 +1,7 @@
 import { jobAPI } from "app/api/modules/jobAPI";
 import { orgAPI } from "app/api/modules/organization";
 import OrgLayout from "app/components/layouts/OrgLayout";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
