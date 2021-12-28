@@ -7,7 +7,7 @@ import router from "next/router";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Select, { StylesConfig } from "react-select";
-
+import Head from "next/head";
 const config = {
   charCounterCount: true,
   imageUploadURL: "https://api.cloudinary.com/v1_1/derekzohar/image/upload",
@@ -115,6 +115,11 @@ export default function AddNewJob() {
       className="px-48 py-4 flex flex-col gap-4"
       onSubmit={formik.handleSubmit}
     >
+      <Head>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        <title>Update | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {/* <img
         src={previewSource || "https://via.placeholder.com/1134x160"}
         alt=""

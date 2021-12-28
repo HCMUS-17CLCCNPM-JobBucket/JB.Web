@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import router from "next/router";
 import React from "react";
 // import * as Yup from "yup";
+import Head from "next/head";
 
 export function getServerSideProps({ params }) {
   return { props: { email: params.email } };
@@ -32,6 +33,10 @@ export default function VerifyPage(props) {
   });
   return (
     <div className=" h-screen flex flex-col justify-center items-center">
+      <Head>
+        <title>Home | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="flex flex-col gap-4 w-2/3 lg:w-1/3 p-8 items-center border-2 border-gray-200 rounded-md shadow-lg">
         <p className="text-2xl font-semibold">Enter Verification Code</p>
         <div className="">

@@ -3,6 +3,7 @@ import Blog from "app/components/atoms/Blog";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
+import Head from "next/head";
 
 export default function MyBlog() {
   const [blogs, setBlogs] = useState([]);
@@ -35,6 +36,11 @@ export default function MyBlog() {
   }, [isFiltered]);
   return (
     <section className="text-gray-800">
+      <Head>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        <title>My Blog | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="container max-w-8xl p-6 mx-auto space-y-6 ">
         <InfiniteScroll
           dataLength={blogs.length}

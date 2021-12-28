@@ -15,6 +15,7 @@ import Filters from "../molecules/Filters";
 import JobInfinityScroll from "../molecules/JobInfinityScroll";
 import LoadingFullPage from "../molecules/LoadingFullPage";
 import MobileFilterDialog from "../molecules/MobileFilterDialog";
+import Head from "next/head";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -113,6 +114,10 @@ export default function Job() {
 
   return (
     <div className="bg-white">
+      <Head>
+        <title>Job | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div>
         {/* Mobile filter dialog */}
         <MobileFilterDialog

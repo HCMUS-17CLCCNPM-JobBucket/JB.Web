@@ -3,7 +3,7 @@ import CompanyCard from "app/components/atoms/CompanyCard";
 import SearchOrg from "app/components/atoms/SearchBar/SearchOrg";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import Head from "next/head";
 export default function CompanyPage() {
   const [orgs, setOrgs] = useState([]);
   const [page, setPage] = useState(1);
@@ -26,6 +26,10 @@ export default function CompanyPage() {
   };
   return (
     <div className="flex flex-col items-center justify-center">
+      <Head>
+        <title>Search Company | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <SearchOrg />
       <InfiniteScroll
         dataLength={orgs.length}

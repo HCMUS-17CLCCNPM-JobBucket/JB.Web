@@ -4,7 +4,7 @@ import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
-
+import Head from "next/head";
 export default function BlogPage() {
   const user = useSelector((state: any) => state.user);
 
@@ -41,6 +41,10 @@ export default function BlogPage() {
   }, [isFiltered]);
   return (
     <div className="relative w-full h-full max-w-7xl p-6 mx-auto space-y-6 ">
+      <Head>
+        <title>Blog | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {loading && <LoadingFullPage />}
       {/* <a
         href="#"

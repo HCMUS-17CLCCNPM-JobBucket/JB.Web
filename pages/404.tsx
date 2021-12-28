@@ -5,6 +5,10 @@ import React from "react";
 export default function index() {
   return (
     <div className="outer-wrapper">
+      <Head>
+        <title>Page not found | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="inner">
         <div className="four-wrapper">
           <div className="leg-1" />

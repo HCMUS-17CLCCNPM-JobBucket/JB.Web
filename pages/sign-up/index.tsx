@@ -52,7 +52,7 @@ export default function SignUp(props) {
   return (
     <div className="flex justify-center ">
       <Head>
-        <title>JobBucket - Sign Up</title>
+        <title>Sign Up | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="lg:w-1/2 xl:max-w-screen-sm ">

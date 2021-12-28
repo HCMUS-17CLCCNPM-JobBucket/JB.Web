@@ -3,6 +3,8 @@ import UserAPI from "app/api/modules/userAPI";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import Head from "next/head";
+
 export function ExperienceItem({ company, position, duration, description }) {
   return (
     <div>
@@ -50,6 +52,11 @@ export default function Profile() {
   }, []);
   return (
     <div className="px-20 py-10 flex flex-col gap-12">
+      <Head>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        <title>{profile.name} Profile | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="flex gap-12">
         <img
           src={profile.avatarUrl || "/avatar/avatar.png"}

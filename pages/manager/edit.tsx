@@ -10,7 +10,7 @@ import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import Head from "next/head";
 const FroalaEditorComponent: React.ComponentType<any> = dynamic(
   () => {
     return new Promise((resolve) =>
@@ -83,6 +83,11 @@ export default function UpdateOrg(props) {
       className="px-48 py-4 flex flex-col gap-4"
       onSubmit={formik.handleSubmit}
     >
+      <Head>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        <title>Update {company.name} | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {loading && <LoadingFullPage />}
       <img
         src={previewSource || "https://via.placeholder.com/1134x160"}

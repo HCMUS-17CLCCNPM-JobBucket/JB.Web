@@ -7,7 +7,7 @@ import router from "next/router";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import Head from "next/head";
 const config = {
   placeholderText: "Edit Your Content Here!",
   charCounterCount: true,
@@ -102,6 +102,16 @@ export default function BlogForm(props) {
       className="px-48 py-4 flex flex-col gap-4"
       onSubmit={formik.handleSubmit}
     >
+      <Head>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        <title>
+          {router.pathname === "/blog/post"
+            ? "Post new Blog"
+            : "Update " + props.title}{" "}
+          | JobBucket
+        </title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <p className="text-2xl font-semibold">
         {router.pathname === "/blog/post" ? "Add New Blog" : "Edit Blog"}
       </p>

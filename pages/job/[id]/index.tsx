@@ -9,6 +9,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
+import Head from "next/head";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await jobAPI.getJobByIdWithoutToken(parseInt(params.id));
@@ -39,6 +40,10 @@ export default function JobDetail(props) {
 
   return (
     <div className="flex-1 px-16 py-4">
+      <Head>
+        <title>{jobInfo.title} | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <img
         src={
           jobInfo?.imageUrls[1] ||

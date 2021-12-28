@@ -5,12 +5,16 @@ import InfoOrg from "../molecules/InfoOrg";
 import ListJobOrg from "../molecules/ListJobOrg";
 import MemberOrgSection from "../molecules/MemberOrgSection";
 import ReviewOrg from "../molecules/ReviewOrg";
-
+import Head from "next/head";
 export default function OrgLayout({ company, organizationId, refreshPage }) {
   const [ratingPercentages, setRatingPercentages] = useState({ data: [] });
 
   return (
     <div className="py-4 px-16 w-full ">
+      <Head>
+        <title>{company.name} | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <img
         src="https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg"
         alt={company.name}

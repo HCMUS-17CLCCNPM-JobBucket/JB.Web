@@ -9,7 +9,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 const localizer = momentLocalizer(moment);
-
+import Head from "next/head";
 const MyCalendar = (props) => (
   <div className="h-[500px]">
     <Calendar
@@ -41,6 +41,10 @@ export default function JobApplied() {
 
   return (
     <JobDashboard>
+      <Head>
+        <title>Applied Job | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="flex">
         <JobInfinityScroll
           hasMore={hasMore}

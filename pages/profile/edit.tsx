@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { SkillButton } from ".";
+import Head from "next/head";
 
 export default function UpdateProfile() {
   const [profile, setProfile] = useState<any>({});
@@ -104,6 +105,11 @@ export default function UpdateProfile() {
   });
   return (
     <div className="px-48 py-12 ">
+      <Head>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        <title>Update {profile.name} Profile | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
         <ComponentWithLabel label="Avatar">
           {/* <input

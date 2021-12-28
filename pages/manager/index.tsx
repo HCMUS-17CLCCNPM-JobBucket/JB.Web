@@ -5,6 +5,7 @@ import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Head from "next/head";
 
 function CompanyProfile() {
   const user = useSelector((state: any) => state.user);
@@ -40,6 +41,10 @@ function CompanyProfile() {
 
   return (
     <>
+      <Head>
+        <title>{company.name} | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {loading ? (
         <LoadingFullPage />
       ) : (
