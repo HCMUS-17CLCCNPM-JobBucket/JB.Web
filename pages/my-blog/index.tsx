@@ -41,7 +41,10 @@ export default function MyBlog() {
         <title>My Blog | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+
       <div className="container max-w-8xl p-6 mx-auto space-y-6 ">
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        <p className="text-2xl font-semibold">{user.user.name} 's Blog</p>
         <InfiniteScroll
           dataLength={blogs.length}
           next={fetchMoreData}
