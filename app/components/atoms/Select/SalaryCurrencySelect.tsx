@@ -6,7 +6,7 @@ export default function SalaryCurrencySelect({ values, callback }) {
   const [selected, setSelected] = useState(values[0]);
 
   return (
-    <div className="w-[150px]">
+    <div className="w-[150px] z-10">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
           <Listbox.Button

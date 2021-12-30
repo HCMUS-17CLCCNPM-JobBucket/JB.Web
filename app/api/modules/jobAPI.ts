@@ -76,7 +76,7 @@ export const jobAPI = {
       "/graphql",
       {
         query: `
-          mutation addJob($job: AddJobType) {
+          mutation addJob($job: AddJobRequestInput!) {
             job{
               add(job: $job){ 
                 id
@@ -263,4 +263,6 @@ export const jobAPI = {
         },
       }
     ),
+
+    
 };

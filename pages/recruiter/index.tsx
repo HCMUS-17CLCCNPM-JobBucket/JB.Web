@@ -1,7 +1,9 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
 import helper from "app/utils/helper";
-import RecuitJob from "app/components/layouts/RecuitJob";
+import RecuitJob from "app/components/recruiter/RecuitJob";
+import Applications from "app/components/recruiter/Applications";
+import Schedule from "app/components/recruiter/Schedule";
 
 export default function index() {
   const categories = [
@@ -40,8 +42,12 @@ export default function index() {
           <Tab.Panel className="pt-6">
             <RecuitJob />
           </Tab.Panel>
-          <Tab.Panel>456</Tab.Panel>
-          <Tab.Panel>789</Tab.Panel>
+          <Tab.Panel>
+            <Applications />
+          </Tab.Panel>
+          <Tab.Panel>
+            <Schedule />
+          </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </div>
