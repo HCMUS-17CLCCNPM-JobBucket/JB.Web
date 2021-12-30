@@ -1,22 +1,36 @@
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
+import Selector from "../atoms/Select";
 
 function Panel({ section, handleChange }) {
-  const [list, setList] = useState(section.options);
+  const [list, setList] = useState(
+    section.options.map((option) => {
+      return { ...option, checked: false };
+    })
+  );
+  const [filteredList, setFilteredList] = useState(list);
   const [value, setValue] = useState("");
 
   useEffect(() => {
     if (value !== "") {
-      setList(
+      setFilteredList(
         section.options.filter((item) =>
           item.name.toLowerCase().includes(value.toLowerCase())
         )
       );
     } else {
-      setList(section.options);
+      setFilteredList(list);
     }
   }, [value]);
+
+  const updateFilteredList = (e, optionIdx, option) => {
+    let newList = [...list];
+    newList[optionIdx].checked = !newList[optionIdx].checked;
+
+    setList(newList);
+    handleChange(e, section, option);
+  };
   return (
     <div className="space-y-4">
       <input
@@ -26,15 +40,15 @@ function Panel({ section, handleChange }) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      {list.map((option, optionIdx) => (
+      {filteredList.map((option, optionIdx) => (
         <div key={option.id} className="flex items-center">
           <input
             id={`filter-${section.id}-${optionIdx}`}
             name={`${section.id}[]`}
             defaultValue={option.id}
             type="checkbox"
-            defaultChecked={false}
-            onChange={(e) => handleChange(e, section, option)}
+            defaultChecked={option.checked}
+            onChange={(e) => updateFilteredList(e, optionIdx, option)}
             className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
           />
           <label
@@ -103,7 +117,16 @@ export default function Filters({ filters, callback }) {
                 </Disclosure.Button>
               </h3>
               <Disclosure.Panel className="pt-6">
-                <Panel section={section} handleChange={handleChange} />
+                {/* <Panel section={section} handleChange={handleChange} /> */}
+                <Selector
+                  options={section.options.map((option) => {
+                    return { value: option.name, label: option.name };
+                  })}
+                  onChange={null}
+                  value={null}
+                  placeholder=""
+                  isMulti={true}
+                />
               </Disclosure.Panel>
             </>
           )}

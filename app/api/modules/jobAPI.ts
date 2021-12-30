@@ -90,6 +90,18 @@ export const jobAPI = {
           expireDate
           minSalary
           maxSalary
+          skills {
+            name
+          }
+          positions{
+            name
+          }
+          types{
+            name
+          }
+          categories{
+            name
+          }
         }
       }
     `,
@@ -142,6 +154,9 @@ export const jobAPI = {
             imageUrls
             positions {
               id
+            }
+            categories{
+              name
             }
           }
         }
@@ -256,5 +271,38 @@ export const jobAPI = {
         }
       }
       `,
+    }),
+
+  jobCount: () =>
+    axiosClient.post("/graphql", {
+      query: `query jobCounts {
+        jobCounts {
+          totalCount
+          byCategories {
+            id
+            name
+            totalCount
+          }
+        }
+      }`,
+    }),
+  jobRecommendation: (jobId) =>
+    axiosClient.post("/graphql", {
+      query: `query jobRecommendations($filter: ListJobRecommendationRequestInput ) {
+        jobRecommendations(filter : $filter) 
+        {
+          id
+          title
+          imageUrls
+          description
+        }
+      }`,
+      variables: {
+        filter: {
+          jobId,
+          page: 1,
+          size: 5,
+        },
+      },
     }),
 };

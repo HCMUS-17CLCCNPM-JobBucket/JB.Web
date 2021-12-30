@@ -52,7 +52,9 @@ export default function JobDetail(props) {
         alt=""
         className="h-52 w-full rounded-lg"
       />
-      <div className="mt-4 lg:flex lg:items-center lg:justify-between">
+      <div className="mt-3"></div>
+      <Badge content={jobInfo?.categories[0].name} />
+      <div className="mt-1 lg:flex lg:items-center lg:justify-between">
         <div className="flex gap-4">
           <img
             src={
@@ -62,10 +64,12 @@ export default function JobDetail(props) {
             alt=""
             className="h-20 w-20 rounded-lg border border-gray-200"
           />
+
           <div className="flex-1 min-w-0">
-            <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-              {jobInfo?.title}
-            </h2>
+            <span className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+              {jobInfo?.title} -{" "}
+              <span className="text-red-500">{jobInfo?.types[0].name}</span>
+            </span>
             <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
               <div className="mt-2 flex items-center text-sm text-gray-500">
                 {/* Heroicon name: solid/briefcase */}

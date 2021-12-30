@@ -1,7 +1,7 @@
 import React from "react";
 import Select, { StylesConfig } from "react-select";
 
-export default function Selector({ options, onChange, value, placeholder }) {
+export default function Selector(props) {
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
@@ -26,9 +26,10 @@ export default function Selector({ options, onChange, value, placeholder }) {
   return (
     <Select
       styles={customStyles}
-      placeholder={placeholder}
-      options={options}
-      onChange={onChange}
+      placeholder={props.placeholder}
+      options={props.options}
+      onChange={props.onChange}
+      isMulti={props.isMulti || false}
     />
   );
 }

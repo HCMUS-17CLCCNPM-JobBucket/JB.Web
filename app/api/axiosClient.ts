@@ -10,6 +10,8 @@ const axiosClient = axios.create({
 });
 axiosClient.interceptors.request.use(
   (config) => {
+    if (config.url.includes("api/Authenticate/Login")) return config;
+
     const token = getAccessToken();
     const auth = token ? `Bearer ${token}` : "";
     config.headers.common["Authorization"] = `Bearer ${token}`;
