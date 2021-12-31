@@ -23,7 +23,7 @@ export default function ReviewOrgBoard({ values }) {
       <div className="bg-white shadow-lg rounded-lg px-4 py-4">
         <div className="mb-1 tracking-wide px-4 py-4">
           <h2 className="text-gray-800 font-semibold mt-1">
-            {values.total} Users reviews
+            {values.total} reviews
           </h2>
           <div className="border-b -mx-8 px-8 pb-3">
             {list.map((item, index) => (

@@ -15,7 +15,11 @@ export const orgAPI = {
             email
             imageUrls
             avatarUrl
-            
+            rating
+            ratingBenefit
+            ratingLearning
+            ratingCulture
+            ratingWorkspace
         }
     }
     `,
