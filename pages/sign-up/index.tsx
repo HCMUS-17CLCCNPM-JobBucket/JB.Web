@@ -33,7 +33,7 @@ export default function SignUp(props) {
         email: values.email,
         password: values.password,
         roleId: values.roleId,
-        fullName: values.fullName,
+        name: values.fullName,
       };
       authAPI
         .register(userDataToPost)

@@ -38,6 +38,7 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error.response.status);
     if (error.response.status === 401) {
       authAPI.getAccessToken(getRefreshToken()).then((res) => {
         if (res.status === 200) {

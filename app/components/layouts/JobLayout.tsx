@@ -106,7 +106,7 @@ export default function Job() {
           if (res.status === 200) setJobs(res.data.data.jobs);
           setLoading(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err.response.status));
     } else if (page > 1) {
       const dataToPost = {
         ...filterOptionsInput,
