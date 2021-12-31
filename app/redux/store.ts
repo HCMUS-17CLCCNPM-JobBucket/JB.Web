@@ -46,6 +46,11 @@ export function getAccessToken(): string {
   return state.user.token;
 }
 
+export function getRefreshToken(): string {
+  const state: any = store.getState();
+  return state.user.refreshToken;
+}
+
 export function getUserInfo(): any {
   const state: any = store.getState();
   return state.user.user;

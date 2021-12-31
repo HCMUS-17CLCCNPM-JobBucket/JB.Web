@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function RecJob() {
+export default function RecJob(props) {
   return (
     <div className="flex gap-2 items-center hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer">
       <img

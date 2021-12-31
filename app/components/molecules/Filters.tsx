@@ -70,22 +70,38 @@ export default function Filters({ filters, callback }) {
     setScrollOverHeight(window.scrollY > 100);
   }, []);
 
-  const handleChange = (e, section, option) => {
-    if (e.target.checked) {
-      if (selectedFilter[section.name.toLowerCase()])
-        setSelectedFilter({
-          ...selectedFilter,
-          [section.name.toLowerCase()]: [
-            ...selectedFilter[section.name.toLowerCase()],
-            option.id,
-          ],
-        });
-      else
-        setSelectedFilter({
-          ...selectedFilter,
-          [section.name.toLowerCase()]: [option.id],
-        });
+  console.log(selectedFilter);
+  const handleChange = (value, section) => {
+    console.log(value);
+
+    if (value.length === 0) {
+      setSelectedFilter({
+        ...selectedFilter,
+        [section.name.toLowerCase()]: [],
+      });
+      return;
     }
+    const newValue = value.map((item) => item.value);
+
+    if (newValue.length === 0)
+      setSelectedFilter({
+        ...selectedFilter,
+        [section.name.toLowerCase()]: [],
+      });
+
+    if (selectedFilter[section.name.toLowerCase()])
+      setSelectedFilter({
+        ...selectedFilter,
+        [section.name.toLowerCase()]: [
+          ...selectedFilter[section.name.toLowerCase()],
+          newValue[newValue.length - 1],
+        ],
+      });
+    else
+      setSelectedFilter({
+        ...selectedFilter,
+        [section.name.toLowerCase()]: [...newValue],
+      });
   };
 
   const handleSubmit = () => callback(selectedFilter);
@@ -94,44 +110,22 @@ export default function Filters({ filters, callback }) {
     <form
       className={`filter sticky top-24 w-full h-[570px] hidden lg:block lg:col-span-3 overflow-y-scroll`}
     >
-      {filters.map((section) => (
-        <Disclosure
-          as="div"
-          key={section.id}
-          className="border-b border-gray-200 py-6"
-        >
-          {({ open }) => (
-            <>
-              <h3 className="-my-3 flow-root">
-                <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
-                  <span className="font-medium text-gray-900">
-                    {section.name}
-                  </span>
-                  <span className="ml-6 flex items-center">
-                    {open ? (
-                      <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                    ) : (
-                      <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                    )}
-                  </span>
-                </Disclosure.Button>
-              </h3>
-              <Disclosure.Panel className="pt-6">
-                {/* <Panel section={section} handleChange={handleChange} /> */}
-                <Selector
-                  options={section.options.map((option) => {
-                    return { value: option.name, label: option.name };
-                  })}
-                  onChange={null}
-                  value={null}
-                  placeholder=""
-                  isMulti={true}
-                />
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-      ))}
+      <div className="flex flex-col gap-4">
+        {filters.map((section) => (
+          <div key={section.id} className="flex flex-col gap-1">
+            <p className="font-semibold text-gray-500">{section.name}</p>
+            <Selector
+              options={section.options.map((option) => {
+                return { value: option.id, label: option.name };
+              })}
+              onChange={(e) => handleChange(e, section)}
+              value={null}
+              placeholder=""
+              isMulti={true}
+            />
+          </div>
+        ))}
+      </div>
       <div className="fixed bottom-5 left-32 flex justify-center items-center mt-4">
         <button
           onClick={handleSubmit}

@@ -8,7 +8,7 @@ export const userSlice = createSlice({
     user: {},
   },
   reducers: {
-    getAccessToken: (state, action) => {
+    getNewAccessToken: (state, action) => {
       state.token = action.payload;
       return state;
     },
@@ -31,7 +31,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, getAccessToken, updateProfile } =
+export const { login, logout, getNewAccessToken, updateProfile } =
   userSlice.actions;
 
 export default userSlice.reducer;

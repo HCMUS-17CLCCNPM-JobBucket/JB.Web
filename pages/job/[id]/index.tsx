@@ -10,10 +10,11 @@ import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import Head from "next/head";
+import JobRecSection from "app/components/molecules/JobRecSection";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await jobAPI.getJobByIdWithoutToken(parseInt(params.id));
-  if (res.status === 200) return { props: { ...res.data.data } };
+  if (res.status === 200) return { props: { ...res.data.data, id: params.id } };
   return {
     props: { id: params.id },
   };
@@ -269,20 +270,7 @@ export default function JobDetail(props) {
               <span className="font-medium">Ho Chi Minh City, Viet Nam</span>
             </p>
           </div>
-          <div className="w-full border border-gray-200 rounded-lg p-2">
-            <p className="text-xl font-semibold text-center">
-              Similar jobs for you
-            </p>
-            <div className="mt-4 flex flex-col gap-3 ">
-              <RecJob />
-              <hr className="p-0 m-0" />
-              <RecJob />
-              <hr className="p-0 m-0" />
-              <RecJob />
-              <hr className="p-0 m-0" />
-              <RecJob />
-            </div>
-          </div>
+          <JobRecSection jobId={props.id} />
         </div>
       </div>
     </div>

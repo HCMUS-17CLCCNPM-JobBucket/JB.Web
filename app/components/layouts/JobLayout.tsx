@@ -16,6 +16,7 @@ import JobInfinityScroll from "../molecules/JobInfinityScroll";
 import LoadingFullPage from "../molecules/LoadingFullPage";
 import MobileFilterDialog from "../molecules/MobileFilterDialog";
 import Head from "next/head";
+import { toast } from "react-toastify";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -82,23 +83,30 @@ export default function Job() {
       Promise.all([
         jobAPI.getAll(filterOptionsInput),
         jobAPI.getJobProperties(),
-      ]).then(([res, res2]) => {
-        if (res.status === 200) setJobs(res.data.data.jobs);
-        if (res2.status === 200) setFilterOptions(res2.data.data.jobProperties);
+      ])
+        .then(([res, res2]) => {
+          if (res.status === 200) setJobs(res.data.data.jobs);
+          if (res2.status === 200)
+            setFilterOptions(res2.data.data.jobProperties);
 
-        setLoading(false);
-      });
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
     };
     fetchData();
   }, []);
 
   useEffect(() => {
+    console.log(filterOptionsInput);
     if (page === 1) {
       setLoading(true);
-      jobAPI.getAll({ ...filterOptionsInput, page: 1 }).then((res) => {
-        if (res.status === 200) setJobs(res.data.data.jobs);
-        setLoading(false);
-      });
+      jobAPI
+        .getAll({ ...filterOptionsInput, page: 1 })
+        .then((res) => {
+          if (res.status === 200) setJobs(res.data.data.jobs);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
     } else if (page > 1) {
       const dataToPost = {
         ...filterOptionsInput,
