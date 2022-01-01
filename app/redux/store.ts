@@ -1,13 +1,9 @@
-import { logger } from "redux-logger";
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import jobReducer from "app/redux/features/job";
+import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "app/redux/features/user";
 import { combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
-import companyReducer from "./features/company";
-// import createSagaMiddleware from "redux-saga";
 
 //redux config
 const persistConfig = {
@@ -53,7 +49,7 @@ export function getRefreshToken(): string {
 
 export function getUserInfo(): any {
   const state: any = store.getState();
-  return state.user.user;
+  return state.user;
 }
 
 export { store, persistor };

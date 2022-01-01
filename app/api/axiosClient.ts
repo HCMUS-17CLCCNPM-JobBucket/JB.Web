@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { getAccessToken, getRefreshToken } from "app/redux/store";
 import axios from "axios";
 // Set up default config for http requests here
@@ -38,7 +39,6 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log(error.response.status);
     if (error.response.status === 401) {
       authAPI.getAccessToken(getRefreshToken()).then((res) => {
         if (res.status === 200) {
@@ -47,7 +47,8 @@ axiosClient.interceptors.response.use(
           dispatch(logout());
         }
       });
-    }
+    } else toast(error.response.data.message, { type: "error" });
+
     return error;
   }
 );

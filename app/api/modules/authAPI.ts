@@ -24,10 +24,8 @@ export const authAPI = {
       params: { email },
     });
   },
-  confirmResetPassword: (email) => {
-    return axiosClient.post("api/Authenticate/confirmResetPassword", {
-      params: { email },
-    });
+  confirmResetPassword: (payload) => {
+    return axiosClient.post("api/Authenticate/ConfirmResetPassword", payload);
   },
   getAccessToken: (token) => {
     return axiosClient.post("api/Authenticate/refreshToken", {

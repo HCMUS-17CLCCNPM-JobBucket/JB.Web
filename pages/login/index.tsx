@@ -145,7 +145,7 @@ function Login() {
                     <a
                       className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
                                   cursor-pointer"
-                      onClick={() => router.push("/forgot-password")}
+                      onClick={() => router.push("/forgot-password/step-1")}
                     >
                       Forgot Password?
                     </a>
