@@ -97,7 +97,6 @@ export default function Job() {
   }, []);
 
   useEffect(() => {
-    console.log(filterOptionsInput);
     if (page === 1) {
       setLoading(true);
       jobAPI

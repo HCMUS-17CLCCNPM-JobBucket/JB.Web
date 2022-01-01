@@ -8,10 +8,13 @@ import SaveJobButton from "../Button/SaveJobButton";
 import SalaryRange from "../SalaryRange";
 
 export default function JobHorizonCard(props) {
+  console.log(props.categories);
   return (
     <div className="job-horizon-card hover:shadow-lg">
       <div className="job-horizon-card__header">
-        <Badge content={props.categories[0].name} />
+        <Badge
+          content={props.categories.length !== 0 && props.categories[0].name}
+        />
         <div className="job-horizon-card__company">
           <a href={"/job/" + props.id} target="_blank" rel="noreferrer">
             <img src={props.imageUrls[0]} alt="Google" />

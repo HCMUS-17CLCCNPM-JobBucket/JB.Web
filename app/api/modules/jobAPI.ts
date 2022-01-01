@@ -229,6 +229,9 @@ export const jobAPI = {
           positions {
             id
           }
+          categories{
+            name
+          }
         }
       }
       `,
@@ -267,6 +270,9 @@ export const jobAPI = {
           imageUrls
           positions {
             id
+          }
+          categories{
+            name
           }
         }
       }
