@@ -1,3 +1,4 @@
+import { XIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
 
 export default function SearchJob({ styles, handleSearch }) {
@@ -11,6 +12,11 @@ export default function SearchJob({ styles, handleSearch }) {
     handleSearch(keyword);
   };
 
+  const handleClearInput = () => {
+    setKeyword("");
+    // handleSearch("");
+    // handleReset();
+  };
   return (
     <div
       className={`${styles} h-16 flex gap-2 items-center rounded-full border-2 border-gray-100`}
@@ -35,13 +41,20 @@ export default function SearchJob({ styles, handleSearch }) {
             className="focus:outline-none w-full dark:text-white dark:bg-gray-900"
             type="text"
             placeholder="Job Type or Keyword"
+            value={keyword}
             onChange={handleChange}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleSearch(keyword);
+                handleSubmit(e);
               }
             }}
           />
+          {keyword.length > 0 && (
+            <XIcon
+              className="h-6 w-6 text-gray-400"
+              onClick={handleClearInput}
+            />
+          )}
         </div>
       </div>
       <button

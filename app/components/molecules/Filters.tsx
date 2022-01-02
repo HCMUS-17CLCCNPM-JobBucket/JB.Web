@@ -72,7 +72,14 @@ export default function Filters({ filters, callback }) {
 
   console.log(selectedFilter);
   const handleChange = (value, section) => {
-    console.log(value);
+    // console.log(value);
+
+    // if (section.name === "Salary") {
+    //   setSelectedFilter({
+    //     ...selectedFilter,
+    //     [section.name.toLowerCase()]: value,
+    //   });
+    // }
 
     if (value.length === 0) {
       setSelectedFilter({
@@ -116,7 +123,7 @@ export default function Filters({ filters, callback }) {
             <p className="font-semibold text-gray-500">{section.name}</p>
             <Selector
               options={section.options.map((option) => {
-                return { value: option.id, label: option.name };
+                return { value: option.id || option.value, label: option.name };
               })}
               onChange={(e) => handleChange(e, section)}
               value={null}

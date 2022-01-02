@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import Head from "next/head";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 export const getServerSideProps = async ({ params }) => {
   // const res = await blogAPI.getById(parseInt(params.id));
   // if (res.status === 200) return { props: { ...res.data.data } };
@@ -16,14 +17,17 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function BlogDetail(props) {
+  const [loading, setLoading] = useState(false);
   const [blogInfo, setBlogInfo] = useState<any>({});
 
   const commentRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const res = await blogAPI.getById(props.id);
       setBlogInfo(res.data.data.blogs[0]);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -39,6 +43,7 @@ export default function BlogDetail(props) {
         <title>{blogInfo.title} | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      {loading && <LoadingFullPage />}
       {/* content */}
       <div className="w-1/2 flex flex-col gap-8">
         <p className="text-3xl font-semibold mt-2">{blogInfo?.title}</p>

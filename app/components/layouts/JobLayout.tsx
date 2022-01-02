@@ -30,6 +30,15 @@ const categories = [
   { title: "Recommend", path: "/rec" },
   { title: "Remote Job", path: "/rec" },
 ];
+
+const salaryOptions = [
+  { name: "All", value: [] },
+  { name: "$500", value: [0, 500] },
+  { name: "$500 - $1000", value: [500, 1000] },
+  { name: "$1000 - $2000", value: [1000, 2000] },
+  { name: "$2000 - $3000", value: [2000, 3000] },
+  { name: ">= $3000", value: [0, 3000] },
+];
 export default function Job() {
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -59,13 +68,19 @@ export default function Job() {
     salary: [],
   });
 
-  const preKeyword = usePrevious(filterOptionsInput.keyword);
+  // const preKeyword = usePrevious(filterOptionsInput.keyword);
 
   const handleSearch = (keyword: string) => {
+    if (keyword === "") {
+      console.log("all");
+      setFilterOptionsInput({
+        ...filterOptionsInput,
+        keyword,
+        page: 1,
+      });
+    }
     let temp = keyword.trim();
     if (temp.length > 0 || jobs.length === 0) {
-      console.log("search", keyword);
-
       setFilterOptionsInput({
         ...filterOptionsInput,
         keyword,
@@ -114,11 +129,11 @@ export default function Job() {
       jobAPI.getAll(dataToPost).then((res) => {
         if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
 
+        console.log(res.data.data);
         setHasMore(res.data.data.jobs.length > 0);
       });
     }
   }, [filterOptionsInput, page]);
-
   return (
     <div className="bg-white">
       <Head>
@@ -136,6 +151,7 @@ export default function Job() {
           <SearchJob
             styles="lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg"
             handleSearch={handleSearch}
+            // handleReset={handleReset}
           />
         </div>
         <main className=" px-4 sm:px-6 lg:px-16">
@@ -189,13 +205,12 @@ export default function Job() {
                 >
                   <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                      {sortOptions.map((option) => (
+                      {salaryOptions.map((option) => (
                         <Menu.Item key={option.name}>
                           {({ active }) => (
                             <a
-                              href={option.href}
                               className={helper.classNames(
-                                option.current
+                                true
                                   ? "font-medium text-gray-900"
                                   : "text-gray-500",
                                 active ? "bg-gray-100" : "",
@@ -266,6 +281,11 @@ export default function Job() {
                     name: "Category",
                     options: filterOptions.categories,
                   },
+                  // {
+                  //   id: "Salary",
+                  //   name: "Salary",
+                  //   options: salaryOptions,
+                  // },
                 ]}
                 callback={handleFilter}
               />
