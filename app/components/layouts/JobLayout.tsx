@@ -8,7 +8,7 @@ import { jobAPI } from "app/api/modules/jobAPI";
 import SearchJob from "app/components/atoms/SearchBar/SearchJob";
 import helper from "app/utils/helper";
 import { usePrevious } from "app/utils/hooks";
-import router from "next/router";
+import router, { useRouter } from "next/router";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import Filters from "../molecules/Filters";
@@ -17,13 +17,12 @@ import LoadingFullPage from "../molecules/LoadingFullPage";
 import MobileFilterDialog from "../molecules/MobileFilterDialog";
 import Head from "next/head";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
+  { name: "Default", href: "default", current: false },
+  { name: "Newest", href: "newest", current: false },
+  { name: "Oldest", href: "oldest", current: false },
 ];
 const categories = [
   { title: "Browse All", path: "/" },
@@ -31,15 +30,17 @@ const categories = [
   { title: "Remote Job", path: "/rec" },
 ];
 
-const salaryOptions = [
-  { name: "All", value: [] },
-  { name: "$500", value: [0, 500] },
-  { name: "$500 - $1000", value: [500, 1000] },
-  { name: "$1000 - $2000", value: [1000, 2000] },
-  { name: "$2000 - $3000", value: [2000, 3000] },
-  { name: ">= $3000", value: [0, 3000] },
-];
+// const salaryOptions = [
+//   { name: "All", value: [] },
+//   { name: "$500", value: [0, 500] },
+//   { name: "$500 - $1000", value: [500, 1000] },
+//   { name: "$1000 - $2000", value: [1000, 2000] },
+//   { name: "$2000 - $3000", value: [2000, 3000] },
+//   { name: ">= $3000", value: [0, 3000] },
+// ];
 export default function Job() {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
@@ -72,7 +73,6 @@ export default function Job() {
 
   const handleSearch = (keyword: string) => {
     if (keyword === "") {
-      console.log("all");
       setFilterOptionsInput({
         ...filterOptionsInput,
         keyword,
@@ -112,28 +112,47 @@ export default function Job() {
   }, []);
 
   useEffect(() => {
+    const newFilter = { ...filterOptionsInput };
+    const query = router.query;
+
+    if (query.sort) {
+      if (query.sort === "default") {
+        newFilter.sortBy = "";
+      }
+      if (query.sort === "newest") {
+        newFilter.sortBy = "createdDate";
+        newFilter.isDescending = true;
+      }
+      if (query.sort === "oldest") {
+        newFilter.sortBy = "createdDate";
+        newFilter.isDescending = false;
+      }
+    }
+
     if (page === 1) {
+      console.log(123);
       setLoading(true);
       jobAPI
-        .getAll({ ...filterOptionsInput, page: 1 })
+        .getAll({ ...newFilter, page: 1 })
         .then((res) => {
           if (res.status === 200) setJobs(res.data.data.jobs);
           setLoading(false);
         })
         .catch((err) => console.log(err.response.status));
     } else if (page > 1) {
+      console.log(123123123);
+
       const dataToPost = {
-        ...filterOptionsInput,
+        ...newFilter,
         page: page,
       };
       jobAPI.getAll(dataToPost).then((res) => {
         if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
 
-        console.log(res.data.data);
         setHasMore(res.data.data.jobs.length > 0);
       });
     }
-  }, [filterOptionsInput, page]);
+  }, [filterOptionsInput, page, router.query]);
   return (
     <div className="bg-white">
       <Head>
@@ -205,20 +224,28 @@ export default function Job() {
                 >
                   <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                      {salaryOptions.map((option) => (
+                      {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
                           {({ active }) => (
-                            <a
-                              className={helper.classNames(
-                                true
-                                  ? "font-medium text-gray-900"
-                                  : "text-gray-500",
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm"
-                              )}
+                            <Link
+                              href={{
+                                pathname: "job",
+                                query: { sort: option.href },
+                              }}
+                              passHref
                             >
-                              {option.name}
-                            </a>
+                              <p
+                                className={helper.classNames(
+                                  option.current
+                                    ? "font-medium text-gray-900"
+                                    : "text-gray-500",
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm cursor-pointer"
+                                )}
+                              >
+                                {option.name}
+                              </p>
+                            </Link>
                           )}
                         </Menu.Item>
                       ))}

@@ -1,13 +1,17 @@
 import { jobAPI } from "app/api/modules/jobAPI";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import RecJob from "../atoms/RecJob";
 
 export default function JobRecSection({ jobId }) {
   const [data, setData] = useState([]);
   useEffect(() => {
-    jobAPI.jobRecommendation(jobId).then((res) => {
-      setData(res.data.data.jobRecommendations);
-    });
+    jobAPI
+      .jobRecommendation(parseInt(jobId))
+      .then((res) => {
+        setData(res.data.data.jobRecommendations);
+      })
+      .catch((err) => console.log(err));
   }, []);
   return (
     <div className="w-full border border-gray-200 rounded-lg p-2">
@@ -16,7 +20,7 @@ export default function JobRecSection({ jobId }) {
         {data.map((item, index) => (
           <div key={index}>
             <RecJob />
-            <hr className="p-0 m-0" />
+            <hr className="p-0 m-0 text-gray-400" />
           </div>
         ))}
       </div>

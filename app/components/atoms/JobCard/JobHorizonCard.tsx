@@ -23,7 +23,9 @@ export default function JobHorizonCard(props) {
               <a href={"/job/" + props.id} target="_blank" rel="noreferrer">
                 <p>
                   {props.title} -{" "}
-                  <span className="text-red-500">{props.types[0].name}</span>
+                  <span className="text-red-500">
+                    {props.type !== undefined && props.types[0]}
+                  </span>
                 </p>
               </a>
               <span className="text-gray-600">
