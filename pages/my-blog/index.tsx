@@ -1,69 +1,68 @@
 import { blogAPI } from "app/api/modules/blogAPI";
-import Blog from "app/components/atoms/Blog";
-import React, { useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { useSelector } from "react-redux";
+import { jobAPI } from "app/api/modules/jobAPI";
+import JobDashboard from "app/components/layouts/JobDashboard";
+import BlogInfinityScroll from "app/components/molecules/BlogInfinityScroll";
+import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
+import { useUserInfo } from "app/utils/hooks";
+import moment from "moment";
 import Head from "next/head";
+import React, { useEffect, useState } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
+const localizer = momentLocalizer(moment);
+
+const MyCalendar = (props) => (
+  <div className="h-[500px]">
+    <Calendar
+      localizer={localizer}
+      // events={myEventsList}
+      startAccessor="start"
+      endAccessor="end"
+      className="w-[500px] h-[500px]"
+    />
+  </div>
+);
 
 export default function MyBlog() {
-  const [blogs, setBlogs] = useState([]);
-  const [isFiltered, setIsFiltered] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [filter, setFilter] = useState({
-    isDescending: true,
-    page: 1,
-    size: 12,
-    sortBy: "createDate",
-    keyword: "",
-    createdDate: [],
-    tags: [],
-    // authorId: 1,
-  });
-  const user = useSelector((state: any) => state.user);
-
-  const fetchMoreData = async () => {
-    const res = await blogAPI.getAll({ ...filter, page: filter.page + 1 });
-    setBlogs(blogs.concat(res.data.data.blogs));
-    setFilter({ ...filter, page: filter.page + 1 });
-    setHasMore(res.data.data.blogs.length > 0);
-  };
+  const user = useUserInfo();
+  const [jobs, setJobs] = useState([]);
+  const [hasMore, setHasMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  //call api to get saved jobs
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await blogAPI.getMyBlogs(user.user.id);
-      if (res.status === 200) setBlogs(res.data.data.blogs);
-    };
-    fetchData();
-  }, [isFiltered]);
+    if (page === 1) {
+      setLoading(true);
+      blogAPI
+        .getMyBlogs(user.user.id, 1)
+        .then((res) => {
+          if (res.status === 200) setJobs(res.data.data.blogs);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err.response.status));
+    } else if (page > 1) {
+      blogAPI.getMyBlogs(user.user.id, page).then((res) => {
+        if (res.status === 200) setJobs([...jobs, ...res.data.data.blogs]);
+
+        setHasMore(res.data.data.blogs.length > 0);
+      });
+    }
+  }, [page]);
   return (
-    <section className="text-gray-800">
+    <div className="px-16 w-full">
       <Head>
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <title>My Blog | JobBucket</title>
+        <title>Saved Job | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-
-      <div className="container max-w-8xl p-6 mx-auto space-y-6 ">
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <p className="text-2xl font-semibold">{user.user.name} 's Blog</p>
-        <InfiniteScroll
-          dataLength={blogs.length}
-          next={fetchMoreData}
+      <div className="flex">
+        <BlogInfinityScroll
           hasMore={hasMore}
-          className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          loader={
-            <div className="flex justify-center">
-              <button className="px-6 py-3 text-sm rounded-md hover:underline bg-gray-50 text-gray-600">
-                Load more blogs...
-              </button>
-            </div>
-          }
-          scrollableTarget="scrollableDiv"
-        >
-          {blogs.map((item, index) => (
-            <Blog key={index} {...item} />
-          ))}
-        </InfiniteScroll>
+          loading={loading}
+          blogs={jobs}
+          setPage={() => setPage(page + 1)}
+        />
       </div>
-    </section>
+    </div>
   );
 }

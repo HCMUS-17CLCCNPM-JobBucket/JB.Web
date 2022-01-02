@@ -18,7 +18,7 @@ export const blogAPI = {
       }
     `,
     }),
-  getMyBlogs: (userId) => {
+  getMyBlogs: (userId, page) => {
     return axiosClient.post("/graphql", {
       query: `
         query GetMyBlogs($filter: ListBlogRequestInput) {
@@ -46,8 +46,7 @@ export const blogAPI = {
         }
       `,
       variables: {
-        // id,
-        filter: { authorId: userId },
+        filter: { authorId: userId, page, size: 12 },
       },
     });
   },

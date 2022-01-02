@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Head from "next/head";
+import LoadingFullPage from "../molecules/LoadingFullPage";
 const config = {
   placeholderText: "Edit Your Content Here!",
   charCounterCount: true,
@@ -40,6 +41,7 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
 );
 
 export default function BlogForm(props) {
+  const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState(props.tags);
   const [content, setContent] = useState(props.content);
   const [imageFile, setImageFile] = useState(null);
@@ -69,6 +71,7 @@ export default function BlogForm(props) {
       tags: props.tags,
     },
     onSubmit: async (values) => {
+      setLoading(true);
       if (previewSource !== "") {
         const imageRes: any = await imageAPI.uploadImage(imageFile);
         const res = await blogAPI.handleBlogByType(
@@ -81,6 +84,7 @@ export default function BlogForm(props) {
           },
           props.type
         );
+        setLoading(false);
         handleRedirect(res);
       } else {
         const res = await blogAPI.handleBlogByType(
@@ -92,6 +96,7 @@ export default function BlogForm(props) {
           },
           props.type
         );
+        setLoading(false);
         handleRedirect(res);
       }
     },
@@ -112,6 +117,7 @@ export default function BlogForm(props) {
         </title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      {loading && <LoadingFullPage />}
       <p className="text-2xl font-semibold">
         {router.pathname === "/blog/post" ? "Add New Blog" : "Edit Blog"}
       </p>

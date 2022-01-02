@@ -7,8 +7,9 @@ import { CSSTransition } from "react-transition-group";
 import LoginButton from "../atoms/Button/LoginButton";
 import SignUpButton from "../atoms/Button/SignUpButton";
 import Divider from "../atoms/Divider";
-import { Menu } from "@headlessui/react";
+import { Menu, Popover } from "@headlessui/react";
 import DropdownAvatar from "../molecules/DropdownAvatar";
+import { BellIcon, PlusIcon } from "@heroicons/react/solid";
 export function NavbarItem({ content, path }: any) {
   return (
     <li>
@@ -66,22 +67,13 @@ export default function Navbar() {
             </button>
           </div>
         ) : (
-          <div className="flex gap-2 justify-center items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-9 w-9 p-2 rounded-full border-2 border-gray-400 cursor-pointer"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              onClick={() => router.push("/blog/post")}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
+          <div className="flex gap-4 justify-center items-center">
+            <PlusIcon
+              className="h-6 w-6 rounded-full cursor-pointer"
+              onClick={(_) => router.push("/blog/post")}
+            />
+            <BellIcon className="h-6 w-6 rounded-full cursor-pointer" />
+
             <DropdownAvatar />
           </div>
         )}

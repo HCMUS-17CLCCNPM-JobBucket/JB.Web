@@ -25,7 +25,7 @@ export default function Blog(props) {
                 {props.author.name}
               </a>
               <span className="text-xs text-gray-600">
-                <Moment add={{ hours: 7 }} fromNow date={props.createdDate} />
+                <Moment fromNow date={props.createdDate} />
               </span>
             </div>
           </div>
