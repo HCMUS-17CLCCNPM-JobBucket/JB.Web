@@ -10,6 +10,7 @@ import Divider from "../atoms/Divider";
 import { Menu, Popover } from "@headlessui/react";
 import DropdownAvatar from "../molecules/DropdownAvatar";
 import { BellIcon, PlusIcon } from "@heroicons/react/solid";
+import NotiSection from "../molecules/NotiSection";
 export function NavbarItem({ content, path }: any) {
   return (
     <li>
@@ -72,8 +73,7 @@ export default function Navbar() {
               className="h-6 w-6 rounded-full cursor-pointer"
               onClick={(_) => router.push("/blog/post")}
             />
-            <BellIcon className="h-6 w-6 rounded-full cursor-pointer" />
-
+            <NotiSection />
             <DropdownAvatar />
           </div>
         )}
