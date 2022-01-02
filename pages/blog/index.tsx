@@ -1,84 +1,68 @@
 import { blogAPI } from "app/api/modules/blogAPI";
-import Blog from "app/components/atoms/Blog";
-import LoadingFullPage from "app/components/molecules/LoadingFullPage";
-import React, { useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { useSelector } from "react-redux";
+import { jobAPI } from "app/api/modules/jobAPI";
+import JobDashboard from "app/components/layouts/JobDashboard";
+import BlogInfinityScroll from "app/components/molecules/BlogInfinityScroll";
+import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
+import { useUserInfo } from "app/utils/hooks";
+import moment from "moment";
 import Head from "next/head";
-export default function BlogPage() {
-  const user = useSelector((state: any) => state.user);
+import React, { useEffect, useState } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
+const localizer = momentLocalizer(moment);
+
+const MyCalendar = (props) => (
+  <div className="h-[500px]">
+    <Calendar
+      localizer={localizer}
+      // events={myEventsList}
+      startAccessor="start"
+      endAccessor="end"
+      className="w-[500px] h-[500px]"
+    />
+  </div>
+);
+
+export default function MyBlog() {
+  const user = useUserInfo();
+  const [jobs, setJobs] = useState([]);
+  const [hasMore, setHasMore] = useState(false);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [blogs, setBlogs] = useState([]);
-  const [isFiltered, setIsFiltered] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [filter, setFilter] = useState({
-    isDescending: true,
-    page: 1,
-    size: 12,
-    sortBy: "createDate",
-    keyword: "",
-    createdDate: [],
-    tags: [],
-    authorId: -1,
-  });
-
-  const fetchMoreData = async () => {
-    const res = await blogAPI.getAll({ ...filter, page: filter.page + 1 });
-    setBlogs(blogs.concat(res.data.data.blogs));
-    setFilter({ ...filter, page: filter.page + 1 });
-    setHasMore(res.data.data.blogs.length > 0);
-  };
-  const refreshData = async () => setIsFiltered(!isFiltered);
+  //call api to get saved jobs
   useEffect(() => {
-    const fetchData = async () => {
+    if (page === 1) {
       setLoading(true);
-      const res = await blogAPI.getAll(filter);
-      if (res.status === 200) setBlogs(res.data.data.blogs);
-      setLoading(false);
-    };
-    fetchData();
-  }, [isFiltered]);
+      blogAPI
+        .getAll({ page: 1, size: 10 })
+        .then((res) => {
+          if (res.status === 200) setJobs(res.data.data.blogs);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err.response.status));
+    } else if (page > 1) {
+      blogAPI.getAll({ page, size: 10 }).then((res) => {
+        if (res.status === 200) setJobs([...jobs, ...res.data.data.blogs]);
+
+        setHasMore(res.data.data.blogs.length > 0);
+      });
+    }
+  }, [page]);
   return (
-    <div className="relative w-full h-full max-w-7xl p-6 mx-auto space-y-6 ">
+    <div className="px-16 w-full">
       <Head>
         <title>Blog | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {loading && <LoadingFullPage />}
-      {/* <a
-        href="#"
-        className="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 bg-gray-50"
-      >
-        <img
-          src="https://source.unsplash.com/random/480x360"
-          alt=""
-          className="object-cover w-full h-64 rounded sm:h-96 lg:col-span-7 bg-gray-500"
+      <div className="flex">
+        <BlogInfinityScroll
+          hasMore={hasMore}
+          loading={loading}
+          blogs={jobs}
+          setPage={() => setPage(page + 1)}
         />
-        <div className="p-6 space-y-2 lg:col-span-5">
-          <h3 className="text-2xl font-semibold sm:text-4xl group-hover:underline group-focus:underline">
-            Noster tincidunt reprimique ad pro
-          </h3>
-          <span className="text-xs text-gray-600">February 19, 2021</span>
-          <p>
-            Ei delenit sensibus liberavisse pri. Quod suscipit no nam. Est in
-            graece fuisset, eos affert putent doctus id.
-          </p>
-        </div>
-      </a> */}
-      {blogs.length === 0 && <div className="h-[300px]" />}
-      <InfiniteScroll
-        dataLength={blogs.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        loader={<LoadingFullPage />}
-        scrollableTarget="scrollableDiv"
-      >
-        {blogs.map((item, index) => (
-          <Blog key={index} {...item} refreshData={refreshData} />
-        ))}
-      </InfiniteScroll>
+      </div>
     </div>
   );
 }
