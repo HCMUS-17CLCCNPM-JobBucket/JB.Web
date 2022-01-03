@@ -163,7 +163,7 @@ export default function AddNewJob() {
       whyJoinUs: "",
       numberEmployeesToApplied: 0,
       jobForm: "",
-      gender: 0,
+      gender: "",
     },
     onSubmit: async (values) => {
       const dataToPost = {
@@ -178,15 +178,15 @@ export default function AddNewJob() {
         optionalRequirements,
         whyJoinUs,
       };
-      const imageRes: any = await imageAPI.uploadImage(imageFile);
+      // const imageRes: any = await imageAPI.uploadImage(imageFile);
       const res = await jobAPI.add(
         {
           ...dataToPost,
-          imageUrl: imageRes.data.url,
+          // imageUrl: imageRes.data.url,
         },
         user.token
       );
-
+      console.log(res.status);
       if (res.status === 200) alert("add job success");
     },
   });
@@ -381,7 +381,7 @@ export default function AddNewJob() {
               type="radio"
               name="gender"
               value="Male"
-              onChange={(e) => (formik.values.gender = 0)}
+              onChange={(e) => (formik.values.gender = "Male")}
             />
             <span className="ml-2 text-gray-700">Male</span>
           </label>
@@ -391,7 +391,7 @@ export default function AddNewJob() {
               type="radio"
               name="gender"
               value="Female"
-              onChange={(e) => (formik.values.gender = 1)}
+              onChange={(e) => (formik.values.gender = "Female")}
             />
             <span className="ml-2 text-gray-700">Female</span>
           </label>
