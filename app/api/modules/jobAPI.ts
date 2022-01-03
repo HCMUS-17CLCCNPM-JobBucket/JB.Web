@@ -312,4 +312,79 @@ export const jobAPI = {
         },
       },
     }),
+  getJobByOrganization: (organizationId: number, page) =>
+    axiosClient.post("/graphql", {
+      query: `query getJobById($filter: ListJobRequestInput ) {
+        jobs (filter: $filter) {
+          id
+          title
+          imageUrls
+          description
+          activeStatus
+          priority
+          addresses
+          cities
+          minSalary
+          maxSalary
+          salaryCurrency
+          salaryDuration
+          skills {
+            id
+            name
+          }   
+          positions {
+            id
+            name
+          }
+          applicationCount
+          interestCount
+          types {
+            id
+            name
+          }
+          categories {
+            id
+            name
+          }
+          isVisaSponsorship
+          employerId
+          employer {
+            name
+            avatarUrl
+            organizationId
+          }
+          createdDate
+          updatedDate
+          expireDate
+          benefits
+          experiences
+          responsibilities
+          requirements
+          optionalRequirements
+          cultures
+          whyJoinUs
+          numberEmployeesToApplied
+          jobForm
+          gender
+          views
+          isJobInterested
+          isJobApplied
+          organizationId
+          organization {
+            name
+            bio
+            country
+            phoneNumber
+            email
+          }
+        }
+      }`,
+      variables: {
+        filter: {
+          organizationId: [organizationId],
+          page,
+          size: 10,
+        },
+      },
+    }),
 };

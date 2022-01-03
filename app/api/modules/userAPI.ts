@@ -193,5 +193,7 @@ const UserAPI = {
         keyword: keyword,
       },
     }),
+
+  // getApplicants: (page, jobId) =>
 };
 export default UserAPI;
