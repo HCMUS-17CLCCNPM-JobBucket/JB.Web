@@ -27,6 +27,7 @@ export default function CvEditor() {
       const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
     }
     const cv = {
+      cVName: cvInfo.cVName,
       id: cvInfo.id,
       name: cvInfo.name,
       avatarUrl: cvInfo.avatar,
@@ -56,7 +57,7 @@ export default function CvEditor() {
   return (
     <div className="w-full bg-gray-50">
       <div className="p-10">
-        <PersonalInfo></PersonalInfo>
+        <PersonalInfo isUpdate={isUpdate}></PersonalInfo>
         <Experience></Experience>
         <Skills></Skills>
         <Educations></Educations>
@@ -89,7 +90,7 @@ export default function CvEditor() {
                   d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
                 />
               </svg>
-              Save change
+              Save changes
             </button>
           ) : (
             <Create></Create>

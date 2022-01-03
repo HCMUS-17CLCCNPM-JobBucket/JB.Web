@@ -7,7 +7,7 @@ import "antd/dist/antd.css";
 import locale from "antd/es/date-picker/locale/zh_CN";
 import moment from "moment";
 
-export default function PersonalInfo() {
+export default function PersonalInfo(props) {
   const cv = useSelector((state: any) => state.cv);
   const dispatch = useDispatch();
   const birthdate = moment(cv.birthDate);
@@ -26,6 +26,23 @@ export default function PersonalInfo() {
   };
   return (
     <div className="border-gray-300 border p-10 bg-white mb-8">
+      {props.isUpdate && (
+        <div className="md:grid md:grid-cols-2 gap-4 mb-4">
+          <div className="flex flex-col ">
+            <label htmlFor="name" className="text-gray-700">
+              CV Name
+            </label>
+            <input
+              defaultValue={cv.cVName}
+              type="text"
+              id="name"
+              className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              placeholder="CV name"
+              onChange={(e) => dispatch(cvActions.changeCVname(e.target.value))}
+            />
+          </div>
+        </div>
+      )}
       <div className="mb-4">
         <label className="text-gray-700">Avatar</label>
         <img
