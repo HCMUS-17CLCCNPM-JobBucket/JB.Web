@@ -90,6 +90,50 @@ const UserAPI = {
           }
         }`,
     }),
+  getProfileById: (id) =>
+    axiosClient.post("/graphql", {
+      query: `query getProfileById($id: Int) {
+        profiles(id: $id) {
+          id
+          userName
+          skills {
+            skillName
+            level
+          }
+          name
+          email
+          awards
+          introduction
+          gender
+          avatarUrl
+          createdDate
+          updatedDate
+          address
+          introduction
+          website
+          birthdate
+          phone
+          github
+          experiences {
+            company
+            position
+            duration
+          }
+          educations {
+            school
+            major
+            status
+            profession
+          }
+          activities
+          certifications
+          views
+        }
+      }`,
+      variables: {
+        id,
+      },
+    }),
   updateProfile: (data) =>
     axiosClient.post("graphql", {
       query: `mutation updateProfile ($updateProfile : UpdateUserProfileRequestInput) {
@@ -102,6 +146,51 @@ const UserAPI = {
         }`,
       variables: {
         updateProfile: data,
+      },
+    }),
+  listEmployees: (page, keyword) =>
+    axiosClient.post("/graphql", {
+      query: `query getProfileById {
+      profiles {
+        id
+        userName
+        skills {
+          skillName
+          level
+        }
+        name
+        email
+        awards
+        introduction
+        gender
+        avatarUrl
+        createdDate
+        updatedDate
+        address
+        introduction
+        website
+        birthdate
+        phone
+        github
+        experiences {
+          company
+          position
+          duration
+        }
+        educations {
+          school
+          major
+          status
+          profession
+        }
+        activities
+        certifications
+        views
+      }
+    }`,
+      variables: {
+        page: page,
+        keyword: keyword,
       },
     }),
 };

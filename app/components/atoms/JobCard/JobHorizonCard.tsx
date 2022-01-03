@@ -1,4 +1,5 @@
 import { jobAPI } from "app/api/modules/jobAPI";
+import moment from "moment";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
@@ -9,11 +10,16 @@ import SalaryRange from "../SalaryRange";
 
 export default function JobHorizonCard(props) {
   return (
-    <div className="job-horizon-card hover:shadow-lg">
+    <div className="job-horizon-card hover:shadow-lg relative">
       <div className="job-horizon-card__header">
-        <Badge
-          content={props.categories.length !== 0 && props.categories[0].name}
-        />
+        <div className="flex justify-between">
+          <Badge
+            content={props.categories.length !== 0 && props.categories[0].name}
+          />
+          {moment(props.createdDate).diff(moment(), "days") * -1 <= 3 && (
+            <Badge content="New for you" type="new" />
+          )}
+        </div>
         <div className="job-horizon-card__company">
           <a href={"/job/" + props.id} target="_blank" rel="noreferrer">
             <img src={props.imageUrls[0]} alt="Google" />
@@ -50,7 +56,7 @@ export default function JobHorizonCard(props) {
 
         <div className="flex mt-2">
           {props.skills.map((skill, index) => (
-            <Badge key={index} content={skill.name} />
+            <Badge key={index} content={skill.name} type="skill" />
           ))}
         </div>
       </div>

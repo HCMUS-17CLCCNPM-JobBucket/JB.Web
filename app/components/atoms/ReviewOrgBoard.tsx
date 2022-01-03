@@ -30,7 +30,7 @@ export default function ReviewOrgBoard({ values }) {
               <ProgressBar
                 key={index}
                 rating={item.rating}
-                value={item.percentage}
+                value={item.percentage.toFixed(1)}
               />
             ))}
           </div>

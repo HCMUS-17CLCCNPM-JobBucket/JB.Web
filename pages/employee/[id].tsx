@@ -7,7 +7,13 @@ import Head from "next/head";
 import ProfileLayout from "app/components/layouts/ProfileLayout";
 import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 
-export default function Profile() {
+export const getServerSideProps = async ({ params }) => {
+  return {
+    props: { id: params.id },
+  };
+};
+
+export default function EmployeeProfile(props) {
   const [profile, setProfile] = useState<any>({
     awards: [],
     certifications: [],
@@ -18,7 +24,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await UserAPI.getProfile();
+      const res = await UserAPI.getProfileById(parseInt(props.id));
       if (res.status === 200) {
         setProfile(res.data.data.profiles[0]);
         setLoading(false);

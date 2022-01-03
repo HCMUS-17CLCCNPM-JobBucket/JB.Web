@@ -28,18 +28,18 @@ export default function FoundUser(props) {
                   onClick={() => router.push("/recruit/" + props.id)}
                   className="cursor-pointer hover:text-blue-500 ease-in-trans w-full flex-none text-lg text-gray-800 font-bold leading-none"
                 >
-                  {props.fullName}
+                  {props.name}
                 </div>
-                <div className="flex-auto text-gray-500 my-1">
-                  <span className="mr-3">
+                {props.address !== null && (
+                  <div className="flex-auto text-gray-500 my-1">
+                    {/* <span className="mr-3">
                     {props.positions[0] ? props.positions[0].name : "Updating"}
-                  </span>
-                  <span className="mr-3 border-r-2 border-gray-200 max-h-0" />
-                  <span>
-                    {props.address ||
-                      "Updating" + "," + (props.city || "Updating")}
-                  </span>
-                </div>
+                  </span> */}
+                    <span className="mr-3 border-r-2 border-gray-200 max-h-0" />
+
+                    <span>{props.address + "," + props.city}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -85,7 +85,7 @@ export default function FoundUser(props) {
       {router.pathname.includes("employee") && (
         <div className="flex gap-4 mt-4">
           <button
-            onClick={() => router.push("/recruit/" + props.id)}
+            onClick={() => router.push("/employee/" + props.id)}
             className="h-10 w-full px-10 text-white transition-colors duration-150 bg-gray-500 rounded-lg focus:outline-none hover:bg-gray-600"
           >
             Profile

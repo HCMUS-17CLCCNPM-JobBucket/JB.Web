@@ -102,6 +102,7 @@ export const jobAPI = {
           categories{
             name
           }
+          createdDate
         }
       }
     `,

@@ -34,9 +34,11 @@ function JobCategoryItem(props) {
 export default function JobCategory() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    jobAPI.jobCount().then((res) => {
+    const fetchData = async () => {
+      const res = await jobAPI.jobCount();
       setData(res.data.data.jobCounts.byCategories);
-    });
+    };
+    fetchData();
   }, []);
   return (
     <div className="w-full bg-gray-100 xl:px-40 lg:px-24 md:px-16 px-8 py-24 mt-24">

@@ -130,7 +130,6 @@ export default function Job() {
     }
 
     if (page === 1) {
-      console.log(123);
       setLoading(true);
       jobAPI
         .getAll({ ...newFilter, page: 1 })

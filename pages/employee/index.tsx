@@ -30,7 +30,7 @@ function JobPage() {
   const [currentPage, setCurrentPage] = useState(0);
 
   const [jobLength, setJobLength] = useState(0);
-  const [jobs, setJobs] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [keyword, setKeyword] = useState("");
@@ -42,22 +42,22 @@ function JobPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await UserAPI.getListEmployee(currentPage, keyword);
+      const res = await UserAPI.listEmployees(currentPage, keyword);
       if (res.status === 200) {
-        setJobs(res.data.data);
+        setEmployees(res.data.data.profiles);
         setLoading(false);
       }
     };
-    if (getUserRole(user.user.userRoles) === userRoles.EMPLOYER) {
+    if (user.user.roleId === 2) {
       fetchData();
     }
   }, [keyword, currentPage]);
 
   const jobSection =
-    keyword !== "" && jobs.length === 0 ? (
+    keyword !== "" && employees.length === 0 ? (
       <KeywordNotFound keyword={keyword} />
     ) : (
-      jobs.map((item, index) => <FoundUser {...item} key={index} />)
+      employees.map((item, index) => <FoundUser {...item} key={index} />)
     );
 
   return (
@@ -74,7 +74,7 @@ function JobPage() {
           handleSearchSubmit={setKeyword}
         />
         <div className="flex w-full justify-between p-4">
-          <p>{jobs.length} results</p>
+          <p>{employees.length} results</p>
           <Select
             instanceId="select-filter"
             options={categories}
@@ -84,13 +84,9 @@ function JobPage() {
           />
         </div>
         <div className="grid grid-cols-2">
-          {isTimeOuted ? (
-            <p>Time Out. Let try again!</p>
-          ) : loading ? (
-            <Loading />
-          ) : (
-            jobSection
-          )}
+          {employees.map((item, index) => (
+            <FoundUser {...item} key={index} />
+          ))}
         </div>
       </div>
       <div className="h-16"></div>
