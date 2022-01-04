@@ -14,12 +14,14 @@ export default function RecruiterJob() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    interviewAPI.getListScheduleHr(user.user.id).then((res) => {
+    const getJobs = async () => {
+      const res = await interviewAPI.getListScheduleHr(user.user.id);
+      console.log(res);
       if (res.status === 200) {
-        setJobs(res.data.data.jobs);
+        setJobs(res.data.data.interviews);
       }
-    });
-
+    };
+    getJobs();
     // if (page === 1) {
     //   setLoading(true);
     //   interviewAPI.getListScheduleHr(user.user.id).then((res) => {

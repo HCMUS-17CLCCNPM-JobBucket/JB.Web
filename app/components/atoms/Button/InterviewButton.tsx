@@ -13,7 +13,7 @@ export default function InterviewButton({
   intervieweeId,
   intervieweeCVId,
 }) {
-  let [isOpen, setIsOpen] = useState(true);
+  let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
@@ -35,8 +35,9 @@ export default function InterviewButton({
     },
 
     onSubmit: async (values) => {
+      console.log(values);
       const res = await interviewAPI.add(values);
-
+      console.log(res);
       if (res.status === 200)
         toast("Interview added successfully", { type: "success" });
     },

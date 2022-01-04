@@ -2,8 +2,10 @@ import { getAvatar } from "app/utils/getAvatar";
 import router from "next/router";
 import React from "react";
 import { useSelector } from "react-redux";
+import Badge from "../atoms/Badge";
 
 export default function FoundUser(props) {
+  console.log(props.skills);
   const handleChatClick = async () => {
     // const chatRes = await chatAPI.createConversationOfEmployer(
     //   user.token,
@@ -30,18 +32,11 @@ export default function FoundUser(props) {
                 >
                   {props.name}
                 </div>
-                {props.address !== null && (
-                  <div className="flex-auto text-gray-500 my-1">
-                    {/* <span className="mr-3">
-                    {props.positions[0] ? props.positions[0].name : "Updating"}
-                  </span> */}
-                    <span className="mr-3 border-r-2 border-gray-200 max-h-0" />
-
-                    <span>{props.address + "," + props.city}</span>
-                  </div>
-                )}
               </div>
             </div>
+          </div>
+          <div className="line-clamp-3 text-gray-500 mt-4 h-18">
+            {props.introduction}
           </div>
           <div className="flex pt-2 text-sm text-gray-500">
             <div className="flex-1 inline-flex items-center">
@@ -72,13 +67,7 @@ export default function FoundUser(props) {
             </div> */}
           </div>
           {/* {props.skills.map((item, index) => (
-            <Badge
-              key={index}
-              className="rainbow-m-around_medium"
-              label={item.name}
-              variant="brand"
-              title="the badge title"
-            />
+            <Badge key={index} content={item.skillName} />
           ))} */}
         </div>
       </div>
