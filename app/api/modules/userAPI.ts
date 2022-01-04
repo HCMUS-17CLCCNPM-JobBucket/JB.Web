@@ -194,6 +194,37 @@ const UserAPI = {
       },
     }),
 
-  // getApplicants: (page, jobId) =>
+  getApplicants: (employerId, page) =>
+    axiosClient.post("/graphql", {
+      query: `query getApplicants($filter: ListJobApplicationRequestInput) {
+        jobApplications(filter: $filter) {
+          cVId
+          cVPDFUrl
+          createdDate
+          job {
+            id
+            title
+            imageUrls
+            
+          }
+          status
+          user {
+            id
+            name
+            phoneNumber
+            email
+            avatarUrl
+          }
+        }
+      }
+      `,
+      variables: {
+        filter: {
+          employerId,
+          page,
+          size: 10,
+        },
+      },
+    }),
 };
 export default UserAPI;

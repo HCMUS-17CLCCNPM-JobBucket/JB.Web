@@ -4,6 +4,7 @@ import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useUserInfo } from "app/utils/hooks";
+import interviewAPI from "app/api/modules/interviewAPI";
 
 export default function RecruiterJob() {
   const user = useUserInfo();
@@ -13,25 +14,29 @@ export default function RecruiterJob() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (page === 1) {
-      setLoading(true);
-      jobAPI
-        .getJobByOrganization(user.user.organizationId, 1)
-        .then((res) => {
-          if (res.status === 200) setJobs(res.data.data.jobs);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err.response.status));
-    } else if (page > 1) {
-      jobAPI
-        .getJobByOrganization(user.user.organizationId, page)
-        .then((res) => {
-          if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
+    interviewAPI.getListScheduleHr(user.user.id).then((res) => {
+      if (res.status === 200) {
+        setJobs(res.data.data.jobs);
+      }
+    });
 
-          setHasMore(res.data.data.jobs.length > 0);
-        });
-    }
+    // if (page === 1) {
+    //   setLoading(true);
+    //   interviewAPI.getListScheduleHr(user.user.id).then((res) => {
+    //     if (res.status === 200) setJobs(res.data.data.jobs);
+    //     setLoading(false);
+    //   });
+    // } else if (page > 1) {
+    //   jobAPI
+    //     .getJobByOrganization(user.user.organizationId, page)
+    //     .then((res) => {
+    //       if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
+
+    //       setHasMore(res.data.data.jobs.length > 0);
+    //     });
+    // }
   }, [page]);
+  console.log(jobs);
   return (
     <RecruiterLayout>
       <Head>
