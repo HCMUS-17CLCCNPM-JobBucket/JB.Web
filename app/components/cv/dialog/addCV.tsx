@@ -45,7 +45,9 @@ export default function AddCV() {
     await CvAPI.add(cv, userToken.token).then((res) => {
       if (res.status === 200) {
         closeModal();
-        alert("Add success");
+        setTimeout(function () {
+          alert("Add success");
+        }, 100);
         router.push("/list-cv");
       }
     });

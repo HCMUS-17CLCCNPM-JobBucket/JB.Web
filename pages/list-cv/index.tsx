@@ -8,11 +8,15 @@ import LoadingTransition from "app/components/atoms/LoadingTransition";
 import DeleteDialog from "app/components/cv/dialog/deleteCV";
 import { Dialog, Transition } from "@headlessui/react";
 import dynamic from "next/dynamic";
+import Download from "app/components/cv/dialog/download";
+// import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
+// import MyDoc from "app/components/cv/mydoc";
 
 export default function ListCv() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
     ssr: false,
   });
+
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -28,6 +32,7 @@ export default function ListCv() {
   const [myCv, setmyCv] = useState([]);
   const dispatch = useDispatch();
   const userToken = useSelector((state: any) => state.user);
+  // const cvInfo = useSelector((state: any) => state.cv);
   const toEditor = async (id) => {
     setLoadTrans(true);
     await CvAPI.getCvById(id, userToken.token).then((res) => {
@@ -56,7 +61,6 @@ export default function ListCv() {
         await CvAPI.getAll(userToken.token).then((res) => {
           if (res.status === 200) {
             setLoading(false);
-            console.log(res.data.data.cv);
             setmyCv(res.data.data.cv);
           }
         });
@@ -72,6 +76,19 @@ export default function ListCv() {
   const handleCallback = () => {
     setShouldRefresh(!shouldRefresh);
   };
+  // const handleDownload = async (id) => {
+  //   await CvAPI.getCvById(id, userToken.token).then((res) => {
+  //     if (res.status === 200) {
+  //       dispatch(cvActions.initData(res.data.data.cv[0]));
+  //       <PDFDownloadLink
+  //         document={<MyDoc cvInfo={cvInfo} />}
+  //         fileName="somename.pdf"
+  //       >
+  //         download
+  //       </PDFDownloadLink>;
+  //     }
+  //   });
+  // };
 
   return (
     <>
@@ -111,6 +128,7 @@ export default function ListCv() {
                         />
                       </svg>
                     </button>
+                    <Download index={data.id}></Download>
                     <DeleteDialog
                       index={data.id}
                       callback={handleCallback}

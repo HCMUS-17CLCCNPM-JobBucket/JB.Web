@@ -131,7 +131,9 @@ export default function template(props) {
       <Document>
         <Page size="A4" style={styles.page} orientation="portrait" wrap>
           <View style={styles.introArea}>
-            <Image style={styles.avatar} src={cv.avatar}></Image>
+            {cv.avatar != "" && (
+              <Image style={styles.avatar} src={cv.avatar}></Image>
+            )}
             <View style={styles.contactArea}>
               <Text style={styles.Name}>{cv.name}</Text>
               <View style={styles.contact}>
