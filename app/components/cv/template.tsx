@@ -127,11 +127,11 @@ export default function template(props) {
     },
   });
   return (
-    <PDFViewer width="100%" height="550px">
+    <PDFViewer width="100%" height="600px">
       <Document>
         <Page size="A4" style={styles.page} orientation="portrait" wrap>
           <View style={styles.introArea}>
-            {cv.avatar != "" && (
+            {cv.avatar != "" && cv.avatar != null && (
               <Image style={styles.avatar} src={cv.avatar}></Image>
             )}
             <View style={styles.contactArea}>

@@ -14,15 +14,6 @@ import {
 } from "@react-pdf/renderer";
 
 export default function mydoc(props) {
-  console.log(props)
-  // const cv = useSelector((state: any) => state.cv);
-  // const experienceList = useSelector((state: any) => state.cv.experience);
-  // const EducationList = useSelector((state: any) => state.cv.education);
-  // const SkillList = useSelector((state: any) => state.cv.skill);
-  // const ActivityList = useSelector((state: any) => state.cv.activity);
-  // const AwardList = useSelector((state: any) => state.cv.award);
-  // const CertiList = useSelector((state: any) => state.cv.certification);
-
   Font.register({
     family: "NunitoBold",
     src: "/font/Nunito-Bold.ttf",
@@ -193,14 +184,14 @@ export default function mydoc(props) {
         <View style={styles.introduction}>
           <Text>{props.cvInfo.introduction}</Text>
         </View>
-        {/* <View style={styles.workView}>
-          {experienceList.length != 0 && (
+        <View style={styles.workView}>
+          {props.cvInfo.experience.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>WORKS EXPERIENCES</Text>
               </View>
               <View style={styles.exArea}>
-                {experienceList.map((data) => (
+                {props.cvInfo.experience.map((data) => (
                   <View style={styles.exElement}>
                     <Text style={styles.Description}>{data.company}</Text>
                     <Text>{data.position}</Text>
@@ -210,13 +201,13 @@ export default function mydoc(props) {
               </View>
             </View>
           )}
-          {EducationList.length != 0 && (
+          {props.cvInfo.education.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>EDUCATION</Text>
               </View>
               <View style={styles.exArea}>
-                {EducationList.map((data) => (
+                {props.cvInfo.education.map((data) => (
                   <View style={styles.exElement}>
                     {data.status == "Graduated" ? (
                       <View style={styles.introArea}>
@@ -243,13 +234,13 @@ export default function mydoc(props) {
             </View>
           )}
 
-          {SkillList.length != 0 && (
+          {props.cvInfo.skill.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>SKILLS</Text>
               </View>
               <View wrap>
-                {SkillList.map((data) => (
+                {props.cvInfo.skill.map((data) => (
                   <View style={styles.skillElement}>
                     <Text>{data.skillName}</Text>
                     <View style={styles.introArea}>
@@ -265,13 +256,13 @@ export default function mydoc(props) {
               </View>
             </View>
           )}
-          {ActivityList.length != 0 && (
+          {props.cvInfo.activity.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>ACTIVITIES</Text>
               </View>
               <View style={styles.exArea}>
-                {ActivityList.map((data) => (
+                {props.cvInfo.activity.map((data) => (
                   <View style={styles.exElement}>
                     <Text>{data}</Text>
                   </View>
@@ -279,13 +270,13 @@ export default function mydoc(props) {
               </View>
             </View>
           )}
-          {CertiList.length != 0 && (
+          {props.cvInfo.certification.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>CERTIFICATIONS</Text>
               </View>
               <View style={styles.exArea}>
-                {CertiList.map((data) => (
+                {props.cvInfo.certification.map((data) => (
                   <View style={styles.exElement}>
                     <Text>{data}</Text>
                   </View>
@@ -293,13 +284,13 @@ export default function mydoc(props) {
               </View>
             </View>
           )}
-          {AwardList.length != 0 && (
+          {props.cvInfo.award.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>AWARDS</Text>
               </View>
               <View style={styles.exArea}>
-                {AwardList.map((data) => (
+                {props.cvInfo.award.map((data) => (
                   <View style={styles.exElement}>
                     <Text>{data}</Text>
                   </View>
@@ -307,7 +298,7 @@ export default function mydoc(props) {
               </View>
             </View>
           )}
-        </View> */}
+        </View>
       </Page>
     </Document>
   );
