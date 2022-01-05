@@ -1,5 +1,6 @@
 // import { chatAPI } from "app/api/modules/chatAPI";
-import { useEffect, useState } from "react";
+import { getUserInfo } from "app/redux/store";
+import { useEffect, useRef, useState } from "react";
 
 export function useChat(
   pageNumber,
@@ -53,3 +54,13 @@ export function useChat(
   }, [conversationId, isChat]);
   return { loading, error, chats, hasMore };
 }
+
+export function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+export const useUserInfo = () => getUserInfo();

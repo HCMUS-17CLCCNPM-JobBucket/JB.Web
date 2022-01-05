@@ -1,8 +1,5 @@
-import { logger } from "redux-logger";
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import jobReducer from "app/redux/features/job";
+import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "app/redux/features/user";
-import notiReducer from "app/redux/features/notification";
 import { combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
@@ -22,7 +19,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
-  notifications: notiReducer,
+  // notifications: notiReducer,
   company: companyReducer,
   cv: cvReducer,
 });
@@ -45,5 +42,20 @@ const store = configureStore({
 });
 // sagaMiddleware.run(rootSaga);
 let persistor = persistStore(store);
+
+export function getAccessToken(): string {
+  const state: any = store.getState();
+  return state.user.token;
+}
+
+export function getRefreshToken(): string {
+  const state: any = store.getState();
+  return state.user.refreshToken;
+}
+
+export function getUserInfo(): any {
+  const state: any = store.getState();
+  return state.user;
+}
 
 export { store, persistor };

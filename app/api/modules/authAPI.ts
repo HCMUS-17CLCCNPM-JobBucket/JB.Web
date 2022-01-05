@@ -2,6 +2,7 @@ import axiosClient from "../axiosClient";
 
 export const authAPI = {
   login: (params) => axiosClient.post("api/Authenticate/Login", { ...params }),
+
   loginWithGoogle: (values) =>
     axiosClient.post(
       "api/Authenticate/login/google",
@@ -23,10 +24,8 @@ export const authAPI = {
       params: { email },
     });
   },
-  confirmResetPassword: (email) => {
-    return axiosClient.post("api/Authenticate/confirmResetPassword", {
-      params: { email },
-    });
+  confirmResetPassword: (payload) => {
+    return axiosClient.post("api/Authenticate/ConfirmResetPassword", payload);
   },
   getAccessToken: (token) => {
     return axiosClient.post("api/Authenticate/refreshToken", {

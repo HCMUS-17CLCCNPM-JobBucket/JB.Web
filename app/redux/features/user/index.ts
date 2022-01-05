@@ -3,12 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "user",
   initialState: {
+    email: "",
     token: "",
     refreshToken: "",
     user: {},
   },
   reducers: {
-    getAccessToken: (state, action) => {
+    getNewAccessToken: (state, action) => {
       state.token = action.payload;
       return state;
     },
@@ -27,11 +28,16 @@ export const userSlice = createSlice({
       state.user = { ...state.user, ...action.payload };
       return state;
     },
+    updateEmail: (state, action) => {
+      console.log(action.payload);
+      state.email = action.payload;
+      return state;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, getAccessToken, updateProfile } =
+export const { updateEmail, login, logout, getNewAccessToken, updateProfile } =
   userSlice.actions;
 
 export default userSlice.reducer;

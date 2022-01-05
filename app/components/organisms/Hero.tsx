@@ -1,5 +1,5 @@
 import React from "react";
-import SearchJob from "../atoms/SearchJob";
+import SearchJob from "../atoms/SearchBar/SearchJob";
 
 export default function Hero() {
   return (
@@ -8,12 +8,12 @@ export default function Hero() {
         <p className="dark:text-white">
           Get the <span className="text-blue-600"> Right Job</span>
         </p>
-        <p className="dark:text-white">You Deserve</p>
+        <p className="text-black dark:text-white">You Deserve</p>
       </div>
       <p className="text-gray-400 font-semibold dark:text-gray-400">
         1,232,120 jobs listed here!Your dream job is waiting
       </p>
-      <SearchJob styles="mt-8 lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" />
+      {/* <SearchJob styles="mt-8 lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg" /> */}
     </div>
   );
 }

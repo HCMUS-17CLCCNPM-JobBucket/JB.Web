@@ -5,34 +5,46 @@ import ApplyButton from "app/components/atoms/Button/ApplyButton";
 import SaveJobButton from "app/components/atoms/Button/SaveJobButton";
 import Divider from "app/components/atoms/Divider";
 import RecJob from "app/components/atoms/RecJob";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
+import Head from "next/head";
+import JobRecSection from "app/components/molecules/JobRecSection";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await jobAPI.getJobByIdWithoutToken(parseInt(params.id));
-  if (res.status === 200) return { props: { ...res.data.data } };
+  if (res.status === 200) return { props: { ...res.data.data, id: params.id } };
   return {
     props: { id: params.id },
   };
 };
 
 export default function JobDetail(props) {
-  const user = useSelector((state: any) => state.user);
+  const [isExpired, setIsExpired] = useState(false);
   const [jobStatus, setJobStatus] = useState({
     isJobInterested: false,
     isJobApplied: false,
   });
   const [jobInfo, setjobInfo] = useState<any>(props.jobs[0]);
   useEffect(() => {
+    var date1 = moment("2016-10-08 10:29:23");
+    var date2 = moment();
+    setIsExpired(date1.diff(date2) < 0);
+
     const fetchData = async () => {
-      const res = await jobAPI.getJobById(parseInt(jobInfo.id), user.token);
+      const res = await jobAPI.getJobById(parseInt(jobInfo.id));
       setJobStatus(res.data.data.jobs[0]);
     };
     fetchData();
   }, []);
+
   return (
     <div className="flex-1 px-16 py-4">
+      <Head>
+        <title>{jobInfo.title} | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <img
         src={
           jobInfo?.imageUrls[1] ||
@@ -41,8 +53,10 @@ export default function JobDetail(props) {
         alt=""
         className="h-52 w-full rounded-lg"
       />
-      <div className="mt-4 lg:flex lg:items-center lg:justify-between">
-        <div className="flex gap-2">
+      <div className="mt-3"></div>
+      <Badge content={jobInfo?.categories[0].name} />
+      <div className="mt-1 lg:flex lg:items-center lg:justify-between">
+        <div className="flex gap-4">
           <img
             src={
               jobInfo?.imageUrls[0] ||
@@ -51,10 +65,12 @@ export default function JobDetail(props) {
             alt=""
             className="h-20 w-20 rounded-lg border border-gray-200"
           />
+
           <div className="flex-1 min-w-0">
-            <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-              {jobInfo?.title}
-            </h2>
+            <span className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+              {jobInfo?.title} -{" "}
+              <span className="text-red-500">{jobInfo?.types[0].name}</span>
+            </span>
             <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
               <div className="mt-2 flex items-center text-sm text-gray-500">
                 {/* Heroicon name: solid/briefcase */}
@@ -134,7 +150,11 @@ export default function JobDetail(props) {
           </div>
         </div>
         <div className="w-64 mt-5 flex justify-between items-center lg:mt-0 lg:ml-4">
-          <ApplyButton value={jobStatus.isJobApplied} jobId={jobInfo.id} />
+          <ApplyButton
+            value={jobStatus.isJobApplied}
+            jobId={jobInfo.id}
+            expire={isExpired}
+          />
 
           <SaveJobButton
             isInterested={jobStatus.isJobInterested}
@@ -195,7 +215,7 @@ export default function JobDetail(props) {
           </span>
         </div>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-6">
         <div className="flex-1 flex flex-col gap-4">
           <div className="mt-4">
             <p className="text-xl font-semibold">Benefits</p>
@@ -250,20 +270,7 @@ export default function JobDetail(props) {
               <span className="font-medium">Ho Chi Minh City, Viet Nam</span>
             </p>
           </div>
-          <div className="w-full border border-gray-200 rounded-lg p-2">
-            <p className="text-xl font-semibold text-center">
-              Similar jobs for you
-            </p>
-            <div className="mt-4 flex flex-col gap-3 ">
-              <RecJob />
-              <hr className="p-0 m-0" />
-              <RecJob />
-              <hr className="p-0 m-0" />
-              <RecJob />
-              <hr className="p-0 m-0" />
-              <RecJob />
-            </div>
-          </div>
+          <JobRecSection jobId={props.id} />
         </div>
       </div>
     </div>

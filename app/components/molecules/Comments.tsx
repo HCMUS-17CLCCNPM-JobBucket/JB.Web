@@ -1,7 +1,6 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import React from "react";
 import Comment from "../atoms/Comment";
-import DeleteAlert from "../atoms/DeleteAlert";
 
 export default function Comments(props) {
   return (

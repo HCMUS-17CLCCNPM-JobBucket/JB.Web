@@ -35,7 +35,7 @@ export default function VerticalJob(props) {
               : "bg-blue-200 text-blue-700 cursor-not-allowed"
           } px-4 py-2 rounded-md font-semibold`}
         >
-          Apply
+          Read More
         </button>
       </div>
     </div>

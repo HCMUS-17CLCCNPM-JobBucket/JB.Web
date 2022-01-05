@@ -1,40 +1,43 @@
 import LoadingTransition from "app/components/atoms/LoadingTransition";
-import Alerts from "app/components/atoms/notification/alerts";
 import ToolbarBottom from "app/components/atoms/ToolbarBottom";
 import AuthProvider from "app/components/layouts/AuthProvider";
 import { GoogleAuthProvider } from "app/components/layouts/google-provider";
 import Footer from "app/components/organisms/Footer";
 import Navbar from "app/components/organisms/Navbar";
 import { persistor, store } from "app/redux/store";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/css/froala_style.min.css";
+
 import type { AppProps } from "next/app";
 import Router, { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
+
 import "../styles/globals.scss";
+import "react-toastify/dist/ReactToastify.css";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+import "froala-editor/css/froala_style.min.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const router = useRouter();
-  Router.events.on("routeChangeStart", (url) => {
-    // if (router.pathname.includes("/chat") !== true) {
-    setLoading(true);
-    // }
-    // NProgress.start();
-  });
-  Router.events.on("routeChangeComplete", () => setLoading(false));
-  Router.events.on("routeChangeError", () => setLoading(false));
+  // Router.events.on("routeChangeStart", (url) => {
+  //   // if (router.pathname.includes("/chat") !== true) {
+  //   setLoading(true);
+  //   // }
+  //   // NProgress.start();
+  // });
+  // Router.events.on("routeChangeComplete", () => setLoading(false));
+  // Router.events.on("routeChangeError", () => setLoading(false));
 
-  const listExclude = ["/login", "/register", "/chat"];
+  const listExclude = ["/chat"];
   return (
     <GoogleAuthProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AuthProvider>
-            <Alerts />
-            {loading && <LoadingTransition />}
+            <ToastContainer limit={3} />
+            {/* {loading && <LoadingTransition />} */}
 
             {!listExclude.includes(router.pathname) && <Navbar />}
             <Component {...pageProps} />

@@ -1,72 +1,134 @@
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/outline";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Selector from "../atoms/Select";
+
+function Panel({ section, handleChange }) {
+  const [list, setList] = useState(
+    section.options.map((option) => {
+      return { ...option, checked: false };
+    })
+  );
+  const [filteredList, setFilteredList] = useState(list);
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    if (value !== "") {
+      setFilteredList(
+        section.options.filter((item) =>
+          item.name.toLowerCase().includes(value.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredList(list);
+    }
+  }, [value]);
+
+  const updateFilteredList = (e, optionIdx, option) => {
+    let newList = [...list];
+    newList[optionIdx].checked = !newList[optionIdx].checked;
+
+    setList(newList);
+    handleChange(e, section, option);
+  };
+  return (
+    <div className="space-y-4">
+      <input
+        type="text"
+        className="input"
+        placeholder="keyword"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      {filteredList.map((option, optionIdx) => (
+        <div key={option.id} className="flex items-center">
+          <input
+            id={`filter-${section.id}-${optionIdx}`}
+            name={`${section.id}[]`}
+            defaultValue={option.id}
+            type="checkbox"
+            defaultChecked={option.checked}
+            onChange={(e) => updateFilteredList(e, optionIdx, option)}
+            className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+          />
+          <label
+            htmlFor={`filter-${section.id}-${optionIdx}`}
+            className="ml-3 text-sm text-gray-600"
+          >
+            {option.name}
+          </label>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Filters({ filters, callback }) {
+  const [scrollOverHeight, setScrollOverHeight] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState({});
+  useEffect(() => {
+    setScrollOverHeight(window.scrollY > 100);
+  }, []);
+
+  console.log(selectedFilter);
+  const handleChange = (value, section) => {
+    console.log(value);
+
+    if (value.length === 0) {
+      setSelectedFilter({
+        ...selectedFilter,
+        [section.name.toLowerCase()]: [],
+      });
+      return;
+    }
+    const newValue = value.map((item) => item.value);
+
+    if (newValue.length === 0)
+      setSelectedFilter({
+        ...selectedFilter,
+        [section.name.toLowerCase()]: [],
+      });
+
+    if (selectedFilter[section.name.toLowerCase()])
+      setSelectedFilter({
+        ...selectedFilter,
+        [section.name.toLowerCase()]: [
+          ...selectedFilter[section.name.toLowerCase()],
+          newValue[newValue.length - 1],
+        ],
+      });
+    else
+      setSelectedFilter({
+        ...selectedFilter,
+        [section.name.toLowerCase()]: [...newValue],
+      });
+  };
+
+  const handleSubmit = () => callback(selectedFilter);
+
   return (
-    <form className="sticky top-24 h-[520px] hidden lg:block lg:col-span-2 overflow-y-scroll">
-      {/* <h3 className="">Hot Categories</h3>
-        <ul
-          role="list"
-          className="text-sm font-medium text-gray-900 space-y-2 pb-6 border-b border-gray-200"
-        >
-          {subCategories.map((category) => (
-            <li key={category.name}>
-              <a href={category.href}>{category.name}</a>
-            </li>
-          ))}
-        </ul> */}
-      {filters.map((section) => (
-        <Disclosure
-          as="div"
-          key={section.id}
-          className="border-b border-gray-200 py-6"
-        >
-          {({ open }) => (
-            <>
-              <h3 className="-my-3 flow-root">
-                <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
-                  <span className="font-medium text-gray-900">
-                    {section.name}
-                  </span>
-                  <span className="ml-6 flex items-center">
-                    {open ? (
-                      <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                    ) : (
-                      <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                    )}
-                  </span>
-                </Disclosure.Button>
-              </h3>
-              <Disclosure.Panel className="pt-6">
-                <div className="space-y-4">
-                  {section.options.map((option, optionIdx) => (
-                    <div key={option.value} className="flex items-center">
-                      <input
-                        id={`filter-${section.id}-${optionIdx}`}
-                        name={`${section.id}[]`}
-                        defaultValue={option.value}
-                        type="checkbox"
-                        defaultChecked={option.checked}
-                        className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                      />
-                      <label
-                        htmlFor={`filter-${section.id}-${optionIdx}`}
-                        className="ml-3 text-sm text-gray-600"
-                      >
-                        {option.label}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-      ))}
-      <div className="fixed bottom-5 left-20 flex justify-center mt-4">
+    <form
+      className={`filter sticky top-24 w-full h-[570px] hidden lg:block lg:col-span-3 overflow-y-scroll`}
+    >
+      <div className="flex flex-col gap-4">
+        {filters.map((section) => (
+          <div key={section.id} className="flex flex-col gap-1">
+            <p className="font-semibold text-gray-500">{section.name}</p>
+            <Selector
+              options={section.options.map((option) => {
+                return { value: option.id, label: option.name };
+              })}
+              onChange={(e) => handleChange(e, section)}
+              value={null}
+              placeholder=""
+              isMulti={true}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="fixed bottom-5 left-32 flex justify-center items-center mt-4">
         <button
-          onClick={callback}
+          onClick={handleSubmit}
           type="button"
           className="px-8 py-3 font-semibold rounded-full bg-blue-600 text-white "
         >

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { jobAPI } from "app/api/modules/jobAPI";
+import React, { useEffect, useState } from "react";
 
 function JobCategoryItem(props) {
   const [active, setActive] = useState(false);
@@ -31,17 +32,22 @@ function JobCategoryItem(props) {
 }
 
 export default function JobCategory() {
-  const list = Array.from(Array(8).keys());
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    jobAPI.jobCount().then((res) => {
+      setData(res.data.data.jobCounts.byCategories);
+    });
+  }, []);
   return (
     <div className="w-full bg-gray-100 xl:px-40 lg:px-24 md:px-16 px-8 py-24 mt-24">
       <p className="title-section text-center">Job Category</p>
       <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mt-16">
-        {list.map((item, index) => (
+        {data.slice(0, 8).map((item, index) => (
           <JobCategoryItem
             key={index}
             styles="col-span-1 "
-            title="Design & Development"
-            value={58}
+            title={item.name}
+            value={item.totalCount}
           >
             home/design.svg
           </JobCategoryItem>

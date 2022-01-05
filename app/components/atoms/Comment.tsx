@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import LikeButton from "./Button/LikeButton";
-import DeleteAlert from "./DeleteAlert";
 import Reply from "./ReplyComents";
 
 export default function Comment({
@@ -28,33 +27,27 @@ export default function Comment({
     isEdited: false,
   });
   const handleEdit = async () => {
-    const res = await blogAPI.updateComment(
-      editState.content,
-      id,
-      userToken.token
-    );
-    console.log(res);
+    const res = await blogAPI.updateComment(editState.content, id);
     setEditState({ ...editState, isEdited: false });
     callback();
   };
   const handleDelete = async () => {
-    await blogAPI.delete(id, userToken.token);
+    await blogAPI.delete(id);
     callback();
   };
 
   const handleSubComment = async () => {
-    await blogAPI.addSubComment(
-      { blogId: blogId, content: commentVal, parentId: id },
-      userToken.token
-    );
+    const res = await blogAPI.addSubComment({
+      blogId,
+      content: commentVal,
+      parentId: id,
+    });
     setCommentVal("");
     setIsReplied(false);
     callback();
   };
   return (
     <div>
-      {/* <DeleteAlert callback="" /> */}
-
       <div className="relative flex items-center group">
         <div className="flex">
           <div className="flex-shrink-0 mr-3 ">

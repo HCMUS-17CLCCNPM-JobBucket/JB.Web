@@ -1,16 +1,19 @@
-import { jobAPI } from "app/api/modules/jobAPI";
-import Footer from "app/components/organisms/Footer";
+import UserAPI from "app/api/modules/userAPI";
 import Hero from "app/components/organisms/Hero";
 import JobCategory from "app/components/organisms/JobCategory";
 import JobMayYouLike from "app/components/organisms/JobMayYouLike";
 import MobileApp from "app/components/organisms/MobileApp";
-import { actions } from "app/redux/features/notification";
+import Head from "next/head";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   return (
     <div className="">
+      <Head>
+        <title>Home | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Hero />
       <JobCategory />
       <JobMayYouLike />

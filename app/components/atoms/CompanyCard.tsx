@@ -4,6 +4,7 @@ import router from "next/router";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
+import RatingComponent from "./RatingComponent";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await orgAPI.getById(1);
@@ -16,40 +17,81 @@ export const getServerSideProps = async ({ params }) => {
 
 export default function CompanyCard(props) {
   return (
-    <div className="flex w-full border border-gray-200 rounded-lg hover:shadow-lg ease-in-transition">
-      <img
-        className="h-40 w-40 rounded-l-lg object-cover"
-        src={props.avatarUrl}
-        alt={props.name}
-      />
-      <div className="px-4 py-2 flex-1">
-        <div className="flex justify-between">
+    <div className="flex w-[850px] border border-gray-200 rounded-lg hover:shadow-lg ease-in-transition">
+      <a href={"/company/" + props.id} target="_blank" rel="noreferrer">
+        <img
+          className="h-40 w-40 rounded-l-lg object-cover"
+          src={props.avatarUrl || "/company.png"}
+          alt={props.name}
+          onClick={() => router.push("/company/" + props.id)}
+        />
+      </a>
+      <div className="relative px-4 py-2 flex-1">
+        <div className="">
           <div>
-            <p
-              onClick={() => router.push("/company/" + props.id)}
-              className="text-xl font-semibold hover:underline cursor-pointer"
-            >
-              {props.name}
-            </p>
+            <a href={"/company/" + props.id} target="_blank" rel="noreferrer">
+              {" "}
+              <p
+                // onClick={() => router.push("/company/" + props.id)}
+                className="text-xl font-semibold hover:underline cursor-pointer"
+              >
+                {props.name}
+              </p>
+            </a>
+
             <span className="text-sm">
               {/* {props.addresses == null ? "No addresses" : props.addresses[0]} */}
               {props.address}
             </span>
           </div>
-          <div className="flex items-center">
-            <button type="button" className="flex gap-2 items-center">
-              4.5
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={20}
-                height={20}
-                className="w-4 h-4 mr-2 text-yellow-400"
-                fill="currentColor"
-                viewBox="0 0 1792 1792"
-              >
-                <path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-              </svg>
-            </button>
+          <div className="absolute top-0 right-10">
+            <div className="flex items-center gap-3">
+              <RatingComponent
+                value={props.rating}
+                styles=""
+                quiet={true}
+                callback={() => {}}
+              />
+              <p className="text-xl font-semibold">{props.rating.toFixed(1)}</p>
+            </div>
+            <div className="flex flex-col items-start mt-4 text-gray-600">
+              <div className="flex  justify-between max-w-[170px] min-w-[170px]">
+                <span className="text-sm">Benefit</span>
+                <RatingComponent
+                  styles="sub-rating"
+                  quiet={true}
+                  value={props.ratingBenefit.toFixed(1)}
+                  callback={() => {}}
+                />
+              </div>
+              <div className="flex justify-between max-w-[170px] min-w-[170px]">
+                <span className="text-sm">Learning</span>
+                <RatingComponent
+                  styles="sub-rating"
+                  quiet={true}
+                  value={props.ratingLearning.toFixed(1)}
+                  callback={() => {}}
+                />
+              </div>
+              <div className="flex  justify-between max-w-[170px]  min-w-[170px]">
+                <span className="text-sm">Culture</span>
+                <RatingComponent
+                  styles="sub-rating"
+                  quiet={true}
+                  value={props.ratingCulture.toFixed(1)}
+                  callback={() => {}}
+                />
+              </div>
+              <div className="flex  justify-between max-w-[170px]  min-w-[170px]">
+                <span className="text-sm">Workspace</span>
+                <RatingComponent
+                  styles="sub-rating"
+                  quiet={true}
+                  value={props.ratingWorkspace.toFixed(1)}
+                  callback={() => {}}
+                />
+              </div>
+            </div>
           </div>
         </div>
         {/* <div className="mt-4 line-clamp-3">{props.bio}</div> */}

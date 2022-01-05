@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function SaveJobButton({ isInterested, jobId }) {
-  const user = useSelector((state: any) => state.user);
   const [isSaved, setIsSaved] = useState(isInterested);
+  const user = useSelector((state: any) => state.user);
 
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (isInterested !== isSaved) {
       setIsSaved(isInterested);
@@ -13,14 +14,15 @@ export default function SaveJobButton({ isInterested, jobId }) {
   }, [isInterested]);
 
   const handleClick = async () => {
-    if (user.token !== "")
-      if (isSaved === true) {
-        const res = await jobAPI.unlike(jobId, user.token);
-        setIsSaved(false);
-      } else {
-        const res = await jobAPI.like(jobId, user.token);
-        setIsSaved(true);
-      }
+    if (user.token !== "") setLoading(true);
+    if (isSaved === true) {
+      const res = await jobAPI.unlike(jobId);
+      setIsSaved(false);
+    } else {
+      const res = await jobAPI.like(jobId);
+      setIsSaved(true);
+    }
+    setLoading(false);
   };
   return (
     <button
@@ -28,6 +30,7 @@ export default function SaveJobButton({ isInterested, jobId }) {
       type="button"
       disabled={user.token === ""}
       className={
+        (loading ? "opacity-50 cursor-not-allowed " : "") +
         (user.token === "" ? "cursor-not-allowed " : "") +
         (isSaved
           ? "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50"

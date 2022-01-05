@@ -5,14 +5,18 @@ import {
   ViewGridIcon,
 } from "@heroicons/react/solid";
 import { jobAPI } from "app/api/modules/jobAPI";
-import SearchJob from "app/components/atoms/SearchJob";
+import SearchJob from "app/components/atoms/SearchBar/SearchJob";
 import helper from "app/utils/helper";
+import { usePrevious } from "app/utils/hooks";
 import router from "next/router";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import Filters from "../molecules/Filters";
 import JobInfinityScroll from "../molecules/JobInfinityScroll";
+import LoadingFullPage from "../molecules/LoadingFullPage";
 import MobileFilterDialog from "../molecules/MobileFilterDialog";
+import Head from "next/head";
+import { toast } from "react-toastify";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -21,57 +25,27 @@ const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
-
-const filters = [
-  {
-    id: "Level",
-    name: "Level",
-    options: [
-      { value: "Fresher", label: "Fresher", checked: false },
-      { value: "Junior", label: "Junior", checked: false },
-      { value: "Middle", label: "Middle", checked: true },
-      { value: "Senior", label: "Senior", checked: false },
-      { value: "Director", label: "Director", checked: false },
-      { value: "PM", label: "PM", checked: false },
-    ],
-  },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "new-arrivals", label: "New Arrivals", checked: false },
-      { value: "sale", label: "Sale", checked: false },
-      { value: "travel", label: "Travel", checked: true },
-      { value: "organization", label: "Organization", checked: false },
-      { value: "accessories", label: "Accessories", checked: false },
-    ],
-  },
-  {
-    id: "size",
-    name: "Size",
-    options: [
-      { value: "2l", label: "2L", checked: false },
-      { value: "6l", label: "6L", checked: false },
-      { value: "12l", label: "12L", checked: false },
-      { value: "18l", label: "18L", checked: false },
-      { value: "20l", label: "20L", checked: false },
-      { value: "40l", label: "40L", checked: true },
-    ],
-  },
-];
 const categories = [
   { title: "Browse All", path: "/" },
   { title: "Recommend", path: "/rec" },
   { title: "Remote Job", path: "/rec" },
 ];
-
 export default function Job() {
-  const user = useSelector((state: any) => state.user);
-
+  const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
-  const [isFiltered, setIsFiltered] = useState(false);
+
+  const [page, setPage] = useState(1);
   const [filterOptions, setFilterOptions] = useState({
+    categories: [],
+    skills: [],
+    positions: [],
+    types: [],
+  });
+
+  // const [isLoadMore, setIsLoadMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [filterOptionsInput, setFilterOptionsInput] = useState({
     isDescending: false,
     page: 1,
     size: 10,
@@ -85,30 +59,78 @@ export default function Job() {
     salary: [],
   });
 
+  const preKeyword = usePrevious(filterOptionsInput.keyword);
+
   const handleSearch = (keyword: string) => {
-    setFilterOptions({
-      ...filterOptions,
-      keyword,
-    });
-    setIsFiltered(!isFiltered);
+    let temp = keyword.trim();
+    if (temp.length > 0 || jobs.length === 0) {
+      console.log("search", keyword);
+
+      setFilterOptionsInput({
+        ...filterOptionsInput,
+        keyword,
+      });
+    }
   };
 
-  useEffect(() => {
+  const handleFilter = (values: any) => {
+    setFilterOptionsInput({ ...filterOptionsInput, ...values });
+  };
+
+  useMemo(() => {
     const fetchData = async () => {
-      const res = await jobAPI.getAll(filterOptions, user.token);
-      if (res.status === 200) setJobs(res.data.data.jobs);
+      setLoading(true);
+      Promise.all([
+        jobAPI.getAll(filterOptionsInput),
+        jobAPI.getJobProperties(),
+      ])
+        .then(([res, res2]) => {
+          if (res.status === 200) setJobs(res.data.data.jobs);
+          if (res2.status === 200)
+            setFilterOptions(res2.data.data.jobProperties);
+
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
     };
     fetchData();
-  }, [isFiltered]);
+  }, []);
+
+  useEffect(() => {
+    if (page === 1) {
+      setLoading(true);
+      jobAPI
+        .getAll({ ...filterOptionsInput, page: 1 })
+        .then((res) => {
+          if (res.status === 200) setJobs(res.data.data.jobs);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err.response.status));
+    } else if (page > 1) {
+      const dataToPost = {
+        ...filterOptionsInput,
+        page: page,
+      };
+      jobAPI.getAll(dataToPost).then((res) => {
+        if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
+
+        setHasMore(res.data.data.jobs.length > 0);
+      });
+    }
+  }, [filterOptionsInput, page]);
 
   return (
     <div className="bg-white">
+      <Head>
+        <title>Job | JobBucket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div>
         {/* Mobile filter dialog */}
         <MobileFilterDialog
           mobileFiltersOpen={mobileFiltersOpen}
           setMobileFiltersOpen={setMobileFiltersOpen}
-          filters={filters}
+          filters={[]}
         />
         <div className="flex justify-center">
           <SearchJob
@@ -220,32 +242,42 @@ export default function Job() {
               Products
             </h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-8 gap-y-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-10">
               {/* Filters */}
               <Filters
-                filters={filters}
-                callback={() => setIsFiltered(!isFiltered)}
+                filters={[
+                  {
+                    id: "Skills",
+                    name: "Skill",
+                    options: filterOptions.skills,
+                  },
+                  {
+                    id: "Positions",
+                    name: "Positions",
+                    options: filterOptions.positions,
+                  },
+                  {
+                    id: "Types",
+                    name: "Type",
+                    options: filterOptions.types,
+                  },
+                  {
+                    id: "Category",
+                    name: "Category",
+                    options: filterOptions.categories,
+                  },
+                ]}
+                callback={handleFilter}
               />
               {/* Product grid */}
-              <div className="lg:col-span-8">
-                {/* Replace with your content */}
-                {/* <InfiniteScroll
-                  dataLength={jobs.length}
-                  next={fetchMoreData}
-                  hasMore={hasMore}
-                  loader={<h4>Loading...</h4>}
-                  scrollableTarget="scrollableDiv"
-                  className="flex flex-col gap-4 p-4"
-                >
-                  {jobs.map((item, index) => (
-                    <JobHorizonCard key={index} {...item} />
-                  ))}
-                </InfiniteScroll> */}
+              <div className="lg:col-span-9">
                 <JobInfinityScroll
+                  setPage={() => setPage(page + 1)}
+                  hasMore={hasMore}
+                  loading={loading}
                   jobs={jobs}
-                  setJobs={setJobs}
-                  filterOptions={filterOptions}
-                  setFilterOptions={setFilterOptions}
+                  // filterOptions={filterOptionsInput}
+                  // setFilterOptions={setFilterOptionsInput}
                 />
               </div>
             </div>
