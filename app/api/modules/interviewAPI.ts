@@ -15,6 +15,20 @@ const interviewAPI = {
           description
           interviewTime
           status
+          job{
+            id
+            title
+          }
+          interviewer{
+            id
+            name
+            avatarUrl
+          }
+          interviewee{
+            id
+            name
+            avatarUrl
+          }
           form {
             overallRating
             result

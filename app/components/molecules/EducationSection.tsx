@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
-import { EducationItem, SkillButton } from "pages/profile";
 import React, { useState } from "react";
+import { EducationItem } from "../layouts/ProfileLayout";
 import ComponentWithLabel from "./ComponentWithLabel";
 
 export default function EducationSection({ values, setValues }) {

@@ -8,7 +8,8 @@ import UserAPI from "app/api/modules/userAPI";
 import ListEmpty from "app/components/atoms/ListEmpty";
 import moment from "moment";
 import Moment from "react-moment";
-import InterviewButton from "app/components/atoms/Button/InterviewButton";
+import InterviewButton from "app/components/atoms/Button/SetScheduleInterviewButton";
+import SetScheduleInterviewButton from "app/components/atoms/Button/SetScheduleInterviewButton";
 
 export default function RecruiterJob() {
   const user = useUserInfo();
@@ -94,7 +95,7 @@ export default function RecruiterJob() {
                 Applied <Moment fromNow>{item.createdDate}</Moment>
               </p>
 
-              <InterviewButton
+              <SetScheduleInterviewButton
                 jobId={item.job.id}
                 // description={"123123"}
                 // interviewTime={""}

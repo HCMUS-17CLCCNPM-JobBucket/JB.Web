@@ -133,6 +133,8 @@ export const jobAPI = {
             title
             organization {
               name
+              id
+              addresses
             }
             types{
               name
@@ -387,5 +389,4 @@ export const jobAPI = {
         },
       },
     }),
-
 };

@@ -1,8 +1,10 @@
 import { Dialog, Tab, Transition } from "@headlessui/react";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import axiosClient from "app/api/axiosClient";
 import { imageAPI } from "app/api/modules/imageAPI";
 import { jobAPI } from "app/api/modules/jobAPI";
 import helper from "app/utils/helper";
+import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -10,6 +12,8 @@ import Checkbox from "../Toggle/Checkbox";
 import CVButton from "./CVButton";
 
 export default function ApplyButton({ value, jobId, expire }) {
+  const [cv, setCv] = useState([]);
+  const [cvIdSelected, setCvIdSelected] = useState(-1);
   const [hasActive, setHasActive] = useState(value);
   const [imageFile, setImageFile] = useState(null);
   let [isOpen, setIsOpen] = useState(false);
@@ -40,19 +44,31 @@ export default function ApplyButton({ value, jobId, expire }) {
   let [categories] = useState(["Online", "Local"]);
 
   const handleApply = async (e) => {
-    if (imageFile !== null) {
-      const pdfRes: any = await imageAPI.uploadCV(imageFile);
+    if (hasActive) {
+      if (imageFile !== null) {
+        const pdfRes: any = await imageAPI.uploadCV(imageFile);
 
-      if (pdfRes.status === 200) {
-        const res = await jobAPI.apply(jobId, -1, pdfRes.data.url);
+        if (pdfRes.status === 200) {
+          const res = await jobAPI.apply(jobId, -1, pdfRes.data.url);
 
-        if (res.data.errors) {
-          toast.error(res.data.errors[0].message);
+          if (res.data.errors) {
+            toast.error(res.data.errors[0].message);
+          }
+          if (res.status === 200) {
+            closeModal();
+            setHasActive(true);
+          }
         }
-        if (res.status === 200) {
-          closeModal();
-          setHasActive(true);
-        }
+      }
+    } else {
+      const res = await jobAPI.apply(jobId, cvIdSelected, "");
+
+      if (res.data.errors) {
+        toast.error(res.data.errors[0].message);
+      }
+      if (res.status === 200) {
+        closeModal();
+        setHasActive(true);
       }
     }
   };
@@ -60,6 +76,24 @@ export default function ApplyButton({ value, jobId, expire }) {
     const file = e.target.files[0];
     setImageFile(file);
   };
+
+  useEffect(() => {
+    axiosClient
+      .post("/graphql", {
+        query: `query listCV {
+        cv {
+          id
+          cVName
+          title
+        }
+      }`,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setCv(res.data.data.cv);
+        }
+      });
+  }, []);
   return (
     <>
       <div className="flex items-center justify-center relative">
@@ -178,41 +212,14 @@ export default function ApplyButton({ value, jobId, expire }) {
                         />
                       </div>
                       <div className="mt-2 flex flex-col justify-between">
-                        <Checkbox
-                          active={false}
-                          content="CV-User.pdf"
-                          callback={() => console.log(123)}
-                        />
-                        <Checkbox
-                          active={false}
-                          content="CV-User.pdf"
-                          callback={() => console.log(123)}
-                        />
-                        <Checkbox
-                          active={false}
-                          content="CV-User.pdf"
-                          callback={() => console.log(123)}
-                        />
-                        <Checkbox
-                          active={false}
-                          content="CV-User.pdf"
-                          callback={() => console.log(123)}
-                        />
-                        <Checkbox
-                          active={false}
-                          content="CV-User.pdf"
-                          callback={() => console.log(123)}
-                        />
-                        <Checkbox
-                          active={false}
-                          content="CV-User.pdf"
-                          callback={() => console.log(123)}
-                        />
-                        <Checkbox
-                          active={false}
-                          content="CV-User.pdf"
-                          callback={() => console.log(123)}
-                        />
+                        {cv.map((cv, index) => (
+                          <Checkbox
+                            key={index}
+                            active={false}
+                            content={cv.cVName}
+                            callback={() => setCvIdSelected(cv.id)}
+                          />
+                        ))}
                       </div>
                     </Tab.Panel>
                     <Tab.Panel

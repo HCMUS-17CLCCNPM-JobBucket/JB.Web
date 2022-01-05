@@ -5,8 +5,14 @@ import { useFormik } from "formik";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function InterviewButton(props) {
-  console.log(props);
+export default function SetScheduleInterviewButton({
+  jobId,
+  //   description,
+  //   interviewTime,
+  interviewerId,
+  intervieweeId,
+  intervieweeCVId,
+}) {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -20,21 +26,20 @@ export default function InterviewButton(props) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id: props.id,
-      status: 0,
-      jobId: props.jobId,
-      description: "",
-      intervieweeCVId: props.intervieweeCVId,
-      intervieweeId: props.intervieweeId,
-      interviewerId: props.interviewerId,
-      interviewTime: props.interviewTime,
+      jobId: jobId,
+      description: "Internship 2022 program",
+      intervieweeCVId,
+      intervieweeId,
+      interviewerId,
+      interviewTime: "",
     },
 
     onSubmit: async (values) => {
       console.log(values);
-      const res = await interviewAPI.update(values);
+      const res = await interviewAPI.add(values);
+      console.log(res);
       if (res.status === 200) {
-        toast("Interview updated successfully", { type: "success" });
+        toast("Interview added successfully", { type: "success" });
         closeModal();
       }
     },
@@ -83,7 +88,7 @@ export default function InterviewButton(props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-[600px] min-h-[200px]  p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-my rounded-2xl">
+              <div className="inline-block w-full max-w-[600px] min-h-[400px]  p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-my rounded-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-lg leading-6 text-gray-900 font-semibold"
@@ -94,6 +99,17 @@ export default function InterviewButton(props) {
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col gap-4 mt-4"
                 >
+                  <ComponentWithLabel label="Interview Time">
+                    <input
+                      id="interviewTime"
+                      name="interviewTime"
+                      value={formik.values.interviewTime}
+                      onChange={formik.handleChange}
+                      type="datetime-local"
+                      className="input"
+                      placeholder="Description"
+                    />
+                  </ComponentWithLabel>
                   <ComponentWithLabel label="Description">
                     <textarea
                       id="description"

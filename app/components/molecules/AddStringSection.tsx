@@ -1,5 +1,4 @@
 import { XIcon } from "@heroicons/react/solid";
-import { SkillButton } from "pages/profile";
 import React, { useState } from "react";
 import ComponentWithLabel from "./ComponentWithLabel";
 

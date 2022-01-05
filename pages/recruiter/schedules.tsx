@@ -1,59 +1,56 @@
-import { jobAPI } from "app/api/modules/jobAPI";
-import RecruiterLayout from "app/components/layouts/RecruiterLayout";
-import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
-import { useUserInfo } from "app/utils/hooks";
 import interviewAPI from "app/api/modules/interviewAPI";
+import InterviewButton from "app/components/atoms/Button/SetScheduleInterviewButton";
+import InterviewCard from "app/components/atoms/InterviewCard";
+import ListEmpty from "app/components/atoms/ListEmpty";
+import RecruiterLayout from "app/components/layouts/RecruiterLayout";
+import { useUserInfo } from "app/utils/hooks";
+import Head from "next/head";
+import React, { useEffect, useState } from "react";
+import Moment from "react-moment";
 
 export default function RecruiterJob() {
   const user = useUserInfo();
-  const [jobs, setJobs] = useState([]);
+  const [applicants, setApplicants] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const getJobs = async () => {
-      const res = await interviewAPI.getListScheduleHr(user.user.id);
-      console.log(res);
-      if (res.status === 200) {
-        setJobs(res.data.data.interviews);
-      }
-    };
-    getJobs();
-    // if (page === 1) {
-    //   setLoading(true);
-    //   interviewAPI.getListScheduleHr(user.user.id).then((res) => {
-    //     if (res.status === 200) setJobs(res.data.data.jobs);
-    //     setLoading(false);
-    //   });
-    // } else if (page > 1) {
-    //   jobAPI
-    //     .getJobByOrganization(user.user.organizationId, page)
-    //     .then((res) => {
-    //       if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
+    if (page === 1) {
+      setLoading(true);
+      interviewAPI
+        .getListScheduleHr(user.user.id)
+        .then((res) => {
+          if (res.status === 200) setApplicants(res.data.data.interviews);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err.response.status));
+    } else if (page > 1) {
+      interviewAPI.getListScheduleHr(user.user.id).then((res) => {
+        if (res.status === 200)
+          setApplicants([...applicants, ...res.data.data.interviews]);
 
-    //       setHasMore(res.data.data.jobs.length > 0);
-    //     });
-    // }
+        setHasMore(res.data.data.jobs.length > 0);
+      });
+    }
   }, [page]);
-  console.log(jobs);
+
   return (
     <RecruiterLayout>
       <Head>
         <title>Saved Job | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex">
-        <JobInfinityScroll
-          hasMore={hasMore}
-          loading={loading}
-          jobs={jobs}
-          setPage={() => setPage(page + 1)}
-        />
-        {/* <MyCalendar /> */}
-      </div>
+      {applicants.length > 0 ? (
+        <div className="flex flex-col gap-4 mt-8">
+          {applicants.map((item, index) => (
+            <InterviewCard key={index} {...item} />
+          ))}
+        </div>
+      ) : (
+        <ListEmpty />
+      )}
+      <div className="h-[400px]"></div>
     </RecruiterLayout>
   );
 }

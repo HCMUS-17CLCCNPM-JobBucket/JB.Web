@@ -11,6 +11,7 @@ import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import Head from "next/head";
 import JobRecSection from "app/components/molecules/JobRecSection";
+import router from "next/router";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await jobAPI.getJobByIdWithoutToken(parseInt(params.id));
@@ -256,21 +257,28 @@ export default function JobDetail(props) {
                 className="rounded-md h-10 w-10 object-cover border border-gray-200"
               />
               <div className="">
-                <p className="font-semibold cursor-pointer">
-                  HDWEBSOFT CO., LTD
+                <p
+                  className="font-semibold cursor-pointer"
+                  onClick={() =>
+                    router.push("/company/" + jobInfo.organization.id)
+                  }
+                >
+                  {jobInfo.organization.name}
                 </p>
-                <p className="text-xs text-gray-600 ">Posted by: John Smith</p>
+                {/* <p className="text-xs text-gray-600 ">Posted by: John Smith</p> */}
               </div>
             </div>
-            <p className="font-semibold">
+            {/* <p className="font-semibold">
               Staffs: <span className="font-medium">100-499</span>
-            </p>
+            </p> */}
             <p className="font-semibold">
               Locations:{" "}
-              <span className="font-medium">Ho Chi Minh City, Viet Nam</span>
+              <span className="font-medium">
+                {jobInfo.organization.addresses[0]}
+              </span>
             </p>
           </div>
-          <JobRecSection jobId={props.id} />
+          <JobRecSection jobId={jobInfo.id} />
         </div>
       </div>
     </div>

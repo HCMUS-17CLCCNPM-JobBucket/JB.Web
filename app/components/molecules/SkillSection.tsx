@@ -1,5 +1,5 @@
-import { SkillButton } from "pages/profile";
 import React, { useState } from "react";
+import { SkillButton } from "../layouts/ProfileLayout";
 import ComponentWithLabel from "./ComponentWithLabel";
 
 export default function SkillSection({ values, setValues }) {

@@ -1,24 +1,53 @@
+import { useUserInfo } from "app/utils/hooks";
 import React from "react";
+import Moment from "react-moment";
+import InterviewButton from "./Button/InterviewButton";
 
-export default function InterviewCard() {
+const Avatar = ({ src, alt, name }) => (
+  <div className="flex gap-2 items-center">
+    <img
+      src={src || "/avatar/avatar.png"}
+      alt=""
+      className="rounded-full h-12 w-12"
+    />
+    <p>{name}</p>
+  </div>
+);
+
+export default function InterviewCard(props) {
+  const user = useUserInfo();
   return (
-    <div className="w-[800px] rounded-lg flex">
+    <div className="w-full rounded-lg flex gap-16 border border-gray-400 p-4">
       <div>
-        <p className="text-xl font-semibold">interview time</p>
+        <p className="text-lg">
+          <Moment format="ddd DD/MM/yyyy">{props.interviewTime}</Moment>
+        </p>
         <div className="flex">
-          <img src="" alt="" className="rounded-full h-12 w-12" />
-          <img src="" alt="" className="rounded-full h-12 w-12" />
+          <Avatar
+            src={
+              user.user.roleId === 1
+                ? props.interviewer.avatarUrl
+                : props.interviewee.avatarUrl
+            }
+            alt={
+              user.user.roleId === 1
+                ? props.interviewer.name
+                : props.interviewee.name
+            }
+            name={
+              user.user.roleId === 1
+                ? props.interviewer.name
+                : props.interviewee.name
+            }
+          />
         </div>
       </div>
-      <div>
-        <p>ten job</p>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam
-          expedita ad asperiores quas architecto quae iste blanditiis vitae nisi
-          similique numquam adipisci, laborum sapiente animi sed doloribus.
-          Illo, aperiam ad?
-        </p>
-        <button className="btn btn-primary">Interview</button>
+      <div className="flex flex-1 justify-between">
+        <div>
+          <p className="text-xl font-semibold">{props.job.title}</p>
+          <p className="text-gray-500">{props.description}</p>
+        </div>
+        <InterviewButton {...props} />
       </div>
     </div>
   );

@@ -35,11 +35,7 @@ const JobCard = (props) => {
 
         <Link href={"/job/" + props.id} passHref>
           <button
-            className={`${
-              props.isJobApplied
-                ? "bg-gray-500 hover:bg-gray-600"
-                : "bg-blue-500 hover:bg-blue-600"
-            } h-10 px-10 text-white transition-colors duration-150 
+            className={`bg-blue-500 hover:bg-blue-600 h-10 px-10 text-white transition-colors duration-150 
           rounded-lg focus:shadow-outline`}
           >
             Read More
