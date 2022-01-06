@@ -12,7 +12,10 @@
   "dependencies": {
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
+    "@react-pdf/renderer": "^1.6.17",
     "@tailwindcss/line-clamp": "^0.2.1",
+    "@themesberg/tailwind-datepicker": "^1.0.1",
+    "antd": "^4.17.2",
     "moment": "^2.29.1",
     "next": "^12.0.1",
     "rc-slider": "^9.7.2",
