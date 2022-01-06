@@ -14,7 +14,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 
-export default function template(props) {
+export default function Template(props) {
   const cv = useSelector((state: any) => state.cv);
   const experienceList = useSelector((state: any) => state.cv.experience);
   const EducationList = useSelector((state: any) => state.cv.education);

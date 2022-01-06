@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cvActions } from "app/redux/features/cv";
 
-export default function experience() {
+export default function Experience() {
   const [isEdit, setIsEdit] = useState(false);
   const [editindex, setIndex] = useState(0);
   const [tempEx, setTempEx] = useState({

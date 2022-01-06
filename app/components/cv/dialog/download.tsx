@@ -7,7 +7,7 @@ import { cvActions } from "app/redux/features/cv";
 import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
 import MyDoc from "app/components/cv/mydoc";
 
-export default function download({ index }) {
+export default function Download({ index }) {
   let [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const userToken = useSelector((state: any) => state.user);

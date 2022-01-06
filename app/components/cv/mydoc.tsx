@@ -13,7 +13,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 
-export default function mydoc(props) {
+export default function Mydoc(props) {
   Font.register({
     family: "NunitoBold",
     src: "/font/Nunito-Bold.ttf",
