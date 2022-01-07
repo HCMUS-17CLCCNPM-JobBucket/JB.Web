@@ -10,6 +10,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 const localizer = momentLocalizer(moment);
 import Head from "next/head";
+import { useUserInfo } from "app/utils/hooks";
 
 const MyCalendar = (props) => (
   <div className="h-[500px]">
@@ -28,22 +29,28 @@ export default function JobSaved() {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const user = useUserInfo();
   //call api to get saved jobs
   useEffect(() => {
     if (page === 1) {
       setLoading(true);
       jobAPI
-        .getAppliedJobs(1)
+        .getAppliedJobs(user.user.id, 1)
         .then((res) => {
-          if (res.status === 200) setJobs(res.data.data.jobs);
+          if (res.status === 200)
+            setJobs(res.data.data.jobApplications.map((job) => job.job));
           setLoading(false);
         })
         .catch((err) => console.log(err.response.status));
     } else if (page > 1) {
-      jobAPI.getAppliedJobs(page).then((res) => {
-        if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
+      jobAPI.getAppliedJobs(user.id, page).then((res) => {
+        if (res.status === 200)
+          setJobs([
+            ...jobs,
+            ...res.data.data.jobApplications.map((job) => job.job),
+          ]);
 
-        setHasMore(res.data.data.jobs.length > 0);
+        setHasMore(res.data.data.jobApplications.length > 0);
       });
     }
   }, [page]);

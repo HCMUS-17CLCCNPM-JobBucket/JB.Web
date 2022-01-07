@@ -242,44 +242,49 @@ export const jobAPI = {
         filter: { page, size: 10, isInterested: true },
       },
     }),
-  getAppliedJobs: (page) =>
+  getAppliedJobs: (userId, page) =>
     axiosClient.post("/graphql", {
       query: `query listAppliedUserOfJob($filter: ListJobApplicationRequestInput ) {
         jobApplications(filter: $filter) {
-          id
-          title
-          organization {
-            name
-          }
-          types {
-            name
-          }
-          isJobApplied
-          addresses
-          views
-          jobForm
-          expireDate
-          createdDate
-          benefits
-          description
-          experiences
-          requirements
-          minSalary
-          maxSalary
-          skills {
+          job{
             id
-            name
-          }
-          imageUrls
-          positions {
-            id
-          }
-          categories{
-            name
+            title
+            organization {
+              name
+            }
+            types {
+              name
+            }
+            isJobInterested
+            addresses
+            views
+            jobForm
+            expireDate
+            createdDate
+            benefits
+            description
+            experiences
+            requirements
+            minSalary
+            maxSalary
+            skills {
+              id
+              name
+            }
+            imageUrls
+            positions {
+              id
+            }
+            categories{
+              name
+            }
           }
         }
       }
       `,
+      variables: {
+        filter: { userId, page },
+      },
     }),
 
   jobCount: () =>

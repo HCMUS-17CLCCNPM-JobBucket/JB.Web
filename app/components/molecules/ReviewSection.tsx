@@ -33,18 +33,24 @@ export default function ReviewSection({ companyId, callback }) {
       reviewAPI
         .addReview({ ...review, content, organizationId: companyId })
         .then((res) => {
-          setReview({
-            content: "",
-            organizationId: 1,
-            rating: 0,
-            ratingBenefit: 0,
-            ratingCulture: 0,
-            ratingLearning: 0,
-            ratingWorkspace: 0,
-          });
-          callback();
-          toast.success("Review updated successfully");
-          setLoading(false);
+          console.log(res);
+          if (res.data.errors) {
+            toast.error(res.data.errors[0].message);
+            return;
+          } else {
+            setReview({
+              content: "",
+              organizationId: 1,
+              rating: 0,
+              ratingBenefit: 0,
+              ratingCulture: 0,
+              ratingLearning: 0,
+              ratingWorkspace: 0,
+            });
+            callback();
+            toast.success("Review added successfully");
+            setLoading(false);
+          }
         });
     } else {
       toast.warn(
