@@ -62,9 +62,15 @@ export default function JobHorizonCard(props) {
         </div>
       </div>
       <div className="flex justify-between items-center px-6 py-2 border-t">
-        <p>
-          Expires in <Moment format="DD/MM/YYYY" date={props.expireDate} />
-        </p>
+        <div className="flex gap-2">
+          <p>
+            Expires in <Moment format="DD/MM/YYYY" date={props.expireDate} />
+          </p>
+          -
+          <p>
+            Posted <Moment fromNow date={props.createdDate} />
+          </p>
+        </div>
 
         <SaveJobButton isInterested={props.isJobInterested} jobId={props.id} />
       </div>

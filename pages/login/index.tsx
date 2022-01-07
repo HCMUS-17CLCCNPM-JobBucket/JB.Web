@@ -71,13 +71,19 @@ function Login() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log({
+        GoogleId: googleAuth.googleUser.googleId,
+        TokenId: googleAuth.googleUser.tokenId,
+        RoleId: 1,
+      });
       const res = await authAPI.loginWithGoogle({
         GoogleId: googleAuth.googleUser.googleId,
         TokenId: googleAuth.googleUser.tokenId,
+        RoleId: 1,
       });
+
       if (res.status === 200) {
-        // setIsLogin(true);
-        dispatch(login(res.data.data));
+        dispatch(login(res.data));
         googleAuth.signOut();
 
         router.push("/");

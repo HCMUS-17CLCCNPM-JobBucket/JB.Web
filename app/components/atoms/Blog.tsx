@@ -3,6 +3,7 @@ import router from "next/router";
 import React, { Fragment, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import DeleteBlogButton from "./Button/DeleteBlogButton";
 import LikeBlogButton from "./Button/LikeButton";
 
@@ -10,6 +11,15 @@ export default function Blog(props) {
   const handleRedirect = async () => router.push("blog/" + props.id);
   const user = useSelector((state: any) => state.user);
 
+  const onShare = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(
+        window.location.origin + "/blog/" + props.id
+      );
+
+      toast("Link copied to clipboard");
+    }
+  };
   return (
     <div className="flex justify-between flex-col max-w-lg p-6 space-y-4 overflow-hidden bg-gray-50 rounded-lg shadow-md text-gray-800">
       <div className="flex justify-between items-center">
@@ -17,7 +27,7 @@ export default function Blog(props) {
           <div className="flex space-x-4">
             <img
               alt=""
-              src={props.avatarUrl || "/avatar/avatar.png"}
+              src={props.author.avatarUrl || "/avatar/avatar.png"}
               className="object-cover w-12 h-12 rounded-full shadow"
             />
             <div className="flex flex-col space-y-1">
@@ -81,6 +91,7 @@ export default function Blog(props) {
             aria-label="Share this post"
             type="button"
             className="p-2 text-center"
+            onClick={onShare}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

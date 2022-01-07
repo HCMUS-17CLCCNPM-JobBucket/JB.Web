@@ -10,6 +10,7 @@ export default function JobRecSection({ jobId }) {
       .jobRecommendation(parseInt(jobId))
       .then((res) => {
         setData(res.data.data.jobRecommendations);
+        console.log(res.data.data.jobRecommendations);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -19,7 +20,7 @@ export default function JobRecSection({ jobId }) {
       <div className="mt-4 flex flex-col gap-3 ">
         {data.map((item, index) => (
           <div key={index}>
-            <RecJob />
+            <RecJob {...item} />
             <hr className="p-0 m-0 text-gray-400" />
           </div>
         ))}

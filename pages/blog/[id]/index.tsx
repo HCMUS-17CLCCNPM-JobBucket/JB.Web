@@ -20,7 +20,10 @@ export default function BlogDetail(props) {
   const [loading, setLoading] = useState(false);
   const [blogInfo, setBlogInfo] = useState<any>({});
 
+  const [refresh, setRefresh] = useState(false);
   const commentRef = useRef(null);
+
+  const handleRefresh = () => setRefresh(!refresh);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +33,7 @@ export default function BlogDetail(props) {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [refresh]);
 
   const handleScrollToCommentSection = () => {
     if (commentRef && commentRef.current)
@@ -59,14 +62,14 @@ export default function BlogDetail(props) {
         <div ref={commentRef}>
           {/* <h3 className="text-lg font-semibold text-gray-900">Comments</h3> */}
 
-          <CommentSection blogId={props.id} />
+          <CommentSection blogId={props.id} handleRefresh={handleRefresh} />
         </div>
       </div>
       {/* card */}
       <div className="fixed top-50 left-16 flex flex-col gap-4">
         <div className="flex gap-2">
           <img
-            src="https://c4.wallpaperflare.com/wallpaper/658/800/994/simple-simple-background-minimalism-black-background-wallpaper-thumb.jpg"
+            src={blogInfo?.user?.avatarUrl || "/avatar/avatar.png"}
             alt=""
             className="h-12 w-12 avatar"
           />
@@ -114,7 +117,7 @@ export default function BlogDetail(props) {
           </button>
         </div>
       </div>
-      <div className="fixed top-50 right-16 flex flex-col gap-4 ">
+      {/* <div className="fixed top-50 right-16 flex flex-col gap-4 ">
         <p className="text-xl font-semibold text-center">
           Similar blogs for you
         </p>
@@ -123,14 +126,14 @@ export default function BlogDetail(props) {
         <RecBlog />
         <RecBlog />
 
-        {/* <p className="text-xl font-semibold text-center">
+        <p className="text-xl font-semibold text-center">
           Categories for you
         </p>
         <p>ReactJs</p>
         <p>ReactJs</p>
         <p>ReactJs</p>
-        <p>ReactJs</p> */}
-      </div>
+        <p>ReactJs</p>
+      </div> */}
     </div>
   );
 }

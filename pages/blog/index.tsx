@@ -49,6 +49,9 @@ export default function MyBlog() {
       });
     }
   }, [page]);
+
+  console.log(jobs);
+
   return (
     <div className="px-16 w-full">
       <Head>

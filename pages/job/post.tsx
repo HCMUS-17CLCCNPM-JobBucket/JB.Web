@@ -3,12 +3,14 @@ import { imageAPI } from "app/api/modules/imageAPI";
 import { jobAPI } from "app/api/modules/jobAPI";
 import DropdownComponent from "app/components/atoms/Select/SalaryCurrencySelect";
 import ComponentWithLabel from "app/components/molecules/ComponentWithLabel";
+import { useUserInfo } from "app/utils/hooks";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Select, { StylesConfig } from "react-select";
+import { toast } from "react-toastify";
 
 const config = {
   charCounterCount: true,
@@ -65,11 +67,20 @@ const customStyles = {
 };
 
 export default function AddNewJob() {
+  const user = useUserInfo();
+
+  if (user.user.roleId === 1) {
+    toast("You are not authorized to access this page");
+    router.push("/");
+  }
   const [isUploadImg, setIsUploadImg] = useState(true);
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
-  const [jobFilterOptions, setJobFilterOptions] = useState<any>({});
+  const [jobFilterOptions, setJobFilterOptions] = useState<any>({
+    skills: [],
+    positions: [],
+  });
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
@@ -79,6 +90,7 @@ export default function AddNewJob() {
   useEffect(() => {
     jobAPI.getJobProperties().then((res) => {
       setJobFilterOptions(res.data.data.jobProperties);
+      console.log(res.data.data.jobProperties);
     });
   }, []);
   const formik = useFormik({

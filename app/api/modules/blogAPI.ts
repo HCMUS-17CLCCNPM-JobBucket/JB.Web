@@ -30,6 +30,7 @@ export const blogAPI = {
             content
             tags
             author{
+              avatarUrl
               userName
               name
             }
@@ -62,6 +63,7 @@ export const blogAPI = {
           content
           tags
           author{
+            avatarUrl
             userName
             name
             id
@@ -92,6 +94,7 @@ export const blogAPI = {
             content
             tags
             author {
+              avatarUrl
               userName
               name
             }
@@ -149,6 +152,7 @@ export const blogAPI = {
               user{
                 id
                 name
+                avatarUrl
               }
               isInterested
               interestCount
@@ -160,6 +164,7 @@ export const blogAPI = {
                 interestCount
                 content
                 user{
+                  avatarUrl
                   id
                   name
                 }
@@ -298,7 +303,7 @@ export const blogAPI = {
   deleteComment: (id) =>
     axiosClient.post("/graphql", {
       query: `
-      mutation removeComment($id: Int) {
+      mutation removeComment($id: Int!) {
         blog{
           deleteComment(id: $id){ 
             id
@@ -313,7 +318,7 @@ export const blogAPI = {
   likeComment: (id) =>
     axiosClient.post("/graphql", {
       query: `
-        mutation addInterestedComment($id: Int) {
+        mutation addInterestedComment($id: Int!) {
           blog{
             addInterestedComment(id: $id){ 
               id
@@ -328,7 +333,7 @@ export const blogAPI = {
   unlikeComment: (id) =>
     axiosClient.post("/graphql", {
       query: `
-      mutation removeInterestedComment($id: Int) {
+      mutation removeInterestedComment($id: Int!) {
         blog{
           removeInterestedComment(id: $id){ 
             id

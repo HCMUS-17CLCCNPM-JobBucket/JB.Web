@@ -177,29 +177,7 @@ export default function Job() {
             <h1 className="hidden lg:block  text-xl font-medium text-center text-gray-900">
               Filters
             </h1>
-            <div className="w-full max-w-md px-2 ">
-              <Tab.Group>
-                <Tab.List className="flex p-1 space-x-1 bg-gray-900/20 rounded-xl">
-                  {categories.map((category, index) => (
-                    <Tab
-                      onClick={() => router.push(category.path)}
-                      key={index}
-                      className={({ selected }) =>
-                        helper.classNames(
-                          "w-full py-2.5 text-sm leading-5 font-medium rounded-lg",
-                          "focus:outline-none ",
-                          selected
-                            ? "text-blue-600 bg-white shadow font-semibold"
-                            : "text-gray-600 hover:bg-gray-600/[0.12] hover:text-white"
-                        )
-                      }
-                    >
-                      {category.title}
-                    </Tab>
-                  ))}
-                </Tab.List>
-              </Tab.Group>
-            </div>
+
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
@@ -252,13 +230,7 @@ export default function Job() {
                   </Menu.Items>
                 </Transition>
               </Menu>
-              <button
-                type="button"
-                className="p-2 -m-2 ml-5 sm:ml-7 text-gray-400 hover:text-gray-500"
-              >
-                <span className="sr-only">View grid</span>
-                <ViewGridIcon className="w-5 h-5" aria-hidden="true" />
-              </button>
+
               <button
                 type="button"
                 className="p-2 -m-2 ml-4 sm:ml-6 text-gray-400 hover:text-gray-500 lg:hidden"
@@ -294,7 +266,7 @@ export default function Job() {
                   },
                   {
                     id: "Positions",
-                    name: "Positions",
+                    name: "Position",
                     options: filterOptions.positions,
                   },
                   {

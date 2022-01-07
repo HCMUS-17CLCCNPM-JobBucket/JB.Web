@@ -32,6 +32,39 @@ export function Logo() {
   );
 }
 
+const ButtonGroup = ({ roleId }) => {
+  if (roleId === 1 || roleId === undefined)
+    return (
+      <div className="navbar__navigation">
+        <p className="navbar__item" onClick={() => router.push("/job")}>
+          Find Jobs
+        </p>
+        <p className="navbar__item" onClick={() => router.push("/company")}>
+          Company
+        </p>
+        <p className="navbar__item" onClick={() => router.push("/list-cv")}>
+          My CV
+        </p>
+        <p className="navbar__item" onClick={() => router.push("/blog")}>
+          Blog
+        </p>
+      </div>
+    );
+  if (roleId === 2)
+    return (
+      <div className="navbar__navigation">
+        <p className="navbar__item" onClick={() => router.push("/employee")}>
+          Employee
+        </p>
+        <p className="navbar__item" onClick={() => router.push("/recruiter")}>
+          Recruiter
+        </p>
+      </div>
+    );
+
+  return <div></div>;
+};
+
 export default function Navbar() {
   const user = useSelector((state: any) => state.user);
   const [open, setOpen] = useState(false);
@@ -44,31 +77,9 @@ export default function Navbar() {
   return (
     <div className="navbar sticky top-0 bg-white z-50">
       <Logo />
-      {user.user.roleId === 1 ? (
-        <div className="navbar__navigation">
-          <p className="navbar__item" onClick={() => router.push("/job")}>
-            Find Jobs
-          </p>
-          <p className="navbar__item" onClick={() => router.push("/company")}>
-            Company
-          </p>
-          <p className="navbar__item" onClick={() => router.push("/list-cv")}>
-            My CV
-          </p>
-          <p className="navbar__item" onClick={() => router.push("/blog")}>
-            Blog
-          </p>
-        </div>
-      ) : (
-        <div className="navbar__navigation">
-          <p className="navbar__item" onClick={() => router.push("/employee")}>
-            Employee
-          </p>
-          <p className="navbar__item" onClick={() => router.push("/recruiter")}>
-            Recruiter
-          </p>
-        </div>
-      )}
+
+      <ButtonGroup roleId={user.user?.roleId || undefined} />
+
       <div>
         {user.token == "" ? (
           <div className="flex gap-4 items-center">

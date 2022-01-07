@@ -5,7 +5,7 @@ export const authAPI = {
 
   loginWithGoogle: (values) =>
     axiosClient.post(
-      "api/Authenticate/login/google",
+      "api/Authenticate/LoginGoogle",
       {},
       { params: { ...values } }
     ),

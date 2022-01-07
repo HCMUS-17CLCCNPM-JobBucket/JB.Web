@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import CommentInput from "./CommentInput";
 import Comments from "./Comments";
 
-export default function CommentSection({ blogId }) {
+export default function CommentSection({ blogId, handleRefresh }) {
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [commentVal, setCommentVal] = useState("");
   const [comments, setComments] = useState([]);
@@ -20,6 +20,7 @@ export default function CommentSection({ blogId }) {
       });
       setCommentVal("");
       setShouldRefresh(!shouldRefresh);
+      handleRefresh();
     }
   };
 

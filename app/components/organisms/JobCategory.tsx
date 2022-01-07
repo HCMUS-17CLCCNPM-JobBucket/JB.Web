@@ -15,7 +15,7 @@ function JobCategoryItem(props) {
         <p
           className={`${
             active ? "text-white" : "text-black"
-          } text-xl font-semibold`}
+          } text-xl font-semibold line-clamp-1`}
         >
           {props.title}
         </p>

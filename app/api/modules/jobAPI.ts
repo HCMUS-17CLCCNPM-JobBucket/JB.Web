@@ -309,6 +309,9 @@ export const jobAPI = {
           title
           imageUrls
           description
+          organization{
+            name
+          }
         }
       }`,
       variables: {

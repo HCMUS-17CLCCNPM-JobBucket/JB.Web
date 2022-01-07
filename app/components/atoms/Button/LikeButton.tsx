@@ -8,6 +8,7 @@ export default function LikeButton(props) {
   const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
 
+  console.log(props.id);
   const [isInterested, setIsInterested] = useState(props.isInterested);
   const [interestCount, setInterestCount] = useState(props.interestCount);
   const handleLike = async () => {

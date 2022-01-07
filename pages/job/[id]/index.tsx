@@ -243,7 +243,7 @@ export default function JobDetail(props) {
             <p className="text-xl font-semibold">Skills</p>
             <div className="flex gap-1 flex-wrap">
               {jobInfo?.skills.map((item) => (
-                <Badge key={item.id} content={item.name} />
+                <Badge key={item.id} content={item.name} type="skill" />
               ))}
             </div>
           </div>

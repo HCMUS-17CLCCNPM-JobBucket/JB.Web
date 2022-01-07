@@ -32,7 +32,7 @@ export default function Comment({
     callback();
   };
   const handleDelete = async () => {
-    await blogAPI.delete(id);
+    const res = await blogAPI.deleteComment(id);
     callback();
   };
 
@@ -46,6 +46,7 @@ export default function Comment({
     setIsReplied(false);
     callback();
   };
+
   return (
     <div>
       <div className="relative flex items-center group">
@@ -53,7 +54,7 @@ export default function Comment({
           <div className="flex-shrink-0 mr-3 ">
             <img
               className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10"
-              src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+              src={user.avatarUrl || "/avatar/avatar.png"}
               alt=""
             />
           </div>
@@ -156,7 +157,7 @@ export default function Comment({
                 </p>
                 <small className="self-center">.</small>
                 <small>
-                  <Moment add={{ hours: 7 }} fromNow date={createdDate} />
+                  <Moment fromNow date={createdDate} />
                 </small>
               </div>
             </div>
