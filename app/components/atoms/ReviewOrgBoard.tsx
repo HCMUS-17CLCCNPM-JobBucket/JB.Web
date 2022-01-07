@@ -35,11 +35,11 @@ export default function ReviewOrgBoard({ values }) {
             ))}
           </div>
         </div>
-        <div className="w-full px-4">
+        {/* <div className="w-full px-4">
           <button className="btn btn-primary h-12 w-full">
             See all rating and reviews
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
