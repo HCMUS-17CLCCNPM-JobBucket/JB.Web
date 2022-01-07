@@ -33,24 +33,28 @@ export default function EducationSection({ values, setValues }) {
         <div className="flex gap-4">
           <input
             type="text"
+            placeholder="School"
             className="input"
             value={school}
             onChange={(e) => setSchool(e.target.value)}
           />
           <input
             type="text"
+            placeholder="Major"
             className="input"
             value={major}
             onChange={(e) => setMajor(e.target.value)}
           />
           <input
             type="text"
+            placeholder="Status: Graduated, In-progress, etc."
             className="input"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           />
           <input
             type="text"
+            placeholder="Profession: Student, Teacher, etc."
             className="input"
             value={profession}
             onChange={(e) => setProfession(e.target.value)}

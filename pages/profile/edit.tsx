@@ -8,12 +8,14 @@ import SkillSection from "app/components/molecules/SkillSection";
 import { useFormik } from "formik";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Head from "next/head";
+import { updateAvatar } from "app/redux/features/user";
 
 export default function UpdateProfile() {
   const [profile, setProfile] = useState<any>({});
+  const dispatch = useDispatch();
   //false: female, true: male
   const [gender, setGender] = useState(true);
   const [skills, setSkills] = useState([]);
@@ -84,6 +86,7 @@ export default function UpdateProfile() {
           ...dataToPost,
           avatarUrl: imageRes.data.url ? imageRes.data.url : "",
         }).then((res) => {
+          dispatch(updateAvatar(imageRes.data.url));
           router.push("/profile");
         });
       } else {

@@ -141,6 +141,7 @@ const UserAPI = {
             update (profile : $updateProfile)
             {
               id
+              avatarUrl
             }
           }
         }`,

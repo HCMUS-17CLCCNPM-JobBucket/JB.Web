@@ -44,20 +44,31 @@ export default function Navbar() {
   return (
     <div className="navbar sticky top-0 bg-white z-50">
       <Logo />
-      <div className="navbar__navigation">
-        <p className="navbar__item" onClick={() => router.push("/job")}>
-          Find Jobs
-        </p>
-        <p className="navbar__item" onClick={() => router.push("/company")}>
-          Company
-        </p>
-        <p className="navbar__item" onClick={() => router.push("/list-cv")}>
-          My CV
-        </p>
-        <p className="navbar__item" onClick={() => router.push("/blog")}>
-          Blog
-        </p>
-      </div>
+      {user.user.roleId === 1 ? (
+        <div className="navbar__navigation">
+          <p className="navbar__item" onClick={() => router.push("/job")}>
+            Find Jobs
+          </p>
+          <p className="navbar__item" onClick={() => router.push("/company")}>
+            Company
+          </p>
+          <p className="navbar__item" onClick={() => router.push("/list-cv")}>
+            My CV
+          </p>
+          <p className="navbar__item" onClick={() => router.push("/blog")}>
+            Blog
+          </p>
+        </div>
+      ) : (
+        <div className="navbar__navigation">
+          <p className="navbar__item" onClick={() => router.push("/employee")}>
+            Employee
+          </p>
+          <p className="navbar__item" onClick={() => router.push("/recruiter")}>
+            Recruiter
+          </p>
+        </div>
+      )}
       <div>
         {user.token == "" ? (
           <div className="flex gap-4 items-center">

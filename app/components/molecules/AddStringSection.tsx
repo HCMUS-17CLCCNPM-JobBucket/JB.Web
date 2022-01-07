@@ -21,7 +21,7 @@ export default function AddStringSection({ values, setValues, label }) {
             id=""
             name=""
             className="input"
-            placeholder=""
+            placeholder="Name"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />

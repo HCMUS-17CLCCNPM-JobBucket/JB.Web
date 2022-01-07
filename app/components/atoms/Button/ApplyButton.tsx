@@ -31,7 +31,7 @@ export default function ApplyButton({ value, jobId, expire }) {
   const openModal = async () => {
     if (hasActive) {
       const res = await jobAPI.unApply(jobId);
-      if (res.data.errors) {
+      if (res.data?.errors) {
       }
       if (res.status === 200) {
         closeModal();

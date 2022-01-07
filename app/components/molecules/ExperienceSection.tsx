@@ -25,23 +25,26 @@ export default function ExperienceSection({ values, setValues }) {
   };
 
   return (
-    <ComponentWithLabel label="Educations">
+    <ComponentWithLabel label="Experiences">
       <div className="flex flex-col gap-4">
         <div className="flex gap-4">
           <input
             type="text"
+            placeholder="Company"
             className="input"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
           />
           <input
             type="text"
+            placeholder="Position"
             className="input"
             value={position}
             onChange={(e) => setPosition(e.target.value)}
           />
           <input
             type="text"
+            placeholder="Duration"
             className="input"
             value={duration}
             onChange={(e) => setDuration(e.target.value)}

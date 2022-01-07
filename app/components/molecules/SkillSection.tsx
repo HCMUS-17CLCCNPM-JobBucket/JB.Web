@@ -4,7 +4,7 @@ import ComponentWithLabel from "./ComponentWithLabel";
 
 export default function SkillSection({ values, setValues }) {
   const [value, setValue] = useState("");
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(3);
 
   const handleAdd = () => {
     if (value !== "") {
@@ -23,7 +23,7 @@ export default function SkillSection({ values, setValues }) {
             id=""
             name=""
             className="input"
-            placeholder=""
+            placeholder="Javascript, React, ..."
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
