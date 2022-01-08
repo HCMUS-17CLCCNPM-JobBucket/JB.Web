@@ -6,23 +6,36 @@ import { useSelector } from "react-redux";
 import Post from "pages/job/post";
 
 export default function RecuitJob() {
-  const [isCreate, setCreate] = useState(false);
+  const [isEditor, setEditor] = useState(false);
   const [jobs, setJobs] = useState([]);
   const user = useSelector((state: any) => state.user);
+  
   useEffect(() => {
     const fetchData = async () => {
-      const response = await jobAPI.getAll({}, user.token);
+      const response = await jobAPI.getlistbyemployer(
+        { employerId: user.user.id },
+        user.token
+      );
+      console.log(response);
       setJobs(response.data.data.jobs);
     };
     fetchData();
   }, []);
+
+  const handleEditJob = async (id) => {
+    setEditor(true);
+    // const res = await jobAPI.getJobById(108, user.token);
+    // if (res.status === 200) {
+    //   setInit(res.data.data.jobs[0].title);
+    // }
+  };
   return (
     <div>
-      {!isCreate ? (
+      {!isEditor ? (
         <div>
           <div className="flex justify-end mb-4">
             <button
-              onClick={() => setCreate(true)}
+              onClick={() => setEditor(true)}
               type="button"
               className="bg-blue-600 text-white inline-flex px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
             >
@@ -63,15 +76,10 @@ export default function RecuitJob() {
                     />
                   </div>
                 </div>
-                <div className="job-horizon-card__desc line-clamp">
-                  Bosch Car Multimedia team is looking for full-time HMI
-                  Engineers working at Ho Chi Minh City, Vietnam. The CM team
-                  develops high-quality, state-of-the-art Automotive Head Unit
-                  and Home Appliance Linux/Android-based systems. Together with
-                  other Bosch locations worldwide, we provide software solutions
-                  for navigation, vehicle functions, autonomous driving, camera,
-                  and IoT features to the car marker.
-                </div>
+                <div
+                  className="job-horizon-card__desc line-clamp"
+                  dangerouslySetInnerHTML={{ __html: item.description }}
+                ></div>
               </div>
               <div className="flex justify-between items-center px-6 py-2 border-t">
                 <p>
@@ -80,6 +88,7 @@ export default function RecuitJob() {
                 </p>
                 <div>
                   <button
+                    onClick={() => handleEditJob(item.id)}
                     type="button"
                     className="mr-4 bg-blue-600 text-white inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
                   >
@@ -128,7 +137,7 @@ export default function RecuitJob() {
         <div>
           <div className="flex justify-end mb-4">
             <button
-              onClick={() => setCreate(false)}
+              onClick={() => setEditor(false)}
               type="button"
               className="bg-blue-600 text-white inline-flex px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
             >
@@ -149,7 +158,7 @@ export default function RecuitJob() {
               <p>Back</p>
             </button>
           </div>
-          <Post></Post>
+          <Post title = {"Test Add Job"}></Post>
         </div>
       )}
     </div>

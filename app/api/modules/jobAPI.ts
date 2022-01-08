@@ -132,6 +132,7 @@ export const jobAPI = {
         query: `
         query Job($id: Int) {
           jobs(id: $id) {
+            title
             isJobApplied
     			  isJobInterested
           }
@@ -239,7 +240,7 @@ export const jobAPI = {
       "/graphql",
       {
         query: `
-    query listJob {
+    query listJob($filter: ListJobRequestInput )  {
   jobs (filter : $filter)
   {
     id
@@ -263,6 +264,4 @@ export const jobAPI = {
         },
       }
     ),
-
-    
 };

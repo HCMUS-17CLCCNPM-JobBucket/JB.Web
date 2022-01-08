@@ -62,7 +62,7 @@ const customStyles = {
     color: "#9CA3C1",
   }),
 };
-export default function AddNewJob() {
+export default function AddNewJob(props) {
   const currencyoptions = [
     { value: "VND", label: "VND" },
     { value: "USD", label: "USD" },
@@ -138,7 +138,7 @@ export default function AddNewJob() {
 
   const formik = useFormik({
     initialValues: {
-      title: "",
+      title: props.title,
       imageUrls: [],
       description: "",
       priority: 0, // 0: low, 1: medium, 2: high
@@ -178,7 +178,8 @@ export default function AddNewJob() {
         optionalRequirements,
         whyJoinUs,
       };
-      // const imageRes: any = await imageAPI.uploadImage(imageFile);
+
+      const imageRes: any = await imageAPI.uploadImage(imageFile);
       const res = await jobAPI.add(
         {
           ...dataToPost,
@@ -257,7 +258,6 @@ export default function AddNewJob() {
             <input
               type="number"
               id="minSalary"
-              defaultValue={0}
               value={formik.values.minSalary}
               onChange={formik.handleChange}
               className="input"
@@ -268,7 +268,6 @@ export default function AddNewJob() {
             <input
               type="number"
               id="maxSalary"
-              defaultValue={0}
               value={formik.values.maxSalary}
               onChange={formik.handleChange}
               className="input"
@@ -299,7 +298,6 @@ export default function AddNewJob() {
           <input
             type="number"
             id="numberEmployeesToApplied"
-            defaultValue={1}
             value={formik.values.numberEmployeesToApplied}
             onChange={formik.handleChange}
             className="input"
