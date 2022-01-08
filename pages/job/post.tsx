@@ -1,15 +1,13 @@
-import { blogAPI } from "app/api/modules/blogAPI";
-import { imageAPI } from "app/api/modules/imageAPI";
+import { DatePicker } from "antd";
 import { jobAPI } from "app/api/modules/jobAPI";
-import DropdownComponent from "app/components/atoms/Select/SalaryCurrencySelect";
-import ComponentWithLabel from "app/components/molecules/ComponentWithLabel";
 import { useUserInfo } from "app/utils/hooks";
 import { useFormik } from "formik";
+import moment from "moment";
 import dynamic from "next/dynamic";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Select, { StylesConfig } from "react-select";
+import Select from "react-select";
 import { toast } from "react-toastify";
 
 const config = {
@@ -45,27 +43,23 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
 const customStyles = {
   option: (provided, state) => ({
     ...provided,
-    // backgroundColor: "white",
-    // zIndex: 100,
   }),
   control: (provided) => ({
     ...provided,
-    backgroundColor: "white",
     borderRadius: "0.5rem",
     border: "1px solid #D1D5DB",
   }),
-  // singleValue: (provided, state) => {
-  //   const opacity = state.isDisabled ? 0.5 : 1;
-  //   const transition = "opacity 300ms";
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = "opacity 300ms";
 
-  //   return { ...provided, opacity, transition };
-  // },
+    return { ...provided, opacity, transition };
+  },
   placeholder: (provided, state) => ({
     ...provided,
     color: "#9CA3C1",
   }),
 };
-
 export default function AddNewJob() {
   const user = useUserInfo();
 
@@ -73,34 +67,86 @@ export default function AddNewJob() {
     toast("You are not authorized to access this page");
     router.push("/");
   }
+  const currencyoptions = [
+    { value: "VND", label: "VND" },
+    { value: "USD", label: "USD" },
+    { value: "EURO", label: "EURO" },
+  ];
+  const durationoptions = [
+    { value: "Weekly", label: "Weekly" },
+    { value: "Monthly", label: "Monthly" },
+    { value: "Yearly", label: "Yearly" },
+  ];
+  const [salaryCurrency, setCurrency] = useState("");
+  const [salaryDuration, setDuration] = useState("");
+  const [description, setDescrip] = useState("");
+  const [benefits, setBenefit] = useState("");
+  const [experiences, setExpe] = useState("");
+  const [responsibilities, setRespons] = useState("");
+  const [requirements, setRequire] = useState("");
+  const [optionalRequirements, setOrequire] = useState("");
+  const [whyJoinUs, setWhyjoin] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [positions, setPositions] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [isUploadImg, setIsUploadImg] = useState(true);
-  const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
-  const [jobFilterOptions, setJobFilterOptions] = useState<any>({
-    skills: [],
-    positions: [],
-  });
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
     setPreviewSource(URL.createObjectURL(e.target.files[0]));
   };
+  const handleChangeExpire = (value) => {
+    if (value != null) {
+      formik.values.expireDate = value.toISOString();
+    } else {
+      formik.values.expireDate = "";
+    }
+  };
 
   useEffect(() => {
-    jobAPI.getJobProperties().then((res) => {
-      setJobFilterOptions(res.data.data.jobProperties);
-      console.log(res.data.data.jobProperties);
-    });
+    const fetchData = async () => {
+      const response = await jobAPI.getJobProperties();
+      if (response.status === 200) {
+        setSkills(
+          response.data.data.jobProperties.skills.map((skill) => ({
+            value: skill.id,
+            label: skill.name,
+          }))
+        );
+        setPositions(
+          response.data.data.jobProperties.positions.map((position) => ({
+            value: position.id,
+            label: position.name,
+          }))
+        );
+        setTypes(
+          response.data.data.jobProperties.types.map((type) => ({
+            value: type.id,
+            label: type.name,
+          }))
+        );
+        setCategories(
+          response.data.data.jobProperties.categories.map((category) => ({
+            value: category.id,
+            label: category.name,
+          }))
+        );
+      }
+    };
+    fetchData();
   }, []);
+
   const formik = useFormik({
     initialValues: {
       title: "",
       imageUrls: [],
       description: "",
       priority: 0, // 0: low, 1: medium, 2: high
-      addresses: [],
-      cities: [],
+      addresses: "",
+      cities: "",
       minSalary: 0,
       maxSalary: 0,
       salaryCurrency: "",
@@ -120,29 +166,33 @@ export default function AddNewJob() {
       whyJoinUs: "",
       numberEmployeesToApplied: 0,
       jobForm: "",
-      gender: 0,
+      gender: "",
     },
     onSubmit: async (values) => {
-      const imageRes: any = await imageAPI.uploadImage(imageFile);
-      const res = await jobAPI.add({
+      const dataToPost = {
         ...values,
-        imageUrl: imageRes.data.url,
-        content,
+        salaryCurrency,
+        salaryDuration,
+        benefits,
+        description,
+        experiences,
+        responsibilities,
+        requirements,
+        optionalRequirements,
+        whyJoinUs,
+      };
+      // const imageRes: any = await imageAPI.uploadImage(imageFile);
+      const res = await jobAPI.add({
+        ...dataToPost,
+        // imageUrl: imageRes.data.url,
       });
-
-      if (res.status === 200) router.push("/blog/" + res.data.data.blog.add.id);
+      console.log(res.status);
+      if (res.status === 200) alert("add job success");
     },
   });
 
   return (
-    <form
-      className="px-48 py-4 flex flex-col gap-4"
-      onSubmit={formik.handleSubmit}
-    >
-      {/* <Head>
-        <title>Post a new Job | JobBucket</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head> */}
+    <form className="py-4 flex flex-col gap-4" onSubmit={formik.handleSubmit}>
       {/* <img
         src={previewSource || "https://via.placeholder.com/1134x160"}
         alt=""
@@ -152,17 +202,16 @@ export default function AddNewJob() {
       {/* <div className="flex justify-between">
         <div></div>
       </div> */}
-      <ComponentWithLabel label="Priority">
-        <DropdownComponent
-          values={[
-            { name: "Emergency" },
-            { name: "Actively hiring" },
-            { name: "None" },
-          ]}
-          callback={() => {}}
-        />
-      </ComponentWithLabel>
-      <ComponentWithLabel label="Title">
+      {/* <SalaryCurrencySelect
+        values={[
+          { name: "Emergency" },
+          { name: "Actively hiring" },
+          { name: "None" },
+        ]}
+        callback={() => {}}
+      /> */}
+      <div className="flex flex-col">
+        <label className="text-gray-700">Title</label>
         <input
           type="text"
           id="title"
@@ -172,103 +221,270 @@ export default function AddNewJob() {
           className="input"
           placeholder="Title"
         />
-      </ComponentWithLabel>
-      <ComponentWithLabel label="Image Header">
+      </div>
+      <div className="flex flex-col">
+        <label className="text-gray-700">Images</label>
         <input type="file" onChange={handleImageChange} className="input" />
-      </ComponentWithLabel>
-      <ComponentWithLabel label="Address">
+      </div>
+      <div className="flex flex-col">
+        <label className="text-gray-700">Address</label>
         <input
           type="text"
-          id="Address"
+          id="addresses"
+          name="addresses"
           placeholder="Enter your Address"
           className="input"
+          value={formik.values.addresses}
+          onChange={formik.handleChange}
         />
-        <div>{/* list address */}</div>
-      </ComponentWithLabel>
-      <ComponentWithLabel label="City">
+      </div>
+      <div className="flex flex-col">
+        <label className="text-gray-700">City</label>
         <input
           type="text"
-          id="City"
+          id="cities"
+          name="cities"
           placeholder="Enter your City"
           className="input"
+          value={formik.values.cities}
+          onChange={formik.handleChange}
         />
-        <div>{/* list City */}</div>
-      </ComponentWithLabel>
-      <ComponentWithLabel label="Salary">
-        <div className="flex gap-2">
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-4">
+          <div className="flex flex-col w-80">
+            <label>MinSalary</label>
+            <input
+              type="number"
+              id="minSalary"
+              defaultValue={0}
+              value={formik.values.minSalary}
+              onChange={formik.handleChange}
+              className="input"
+            />
+          </div>
+          <div className="flex flex-col w-80">
+            <label>MaxSalary</label>
+            <input
+              type="number"
+              id="maxSalary"
+              defaultValue={0}
+              value={formik.values.maxSalary}
+              onChange={formik.handleChange}
+              className="input"
+            />
+          </div>
+        </div>
+        <label>Salary</label>
+        <div className="flex gap-4">
+          <div className="w-80">
+            <Select
+              styles={customStyles}
+              options={currencyoptions}
+              placeholder="Currency"
+              onChange={(value) => setCurrency(value.value)}
+            />
+          </div>
+          <div className="w-80">
+            <Select
+              styles={customStyles}
+              options={durationoptions}
+              placeholder="Duration"
+              onChange={(value) => setDuration(value.value)}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col w-80">
+          <label>Number employees</label>
           <input
             type="number"
-            id="minSalary"
-            defaultValue={0}
-            value={formik.values.minSalary}
+            id="numberEmployeesToApplied"
+            defaultValue={1}
+            value={formik.values.numberEmployeesToApplied}
             onChange={formik.handleChange}
             className="input"
-          />
-          <input
-            type="number"
-            id="maxSalary"
-            defaultValue={0}
-            value={formik.values.maxSalary}
-            onChange={formik.handleChange}
-            className="input"
-          />
-
-          <DropdownComponent
-            values={[{ name: "VND" }, { name: "USD" }, { name: "Euro" }]}
-            callback={() => {}}
-          />
-          <DropdownComponent
-            values={[{ name: "Week" }, { name: "Month" }, { name: "Year" }]}
-            callback={() => {}}
           />
         </div>
-      </ComponentWithLabel>
-
-      <ComponentWithLabel label="Skills">
+      </div>
+      <div className="flex flex-col">
+        <label>Skills</label>
         <Select
           styles={customStyles}
           placeholder="Skills"
-          options={jobFilterOptions.skills.map((skill) => {
-            return { value: skill.name, label: skill.name };
-          })}
+          isMulti
+          options={skills}
+          onChange={(value) =>
+            (formik.values.skillIds = value.map((skill) => skill.value))
+          }
         />
-      </ComponentWithLabel>
-      <ComponentWithLabel label="Positions">
+      </div>
+      <div className="flex flex-col">
+        <label>Positions</label>
         <Select
           styles={customStyles}
           placeholder="Positions"
-          options={jobFilterOptions.positions.map((skill) => {
-            return { value: skill.name, label: skill.name };
-          })}
+          isMulti
+          options={positions}
+          onChange={(value) =>
+            (formik.values.positionIds = value.map(
+              (position) => position.value
+            ))
+          }
         />
-      </ComponentWithLabel>
-      {/* <ComponentWithLabel label="Benefits">
-        <FroalaEditorComponent
-          tag="textarea"
-          config={{ ...config, placeholderText: "Benefits" }}
-          model={content}
-          onModelChange={(model) => setContent(model)}
+      </div>
+      <div className="flex flex-col">
+        <label>Types</label>
+        <Select
+          styles={customStyles}
+          placeholder="Types"
+          isMulti
+          options={types}
+          onChange={(value) =>
+            (formik.values.typeIds = value.map((type) => type.value))
+          }
         />
-      </ComponentWithLabel> */}
-      {/* <ComponentWithLabel label="Experiences">
-        <FroalaEditorComponent
-          tag="textarea"
-          config={{ ...config, placeholderText: "Experiences" }}
-          model={content}
-          onModelChange={(model) => setContent(model)}
+      </div>
+      <div className="flex flex-col">
+        <label>Categories</label>
+        <Select
+          styles={customStyles}
+          placeholder="Categories"
+          isMulti
+          options={categories}
+          onChange={(value) =>
+            (formik.values.categoryIds = value.map(
+              (category) => category.value
+            ))
+          }
         />
-      </ComponentWithLabel>
-      <ComponentWithLabel label="Descriptions">
+      </div>
+      <div className="w-80 flex flex-col">
+        <label className="text-gray-700">Expire date</label>
+        <DatePicker
+          onChange={(value) => handleChangeExpire(value)}
+          format="DD-MM-YYYY"
+          style={{ borderRadius: "0.5rem" }}
+          size="large"
+          disabledDate={(current) => {
+            return current && current <= moment().subtract(1, "day");
+          }}
+        ></DatePicker>
+      </div>
+      <div className="flex flex-col ">
+        <label htmlFor="gender" className="text-gray-700">
+          Gender
+        </label>
+        <div className="w-full py-2 text-base">
+          <label className="inline-flex items-center">
+            <input
+              // checked={cv.gender == "Male"}
+              type="radio"
+              name="gender"
+              value="Male"
+              onChange={(e) => (formik.values.gender = "Male")}
+            />
+            <span className="ml-2 text-gray-700">Male</span>
+          </label>
+          <label className="inline-flex items-center ml-6">
+            <input
+              // checked={cv.gender == "Female"}
+              type="radio"
+              name="gender"
+              value="Female"
+              onChange={(e) => (formik.values.gender = "Female")}
+            />
+            <span className="ml-2 text-gray-700">Female</span>
+          </label>
+        </div>
+      </div>
+      <div className="flex flex-col ">
+        <label htmlFor="gender" className="text-gray-700">
+          Visa Sponsorship
+        </label>
+        <div className="w-full py-2 text-base">
+          <label className="inline-flex items-center">
+            <input
+              // checked={cv.gender == "Male"}
+              type="radio"
+              name="visa"
+              onChange={(e) => (formik.values.isVisaSponsorship = true)}
+            />
+            <span className="ml-2 text-gray-700">Yes</span>
+          </label>
+          <label className="inline-flex items-center ml-6">
+            <input
+              // checked={cv.gender == "Female"}
+              type="radio"
+              name="visa"
+              onChange={(e) => (formik.values.isVisaSponsorship = false)}
+            />
+            <span className="ml-2 text-gray-700">No</span>
+          </label>
+        </div>
+      </div>
+      <div className="flex flex-col">
+        <label>Descriptions</label>
         <FroalaEditorComponent
           tag="textarea"
           config={{ ...config, placeholderText: "Descriptions" }}
-          // model={content}
-          // onModelChange={(model) => setContent(model)}
-          model={formik.values.description}
-          onModelChange={formik.handleChange}
+          model={description}
+          onModelChange={(model) => setDescrip(model)}
         />
-      </ComponentWithLabel> */}
-
+      </div>
+      <div className="flex flex-col">
+        <label>Benefits</label>
+        <FroalaEditorComponent
+          tag="textarea"
+          config={{ ...config, placeholderText: "Benefits" }}
+          model={benefits}
+          onModelChange={(model) => setBenefit(model)}
+        />
+      </div>
+      <div className="flex flex-col">
+        <label>Experiences</label>
+        <FroalaEditorComponent
+          tag="textarea"
+          config={{ ...config, placeholderText: "Experiences" }}
+          model={experiences}
+          onModelChange={(model) => setExpe(model)}
+        />
+      </div>
+      <div className="flex flex-col">
+        <label>Responsibilities</label>
+        <FroalaEditorComponent
+          tag="textarea"
+          config={{ ...config, placeholderText: "Responsibilities" }}
+          model={responsibilities}
+          onModelChange={(model) => setRespons(model)}
+        />
+      </div>
+      <div className="flex flex-col">
+        <label>Requirements</label>
+        <FroalaEditorComponent
+          tag="textarea"
+          config={{ ...config, placeholderText: "Requirements" }}
+          model={requirements}
+          onModelChange={(model) => setRequire(model)}
+        />
+      </div>
+      <div className="flex flex-col">
+        <label>Optional Requirements</label>
+        <FroalaEditorComponent
+          tag="textarea"
+          config={{ ...config, placeholderText: "Optional Requirements" }}
+          model={optionalRequirements}
+          onModelChange={(model) => setOrequire(model)}
+        />
+      </div>
+      <div className="flex flex-col">
+        <label>Why Join Us</label>
+        <FroalaEditorComponent
+          tag="textarea"
+          config={{ ...config, placeholderText: "Why Join Us" }}
+          model={whyJoinUs}
+          onModelChange={(model) => setWhyjoin(model)}
+        />
+      </div>
       <button className="btn btn-primary w-40" type="submit">
         Post
       </button>

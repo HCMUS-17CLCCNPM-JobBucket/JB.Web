@@ -1,11 +1,11 @@
-import { PlusCircleIcon } from "@heroicons/react/outline";
-import React, { Fragment, useState } from "react";
-import MemberCard from "../atoms/MemberCard";
 import { Dialog, Transition } from "@headlessui/react";
-import ComponentWithLabel from "./ComponentWithLabel";
-import { useFormik } from "formik";
+import { PlusIcon } from "@heroicons/react/solid";
 import { orgAPI } from "app/api/modules/organization";
+import { useFormik } from "formik";
+import React, { Fragment, useState } from "react";
 import { toast } from "react-toastify";
+import MemberCard from "../atoms/MemberCard";
+import ComponentWithLabel from "./ComponentWithLabel";
 
 function AddNewMemDialog({ refreshPage }) {
   let [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ function AddNewMemDialog({ refreshPage }) {
   return (
     <>
       <div className=" flex items-center justify-center">
-        <PlusCircleIcon
+        <PlusIcon
           onClick={openModal}
           className="cursor-pointer h-7 w-7 text-gray-400"
         />

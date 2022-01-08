@@ -30,11 +30,14 @@ function DeleteMemDialog({ member, refreshPage }) {
 
   return (
     <>
-      <div className=" flex items-center justify-center">
-        <TrashIcon
-          onClick={openModal}
-          className="text-red-600 h-6 w-6 cursor-pointer"
-        />
+      <div className=" flex items-center justify-center w-full">
+        <button className="flex gap-2 items-center justify-center w-full btn btn-primary font-semibold">
+          <TrashIcon
+            onClick={openModal}
+            className="text-white h-6 w-6 cursor-pointer"
+          />{" "}
+          Delete
+        </button>
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -138,7 +141,10 @@ function DeleteMemDialog({ member, refreshPage }) {
 const MemberCard = (member) => {
   const user = useUserInfo();
   return (
-    <div className="relative flex gap-2 items-center w-[300px]">
+    <div
+      className="relative flex flex-col text-center gap-2 
+    items-center w-[300px] h-[250px] p-8 shadow-lg rounded-lg"
+    >
       <img
         src={member.avatarUrl || "/avatar/avatar.png"}
         alt={member.name}
@@ -149,10 +155,8 @@ const MemberCard = (member) => {
         <p>{member.roleId === 2 ? "Recruiter" : "Manager"}</p>
       </div>
 
-      {user.id !== member.id && (
-        <div className="absolute right-0 top-5">
-          <DeleteMemDialog member={member} refreshPage={member.refreshPage} />
-        </div>
+      {user.user.id !== member.id && (
+        <DeleteMemDialog member={member} refreshPage={member.refreshPage} />
       )}
     </div>
   );

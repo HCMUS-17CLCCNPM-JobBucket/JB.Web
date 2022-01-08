@@ -1,6 +1,10 @@
+import { useUserInfo } from "app/utils/hooks";
+import router from "next/router";
 import React from "react";
 
 export default function InfoOrg(props) {
+  const user = useUserInfo();
+
   return (
     <div className=" p-4 w-full rounded-lg shadow-lg">
       <div className="flex justify-between">
@@ -67,12 +71,21 @@ export default function InfoOrg(props) {
             </div>
           </div>
         </div>
-        <button
-          className="btn btn-primary h-12 w-40"
-          onClick={props.handleScroll}
-        >
-          Write Review
-        </button>
+        {user.user.roleId === 3 ? (
+          <button
+            className="btn btn-primary h-12 w-40"
+            onClick={() => router.push("/manager/edit")}
+          >
+            Update
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary h-12 w-40"
+            onClick={props.handleScroll}
+          >
+            Write Review
+          </button>
+        )}
       </div>
     </div>
   );

@@ -90,7 +90,11 @@ export default function UpdateOrg(props) {
       </Head>
       {loading && <LoadingFullPage />}
       <img
-        src={previewSource || "https://via.placeholder.com/1134x160"}
+        src={
+          previewSource ||
+          company.avatarUrl ||
+          "https://via.placeholder.com/1134x160"
+        }
         alt=""
         className="h-40 w-full object-cover rounded-lg"
       />
