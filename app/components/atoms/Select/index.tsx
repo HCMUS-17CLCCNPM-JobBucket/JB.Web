@@ -8,7 +8,7 @@ export default function Selector(props) {
     }),
     control: (provided) => ({
       ...provided,
-      height: "100%",
+      height: "40px",
       borderRadius: "0.5rem",
       border: "1px solid #D1D5DB",
     }),
@@ -26,6 +26,7 @@ export default function Selector(props) {
   return (
     <Select
       styles={customStyles}
+      value={props.value || null}
       placeholder={props.placeholder}
       options={props.options}
       onChange={props.onChange}

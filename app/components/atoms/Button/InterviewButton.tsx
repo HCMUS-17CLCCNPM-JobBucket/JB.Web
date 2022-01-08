@@ -1,14 +1,22 @@
 import { Dialog, Transition } from "@headlessui/react";
 import interviewAPI from "app/api/modules/interviewAPI";
 import ComponentWithLabel from "app/components/molecules/ComponentWithLabel";
+import QAInterviewSection from "app/components/molecules/QAInterviewSection";
+import ResultInterviewSelection from "app/components/molecules/ResultInterviewSelection";
 import { useFormik } from "formik";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function InterviewButton(props) {
-  console.log(props);
+  console.log(props.form);
   let [isOpen, setIsOpen] = useState(false);
 
+  const [temp, setTemp] = useState({
+    note: props.form?.note || "",
+    overallRating: props.form?.overallRating || 0,
+    result: props.form?.result || 0,
+    sections: props.form?.sections || [],
+  });
   function closeModal() {
     setIsOpen(false);
   }
@@ -28,13 +36,27 @@ export default function InterviewButton(props) {
       intervieweeId: props.intervieweeId,
       interviewerId: props.interviewerId,
       interviewTime: props.interviewTime,
+
+      // form: {
+      //   note: "",
+      //   result: 0,
+      //   overRating: 0,
+      //   sections: [],
+      //   // {
+      //   //   question
+      //   //   answer
+      //   //   note
+      //   //   rating
+      //   // }
+      // },
     },
 
     onSubmit: async (values) => {
-      console.log(values);
-      const res = await interviewAPI.update(values);
+      // console.log({ ...values, ...temp });
+      console.log({ ...values, form: temp });
+      const res = await interviewAPI.update({ ...values, form: temp });
       if (res.status === 200) {
-        toast("Interview updated successfully", { type: "success" });
+        toast("Interview updated successfully");
         closeModal();
       }
     },
@@ -83,7 +105,7 @@ export default function InterviewButton(props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full  max-w-[600px] min-h-[200px] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-full  max-w-[1000px] h-[400px] p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-lg leading-6 text-gray-900 font-semibold"
@@ -94,20 +116,48 @@ export default function InterviewButton(props) {
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col gap-4 mt-4"
                 >
-                  <ComponentWithLabel label="Description">
+                  <div className="grid grid-cols-2 gap-4">
+                    <ComponentWithLabel label="Result">
+                      <ResultInterviewSelection
+                        value={temp.result}
+                        onChange={(e) => setTemp({ ...temp, result: e.value })}
+                      />
+                    </ComponentWithLabel>
+                    <ComponentWithLabel label="Overall Rating">
+                      <input
+                        type="number"
+                        className="input"
+                        max={5}
+                        min={1}
+                        defaultValue={5}
+                        value={temp.overallRating}
+                        onChange={(e) =>
+                          setTemp({
+                            ...temp,
+                            overallRating: parseInt(e.target.value),
+                          })
+                        }
+                      />
+                    </ComponentWithLabel>
+                  </div>
+                  <ComponentWithLabel label="Note">
                     <textarea
-                      id="description"
-                      name="description"
-                      value={formik.values.description}
-                      onChange={formik.handleChange}
+                      value={temp.note}
+                      onChange={(e) =>
+                        setTemp({ ...temp, note: e.target.value })
+                      }
                       className="input h-[150px]"
-                      placeholder="Description"
+                      placeholder="Note"
                     />
                   </ComponentWithLabel>
 
+                  {/* <ComponentWithLabel label="">
+                    <QAInterviewSection />
+                  </ComponentWithLabel> */}
+
                   <div className="w-full flex justify-end">
                     <button type="submit" className="btn btn-primary w-40">
-                      Add
+                      Submit
                     </button>
                   </div>
                 </form>

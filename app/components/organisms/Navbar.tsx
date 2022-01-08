@@ -56,7 +56,10 @@ const ButtonGroup = ({ roleId }) => {
         <p className="navbar__item" onClick={() => router.push("/employee")}>
           Employee
         </p>
-        <p className="navbar__item" onClick={() => router.push("/recruiter")}>
+        <p
+          className="navbar__item"
+          onClick={() => router.push("/recruiter/jobs")}
+        >
           Recruiter
         </p>
       </div>
