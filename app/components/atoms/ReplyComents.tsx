@@ -10,7 +10,7 @@ export default function Reply({ length, childrenCmt, callback }) {
         <div className="px-16">
           <div className="flex flex-col gap-2 ">
             {childrenCmt.map((child, index) => (
-              <Comment key={index} {...child} callback={callback} />
+              <Comment key={index} {...child} callback={callback} type="sub" />
             ))}
           </div>
           <div

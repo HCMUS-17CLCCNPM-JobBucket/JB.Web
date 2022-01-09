@@ -8,6 +8,7 @@ import ListJobOrg from "app/components/molecules/ListJobOrg";
 import ReviewOrg from "app/components/molecules/ReviewOrg";
 import helper from "app/utils/helper";
 import router from "next/router";
+``;
 import React, { useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
@@ -36,11 +37,7 @@ export default function CompanyDetail(props) {
       }
     });
   }, []);
-  const handleScroll = () => {
-    if (refReview.current) {
-      helper.scrollToRef(refReview);
-    }
-  };
+
   return (
     <OrgLayout
       company={{ ...props, jobs }}

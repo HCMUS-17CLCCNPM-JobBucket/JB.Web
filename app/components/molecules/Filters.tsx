@@ -127,7 +127,7 @@ export default function Filters({ filters, callback }) {
               })}
               onChange={(e) => handleChange(e, section)}
               value={null}
-              placeholder=""
+              placeholder={section.options[0].name}
               isMulti={true}
             />
           </div>

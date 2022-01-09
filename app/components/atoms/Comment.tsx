@@ -17,7 +17,9 @@ export default function Comment({
   children,
   blogId,
   callback,
+  type,
 }) {
+  console.log(type);
   const userToken = useSelector((state: any) => state.user);
   const [commentVal, setCommentVal] = useState("");
   const [isReplied, setIsReplied] = useState(false);
@@ -149,13 +151,17 @@ export default function Comment({
                   interestCount={interestCount}
                 />
                 <small className="self-center">.</small>
-                <p
-                  className="text-sm text-gray-700 cursor-pointer"
-                  onClick={() => setIsReplied(true)}
-                >
-                  Reply
-                </p>
-                <small className="self-center">.</small>
+                {type !== "sub" && (
+                  <>
+                    <p
+                      className="text-sm text-gray-700 cursor-pointer"
+                      onClick={() => setIsReplied(true)}
+                    >
+                      Reply
+                    </p>
+                    <small className="self-center">.</small>
+                  </>
+                )}
                 <small>
                   <Moment fromNow date={createdDate} />
                 </small>
@@ -169,6 +175,7 @@ export default function Comment({
         childrenCmt={children}
         callback={callback}
       />
+
       {isReplied && (
         <div className="flex flex-wrap -mx-3 mb-6 pl-12">
           <div className="w-full px-3 mb-2 mt-2">

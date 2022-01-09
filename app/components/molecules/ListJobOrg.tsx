@@ -7,12 +7,14 @@ const JobCard = (props) => {
   return (
     <div className="flex flex-col gap-2 pt-4">
       <div className="flex justify-between">
-        <p
+        <a
+          href={"/job/" + props.id}
+          target="_blank"
+          rel="noopener noreferrer"
           className="cursor-pointer max-w-xl text-blue-600 text-lg hover:underline"
-          onClick={() => router.push("/job/" + props.id)}
         >
           {props.title} Sales Executive (Up To $5000)
-        </p>
+        </a>
         <p className="text-gray-400">
           Expire in <Moment format="DD/MM/YYYY" date={props.expiredDate} />
         </p>

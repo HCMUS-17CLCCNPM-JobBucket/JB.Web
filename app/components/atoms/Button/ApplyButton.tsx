@@ -46,7 +46,7 @@ export default function ApplyButton({ value, jobId, expire }) {
       setIsOpen(true);
     }
   };
-  let [categories] = useState(["Online", "Local"]);
+  // let [categories] = useState(["Online", "Local"]);
 
   const handleApply = async (e) => {
     if (isOnlMode === false) {
@@ -185,27 +185,30 @@ export default function ApplyButton({ value, jobId, expire }) {
                 >
                   Choose your CV
                 </Dialog.Title>
-                <TabGroup
-                  tabs={[
-                    {
-                      name: "Online",
-                      active: isOnlMode,
-                      callback: () => setIsOnlMode(true),
-                    },
-                    {
-                      name: "Local",
-                      active: isOnlMode === false,
-                      callback: () => setIsOnlMode(false),
-                    },
-                  ]}
-                />
+                <div className="flex justify-center mt-2">
+                  <TabGroup
+                    tabs={[
+                      {
+                        name: "Online",
+                        active: isOnlMode,
+                        callback: () => setIsOnlMode(true),
+                      },
+                      {
+                        name: "Local",
+                        active: isOnlMode === false,
+                        callback: () => setIsOnlMode(false),
+                      },
+                    ]}
+                  />
+                </div>
+                <div className="mt-4"></div>
                 {isOnlMode ? (
                   <div>
                     <div className=" relative ">
                       <input
                         type="text"
                         id="rounded-email"
-                        className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                        className="input"
                         placeholder="Name CV"
                       />
                     </div>
