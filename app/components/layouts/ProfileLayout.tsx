@@ -8,7 +8,7 @@ export function ExperienceItem({ company, position, duration, description }) {
     <div>
       <p className="text-lg font-semibold">{company}</p>
       <p className="text-base text-gray-400">{position + "  |  " + duration}</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+      <p>{description}</p>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import TabGroup from "../TabGroup";
 import Checkbox from "../Toggle/Checkbox";
 import CVButton from "./CVButton";
 
@@ -15,6 +16,8 @@ export default function ApplyButton({ value, jobId, expire }) {
   const [cv, setCv] = useState([]);
   const [cvIdSelected, setCvIdSelected] = useState(-1);
   const [hasActive, setHasActive] = useState(value);
+  const [isOnlMode, setIsOnlMode] = useState(true);
+
   const [imageFile, setImageFile] = useState(null);
   let [isOpen, setIsOpen] = useState(false);
 
@@ -29,6 +32,8 @@ export default function ApplyButton({ value, jobId, expire }) {
   }
 
   const openModal = async () => {
+    console.log(hasActive);
+
     if (hasActive) {
       const res = await jobAPI.unApply(jobId);
       if (res.data?.errors) {
@@ -44,13 +49,15 @@ export default function ApplyButton({ value, jobId, expire }) {
   let [categories] = useState(["Online", "Local"]);
 
   const handleApply = async (e) => {
-    if (hasActive) {
+    if (isOnlMode === false) {
+      console.log("local mode");
       if (imageFile !== null) {
         const pdfRes: any = await imageAPI.uploadCV(imageFile);
 
         if (pdfRes.status === 200) {
           const res = await jobAPI.apply(jobId, -1, pdfRes.data.url);
 
+          console.log(jobId, -1, pdfRes.data.url);
           if (res.data.errors) {
             toast.error(res.data.errors[0].message);
           }
@@ -61,6 +68,8 @@ export default function ApplyButton({ value, jobId, expire }) {
         }
       }
     } else {
+      console.log("onl mode");
+
       const res = await jobAPI.apply(jobId, cvIdSelected, "");
 
       if (res.data.errors) {
@@ -176,62 +185,47 @@ export default function ApplyButton({ value, jobId, expire }) {
                 >
                   Choose your CV
                 </Dialog.Title>
-
-                <Tab.Group>
-                  <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
-                    {categories.map((category, index) => (
-                      <Tab
-                        key={index}
-                        className={({ selected }) =>
-                          helper.classNames(
-                            "w-full py-2.5 text-sm leading-5 font-medium rounded-lg",
-                            "focus:outline-none ",
-                            selected
-                              ? "text-blue-600 bg-white shadow font-semibold"
-                              : "text-gray-600 hover:bg-gray-600/[0.12] hover:text-white"
-                          )
-                        }
-                      >
-                        {category}
-                      </Tab>
-                    ))}
-                  </Tab.List>
-                  <Tab.Panels className="mt-2">
-                    <Tab.Panel
-                      className={helper.classNames(
-                        "bg-white rounded-xl p-3",
-                        "focus:outline-none "
-                      )}
-                    >
-                      <div className=" relative ">
-                        <input
-                          type="text"
-                          id="rounded-email"
-                          className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                          placeholder="Name CV"
+                <TabGroup
+                  tabs={[
+                    {
+                      name: "Online",
+                      active: isOnlMode,
+                      callback: () => setIsOnlMode(true),
+                    },
+                    {
+                      name: "Local",
+                      active: isOnlMode === false,
+                      callback: () => setIsOnlMode(false),
+                    },
+                  ]}
+                />
+                {isOnlMode ? (
+                  <div>
+                    <div className=" relative ">
+                      <input
+                        type="text"
+                        id="rounded-email"
+                        className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                        placeholder="Name CV"
+                      />
+                    </div>
+                    <div className="mt-2 flex flex-col justify-between">
+                      {cv.map((cv, index) => (
+                        <Checkbox
+                          key={index}
+                          active={false}
+                          content={cv.cVName}
+                          callback={() => setCvIdSelected(cv.id)}
                         />
-                      </div>
-                      <div className="mt-2 flex flex-col justify-between">
-                        {cv.map((cv, index) => (
-                          <Checkbox
-                            key={index}
-                            active={false}
-                            content={cv.cVName}
-                            callback={() => setCvIdSelected(cv.id)}
-                          />
-                        ))}
-                      </div>
-                    </Tab.Panel>
-                    <Tab.Panel
-                      className={helper.classNames(
-                        "bg-white rounded-xl p-3",
-                        "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
-                      )}
-                    >
-                      <input type="file" onChange={handleImageChange} />
-                    </Tab.Panel>
-                  </Tab.Panels>
-                </Tab.Group>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <input type="file" onChange={handleImageChange} />
+                  </div>
+                )}
+
                 <div className="absolute right-4 bottom-4 w-full flex flex-row-reverse gap-2">
                   <button
                     onClick={handleApply}

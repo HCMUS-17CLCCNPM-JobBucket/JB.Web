@@ -56,6 +56,8 @@ function Login() {
             progress: undefined,
           });
         });
+
+      setIsLogin(false);
       // if (res.status === 200) {
       //   setIsLogin(false);
       //   dispatch(login(res.data));

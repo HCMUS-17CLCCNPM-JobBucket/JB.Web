@@ -29,8 +29,8 @@ export default function JobDetail(props) {
   });
   const [jobInfo, setjobInfo] = useState<any>(props.jobs[0]);
   useEffect(() => {
-    var date1 = moment(props.createdDate);
-    var date2 = new Date();
+    var date1 = moment(jobInfo.expireDate);
+    var date2 = moment();
     setIsExpired(date1.diff(date2) < 0);
 
     const fetchData = async () => {

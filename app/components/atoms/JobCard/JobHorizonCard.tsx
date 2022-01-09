@@ -9,7 +9,7 @@ import SaveJobButton from "../Button/SaveJobButton";
 import SalaryRange from "../SalaryRange";
 
 export default function JobHorizonCard(props) {
-  console.log(props.types[0].name);
+  console.log(props.types[0]);
   return (
     <div className="job-horizon-card hover:shadow-lg relative">
       <div className="job-horizon-card__header">
@@ -31,7 +31,7 @@ export default function JobHorizonCard(props) {
                 <p>
                   {props.title} -{" "}
                   <span className="text-red-500">
-                    {props.types !== undefined && props.types[0].name}
+                    {/* {props.types !== undefined && props.types[0].name} */}
                   </span>
                 </p>
               </a>

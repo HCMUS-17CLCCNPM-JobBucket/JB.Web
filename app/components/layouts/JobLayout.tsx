@@ -260,6 +260,14 @@ export default function Job() {
               <Filters
                 filters={[
                   {
+                    id: "Cities",
+                    name: "Cities",
+                    options: [
+                      { id: "Ho Chi Minh", name: "Ho Chi Minh" },
+                      { id: "Ha Noi", name: "Ha Noi" },
+                    ],
+                  },
+                  {
                     id: "Skills",
                     name: "Skill",
                     options: filterOptions.skills,
