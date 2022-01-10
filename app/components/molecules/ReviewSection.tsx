@@ -22,7 +22,7 @@ export default function ReviewSection({ companyId, callback }) {
   const handleReview = () => {
     const content = review.content.trim();
     if (
-      content.length > 10 &&
+      content.length > 50 &&
       review.rating > 0 &&
       review.ratingBenefit > 0 &&
       review.ratingCulture > 0 &&
@@ -54,7 +54,7 @@ export default function ReviewSection({ companyId, callback }) {
         });
     } else {
       toast.warn(
-        "Rating must be greater than 0 and content must be more than 10 characters"
+        "Rating must be greater than 0 and content must be more than 50 characters"
       );
     }
   };
@@ -119,7 +119,7 @@ export default function ReviewSection({ companyId, callback }) {
           {user.token === "" && <LockClosedIcon className="h-4 w-4" />}
           Review
         </button>
-        <p className="text-sm text-red-600">Min 10 characters</p>
+        <p className="text-sm text-red-600">Min 50 characters</p>
       </div>
     </div>
   );

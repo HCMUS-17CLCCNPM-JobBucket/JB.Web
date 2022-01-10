@@ -142,8 +142,8 @@ const MemberCard = (member) => {
   const user = useUserInfo();
   return (
     <div
-      className="relative flex flex-col text-center gap-2 
-    items-center w-[300px] h-[250px] p-8 shadow-lg rounded-lg"
+      className="relative flex flex-col text-center gap-2 bg-gray-200
+    items-center w-[300px] h-[250px] p-8 rounded-lg"
     >
       <img
         src={member.avatarUrl || "/avatar/avatar.png"}
@@ -155,7 +155,7 @@ const MemberCard = (member) => {
         <p>{member.roleId === 2 ? "Recruiter" : "Manager"}</p>
       </div>
 
-      {user.user.id !== member.id && (
+      {user.user.id !== member.id && user.user.roleId === 3 && (
         <DeleteMemDialog member={member} refreshPage={member.refreshPage} />
       )}
     </div>

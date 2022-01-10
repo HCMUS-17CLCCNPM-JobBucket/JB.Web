@@ -1,6 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/solid";
 import { orgAPI } from "app/api/modules/organization";
+import { useUserInfo } from "app/utils/hooks";
 import { useFormik } from "formik";
 import React, { Fragment, useState } from "react";
 import { toast } from "react-toastify";
@@ -143,13 +144,16 @@ function AddNewMemDialog({ refreshPage }) {
 }
 
 export default function MemberOrgSection({ company, refreshPage }) {
+  const user = useUserInfo();
   return (
     <div>
       {company.members && (
         <div className="p-8 shadow-lg rounded-lg">
           <div className="flex justify-between w-full">
             <p className="text-2xl font-semibold">Members</p>
-            <AddNewMemDialog refreshPage={refreshPage} />
+            {user.user.role === 3 && (
+              <AddNewMemDialog refreshPage={refreshPage} />
+            )}
           </div>
           <div className="flex gap-4 mt-8">
             {company.members.map((member) => (

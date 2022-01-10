@@ -203,44 +203,50 @@ export default function ReviewItem(props) {
                 />
               </div>
             </div>
-            <div className="flex items-center mt-4 text-gray-600">
-              <div className="flex">
-                <span className="text-sm">Benefit Rating</span>
-                <RatingComponent
-                  styles="sub-rating"
-                  quiet={true}
-                  value={props.ratingBenefit}
-                  callback={() => {}}
-                />
+            <hr />
+            <div className="flex gap-8 items-start mt-4 text-gray-600">
+              <div>
+                <div className="flex  w-40 justify-between">
+                  <span className="text-sm">Benefit</span>
+                  <RatingComponent
+                    styles="sub-rating"
+                    quiet={true}
+                    value={props.ratingBenefit}
+                    callback={() => {}}
+                  />
+                </div>
+                <div className="flex w-40 justify-between">
+                  <span className="text-sm">Learning</span>
+                  <RatingComponent
+                    styles="sub-rating"
+                    quiet={true}
+                    value={props.ratingLearning}
+                    callback={() => {}}
+                  />
+                </div>
               </div>
-              <div className="flex ml-4">
-                <span className="text-sm">Learning Rating</span>
-                <RatingComponent
-                  styles="sub-rating"
-                  quiet={true}
-                  value={props.ratingLearning}
-                  callback={() => {}}
-                />
-              </div>
-              <div className="flex ml-4">
-                <span className="text-sm">Culture Rating</span>
-                <RatingComponent
-                  styles="sub-rating"
-                  quiet={true}
-                  value={props.ratingCulture}
-                  callback={() => {}}
-                />
-              </div>
-              <div className="flex ml-4">
-                <span className="text-sm">Workspace Rating</span>
-                <RatingComponent
-                  styles="sub-rating"
-                  quiet={true}
-                  value={props.ratingWorkspace}
-                  callback={() => {}}
-                />
+              <div>
+                <div className="flex w-40 justify-between">
+                  <span className="text-sm">Culture</span>
+                  <RatingComponent
+                    styles="sub-rating"
+                    quiet={true}
+                    value={props.ratingCulture}
+                    callback={() => {}}
+                  />
+                </div>
+                <div className="flex w-40 justify-between">
+                  <span className="text-sm">Workspace</span>
+                  <RatingComponent
+                    styles="sub-rating"
+                    quiet={true}
+                    value={props.ratingWorkspace}
+                    callback={() => {}}
+                  />
+                </div>
               </div>
             </div>
+            <hr />
             <div className="mt-3">
               {/* <span className="font-bold">Sapien consequat eleifend!</span> */}
               <p className="mt-1">{props.content}</p>
@@ -259,7 +265,7 @@ export default function ReviewItem(props) {
                 </button>
                 ·
                 <p className="text-sm text-gray-600">
-                  <Moment date={props.createAt} toNow />
+                  <Moment date={props.createdDate} fromNow />
                 </p>
               </div>
             </div>

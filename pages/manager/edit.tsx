@@ -27,17 +27,19 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
 
 export default function UpdateOrg(props) {
   const [company, setCompany] = useState<any>({ name: " " });
-
   const [country, setCountry] = useState(company.country || "");
   const [loading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
   // const [address, setAddress] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
   const user = useSelector((state: any) => state.user);
 
+  console.log("company", company);
   useEffect(() => {
     orgAPI.getById(user.user.organizationId).then((res) => {
       setCompany(res.data.data.organizations[0]);
+      setAddress(res.data.data.organizations[0].addresses[0]);
     });
   }, []);
 
@@ -61,19 +63,40 @@ export default function UpdateOrg(props) {
     },
     onSubmit: async (values) => {
       setLoading(true);
-      const dataToSend = {
-        ...values,
-        addresses: [values.addresses],
-        country,
-        id: company.id,
-      };
-      const res = await orgAPI.update(dataToSend);
-      if (res.status === 200) {
-        toast.success("Organization updated successfully");
-        router.push("/manager");
+      if (imageFile === null) {
+        const dataToSend = {
+          ...values,
+          addresses: address,
+          country,
+          id: company.id,
+        };
+        const res = await orgAPI.update(dataToSend);
+        if (res.status === 200) {
+          toast.success("Organization updated successfully");
+          router.push("/manager");
+        } else {
+          toast.error("Organization update failed");
+        }
       } else {
-        toast.error("Organization update failed");
+        const imageRes = await imageAPI.uploadImage(imageFile);
+        if (imageRes.status === 200) {
+          const dataToSend = {
+            ...values,
+            avatarUrl: imageRes.data.url,
+            addresses: address,
+            country,
+            id: company.id,
+          };
+          const res = await orgAPI.update(dataToSend);
+          if (res.status === 200) {
+            toast.success("Organization updated successfully");
+            router.push("/manager");
+          } else {
+            toast.error("Organization update failed");
+          }
+        }
       }
+
       setLoading(false);
     },
   });
@@ -159,8 +182,8 @@ export default function UpdateOrg(props) {
         type="text"
         id="addresses"
         name="addresses"
-        value={formik.values.addresses}
-        onChange={formik.handleChange}
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
         className="col-span-1 rounded-lg border-transparent flex-1 appearance-none 
           border border-gray-300 py-2 px-4 bg-white text-gray-700 
           placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 

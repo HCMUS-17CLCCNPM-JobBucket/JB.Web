@@ -25,7 +25,7 @@ export default function ReviewOrgBoard({ values }) {
           <h2 className="text-gray-800 font-semibold mt-1">
             {values.total} reviews
           </h2>
-          <div className="border-b -mx-8 px-8 pb-3">
+          <div className="-mx-8 px-8 pb-3">
             {list.map((item, index) => (
               <ProgressBar
                 key={index}

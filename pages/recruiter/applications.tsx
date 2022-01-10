@@ -40,7 +40,7 @@ export default function RecruiterJob() {
   return (
     <RecruiterLayout>
       <Head>
-        <title>Saved Job | JobBucket</title>
+        <title>Applications | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       {applicants.length > 0 ? (

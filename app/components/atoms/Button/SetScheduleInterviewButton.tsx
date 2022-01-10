@@ -95,7 +95,7 @@ export default function SetScheduleInterviewButton({
                 >
                   Interview Form
                 </Dialog.Title>
-                {/* <form
+                <form
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col gap-4 mt-4"
                 >
@@ -126,7 +126,7 @@ export default function SetScheduleInterviewButton({
                       Add
                     </button>
                   </div>
-                </form> */}
+                </form>
               </div>
             </Transition.Child>
           </div>

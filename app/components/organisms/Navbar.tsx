@@ -13,11 +13,15 @@ import { BellIcon, PlusIcon } from "@heroicons/react/solid";
 import NotiSection from "../molecules/NotiSection";
 export function NavbarItem({ content, path }: any) {
   return (
-    <li>
-      <Link href={path} passHref>
-        <p className="navbar-item dark:text-white">{content}</p>
-      </Link>
-    </li>
+    <Link href={path} passHref>
+      <p
+        className={
+          (router.pathname === path && "text-blue-600") + " navbar__item"
+        }
+      >
+        {content}
+      </p>
+    </Link>
   );
 }
 
