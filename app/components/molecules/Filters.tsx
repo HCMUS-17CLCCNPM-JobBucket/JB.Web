@@ -66,9 +66,9 @@ function Panel({ section, handleChange }) {
 export default function Filters({ filters, callback }) {
   const [scrollOverHeight, setScrollOverHeight] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState({});
-  useEffect(() => {
-    setScrollOverHeight(window.scrollY > 100);
-  }, []);
+  // useEffect(() => {
+  //   setScrollOverHeight(window.scrollY > 100);
+  // }, []);
 
   const handleChange = (value, section) => {
     // console.log(value);
@@ -92,12 +92,14 @@ export default function Filters({ filters, callback }) {
     if (newValue.length === 0)
       setSelectedFilter({
         ...selectedFilter,
+        page: 1,
         [section.name.toLowerCase()]: [],
       });
 
     if (selectedFilter[section.name.toLowerCase()])
       setSelectedFilter({
         ...selectedFilter,
+        page: 1,
         [section.name.toLowerCase()]: [
           ...selectedFilter[section.name.toLowerCase()],
           newValue[newValue.length - 1],
@@ -106,6 +108,7 @@ export default function Filters({ filters, callback }) {
     else
       setSelectedFilter({
         ...selectedFilter,
+        page: 1,
         [section.name.toLowerCase()]: [...newValue],
       });
   };
