@@ -2,7 +2,6 @@ import React from "react";
 import Select, { StylesConfig } from "react-select";
 
 export default function Selector(props) {
-  console.log(props.value);
   const customStyles = {
     option: (provided, state) => ({
       ...provided,

@@ -35,7 +35,6 @@ export default function UpdateOrg(props) {
   const [previewSource, setPreviewSource] = useState("");
   const user = useSelector((state: any) => state.user);
 
-  console.log("company", company);
   useEffect(() => {
     orgAPI.getById(user.user.organizationId).then((res) => {
       setCompany(res.data.data.organizations[0]);

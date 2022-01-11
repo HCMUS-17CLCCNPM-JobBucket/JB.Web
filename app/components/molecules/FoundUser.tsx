@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import Badge from "../atoms/Badge";
 
 export default function FoundUser(props) {
-  console.log(props.skills);
   const handleChatClick = async () => {
     // const chatRes = await chatAPI.createConversationOfEmployer(
     //   user.token,

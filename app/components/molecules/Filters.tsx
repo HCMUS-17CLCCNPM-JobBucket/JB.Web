@@ -70,7 +70,6 @@ export default function Filters({ filters, callback }) {
     setScrollOverHeight(window.scrollY > 100);
   }, []);
 
-  console.log(selectedFilter);
   const handleChange = (value, section) => {
     // console.log(value);
 
@@ -127,7 +126,9 @@ export default function Filters({ filters, callback }) {
               })}
               onChange={(e) => handleChange(e, section)}
               value={null}
-              placeholder={section.options[0].name}
+              placeholder={
+                section.options.length > 0 ? section.options[0].name : ""
+              }
               isMulti={true}
             />
           </div>

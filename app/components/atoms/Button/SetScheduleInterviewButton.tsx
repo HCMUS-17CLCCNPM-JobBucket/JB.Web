@@ -35,9 +35,7 @@ export default function SetScheduleInterviewButton({
     },
 
     onSubmit: async (values) => {
-      console.log(values);
       const res = await interviewAPI.add(values);
-      console.log(res);
       if (res.status === 200) {
         toast("Interview added successfully", { type: "success" });
         closeModal();

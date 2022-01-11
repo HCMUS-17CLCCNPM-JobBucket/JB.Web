@@ -19,7 +19,6 @@ export default function Comment({
   callback,
   type,
 }) {
-  console.log(type);
   const userToken = useSelector((state: any) => state.user);
   const [commentVal, setCommentVal] = useState("");
   const [isReplied, setIsReplied] = useState(false);

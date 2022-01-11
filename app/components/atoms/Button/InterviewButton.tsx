@@ -8,7 +8,6 @@ import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function InterviewButton(props) {
-  console.log(props.form);
   let [isOpen, setIsOpen] = useState(false);
 
   const [temp, setTemp] = useState({
@@ -52,8 +51,6 @@ export default function InterviewButton(props) {
     },
 
     onSubmit: async (values) => {
-      // console.log({ ...values, ...temp });
-      console.log({ ...values, form: temp });
       const res = await interviewAPI.update({ ...values, form: temp });
       if (res.status === 200) {
         toast("Interview updated successfully");

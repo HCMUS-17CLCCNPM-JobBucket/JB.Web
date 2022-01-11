@@ -54,7 +54,6 @@ export default function JobSaved() {
       });
     }
   }, [page]);
-  console.log(jobs);
   return (
     <JobDashboard>
       <Head>

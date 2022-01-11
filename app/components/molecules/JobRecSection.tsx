@@ -10,7 +10,6 @@ export default function JobRecSection({ jobId }) {
       .jobRecommendation(parseInt(jobId))
       .then((res) => {
         setData(res.data.data.jobRecommendations);
-        console.log(res.data.data.jobRecommendations);
       })
       .catch((err) => console.log(err));
   }, []);

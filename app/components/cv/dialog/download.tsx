@@ -21,7 +21,6 @@ export default function Download({ index }) {
     await CvAPI.getCvById(index, userToken.token).then((res) => {
       if (res.status === 200) {
         dispatch(cvActions.initData(res.data.data.cv[0]));
-        console.log(res.data.data.cv[0]);
       }
     });
     setIsOpen(true);

@@ -186,7 +186,6 @@ export default function AddNewJob() {
         ...dataToPost,
         // imageUrl: imageRes.data.url,
       });
-      console.log(res.status);
       if (res.status === 200) alert("add job success");
     },
   });

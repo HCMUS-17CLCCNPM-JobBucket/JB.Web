@@ -9,7 +9,6 @@ import SaveJobButton from "../Button/SaveJobButton";
 import SalaryRange from "../SalaryRange";
 
 export default function JobHorizonCard(props) {
-  console.log(props.types[0]);
   return (
     <div className="job-horizon-card hover:shadow-lg relative">
       <div className="job-horizon-card__header">

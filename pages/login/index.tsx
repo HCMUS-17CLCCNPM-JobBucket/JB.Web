@@ -73,11 +73,7 @@ function Login() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log({
-        GoogleId: googleAuth.googleUser.googleId,
-        TokenId: googleAuth.googleUser.tokenId,
-        RoleId: 1,
-      });
+    
       const res = await authAPI.loginWithGoogle({
         GoogleId: googleAuth.googleUser.googleId,
         TokenId: googleAuth.googleUser.tokenId,

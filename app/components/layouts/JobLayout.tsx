@@ -139,8 +139,6 @@ export default function Job() {
         })
         .catch((err) => console.log(err.response.status));
     } else if (page > 1) {
-      console.log(123123123);
-
       const dataToPost = {
         ...newFilter,
         page: page,

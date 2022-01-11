@@ -33,7 +33,6 @@ export default function ReviewSection({ companyId, callback }) {
       reviewAPI
         .addReview({ ...review, content, organizationId: companyId })
         .then((res) => {
-          console.log(res);
           if (res.data.errors) {
             toast.error(res.data.errors[0].message);
             return;
