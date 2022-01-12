@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Badge from "../Badge";
 import SaveJobButton from "../Button/SaveJobButton";
 import SalaryRange from "../SalaryRange";
+import DeleteDialog from "app/components/Recruiter/DeleteDialog";
 
 export default function JobHorizonCard(props) {
   console.log(props.types[0]);
@@ -71,8 +72,37 @@ export default function JobHorizonCard(props) {
             Posted <Moment fromNow date={props.createdDate} />
           </p>
         </div>
-
-        <SaveJobButton isInterested={props.isJobInterested} jobId={props.id} />
+        {props.isRecruiter ? (
+          <div>
+            <button
+              onClick={() => router.push("/recruiter/jobs/" + props.id + "/edit")}
+              type="button"
+              className="mr-4 bg-blue-600 text-white inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="-ml-1 mr-2 h-5 w-5 "
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+              <p>Edit</p>
+            </button>
+            <DeleteDialog id={props.id}></DeleteDialog>
+          </div>
+        ) : (
+          <SaveJobButton
+            isInterested={props.isJobInterested}
+            jobId={props.id}
+          />
+        )}
       </div>
     </div>
   );

@@ -59,10 +59,12 @@ export const jobAPI = {
         id: jobId,
       },
     }),
-  add: (job) =>
-    axiosClient.post("/graphql", {
-      query: `
-          mutation addJob($job: AddJobType) {
+  add: (job, token) =>
+    axiosClient.post(
+      "/graphql",
+      {
+        query: `
+          mutation addJob($job: AddJobRequestInput!) {
             job{
               add(job: $job){ 
                 id
@@ -70,10 +72,16 @@ export const jobAPI = {
             }
           }
     `,
-      variables: {
-        job,
+        variables: {
+          job,
+        },
       },
-    }),
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ),
   getAll: (filter) =>
     axiosClient.post("/graphql", {
       query: `
@@ -395,6 +403,22 @@ export const jobAPI = {
           page,
           size: 10,
         },
+      },
+    }),
+
+  delete: (id) =>
+    axiosClient.post("/graphql", {
+      query: `
+          mutation deleteJob ($id: Int!) {
+            job{
+              delete(id: $id){ 
+                id
+              }
+            }
+          }
+    `,
+      variables: {
+        id: id,
       },
     }),
 };

@@ -11,7 +11,7 @@ export default function RecruiterLayout(props) {
           tabs={[
             {
               name: "Jobs",
-              active: router.pathname === "/recruiter/jobs",
+              active: router.pathname.indexOf("/recruiter/jobs") !== -1,
               callback: () => router.push("/recruiter/jobs"),
             },
             {
