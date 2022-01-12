@@ -44,6 +44,14 @@ export default function InterviewCard(props) {
           <p className="text-xl font-semibold">{props.job.title}</p>
           {/* <p className="text-gray-500">{props.description}</p> */}
         </div>
+        <p>
+          Status:{" "}
+          {props.status === 0
+            ? "Open"
+            : props.status === 1
+            ? "Closed "
+            : "Pending"}
+        </p>
         <p className="text-lg">
           Created at{" "}
           <Moment format="ddd DD/MM/yyyy">{props.interviewTime}</Moment>

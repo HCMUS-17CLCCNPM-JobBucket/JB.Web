@@ -21,6 +21,7 @@ export default function RecruiterJob() {
     interviewAPI.getListScheduleHr(user.user.id, page).then((res) => {
       if (res.status === 200)
         setApplicants([...applicants, ...res.data.data.interviews]);
+      console.log(res.data.data.interviews);
 
       setHasMore(res.data.data.interviews.length > 0);
       setLoading(false);
