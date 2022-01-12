@@ -12,10 +12,11 @@ export default function InterviewButton(props) {
 
   const [temp, setTemp] = useState({
     note: props.form?.note || "",
-    overallRating: props.form?.overallRating || 0,
+    overallRating: props.form?.overallRating || 3,
     result: props.form?.result || 0,
     sections: props.form?.sections || [],
   });
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -35,19 +36,6 @@ export default function InterviewButton(props) {
       intervieweeId: props.intervieweeId,
       interviewerId: props.interviewerId,
       interviewTime: props.interviewTime,
-
-      // form: {
-      //   note: "",
-      //   result: 0,
-      //   overRating: 0,
-      //   sections: [],
-      //   // {
-      //   //   question
-      //   //   answer
-      //   //   note
-      //   //   rating
-      //   // }
-      // },
     },
 
     onSubmit: async (values) => {
@@ -58,7 +46,7 @@ export default function InterviewButton(props) {
       }
     },
   });
-
+  console.log(temp);
   return (
     <>
       <div className="">
@@ -102,7 +90,7 @@ export default function InterviewButton(props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full  max-w-[1000px] h-[400px] p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-full  max-w-[1000px] h-[600px] overflow-auto p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-lg leading-6 text-gray-900 font-semibold"
@@ -126,7 +114,7 @@ export default function InterviewButton(props) {
                         className="input"
                         max={5}
                         min={1}
-                        defaultValue={5}
+                        // defaultValue={5}
                         value={temp.overallRating}
                         onChange={(e) =>
                           setTemp({
@@ -147,10 +135,15 @@ export default function InterviewButton(props) {
                       placeholder="Note"
                     />
                   </ComponentWithLabel>
-
-                  {/* <ComponentWithLabel label="">
-                    <QAInterviewSection />
-                  </ComponentWithLabel> */}
+                  <hr />
+                  <ComponentWithLabel label="">
+                    <QAInterviewSection
+                      value={temp.sections}
+                      onChange={(val) =>
+                        setTemp({ ...temp, sections: [val, ...temp.sections] })
+                      }
+                    />
+                  </ComponentWithLabel>
 
                   <div className="w-full flex justify-end">
                     <button type="submit" className="btn btn-primary w-40">
