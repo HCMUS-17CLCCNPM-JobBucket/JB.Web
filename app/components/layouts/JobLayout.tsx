@@ -81,6 +81,7 @@ export default function Job() {
     if (temp.length > 0 || jobs.length === 0) {
       setFilterOptionsInput({
         ...filterOptionsInput,
+        page: 1,
         keyword,
       });
     }
@@ -127,16 +128,27 @@ export default function Job() {
       }
     }
 
-    jobAPI
-      .getAll({
-        ...newFilter,
-        page: page,
-      })
-      .then((res) => {
-        if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
+    if (page === 1) {
+      setLoading(true);
+      jobAPI
+        .getAll({ ...newFilter, page: 1 })
+        .then((res) => {
+          if (res.status === 200) setJobs(res.data.data.jobs);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err.response.status));
+    } else if (page > 1) {
+      jobAPI
+        .getAll({
+          ...newFilter,
+          page: page,
+        })
+        .then((res) => {
+          if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
 
-        setHasMore(res.data.data.jobs.length > 0);
-      });
+          setHasMore(res.data.data.jobs.length > 0);
+        });
+    }
   }, [filterOptionsInput, page, router.query]);
   return (
     <div className="bg-white">

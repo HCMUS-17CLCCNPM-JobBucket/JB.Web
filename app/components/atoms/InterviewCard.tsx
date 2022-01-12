@@ -19,7 +19,7 @@ export default function InterviewCard(props) {
   return (
     <div className="w-full rounded-lg flex gap-16">
       <div>
-        <div className="flex">
+        <div className="flex w-52">
           <Avatar
             src={
               user.user.roleId === 1
@@ -41,7 +41,7 @@ export default function InterviewCard(props) {
       </div>
       <div className="flex flex-1 justify-between items-center">
         <div>
-          <p className="text-xl font-semibold">{props.job.title}</p>
+          <p className="text-xl font-semibold w-52">{props.job.title}</p>
           {/* <p className="text-gray-500">{props.description}</p> */}
         </div>
         <p>

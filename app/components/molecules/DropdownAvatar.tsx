@@ -22,7 +22,7 @@ export default function DropdownAvatar() {
 
   const handleLogout = () => {
     // console.log(document.cookie.);
-    // dispatch(logout());
+    dispatch(logout());
   };
 
   const handleRedirectToProfile = () => {

@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 
-export default function Checkbox({ active, content, callback }) {
-  const [checked, setChecked] = useState(active);
+export default function Checkbox({ content, callback }) {
+  const [checked, setChecked] = useState(false);
 
-  const handleClick = () => {
-    setChecked(!checked);
-    if (checked) callback();
+  const handleClick = (e) => {
+    if (e.target.checked === true) {
+      callback();
+    }
   };
   return (
-    <div onClick={handleClick}>
-      <input id="c1" type="checkbox" value={checked} />
+    <div>
+      <input id="c1" type="checkbox" onChange={handleClick} />
       <label htmlFor="c1">{content}</label>
     </div>
   );

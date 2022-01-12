@@ -26,7 +26,7 @@ export default function FoundUser(props) {
             <div className="flex items-center">
               <div className="flex flex-col">
                 <div
-                  onClick={() => router.push("/recruit/" + props.id)}
+                  onClick={() => router.push("/employee/" + props.id)}
                   className="cursor-pointer hover:text-blue-500 ease-in-trans w-full flex-none text-lg text-gray-800 font-bold leading-none"
                 >
                   {props.name}

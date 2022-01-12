@@ -150,7 +150,7 @@ export default function JobDetail(props) {
             </div>
           </div>
         </div>
-        <div className="w-52 mt-5 flex justify-between items-center lg:mt-0 lg:ml-4">
+        <div className="min-w-52 gap-2 mt-5 flex justify-between items-center lg:mt-0 lg:ml-4">
           <ApplyButton
             value={jobStatus.isJobApplied}
             jobId={jobInfo.id}
@@ -220,24 +220,15 @@ export default function JobDetail(props) {
         <div className="flex-1 flex flex-col gap-4">
           <div className="mt-4">
             <p className="text-xl font-semibold">Benefits</p>
-            <div>
-              {jobInfo?.benefits ||
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
-            </div>
+            <div>{jobInfo?.benefits || "No benefits"}</div>
           </div>
           <div className="">
             <p className="text-xl font-semibold">Description</p>
-            <div>
-              {jobInfo?.description ||
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
-            </div>
+            <div>{jobInfo?.description || "No description"}</div>
           </div>
           <div className="">
             <p className="text-xl font-semibold">Requirements</p>
-            <div>
-              {jobInfo?.requirements ||
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
-            </div>
+            <div>{jobInfo?.requirements || "No requirements"}</div>
           </div>
           <div className="">
             <p className="text-xl font-semibold">Skills</p>

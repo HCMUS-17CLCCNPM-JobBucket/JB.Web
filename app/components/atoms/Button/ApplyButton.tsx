@@ -65,7 +65,6 @@ export default function ApplyButton({ value, jobId, expire }) {
       }
     } else {
       const res = await jobAPI.apply(jobId, cvIdSelected, "");
-
       if (res.data.errors) {
         toast.error(res.data.errors[0].message);
       }
@@ -207,12 +206,11 @@ export default function ApplyButton({ value, jobId, expire }) {
                       />
                     </div>
                     <div className="mt-2 flex flex-col justify-between">
-                      {cv.map((cv, index) => (
+                      {cv.map((item, index) => (
                         <Checkbox
                           key={index}
-                          active={false}
-                          content={cv.cVName}
-                          callback={() => setCvIdSelected(cv.id)}
+                          content={item.cVName}
+                          callback={() => setCvIdSelected(item.id)}
                         />
                       ))}
                     </div>
