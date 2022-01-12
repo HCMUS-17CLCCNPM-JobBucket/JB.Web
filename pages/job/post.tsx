@@ -138,7 +138,7 @@ export default function AddNewJob(props) {
 
   const formik = useFormik({
     initialValues: {
-      title: props.title,
+      title: "",
       imageUrls: [],
       description: "",
       priority: 0, // 0: low, 1: medium, 2: high
@@ -179,7 +179,7 @@ export default function AddNewJob(props) {
         whyJoinUs,
       };
 
-      const imageRes: any = await imageAPI.uploadImage(imageFile);
+      // const imageRes: any = await imageAPI.uploadImage(imageFile);
       const res = await jobAPI.add(
         {
           ...dataToPost,
