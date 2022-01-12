@@ -1,28 +1,38 @@
 import { jobAPI } from "app/api/modules/jobAPI";
+import { useUserInfo } from "app/utils/hooks";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Moment from "react-moment";
 import { useSelector } from "react-redux";
+import SetScheduleInterviewButton from "../atoms/Button/SetScheduleInterviewButton";
+import InterviewCard from "../atoms/InterviewCard";
 import JobHorizonCard from "../atoms/JobCard/JobHorizonCard";
 import ListEmpty from "../atoms/ListEmpty";
 import Loading from "../atoms/Loading";
 import LoadingFullPage from "./LoadingFullPage";
 
-export default function JobInfinityScroll({ hasMore, loading, jobs, setPage }) {
+export default function ScheduleInfinityScroll({
+  hasMore,
+  loading,
+  schedules,
+  setPage,
+}) {
+  const user = useUserInfo();
   const [isLoading, setIsLoading] = useState(loading);
-  const [jobValues, setJobValues] = useState(jobs);
+  const [jobValues, setJobValues] = useState(schedules);
   const [hasMoreValue, setHasMoreValue] = useState(hasMore);
 
   useEffect(() => {
     if (isLoading !== loading) {
       setIsLoading(loading);
     }
-    if (jobs !== jobValues) {
-      setJobValues(jobs);
+    if (schedules !== jobValues) {
+      setJobValues(schedules);
     }
     if (hasMore !== hasMoreValue) {
       setHasMoreValue(hasMore);
     }
-  }, [loading, jobs, hasMore]);
+  }, [loading, schedules, hasMore]);
 
   const fetchMoreData = () => {
     setPage();
@@ -31,19 +41,19 @@ export default function JobInfinityScroll({ hasMore, loading, jobs, setPage }) {
     <div className="mt-8">
       {isLoading ? (
         <Loading />
-      ) : jobs.length === 0 && loading === false ? (
+      ) : schedules.length === 0 && loading === false ? (
         <ListEmpty message="No result match" />
       ) : (
         <InfiniteScroll
-          dataLength={jobs.length}
+          dataLength={schedules.length}
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<Loading />}
           scrollableTarget="scrollableDiv"
           className="flex flex-col gap-4 p-4 min-h-40 w-full"
         >
-          {jobs.map((item, index) => (
-            <JobHorizonCard key={index} {...item} />
+          {schedules.map((item, index) => (
+            <InterviewCard key={index} {...item} />
           ))}
         </InfiniteScroll>
       )}

@@ -69,8 +69,6 @@ export default function Job() {
     salary: [],
   });
 
-  // const preKeyword = usePrevious(filterOptionsInput.keyword);
-
   const handleSearch = (keyword: string) => {
     if (keyword === "") {
       setFilterOptionsInput({
@@ -129,26 +127,16 @@ export default function Job() {
       }
     }
 
-    if (page === 1) {
-      setLoading(true);
-      jobAPI
-        .getAll({ ...newFilter, page: 1 })
-        .then((res) => {
-          if (res.status === 200) setJobs(res.data.data.jobs);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err.response.status));
-    } else if (page > 1) {
-      const dataToPost = {
+    jobAPI
+      .getAll({
         ...newFilter,
         page: page,
-      };
-      jobAPI.getAll(dataToPost).then((res) => {
+      })
+      .then((res) => {
         if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
 
         setHasMore(res.data.data.jobs.length > 0);
       });
-    }
   }, [filterOptionsInput, page, router.query]);
   return (
     <div className="bg-white">

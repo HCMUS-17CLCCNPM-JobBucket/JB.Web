@@ -38,7 +38,7 @@ export default function RecruiterJob() {
         <title>Jobs | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex">
+      <div className="flex justify-center">
         <JobInfinityScroll
           hasMore={hasMore}
           loading={loading}

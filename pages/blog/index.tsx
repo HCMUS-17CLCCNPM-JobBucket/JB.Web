@@ -1,8 +1,5 @@
 import { blogAPI } from "app/api/modules/blogAPI";
-import { jobAPI } from "app/api/modules/jobAPI";
-import JobDashboard from "app/components/layouts/JobDashboard";
 import BlogInfinityScroll from "app/components/molecules/BlogInfinityScroll";
-import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
 import { useUserInfo } from "app/utils/hooks";
 import moment from "moment";
 import Head from "next/head";

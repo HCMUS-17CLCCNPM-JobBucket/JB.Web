@@ -17,7 +17,7 @@ export const getServerSideProps = async ({ params }) => {
 
 export default function CompanyCard(props) {
   return (
-    <div className="flex w-[850px] border border-gray-200 rounded-lg hover:shadow-lg ease-in-transition">
+    <div className="flex w-full border border-gray-200 rounded-lg hover:shadow-lg ease-in-transition">
       <a href={"/company/" + props.id} target="_blank" rel="noreferrer">
         <img
           className="h-40 w-40 rounded-l-lg object-cover"
@@ -38,13 +38,18 @@ export default function CompanyCard(props) {
                 {props.name}
               </p>
             </a>
-
+            <RatingComponent
+              value={props.rating}
+              styles="sub-rating"
+              quiet={true}
+              callback={() => {}}
+            />
             <span className="text-sm">
               {/* {props.addresses == null ? "No addresses" : props.addresses[0]} */}
               {props.address}
             </span>
           </div>
-          <div className="absolute top-0 right-10">
+          {/* <div className="absolute top-0 right-10">
             <div className="flex items-center gap-3">
               <RatingComponent
                 value={props.rating}
@@ -92,7 +97,7 @@ export default function CompanyCard(props) {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         {/* <div className="mt-4 line-clamp-3">{props.bio}</div> */}
         <div className="mt-4">

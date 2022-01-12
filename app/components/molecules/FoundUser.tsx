@@ -17,9 +17,9 @@ export default function FoundUser(props) {
     <div className="col-span-1 bg-gray-50 border border-gray hover:shadow-lg ease-in-trans rounded-3xl p-4 m-4">
       <div className="flex-none sm:flex">
         <img
-          src={getAvatar(props.avatarUrl)}
+          src={getAvatar(props.avatarUrl) || "/avatar/avatar.png"}
           alt="aji"
-          className="w-32 h-32 object-cover rounded-2xl border border-gray-600"
+          className="w-32 h-32 object-cover rounded-full border border-gray-600"
         />
         <div className="flex-auto sm:ml-5 justify-evenly">
           <div className="flex items-center justify-between sm:mt-2">
@@ -34,11 +34,11 @@ export default function FoundUser(props) {
               </div>
             </div>
           </div>
-          <div className="line-clamp-3 text-gray-500 mt-4 h-18">
+          <div className="line-clamp-3 text-gray-500 mt-2 h-18">
             {props.introduction}
           </div>
           <div className="flex pt-2 text-sm text-gray-500">
-            <div className="flex-1 inline-flex items-center">
+            {/* <div className="flex-1 inline-flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -52,7 +52,7 @@ export default function FoundUser(props) {
                 />
               </svg>
               <p>{props.email}</p>
-            </div>
+            </div> */}
             {/* <div className="flex-1 inline-flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

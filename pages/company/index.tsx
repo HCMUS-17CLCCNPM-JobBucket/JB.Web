@@ -4,9 +4,11 @@ import SearchOrg from "app/components/atoms/SearchBar/SearchOrg";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Head from "next/head";
+import Loading from "app/components/atoms/Loading";
 export default function CompanyPage() {
   const [orgs, setOrgs] = useState([]);
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,18 +16,17 @@ export default function CompanyPage() {
         page,
         size: 10,
       });
-      setOrgs(res.data.data.organizations);
+      setOrgs([...orgs, ...res.data.data.organizations]);
+      setHasMore(res.data.data.organizations.length > 0);
     };
     fetchData();
-  }, []);
+  }, [page]);
 
   const fetchMoreData = async () => {
-    const res = await orgAPI.getAll({ size: 10, page: page + 1 });
     setPage(page + 1);
-    setOrgs(orgs.concat(res.data.data.organizations));
   };
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center w-full">
       <Head>
         <title>Search Company | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -34,15 +35,16 @@ export default function CompanyPage() {
       <InfiniteScroll
         dataLength={orgs.length}
         next={fetchMoreData}
-        hasMore={true}
-        loader={<h4>Loading...</h4>}
+        hasMore={hasMore}
+        loader={<Loading />}
         scrollableTarget="scrollableDiv"
-        className="flex w-full flex-col gap-4"
+        className="grid grid-cols-3 gap-4 w-full"
       >
         {orgs.map((item, index) => (
           <CompanyCard key={index} {...item} />
         ))}
       </InfiniteScroll>
+      {!hasMore && <p className="text-center">No more data</p>}
     </div>
   );
 }

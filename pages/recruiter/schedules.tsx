@@ -3,6 +3,7 @@ import InterviewButton from "app/components/atoms/Button/SetScheduleInterviewBut
 import InterviewCard from "app/components/atoms/InterviewCard";
 import ListEmpty from "app/components/atoms/ListEmpty";
 import RecruiterLayout from "app/components/layouts/RecruiterLayout";
+import ScheduleInfinityScroll from "app/components/molecules/SchedulefinityScroll";
 import { useUserInfo } from "app/utils/hooks";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -41,15 +42,12 @@ export default function RecruiterJob() {
         <title>Schedules | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {applicants.length > 0 ? (
-        <div className="flex flex-col gap-4 mt-8">
-          {applicants.map((item, index) => (
-            <InterviewCard key={index} {...item} />
-          ))}
-        </div>
-      ) : (
-        <ListEmpty />
-      )}
+      <ScheduleInfinityScroll
+        hasMore={hasMore}
+        loading={loading}
+        schedules={applicants}
+        setPage={() => setPage(page + 1)}
+      />
       <div className="h-[400px]"></div>
     </RecruiterLayout>
   );
