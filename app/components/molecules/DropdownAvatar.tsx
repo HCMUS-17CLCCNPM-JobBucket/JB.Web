@@ -21,7 +21,8 @@ export default function DropdownAvatar() {
   const user = useSelector((state: any) => state.user);
 
   const handleLogout = () => {
-    dispatch(logout());
+    // console.log(document.cookie.);
+    // dispatch(logout());
   };
 
   const handleRedirectToProfile = () => {

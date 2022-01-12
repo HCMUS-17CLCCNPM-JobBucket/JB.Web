@@ -14,8 +14,10 @@ export default function JobRecSection({ jobId }) {
       .catch((err) => console.log(err));
   }, []);
   return (
-    <div className="w-full border border-gray-200 rounded-lg p-2">
-      <p className="text-xl font-semibold text-center">Similar jobs for you</p>
+    <div className="w-full">
+      <p className="text-xl font-semibold text-gray-500">
+        Similar jobs for you
+      </p>
       <div className="mt-4 flex flex-col gap-3 ">
         {data.map((item, index) => (
           <div key={index}>

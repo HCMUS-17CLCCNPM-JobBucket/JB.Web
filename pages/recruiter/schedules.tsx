@@ -17,23 +17,14 @@ export default function RecruiterJob() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (page === 1) {
-      setLoading(true);
-      interviewAPI
-        .getListScheduleHr(user.user.id)
-        .then((res) => {
-          if (res.status === 200) setApplicants(res.data.data.interviews);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err.response.status));
-    } else if (page > 1) {
-      interviewAPI.getListScheduleHr(user.user.id).then((res) => {
-        if (res.status === 200)
-          setApplicants([...applicants, ...res.data.data.interviews]);
+    setLoading(true);
+    interviewAPI.getListScheduleHr(user.user.id, page).then((res) => {
+      if (res.status === 200)
+        setApplicants([...applicants, ...res.data.data.interviews]);
 
-        setHasMore(res.data.data.jobs.length > 0);
-      });
-    }
+      setHasMore(res.data.data.interviews.length > 0);
+      setLoading(false);
+    });
   }, [page]);
 
   return (

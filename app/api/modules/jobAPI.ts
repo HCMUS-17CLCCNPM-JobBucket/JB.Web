@@ -307,10 +307,21 @@ export const jobAPI = {
         {
           id
           title
+          types {
+            name
+          }
+          addresses
+          cities
           imageUrls
           description
-          organization{
+          minSalary
+          maxSalary
+          isJobInterested
+          organization {
+            addresses
+            avatarUrl
             name
+            id
           }
         }
       }`,

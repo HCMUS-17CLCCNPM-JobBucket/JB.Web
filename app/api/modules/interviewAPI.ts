@@ -3,7 +3,7 @@ import axiosClient from "../axiosClient";
 // axiosClient.post('/graphql', {query: ``})
 
 const interviewAPI = {
-  getListScheduleHr: (interviewerId) =>
+  getListScheduleHr: (interviewerId, page) =>
     axiosClient.post("/graphql", {
       query: `query listInterview($filter: ListInterviewRequestInput) {
         interviews(filterRequest: $filter) {
@@ -47,6 +47,8 @@ const interviewAPI = {
         filter: {
           //   jobId: 100,
           //   interviewTime: [],
+          page,
+          size: 10,
           interviewerId,
           //   intervieweeId: 0,
           //   status: 0,

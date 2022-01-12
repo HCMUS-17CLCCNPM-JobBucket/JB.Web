@@ -47,7 +47,7 @@ export default function SetScheduleInterviewButton({
     <div>
       <div className="">
         <button onClick={openModal} className="btn btn-primary w-40">
-          Interview
+          Set Schedule
         </button>
       </div>
 

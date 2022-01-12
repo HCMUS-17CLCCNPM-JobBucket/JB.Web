@@ -143,14 +143,14 @@ export default function JobDetail(props) {
                   />
                 </svg>
                 <span>
-                  Closing on{" "}
+                  Expired in{" "}
                   {<Moment format="DD/MM/YYYY" date={jobInfo?.expireDate} />}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div className="w-64 mt-5 flex justify-between items-center lg:mt-0 lg:ml-4">
+        <div className="w-52 mt-5 flex justify-between items-center lg:mt-0 lg:ml-4">
           <ApplyButton
             value={jobStatus.isJobApplied}
             jobId={jobInfo.id}
@@ -248,7 +248,7 @@ export default function JobDetail(props) {
             </div>
           </div>
         </div>
-        <div className="w-64 flex flex-col gap-4">
+        <div className="w-[400px] flex flex-col gap-4">
           <div className="w-full border border-gray-200 rounded-lg p-4">
             <div className="flex gap-2 items-center mb-4">
               <img

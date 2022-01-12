@@ -53,7 +53,7 @@ export default function ApplicationInfinityScroll({
         >
           {applications.map((item, index) => (
             <div key={index} className="flex justify-between items-center">
-              <div className="flex gap-4 items-start justify-center">
+              <div className="flex gap-4 items-start justify-start w-1/4 overflow-hidden">
                 <img
                   src={item.user.avatarUrl || "/avatar/avatar.png"}
                   className="h-16 w-16 rounded-full"

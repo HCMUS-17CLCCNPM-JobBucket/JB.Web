@@ -1,6 +1,6 @@
 import React from "react";
 
-const Tab = ({ name, active, callback }) => {
+const Tab = ({ name, active, callback, number }) => {
   return (
     <div
       className={
@@ -9,7 +9,10 @@ const Tab = ({ name, active, callback }) => {
       }
       onClick={callback}
     >
-      <p className="text-center">{name}</p>
+      <p className="text-center">
+        <span>{number} </span>
+        {name}
+      </p>
     </div>
   );
 };
@@ -28,6 +31,7 @@ export default function TabGroup(props) {
           name={tab.name}
           active={tab.active}
           callback={tab.callback}
+          number={tab.number || ""}
         />
       ))}
     </div>

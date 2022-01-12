@@ -9,6 +9,7 @@ import SaveJobButton from "../Button/SaveJobButton";
 import SalaryRange from "../SalaryRange";
 
 export default function JobHorizonCard(props) {
+  console.log(props.description);
   return (
     <div className="job-horizon-card hover:shadow-lg relative">
       <div className="job-horizon-card__header">
@@ -45,13 +46,14 @@ export default function JobHorizonCard(props) {
           </div>
         </div>
         <div className="job-horizon-card__desc line-clamp">
-          Bosch Car Multimedia team is looking for full-time HMI Engineers
+          {/* Bosch Car Multimedia team is looking for full-time HMI Engineers
           working at Ho Chi Minh City, Vietnam. The CM team develops
           high-quality, state-of-the-art Automotive Head Unit and Home Appliance
           Linux/Android-based systems. Together with other Bosch locations
           worldwide, we provide software solutions for navigation, vehicle
           functions, autonomous driving, camera, and IoT features to the car
-          marker.
+          marker. */}
+          {props.description}
         </div>
 
         <div className="flex mt-2">

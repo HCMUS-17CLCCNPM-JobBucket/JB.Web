@@ -17,11 +17,8 @@ const Avatar = ({ src, alt, name }) => (
 export default function InterviewCard(props) {
   const user = useUserInfo();
   return (
-    <div className="w-full rounded-lg flex gap-16 border border-gray-400 p-4">
+    <div className="w-full rounded-lg flex gap-16">
       <div>
-        <p className="text-lg">
-          <Moment format="ddd DD/MM/yyyy">{props.interviewTime}</Moment>
-        </p>
         <div className="flex">
           <Avatar
             src={
@@ -42,11 +39,15 @@ export default function InterviewCard(props) {
           />
         </div>
       </div>
-      <div className="flex flex-1 justify-between">
+      <div className="flex flex-1 justify-between items-center">
         <div>
           <p className="text-xl font-semibold">{props.job.title}</p>
-          <p className="text-gray-500">{props.description}</p>
+          {/* <p className="text-gray-500">{props.description}</p> */}
         </div>
+        <p className="text-lg">
+          Created at{" "}
+          <Moment format="ddd DD/MM/yyyy">{props.interviewTime}</Moment>
+        </p>
         <InterviewButton {...props} />
       </div>
     </div>
