@@ -8,8 +8,11 @@ import Badge from "../Badge";
 import SaveJobButton from "../Button/SaveJobButton";
 import SalaryRange from "../SalaryRange";
 import DeleteDialog from "app/components/Recruiter/DeleteDialog";
+import { useUserInfo } from "app/utils/hooks";
 
 export default function JobHorizonCard(props) {
+  const user = useUserInfo();
+
   return (
     <div className="job-horizon-card hover:shadow-lg relative w-full">
       <div className="job-horizon-card__header">
@@ -72,10 +75,12 @@ export default function JobHorizonCard(props) {
             Posted <Moment fromNow date={props.createdDate} />
           </p>
         </div>
-        {props.isRecruiter ? (
+        {user.user.roleId === 3 ? (
           <div>
             <button
-              onClick={() => router.push("/recruiter/jobs/" + props.id + "/edit")}
+              onClick={() =>
+                router.push("/recruiter/jobs/" + props.id + "/edit")
+              }
               type="button"
               className="mr-4 bg-blue-600 text-white inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
             >

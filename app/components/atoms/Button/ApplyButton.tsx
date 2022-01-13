@@ -4,6 +4,7 @@ import axiosClient from "app/api/axiosClient";
 import { imageAPI } from "app/api/modules/imageAPI";
 import { jobAPI } from "app/api/modules/jobAPI";
 import helper from "app/utils/helper";
+import { useUserInfo } from "app/utils/hooks";
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -17,7 +18,7 @@ export default function ApplyButton({ value, jobId, expire }) {
   const [cvIdSelected, setCvIdSelected] = useState(-1);
   const [hasActive, setHasActive] = useState(value);
   const [isOnlMode, setIsOnlMode] = useState(true);
-
+  const user = useUserInfo();
   const [imageFile, setImageFile] = useState(null);
   let [isOpen, setIsOpen] = useState(false);
 
@@ -99,7 +100,7 @@ export default function ApplyButton({ value, jobId, expire }) {
   return (
     <>
       <div className="flex items-center justify-center relative">
-        {expire ? (
+        {expire || user.token === "" ? (
           <button
             className="cursor-not-allowed flex gap-2 bg-red-600 hover:bg-red-700 items-center px-4 py-2 border border-transparent 
           rounded-md shadow-sm text-sm font-medium text-white focus:outline-none"
