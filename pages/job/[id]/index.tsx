@@ -59,10 +59,7 @@ export default function JobDetail(props) {
       <div className="mt-1 lg:flex lg:items-center lg:justify-between">
         <div className="flex gap-4">
           <img
-            src={
-              jobInfo?.imageUrls[0] ||
-              "https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg"
-            }
+            src={jobInfo?.imageUrls[0] || "/company.png"}
             alt=""
             className="h-20 w-20 rounded-lg border border-gray-200"
           />

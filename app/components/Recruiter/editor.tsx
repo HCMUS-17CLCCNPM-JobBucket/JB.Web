@@ -1,13 +1,14 @@
-import { DatePicker } from "antd";
+import { imageAPI } from "app/api/modules/imageAPI";
 import { jobAPI } from "app/api/modules/jobAPI";
-import { useUserInfo } from "app/utils/hooks";
 import { useFormik } from "formik";
-import moment from "moment";
 import dynamic from "next/dynamic";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
+import { DatePicker } from "antd";
+import locale from "antd/es/date-picker/locale/zh_CN";
+import moment from "moment";
 import { toast } from "react-toastify";
 
 const config = {
@@ -60,13 +61,8 @@ const customStyles = {
     color: "#9CA3C1",
   }),
 };
-export default function AddNewJob() {
-  const user = useUserInfo();
 
-  if (user.user.roleId === 1) {
-    toast("You are not authorized to access this page");
-    router.push("/");
-  }
+export default function Editor(props) {
   const currencyoptions = [
     { value: "VND", label: "VND" },
     { value: "USD", label: "USD" },
@@ -77,6 +73,7 @@ export default function AddNewJob() {
     { value: "Monthly", label: "Monthly" },
     { value: "Yearly", label: "Yearly" },
   ];
+  const [id, setID] = useState(props.id);
   const [salaryCurrency, setCurrency] = useState("");
   const [salaryDuration, setDuration] = useState("");
   const [description, setDescrip] = useState("");
@@ -90,9 +87,11 @@ export default function AddNewJob() {
   const [positions, setPositions] = useState([]);
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
+  const user = useSelector((state: any) => state.user);
   const [isUploadImg, setIsUploadImg] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
+  const [value, setValue] = useState({});
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
@@ -108,6 +107,7 @@ export default function AddNewJob() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(props);
       const response = await jobAPI.getJobProperties();
       if (response.status === 200) {
         setSkills(
@@ -141,36 +141,37 @@ export default function AddNewJob() {
 
   const formik = useFormik({
     initialValues: {
-      title: "",
-      imageUrls: [],
-      description: "",
-      priority: 0, // 0: low, 1: medium, 2: high
-      addresses: "",
-      cities: "",
-      minSalary: 0,
-      maxSalary: 0,
-      salaryCurrency: "",
-      salaryDuration: "",
-      skillIds: [],
-      positionIds: [],
-      typeIds: [],
-      categoryIds: [],
-      isVisaSponsorship: false,
-      expireDate: null,
-      benefits: "",
-      experiences: "",
-      responsibilities: "",
-      requirements: "",
-      optionalRequirements: "",
-      cultures: "",
-      whyJoinUs: "",
-      numberEmployeesToApplied: 0,
-      jobForm: "",
-      gender: "",
+      title: props.title,
+      imageUrls: props.imageUrls,
+      description: props.description,
+      priority: props.priority, // 0: low, 1: medium, 2: high
+      addresses: props.addresses,
+      cities: props.cities,
+      minSalary: props.minSalary,
+      maxSalary: props.maxSalary,
+      salaryCurrency: props.salaryCurrency,
+      salaryDuration: props.salaryDuration,
+      skillIds: props.skillIds,
+      positionIds: props.positionIds,
+      typeIds: props.typeIds,
+      categoryIds: props.categoryIds,
+      isVisaSponsorship: props.isVisaSponsorship,
+      expireDate: props.expireDate,
+      benefits: props.benefits,
+      experiences: props.experiences,
+      responsibilities: props.responsibilities,
+      requirements: props.requirements,
+      optionalRequirements: props.optionalRequirements,
+      cultures: props.cultures,
+      whyJoinUs: props.whyJoinUs,
+      numberEmployeesToApplied: props.numberEmployeesToApplied,
+      jobForm: props.jobForm,
+      gender: props.gender,
     },
     onSubmit: async (values) => {
       const dataToPost = {
         ...values,
+        id,
         salaryCurrency,
         salaryDuration,
         benefits,
@@ -181,15 +182,26 @@ export default function AddNewJob() {
         optionalRequirements,
         whyJoinUs,
       };
-      // const imageRes: any = await imageAPI.uploadImage(imageFile);
-      const res = await jobAPI.add({
-        ...dataToPost,
-        // imageUrl: imageRes.data.url,
-      });
-      if (res.status === 200) alert("add job success");
+
+      if (props.isEdit) {
+        const res = await jobAPI.update({
+          ...dataToPost,
+        });
+        if (res.status === 200) toast("Update success");
+      } else {
+        const imageRes: any = await imageAPI.uploadImage(imageFile);
+        const res = await jobAPI.add(
+          {
+            ...dataToPost,
+            imageUrl: imageRes.data.url,
+          },
+          user.token
+        );
+        if (res.status === 200) toast("Create job success");
+        router.push("/recruiter/jobs");
+      }
     },
   });
-
   return (
     <form className="py-4 flex flex-col gap-4" onSubmit={formik.handleSubmit}>
       {/* <img
@@ -256,7 +268,6 @@ export default function AddNewJob() {
             <input
               type="number"
               id="minSalary"
-              defaultValue={0}
               value={formik.values.minSalary}
               onChange={formik.handleChange}
               className="input"
@@ -267,7 +278,6 @@ export default function AddNewJob() {
             <input
               type="number"
               id="maxSalary"
-              defaultValue={0}
               value={formik.values.maxSalary}
               onChange={formik.handleChange}
               className="input"
@@ -298,7 +308,6 @@ export default function AddNewJob() {
           <input
             type="number"
             id="numberEmployeesToApplied"
-            defaultValue={1}
             value={formik.values.numberEmployeesToApplied}
             onChange={formik.handleChange}
             className="input"
@@ -484,9 +493,15 @@ export default function AddNewJob() {
           onModelChange={(model) => setWhyjoin(model)}
         />
       </div>
-      <button className="btn btn-primary w-40" type="submit">
-        Post
-      </button>
+      {props.isEdit ? (
+        <button className="btn btn-primary w-40" type="submit">
+          Save changes
+        </button>
+      ) : (
+        <button className="btn btn-primary w-40" type="submit">
+          Post
+        </button>
+      )}
     </form>
   );
 }

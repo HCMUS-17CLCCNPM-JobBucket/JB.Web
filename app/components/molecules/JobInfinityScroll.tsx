@@ -43,7 +43,7 @@ export default function JobInfinityScroll({ hasMore, loading, jobs, setPage }) {
           className="flex flex-col gap-4 p-4 min-h-40 w-full"
         >
           {jobs.map((item, index) => (
-            <JobHorizonCard key={index} {...item} />
+            <JobHorizonCard isRecruiter key={index} {...item} />
           ))}
         </InfiniteScroll>
       )}
