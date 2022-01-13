@@ -20,12 +20,27 @@ export default function RecruiterJob() {
     setLoading(true);
 
     UserAPI.getApplicants(user.user.id, { page, jobId, status }).then((res) => {
-      if (res.status === 200) setApplicants([...res.data.data.jobApplications]);
+      if (res.status === 200)
+        setApplicants([...applicants, ...res.data.data.jobApplications]);
 
       setHasMore(res.data.data.jobApplications.length > 0);
       setLoading(false);
     });
-  }, [page, jobId, status]);
+  }, [page]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    UserAPI.getApplicants(user.user.id, { page: 0, jobId, status }).then(
+      (res) => {
+        if (res.status === 200)
+          setApplicants([...res.data.data.jobApplications]);
+
+        setHasMore(res.data.data.jobApplications.length > 0);
+        setLoading(false);
+      }
+    );
+  }, [jobId, status]);
 
   return (
     <RecruiterLayout>
@@ -43,6 +58,7 @@ export default function RecruiterJob() {
         applications={applicants}
         setPage={() => setPage(page + 1)}
       />
+      <div className="h-[300px]"></div>
     </RecruiterLayout>
   );
 }

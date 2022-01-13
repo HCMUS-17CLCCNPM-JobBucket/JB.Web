@@ -83,7 +83,7 @@ function JobPage() {
             placeholder="Categories"
           />
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-3">
           {employees.map((item, index) => (
             <FoundUser {...item} key={index} />
           ))}
