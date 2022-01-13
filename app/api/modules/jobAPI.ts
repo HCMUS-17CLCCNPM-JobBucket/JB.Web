@@ -421,4 +421,20 @@ export const jobAPI = {
         id: id,
       },
     }),
+
+  update: (job) =>
+    axiosClient.post("/graphql", {
+      query: `
+          mutation updateJob ($updateJob: UpdateJobRequestInput!)  {
+            job{
+              update (job : $updateJob){ 
+                id
+              }
+            }
+          }
+    `,
+      variables: {
+        updateJob: job,
+      },
+    }),
 };

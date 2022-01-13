@@ -2,6 +2,7 @@ import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { jobAPI } from "app/api/modules/jobAPI";
+import { toast } from "react-toastify";
 
 export default function DeleteDialog({ id }) {
   let [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,7 @@ export default function DeleteDialog({ id }) {
     const res = await jobAPI.delete(id);
     if (res.status === 200) {
       closeModal();
-      alert("Delete Success");
+      toast("Delete Success");
     }
   };
   return (

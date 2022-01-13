@@ -5,14 +5,15 @@ import { jobAPI } from "app/api/modules/jobAPI";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await jobAPI.getJobByIdWithoutToken(parseInt(params.id));
-  if (res.status === 200) return { props: { ...res.data.data } };
+  if (res.status === 200) return { props: { ...res.data.data, id: params.id } };
   return {
     props: { id: params.id },
   };
 };
 
-export default function edit(props) {
+export default function Edit(props) {
   const data = {
+    id: parseInt(props.id),
     title: props.jobs[0].title,
     imageUrls: [],
     description: props.jobs[0].description,

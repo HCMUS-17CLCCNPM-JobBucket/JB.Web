@@ -9,6 +9,7 @@ import Select, { StylesConfig } from "react-select";
 import { DatePicker } from "antd";
 import locale from "antd/es/date-picker/locale/zh_CN";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 const config = {
   charCounterCount: true,
@@ -72,6 +73,7 @@ export default function editor(props) {
     { value: "Monthly", label: "Monthly" },
     { value: "Yearly", label: "Yearly" },
   ];
+  const [id, setID] = useState(props.id);
   const [salaryCurrency, setCurrency] = useState("");
   const [salaryDuration, setDuration] = useState("");
   const [description, setDescrip] = useState("");
@@ -169,6 +171,7 @@ export default function editor(props) {
     onSubmit: async (values) => {
       const dataToPost = {
         ...values,
+        id,
         salaryCurrency,
         salaryDuration,
         benefits,
@@ -179,18 +182,27 @@ export default function editor(props) {
         optionalRequirements,
         whyJoinUs,
       };
+      console.log(dataToPost);
 
-      // const imageRes: any = await imageAPI.uploadImage(imageFile);
-      const res = await jobAPI.add(
-        {
+      if (props.isEdit) {
+        const res = await jobAPI.update({
           ...dataToPost,
-          // imageUrl: imageRes.data.url,
-        },
-        user.token
-      );
-      console.log(res.status);
-      if (res.status === 200) alert("add job success");
-      router.push("/recruiter/jobs");
+        });
+        console.log(res.status);
+        if (res.status === 200) toast("update success");
+      } else {
+        // const imageRes: any = await imageAPI.uploadImage(imageFile);
+        const res = await jobAPI.add(
+          {
+            ...dataToPost,
+            // imageUrl: imageRes.data.url,
+          },
+          user.token
+        );
+        console.log(res.status);
+        if (res.status === 200) toast("add job success");
+        router.push("/recruiter/jobs");
+      }
     },
   });
   return (
