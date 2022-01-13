@@ -62,7 +62,7 @@ const customStyles = {
   }),
 };
 
-export default function editor(props) {
+export default function Editor(props) {
   const currencyoptions = [
     { value: "VND", label: "VND" },
     { value: "USD", label: "USD" },
@@ -182,25 +182,22 @@ export default function editor(props) {
         optionalRequirements,
         whyJoinUs,
       };
-      console.log(dataToPost);
 
       if (props.isEdit) {
         const res = await jobAPI.update({
           ...dataToPost,
         });
-        console.log(res.status);
-        if (res.status === 200) toast("update success");
+        if (res.status === 200) toast("Update success");
       } else {
-        // const imageRes: any = await imageAPI.uploadImage(imageFile);
+        const imageRes: any = await imageAPI.uploadImage(imageFile);
         const res = await jobAPI.add(
           {
             ...dataToPost,
-            // imageUrl: imageRes.data.url,
+            imageUrl: imageRes.data.url,
           },
           user.token
         );
-        console.log(res.status);
-        if (res.status === 200) toast("add job success");
+        if (res.status === 200) toast("Create job success");
         router.push("/recruiter/jobs");
       }
     },
