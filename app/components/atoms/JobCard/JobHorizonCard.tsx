@@ -75,7 +75,7 @@ export default function JobHorizonCard(props) {
             Posted <Moment fromNow date={props.createdDate} />
           </p>
         </div>
-        {user.user.roleId === 3 ? (
+        {user.user.roleId === 2 ? (
           <div>
             <button
               onClick={() =>

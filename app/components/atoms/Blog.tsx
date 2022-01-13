@@ -58,10 +58,10 @@ export default function Blog(props) {
           </div>
         )}
       </div>
-      <a
-        target="_blank"
-        rel="noreferrer"
-        href={"http://localhost:3000/blog/" + props.id}
+      <p
+      // target="_blank"
+      // rel="noreferrer"
+      // href={"http://localhost:3000/blog/" + props.id}
       >
         <img
           onClick={handleRedirect}
@@ -69,7 +69,7 @@ export default function Blog(props) {
           alt=""
           className="object-cover w-full mt-4 h-60 sm:h-80 bg-gray-500 rounded-md cursor-pointer"
         />
-      </a>
+      </p>
       <a
         target="_blank"
         rel="noreferrer"

@@ -25,10 +25,11 @@ export function EducationItem({ school, major, profession, status }) {
 }
 
 export function SkillButton({ skillName, level, onDelete }) {
+  const user = useUserInfo();
   return (
     <div className="px-4 py-1 rounded-full border border-blue-600 flex gap-2 items-center group">
       <p>{skillName + " (" + level + "/5) "}</p>
-      {onDelete !== null && (
+      {onDelete !== null && user.user.roleId === 1 && (
         <XIcon
           className="h-4 w-4 text-red-600 hidden group-hover:block cursor-pointer"
           onClick={onDelete}
