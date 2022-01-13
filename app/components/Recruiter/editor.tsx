@@ -193,7 +193,7 @@ export default function Editor(props) {
         const res = await jobAPI.add(
           {
             ...dataToPost,
-            imageUrl: imageRes.data.url,
+            imageUrls: [imageRes.data.url],
           },
           user.token
         );
