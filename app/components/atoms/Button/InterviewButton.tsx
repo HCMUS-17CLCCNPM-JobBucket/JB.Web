@@ -46,7 +46,6 @@ export default function InterviewButton(props) {
       }
     },
   });
-  console.log(temp);
   return (
     <>
       <div className="">

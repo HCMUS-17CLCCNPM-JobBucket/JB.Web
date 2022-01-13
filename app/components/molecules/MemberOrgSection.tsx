@@ -151,7 +151,7 @@ export default function MemberOrgSection({ company, refreshPage }) {
         <div className="p-8 shadow-lg rounded-lg">
           <div className="flex justify-between w-full">
             <p className="text-2xl font-semibold">Members</p>
-            {user.user.role === 3 && (
+            {user.user.roleId === 3 && (
               <AddNewMemDialog refreshPage={refreshPage} />
             )}
           </div>
