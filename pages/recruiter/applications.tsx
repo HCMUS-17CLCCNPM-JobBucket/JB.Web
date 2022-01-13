@@ -1,16 +1,11 @@
-import { jobAPI } from "app/api/modules/jobAPI";
-import RecruiterLayout from "app/components/layouts/RecruiterLayout";
-import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
-import { useUserInfo } from "app/utils/hooks";
 import UserAPI from "app/api/modules/userAPI";
-import ListEmpty from "app/components/atoms/ListEmpty";
-import moment from "moment";
-import Moment from "react-moment";
-import InterviewButton from "app/components/atoms/Button/SetScheduleInterviewButton";
-import SetScheduleInterviewButton from "app/components/atoms/Button/SetScheduleInterviewButton";
+import RecruiterLayout from "app/components/layouts/RecruiterLayout";
 import ApplicationInfinityScroll from "app/components/molecules/ApplicationInfinityScroll";
+import SelectJob from "app/components/molecules/SelectJob";
+import SelectApplicationStatus from "app/components/molecules/SelectApplicationStatus";
+import { useUserInfo } from "app/utils/hooks";
+import Head from "next/head";
+import React, { useEffect, useState } from "react";
 
 export default function RecruiterJob() {
   const user = useUserInfo();
@@ -18,17 +13,19 @@ export default function RecruiterJob() {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [jobId, setJobId] = useState(-1);
+  const [status, setStatus] = useState(0);
 
   useEffect(() => {
     setLoading(true);
-    UserAPI.getApplicants(user.user.id, page).then((res) => {
-      if (res.status === 200)
-        setApplicants([...applicants, ...res.data.data.jobApplications]);
+
+    UserAPI.getApplicants(user.user.id, { page, jobId, status }).then((res) => {
+      if (res.status === 200) setApplicants([...res.data.data.jobApplications]);
 
       setHasMore(res.data.data.jobApplications.length > 0);
       setLoading(false);
     });
-  }, [page]);
+  }, [page, jobId, status]);
 
   return (
     <RecruiterLayout>
@@ -36,6 +33,10 @@ export default function RecruiterJob() {
         <title>Applications | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <div className="flex gap-2 justify-end w-full">
+        <SelectApplicationStatus onChange={(val) => setStatus(val)} />
+        <SelectJob onChange={(val) => setJobId(val)} />
+      </div>
       <ApplicationInfinityScroll
         hasMore={hasMore}
         loading={loading}

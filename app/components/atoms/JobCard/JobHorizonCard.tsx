@@ -52,7 +52,7 @@ export default function JobHorizonCard(props) {
           worldwide, we provide software solutions for navigation, vehicle
           functions, autonomous driving, camera, and IoT features to the car
           marker. */}
-          {props.description}
+          {props.description || " No description"}
         </div>
 
         <div className="flex mt-2">

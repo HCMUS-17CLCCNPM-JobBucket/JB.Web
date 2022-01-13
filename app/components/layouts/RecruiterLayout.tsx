@@ -13,15 +13,15 @@ export default function RecruiterLayout(props) {
               name: "Jobs",
               active: router.pathname === "/recruiter/jobs",
               callback: () => router.push("/recruiter/jobs"),
-              number: "1",
+              // number: "1",
             },
             {
-              name: "Application",
+              name: "Applications",
               active: router.pathname === "/recruiter/applications",
               callback: () => router.push("/recruiter/applications"),
             },
             {
-              name: "Schedule",
+              name: "Schedules",
               active: router.pathname === "/recruiter/schedules",
               callback: () => router.push("/recruiter/schedules"),
             },

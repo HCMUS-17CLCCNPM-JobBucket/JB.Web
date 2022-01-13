@@ -1,4 +1,5 @@
 import { jobAPI } from "app/api/modules/jobAPI";
+import ApplicationStatus from "app/enums/ApplicationStatus";
 import { useUserInfo } from "app/utils/hooks";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -86,6 +87,9 @@ export default function ApplicationInfinityScroll({
                 />
                 <p className="text-blue-600 font-semibold">CV</p>
               </a>
+              <p className="text-red-600 font-semibold">
+                {ApplicationStatus[item.status]}
+              </p>
               <div className="flex gap-3 items-center justify-center">
                 <img
                   src={item.job.imageUrls[0]}

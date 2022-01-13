@@ -9,6 +9,7 @@ export default function Selector(props) {
     control: (provided) => ({
       ...provided,
       height: "40px",
+      minWidth: "200px",
       borderRadius: "0.5rem",
       border: "1px solid #D1D5DB",
     }),

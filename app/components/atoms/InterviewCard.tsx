@@ -44,8 +44,7 @@ export default function InterviewCard(props) {
           <p className="text-xl font-semibold w-52">{props.job.title}</p>
           {/* <p className="text-gray-500">{props.description}</p> */}
         </div>
-        <p>
-          Status:{" "}
+        <p className="font-semibold">
           {props.status === 0
             ? "Open"
             : props.status === 1
