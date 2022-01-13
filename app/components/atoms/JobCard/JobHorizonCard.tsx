@@ -11,7 +11,7 @@ import DeleteDialog from "app/components/Recruiter/DeleteDialog";
 
 export default function JobHorizonCard(props) {
   return (
-    <div className="job-horizon-card hover:shadow-lg relative">
+    <div className="job-horizon-card hover:shadow-lg relative w-full">
       <div className="job-horizon-card__header">
         <div className="flex justify-between">
           <Badge

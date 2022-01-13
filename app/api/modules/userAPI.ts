@@ -151,8 +151,8 @@ const UserAPI = {
     }),
   listEmployees: (page, keyword) =>
     axiosClient.post("/graphql", {
-      query: `query getProfileById {
-      profiles {
+      query: `query getProfileById($filter: ListUserProfileRequestInput) {
+      profiles(filter: $filter) {
         id
         userName
         skills {
@@ -160,6 +160,7 @@ const UserAPI = {
           level
         }
         name
+        city
         email
         awards
         introduction
@@ -190,8 +191,7 @@ const UserAPI = {
       }
     }`,
       variables: {
-        page: page,
-        keyword: keyword,
+        filter: { page, size: 10, keyword, roleId: 1 },
       },
     }),
 

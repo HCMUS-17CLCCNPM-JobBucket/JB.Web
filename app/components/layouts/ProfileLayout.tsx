@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { XIcon } from "@heroicons/react/solid";
+import { useUserInfo } from "app/utils/hooks";
 
 export function ExperienceItem({ company, position, duration, description }) {
   return (
@@ -38,6 +39,7 @@ export function SkillButton({ skillName, level, onDelete }) {
 }
 
 export default function ProfileLayout(props) {
+  const user = useUserInfo();
   return (
     <div className="px-20 py-10 flex flex-col gap-12">
       <Head>
@@ -56,13 +58,19 @@ export default function ProfileLayout(props) {
           <div className="flex justify-between">
             <div>
               <p className="text-4xl font-semibold">{props.profile.name}</p>
-              <p className="text-sm text-gray-400">
+              {/* <p className="text-sm text-gray-400">
                 Web Dev | Software Engineer
-              </p>
+              </p> */}
             </div>
-            <Link href="/profile/edit" passHref>
-              <button className="btn btn-primary w-40 h-10">Edit</button>
-            </Link>
+            {user.user.roleId === 1 ? (
+              <Link href="/profile/edit" passHref>
+                <button className="btn btn-primary w-40 h-10">Edit</button>
+              </Link>
+            ) : (
+              <Link href="/" passHref>
+                <button className="btn btn-primary w-40 h-10">CV</button>
+              </Link>
+            )}
           </div>
           <p className="mt-2 text-gray-600">{props.profile.introduction}</p>
         </div>

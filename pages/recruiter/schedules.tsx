@@ -18,16 +18,26 @@ export default function RecruiterJob() {
 
   useEffect(() => {
     setLoading(true);
+    interviewAPI.getListScheduleHr(user.user.id, { page }).then((res) => {
+      if (res.status === 200)
+        setApplicants([...applicants, ...res.data.data.interviews]);
+
+      setHasMore(res.data.data.interviews.length > 0);
+      setLoading(false);
+    });
+  }, [page, jobId, status]);
+
+  useEffect(() => {
+    setLoading(true);
     interviewAPI
-      .getListScheduleHr(user.user.id, { page, jobId, status })
+      .getListScheduleHr(user.user.id, { page: 0, jobId, status })
       .then((res) => {
         if (res.status === 200) setApplicants([...res.data.data.interviews]);
 
         setHasMore(res.data.data.interviews.length > 0);
         setLoading(false);
       });
-  }, [page, jobId, status]);
-
+  }, [jobId, status]);
   return (
     <RecruiterLayout>
       <Head>
@@ -44,7 +54,7 @@ export default function RecruiterJob() {
         schedules={applicants}
         setPage={() => setPage(page + 1)}
       />
-      <div className="h-[400px]"></div>
+      <div className="h-[300px]"></div>
     </RecruiterLayout>
   );
 }
