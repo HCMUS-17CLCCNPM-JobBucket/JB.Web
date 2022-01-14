@@ -4,12 +4,14 @@ import { CvAPI } from "app/api/modules/cvAPI";
 import { useSelector, useDispatch } from "react-redux";
 import router from "next/router";
 import { imageAPI } from "app/api/modules/imageAPI";
+import { toast } from "react-toastify";
 
 export default function AddCV() {
   let [isOpen, setIsOpen] = useState(false);
   const [cvName, setCvName] = useState("");
   const userToken = useSelector((state: any) => state.user);
   const cvInfo = useSelector((state: any) => state.cv);
+  const [url, setUrl] = useState(cvInfo.avatar);
   function closeModal() {
     setIsOpen(false);
   }
@@ -21,11 +23,14 @@ export default function AddCV() {
   const CreateCV = async () => {
     if (cvInfo.file != null) {
       const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
+      setUrl(imageRes.data.url)
+      console.log(url);
     }
+    // const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
     const cv = {
       cVName: cvName,
       name: cvInfo.name,
-      avatarUrl: cvInfo.avatar,
+      avatarUrl: url,
       email: cvInfo.email,
       phone: cvInfo.phonenumber,
       address: cvInfo.address,
@@ -45,9 +50,10 @@ export default function AddCV() {
     await CvAPI.add(cv, userToken.token).then((res) => {
       if (res.status === 200) {
         closeModal();
-        setTimeout(function () {
-          alert("Add success");
-        }, 100);
+        // setTimeout(function () {
+        //   toast("Add success");
+        // }, 100);
+        toast("Add success");
         router.push("/list-cv");
       }
     });

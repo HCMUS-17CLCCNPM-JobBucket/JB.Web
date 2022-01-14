@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { CvAPI } from "app/api/modules/cvAPI";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function DeleteCV({ index, callback }) {
   let [isOpen, setIsOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function DeleteCV({ index, callback }) {
     await CvAPI.delete(index, userToken.token).then((res) => {
       if (res.status === 200) {
         closeModal();
+        toast("Delete success");
         callback();
       }
     });

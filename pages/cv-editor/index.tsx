@@ -13,6 +13,7 @@ import { cvActions } from "app/redux/features/cv";
 import Review from "app/components/cv/reviewCv";
 import Create from "app/components/cv/dialog/addCV";
 import { imageAPI } from "app/api/modules/imageAPI";
+import { toast } from "react-toastify";
 
 export default function CvEditor() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
@@ -21,16 +22,18 @@ export default function CvEditor() {
   const isUpdate = useSelector((state: any) => state.cv.isUpdate);
   const userToken = useSelector((state: any) => state.user);
   const cvInfo = useSelector((state: any) => state.cv);
+  const [url, setUrl] = useState(cvInfo.avatar);
 
   const updateCV = async () => {
     if (cvInfo.file != null) {
       const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
+      setUrl(imageRes.data.url);
     }
     const cv = {
       cVName: cvInfo.cVName,
       id: cvInfo.id,
       name: cvInfo.name,
-      avatarUrl: cvInfo.avatar,
+      avatarUrl: url,
       email: cvInfo.email,
       phone: cvInfo.phonenumber,
       address: cvInfo.address,
@@ -49,7 +52,8 @@ export default function CvEditor() {
     };
     await CvAPI.update(cv, userToken.token).then((res) => {
       if (res.status === 200) {
-        alert("Change success");
+        console.log(cv);
+        toast("Change success");
       }
     });
   };
