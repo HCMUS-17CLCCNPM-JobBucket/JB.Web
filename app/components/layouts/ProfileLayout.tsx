@@ -124,8 +124,9 @@ export default function ProfileLayout(props) {
           )}
 
           {/* right */}
-          {props.profile.educations?.length > 0 && (
-            <div className="flex flex-col gap-8">
+
+          <div className="flex flex-col gap-8">
+            {props.profile.educations?.length > 0 && (
               <div>
                 <p className="text-2xl font-semibold text-blue-500">
                   Educations
@@ -140,32 +141,33 @@ export default function ProfileLayout(props) {
                     : "Updating..."}
                 </div>
               </div>
-              {props.profile.certifications.length > 0 && (
-                <div>
-                  <p className="text-2xl font-semibold text-blue-500">
-                    Certifications
-                  </p>
-                  <div className="mt-2 flex flex-col">
-                    {props.profile.certifications.map((item, index) => (
-                      <p key={index}>{item}</p>
-                    ))}
-                  </div>
+            )}
+
+            {props.profile.certifications.length > 0 && (
+              <div>
+                <p className="text-2xl font-semibold text-blue-500">
+                  Certifications
+                </p>
+                <div className="mt-2 flex flex-col">
+                  {props.profile.certifications.map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
                 </div>
-              )}
-              {props.profile.certifications.length > 0 && (
-                <div>
-                  <p className="text-2xl font-semibold text-blue-500">
-                    Activities
-                  </p>
-                  <div className="mt-2 flex flex-col">
-                    {props.profile.activities.map((item, index) => (
-                      <p key={index}>{item}</p>
-                    ))}
-                  </div>
+              </div>
+            )}
+            {props.profile.certifications.length > 0 && (
+              <div>
+                <p className="text-2xl font-semibold text-blue-500">
+                  Activities
+                </p>
+                <div className="mt-2 flex flex-col">
+                  {props.profile.activities.map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
