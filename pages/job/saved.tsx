@@ -1,25 +1,9 @@
 import { jobAPI } from "app/api/modules/jobAPI";
 import JobDashboard from "app/components/layouts/JobDashboard";
 import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
-import moment from "moment";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
-const localizer = momentLocalizer(moment);
-
-const MyCalendar = (props) => (
-  <div className="h-[500px]">
-    <Calendar
-      localizer={localizer}
-      // events={myEventsList}
-      startAccessor="start"
-      endAccessor="end"
-      className="w-[500px] h-[500px]"
-    />
-  </div>
-);
 
 export default function JobSaved() {
   const [jobs, setJobs] = useState([]);

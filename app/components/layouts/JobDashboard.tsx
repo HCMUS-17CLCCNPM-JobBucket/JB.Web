@@ -17,6 +17,11 @@ export default function JobDashboard(props) {
             active: router.pathname === "/job/applied",
             callback: () => router.push("/job/applied"),
           },
+          {
+            name: "Schedule",
+            active: router.pathname === "/job/schedule",
+            callback: () => router.push("/job/schedule"),
+          },
         ]}
       />
       <div className="mt-8">{props.children}</div>

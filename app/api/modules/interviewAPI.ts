@@ -53,6 +53,56 @@ const interviewAPI = {
         },
       },
     }),
+  getListScheduleEmployee: (intervieweeId, filters) =>
+    axiosClient.post("/graphql", {
+      query: `query listInterview($filter: ListInterviewRequestInput) {
+        interviews(filterRequest: $filter) {
+          id
+          jobId
+          intervieweeCVId
+          interviewerId
+          intervieweeId
+          description
+          interviewTime
+          status
+          job{
+            id
+            title
+          }
+          interviewer{
+            id
+            name
+            avatarUrl
+          }
+          interviewee{
+            id
+            name
+            avatarUrl
+          }
+          form {
+            overallRating
+            result
+            note
+            sections {
+              question
+              answer
+              note
+              rating
+            }
+          }
+        }
+      }
+      `,
+      variables: {
+        filter: {
+          ...filters,
+          size: 10,
+          // interviewerId,
+          intervieweeId,
+          //   status: 0,
+        },
+      },
+    }),
   add: (addInterview) =>
     axiosClient.post("/graphql", {
       query: `mutation addInterview($addInterview: AddInterviewRequestInput!){
