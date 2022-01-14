@@ -22,40 +22,64 @@ export default function CvEditor() {
   const isUpdate = useSelector((state: any) => state.cv.isUpdate);
   const userToken = useSelector((state: any) => state.user);
   const cvInfo = useSelector((state: any) => state.cv);
-  const [url, setUrl] = useState(cvInfo.avatar);
 
   const updateCV = async () => {
     if (cvInfo.file != null) {
       const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
-      setUrl(imageRes.data.url);
+      const cv = {
+        cVName: cvInfo.cVName,
+        id: cvInfo.id,
+        name: cvInfo.name,
+        avatarUrl: imageRes.data.url,
+        email: cvInfo.email,
+        phone: cvInfo.phonenumber,
+        address: cvInfo.address,
+        website: cvInfo.website,
+        github: cvInfo.github,
+        reference: cvInfo.reference,
+        gender: cvInfo.gender,
+        introduction: cvInfo.introduction,
+        birthdate: cvInfo.birthDate,
+        experiences: cvInfo.experience,
+        skills: cvInfo.skill,
+        educations: cvInfo.education,
+        activities: cvInfo.activity,
+        certifications: cvInfo.certification,
+        awards: cvInfo.award,
+      };
+      await CvAPI.update(cv, userToken.token).then((res) => {
+        if (res.status === 200) {
+          toast("Change success");
+        }
+      });
+    } else {
+      const cv = {
+        cVName: cvInfo.cVName,
+        id: cvInfo.id,
+        name: cvInfo.name,
+        avatarUrl: cvInfo.avatar,
+        email: cvInfo.email,
+        phone: cvInfo.phonenumber,
+        address: cvInfo.address,
+        website: cvInfo.website,
+        github: cvInfo.github,
+        reference: cvInfo.reference,
+        gender: cvInfo.gender,
+        introduction: cvInfo.introduction,
+        birthdate: cvInfo.birthDate,
+        experiences: cvInfo.experience,
+        skills: cvInfo.skill,
+        educations: cvInfo.education,
+        activities: cvInfo.activity,
+        certifications: cvInfo.certification,
+        awards: cvInfo.award,
+      };
+      await CvAPI.update(cv, userToken.token).then((res) => {
+        if (res.status === 200) {
+          toast("Change success");
+        }
+      });
     }
-    const cv = {
-      cVName: cvInfo.cVName,
-      id: cvInfo.id,
-      name: cvInfo.name,
-      avatarUrl: url,
-      email: cvInfo.email,
-      phone: cvInfo.phonenumber,
-      address: cvInfo.address,
-      website: cvInfo.website,
-      github: cvInfo.github,
-      reference: cvInfo.reference,
-      gender: cvInfo.gender,
-      introduction: cvInfo.introduction,
-      birthdate: cvInfo.birthDate,
-      experiences: cvInfo.experience,
-      skills: cvInfo.skill,
-      educations: cvInfo.education,
-      activities: cvInfo.activity,
-      certifications: cvInfo.certification,
-      awards: cvInfo.award,
-    };
-    await CvAPI.update(cv, userToken.token).then((res) => {
-      if (res.status === 200) {
-        console.log(cv);
-        toast("Change success");
-      }
-    });
   };
 
   return (
