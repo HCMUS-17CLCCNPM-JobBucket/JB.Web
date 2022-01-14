@@ -44,7 +44,7 @@ export default function InterviewCard(props) {
           <p className="text-xl font-semibold w-52">{props.job.title}</p>
           {/* <p className="text-gray-500">{props.description}</p> */}
         </div>
-        <p className="font-semibold">
+        <p className="font-semibold text-xl">
           {props.status === 0
             ? "Open"
             : props.status === 1
@@ -55,7 +55,7 @@ export default function InterviewCard(props) {
           Created at{" "}
           <Moment format="ddd DD/MM/yyyy">{props.interviewTime}</Moment>
         </p>
-        <InterviewButton {...props} />
+        {user.user.roleId === 2 && <InterviewButton {...props} />}
       </div>
     </div>
   );

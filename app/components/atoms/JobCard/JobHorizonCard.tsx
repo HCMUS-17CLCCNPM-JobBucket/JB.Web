@@ -18,7 +18,7 @@ export default function JobHorizonCard(props) {
       <div className="job-horizon-card__header">
         <div className="flex justify-between">
           <Badge
-            content={props.categories.length !== 0 && props.categories[0].name}
+            content={props.categories.length > 0 && props.categories[0].name}
           />
           {moment(props.createdDate).diff(moment(), "days") * -1 <= 3 && (
             <Badge content="New for you" type="new" />
@@ -32,7 +32,7 @@ export default function JobHorizonCard(props) {
             <div>
               <a href={"/job/" + props.id} target="_blank" rel="noreferrer">
                 <p>
-                  {props.title} -{" "}
+                  {props.title}
                   <span className="text-red-500">
                     {/* {props.types !== undefined && props.types[0].name} */}
                   </span>
@@ -48,7 +48,12 @@ export default function JobHorizonCard(props) {
             />
           </div>
         </div>
-        <div className="job-horizon-card__desc line-clamp">
+        <div
+          dangerouslySetInnerHTML={{
+            __html: props.description || " No description",
+          }}
+          className="job-horizon-card__desc line-clamp"
+        >
           {/* Bosch Car Multimedia team is looking for full-time HMI Engineers
           working at Ho Chi Minh City, Vietnam. The CM team develops
           high-quality, state-of-the-art Automotive Head Unit and Home Appliance
@@ -56,7 +61,6 @@ export default function JobHorizonCard(props) {
           worldwide, we provide software solutions for navigation, vehicle
           functions, autonomous driving, camera, and IoT features to the car
           marker. */}
-          {props.description || " No description"}
         </div>
 
         <div className="flex mt-2">

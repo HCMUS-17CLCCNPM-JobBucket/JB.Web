@@ -73,6 +73,8 @@ export default function ProfileLayout(props) {
               </Link>
             )}
           </div>
+          <p className="text-lg">{props.profile.email}</p>
+
           <p className="mt-2 text-gray-600">{props.profile.introduction}</p>
         </div>
       </div>
