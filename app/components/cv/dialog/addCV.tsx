@@ -4,6 +4,7 @@ import { CvAPI } from "app/api/modules/cvAPI";
 import { useSelector, useDispatch } from "react-redux";
 import router from "next/router";
 import { imageAPI } from "app/api/modules/imageAPI";
+import { toast } from "react-toastify";
 
 export default function AddCV() {
   let [isOpen, setIsOpen] = useState(false);
@@ -21,36 +22,76 @@ export default function AddCV() {
   const CreateCV = async () => {
     if (cvInfo.file != null) {
       const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
+      const cv = {
+        cVName: cvName,
+        name: cvInfo.name,
+        avatarUrl: imageRes.data.url,
+        email: cvInfo.email,
+        phone: cvInfo.phonenumber,
+        address: cvInfo.address,
+        website: cvInfo.website,
+        github: cvInfo.github,
+        reference: cvInfo.reference,
+        gender: cvInfo.gender,
+        introduction: cvInfo.introduction,
+        birthdate: cvInfo.birthDate,
+        experiences: cvInfo.experience,
+        skills: cvInfo.skill,
+        educations: cvInfo.education,
+        activities: cvInfo.activity,
+        certifications: cvInfo.certification,
+        awards: cvInfo.award,
+      };
+      await CvAPI.add(cv, userToken.token).then((res) => {
+        if (res.data.errors) {
+          closeModal();
+          toast(res.data.errors[0].message, { type: "warning" });
+          router.push("/list-cv");
+        } else {
+          closeModal();
+          // setTimeout(function () {
+          //   toast("Add success");
+          // }, 100);
+          toast("Add success");
+          router.push("/list-cv");
+        }
+      });
+    } else {
+      const cv = {
+        cVName: cvName,
+        name: cvInfo.name,
+        avatarUrl: cvInfo.avatar,
+        email: cvInfo.email,
+        phone: cvInfo.phonenumber,
+        address: cvInfo.address,
+        website: cvInfo.website,
+        github: cvInfo.github,
+        reference: cvInfo.reference,
+        gender: cvInfo.gender,
+        introduction: cvInfo.introduction,
+        birthdate: cvInfo.birthDate,
+        experiences: cvInfo.experience,
+        skills: cvInfo.skill,
+        educations: cvInfo.education,
+        activities: cvInfo.activity,
+        certifications: cvInfo.certification,
+        awards: cvInfo.award,
+      };
+      await CvAPI.add(cv, userToken.token).then((res) => {
+        if (res.data.errors) {
+          closeModal();
+          toast(res.data.errors[0].message, { type: "warning" });
+          router.push("/list-cv");
+        } else {
+          closeModal();
+          // setTimeout(function () {
+          //   toast("Add success");
+          // }, 100);
+          toast("Add success");
+          router.push("/list-cv");
+        }
+      });
     }
-    const cv = {
-      cVName: cvName,
-      name: cvInfo.name,
-      avatarUrl: cvInfo.avatar,
-      email: cvInfo.email,
-      phone: cvInfo.phonenumber,
-      address: cvInfo.address,
-      website: cvInfo.website,
-      github: cvInfo.github,
-      reference: cvInfo.reference,
-      gender: cvInfo.gender,
-      introduction: cvInfo.introduction,
-      birthdate: cvInfo.birthDate,
-      experiences: cvInfo.experience,
-      skills: cvInfo.skill,
-      educations: cvInfo.education,
-      activities: cvInfo.activity,
-      certifications: cvInfo.certification,
-      awards: cvInfo.award,
-    };
-    await CvAPI.add(cv, userToken.token).then((res) => {
-      if (res.status === 200) {
-        closeModal();
-        setTimeout(function () {
-          alert("Add success");
-        }, 100);
-        router.push("/list-cv");
-      }
-    });
   };
 
   return (

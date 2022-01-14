@@ -9,6 +9,7 @@ import DeleteDialog from "app/components/cv/dialog/deleteCV";
 import { Dialog, Transition } from "@headlessui/react";
 import dynamic from "next/dynamic";
 import Download from "app/components/cv/dialog/download";
+import ListEmpty from "app/components/atoms/ListEmpty";
 // import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
 // import MyDoc from "app/components/cv/mydoc";
 
@@ -93,7 +94,7 @@ export default function ListCv() {
   return (
     <>
       {loadingTrans && <LoadingTransition></LoadingTransition>}
-      <div className="px-16 py-4 flex flex-col">
+      <div className="px-16 py-4 flex flex-col min-h-screen">
         <div className="mb-4">
           <button
             onClick={() => createCv()}
@@ -103,42 +104,49 @@ export default function ListCv() {
           </button>
         </div>
         {loading && <Loading></Loading>}
-        {myCv.map((data, index) => (
-          <div className="job-horizon-card mb-4" key={index}>
-            <div className="job-horizon-card__header">
-              <div className="job-horizon-card__company">
-                <div className="flex justify-between w-full">
-                  <div onClick={() => toReview(data.id)}>
-                    <p className="m-0">{data.cVName}</p>
-                  </div>
-                  <div className="flex">
-                    <button className="mr-2" onClick={() => toEditor(data.id)}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+        {myCv.length === 0 && loading === false ? (
+          <ListEmpty message="List CV empty" />
+        ) : (
+          myCv.map((data, index) => (
+            <div className="job-horizon-card mb-4" key={index}>
+              <div className="job-horizon-card__header">
+                <div className="job-horizon-card__company">
+                  <div className="flex justify-between w-full">
+                    <div onClick={() => toReview(data.id)}>
+                      <p className="m-0">{data.cVName}</p>
+                    </div>
+                    <div className="flex">
+                      <button
+                        className="mr-2"
+                        onClick={() => toEditor(data.id)}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                        />
-                      </svg>
-                    </button>
-                    <Download index={data.id}></Download>
-                    <DeleteDialog
-                      index={data.id}
-                      callback={handleCallback}
-                    ></DeleteDialog>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
+                        </svg>
+                      </button>
+                      <Download index={data.id}></Download>
+                      <DeleteDialog
+                        index={data.id}
+                        callback={handleCallback}
+                      ></DeleteDialog>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
       <div>
         <Transition appear show={isOpen} as={Fragment}>
