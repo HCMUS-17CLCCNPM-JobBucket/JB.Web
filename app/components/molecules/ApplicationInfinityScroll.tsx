@@ -10,6 +10,7 @@ import JobHorizonCard from "../atoms/JobCard/JobHorizonCard";
 import ListEmpty from "../atoms/ListEmpty";
 import Loading from "../atoms/Loading";
 import LoadingFullPage from "./LoadingFullPage";
+import ApplicationCV from "app/components/cv/reviewCv/applicationCV";
 
 export default function ApplicationInfinityScroll({
   hasMore,
@@ -73,8 +74,8 @@ export default function ApplicationInfinityScroll({
                   <div className="flex text-gray-400">{item.user.email}</div>
                 </div>
               </div>
-
-              <a
+              <ApplicationCV id={item.cVId}></ApplicationCV>
+              {/* <a
                 href={item.cVPDFUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -86,7 +87,7 @@ export default function ApplicationInfinityScroll({
                   className="h-10 w-10 rounded-lg object-cover"
                 />
                 <p className="text-blue-600 font-semibold">CV</p>
-              </a>
+              </a> */}
               <p className="text-red-600 font-semibold">
                 {ApplicationStatus[item.status]}
               </p>
