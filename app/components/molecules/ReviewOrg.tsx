@@ -1,16 +1,20 @@
 import reviewAPI from "app/api/modules/reviewAPI";
 import React, { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
+import ListEmpty from "../atoms/ListEmpty";
+import Loading from "../atoms/Loading";
 import ReviewItem from "../atoms/ReviewItem";
 import ReviewSection from "./ReviewSection";
 
 export default function ReviewOrg({ companyId, setRatingPercent }) {
   const [reviews, setReviews] = useState([]);
-  const [page, setPage] = useState(1);
   const user = useSelector((state: any) => state.user);
   const [status, setStatus] = useState({
+    page: 1,
     loading: false,
     refresh: false,
+    hasMore: true,
   });
 
   useEffect(() => {
@@ -18,7 +22,7 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
       ...status,
       loading: true,
     });
-    reviewAPI.getReviewByCompany(companyId, page).then((res) => {
+    reviewAPI.getReviewByCompany(companyId, status.page).then((res) => {
       setReviews(res.data.data.reviews.reviewResponses);
       setRatingPercent({
         data: res.data.data.reviews.ratingPercentages,
@@ -29,7 +33,7 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
       ...status,
       loading: false,
     });
-  }, [status.refresh]);
+  }, [status.refresh, status.page]);
 
   const handleRefresh = () =>
     setStatus({
@@ -37,6 +41,12 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
       refresh: !status.refresh,
     });
 
+  const fetchMoreData = () => {
+    setStatus({
+      ...status,
+      page: status.page + 1,
+    });
+  };
   return (
     <div className="p-8 shadow-lg rounded-lg mt-4 flex flex-col gap-8">
       <ReviewSection companyId={companyId} callback={handleRefresh} />
@@ -53,6 +63,30 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
               isAuthor={review.user.id === user.user.id}
             />
           ))}
+          {status.loading ? (
+            <Loading />
+          ) : reviews.length === 0 && status.loading === false ? (
+            <ListEmpty message="No result match" />
+          ) : (
+            <InfiniteScroll
+              dataLength={reviews.length}
+              next={fetchMoreData}
+              hasMore={status.hasMore}
+              loader={<Loading />}
+              scrollableTarget="scrollableDiv"
+              className="flex flex-col gap-4 p-4 min-h-40 w-full"
+            >
+              {reviews.map((item, index) => (
+                <ReviewItem
+                  key={index}
+                  {...item}
+                  callback={handleRefresh}
+                  isAuthor={item.user.id === user.user.id}
+                />
+              ))}
+            </InfiniteScroll>
+          )}
+          {/* {!hasMore && <p className="text-center">No more data</p>} */}
         </div>
       </div>
     </div>
