@@ -59,6 +59,7 @@ export default function MyBlog() {
           loading={loading}
           blogs={jobs}
           setPage={() => setPage(page + 1)}
+          refreshData={null}
         />
       </div>
     </div>

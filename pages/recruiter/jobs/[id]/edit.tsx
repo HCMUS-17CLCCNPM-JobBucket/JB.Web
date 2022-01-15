@@ -12,18 +12,19 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function Edit(props) {
+  console.log(props);
   const data = {
     id: parseInt(props.id),
     title: props.jobs[0].title,
-    imageUrls: [],
+    imageUrls: props.jobs[0].imageUrls,
     description: props.jobs[0].description,
     priority: 0, // 0: low, 1: medium, 2: high
     addresses: props.jobs[0].addresses,
     cities: props.jobs[0].cities,
     minSalary: props.jobs[0].minSalary,
     maxSalary: props.jobs[0].maxSalary,
-    salaryCurrency: "",
-    salaryDuration: "",
+    salaryCurrency: props.jobs[0].salaryCurrency,
+    salaryDuration: props.jobs[0].salaryDuration,
     skillIds: [],
     positionIds: [],
     typeIds: [],
@@ -43,7 +44,7 @@ export default function Edit(props) {
   };
   return (
     <RecruiterLayout>
-      <Editor isEdit {...data}></Editor>
+      <Editor isEdit {...props.jobs[0]}></Editor>
     </RecruiterLayout>
   );
 }
