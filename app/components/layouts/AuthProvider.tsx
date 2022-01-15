@@ -12,7 +12,7 @@ import LoadingFullPage from "../molecules/LoadingFullPage";
 export default function AuthProvider(props) {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchInfo = async () => {
