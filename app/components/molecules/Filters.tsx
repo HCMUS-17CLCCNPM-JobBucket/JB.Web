@@ -83,6 +83,7 @@ export default function Filters({ filters, callback }) {
     if (value.length === 0) {
       setSelectedFilter({
         ...selectedFilter,
+        page: 1,
         [section.name.toLowerCase()]: [],
       });
       return;
