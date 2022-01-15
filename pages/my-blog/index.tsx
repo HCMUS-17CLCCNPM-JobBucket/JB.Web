@@ -29,6 +29,7 @@ export default function MyBlog() {
   const [jobs, setJobs] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [page, setPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   //call api to get saved jobs
   useEffect(() => {
@@ -48,7 +49,7 @@ export default function MyBlog() {
         setHasMore(res.data.data.blogs.length > 0);
       });
     }
-  }, [page]);
+  }, [page, refresh]);
   return (
     <div className="px-16 w-full">
       <Head>
@@ -61,6 +62,7 @@ export default function MyBlog() {
           loading={loading}
           blogs={jobs}
           setPage={() => setPage(page + 1)}
+          refreshData={() => setRefresh(!refresh)}
         />
       </div>
     </div>

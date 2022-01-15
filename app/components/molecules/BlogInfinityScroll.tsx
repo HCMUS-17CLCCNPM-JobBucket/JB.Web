@@ -13,6 +13,7 @@ export default function BlogInfinityScroll({
   loading,
   blogs,
   setPage,
+  refreshData,
 }) {
   const [isLoading, setIsLoading] = useState(loading);
   const [jobValues, setJobValues] = useState(blogs);
@@ -49,7 +50,7 @@ export default function BlogInfinityScroll({
           className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full min-h-40 "
         >
           {blogs.map((item, index) => (
-            <Blog key={index} {...item} />
+            <Blog key={index} {...item} refreshData={refreshData} />
           ))}
         </InfiniteScroll>
       )}

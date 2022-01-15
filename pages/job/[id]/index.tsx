@@ -22,6 +22,7 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function JobDetail(props) {
+  console.log(props);
   const [isExpired, setIsExpired] = useState(false);
   const [jobStatus, setJobStatus] = useState({
     isJobInterested: false,
@@ -55,7 +56,9 @@ export default function JobDetail(props) {
         className="h-52 w-full rounded-lg"
       />
       <div className="mt-3"></div>
-      <Badge content={jobInfo?.categories[0].name} />
+      {jobInfo.categories.length > 0 && (
+        <Badge content={jobInfo?.categories[0].name} />
+      )}
       <div className="mt-1 lg:flex lg:items-center lg:justify-between">
         <div className="flex gap-4">
           <img
@@ -66,8 +69,13 @@ export default function JobDetail(props) {
 
           <div className="flex-1 min-w-0">
             <span className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-              {jobInfo?.title} -{" "}
-              <span className="text-red-500">{jobInfo?.types[0].name}</span>
+              {jobInfo?.title}
+              {jobInfo?.types.length > 0 && (
+                <span className="text-red-500">
+                  {" "}
+                  - {jobInfo?.types[0].name}
+                </span>
+              )}
             </span>
             <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
               <div className="mt-2 flex items-center text-sm text-gray-500">
@@ -217,15 +225,27 @@ export default function JobDetail(props) {
         <div className="flex-1 flex flex-col gap-4">
           <div className="mt-4">
             <p className="text-xl font-semibold">Benefits</p>
-            <div>{jobInfo?.benefits || "No benefits"}</div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: jobInfo.benefits || " No benefits",
+              }}
+            ></div>
           </div>
           <div className="">
             <p className="text-xl font-semibold">Description</p>
-            <div>{jobInfo?.description || "No description"}</div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: jobInfo.description || " No description",
+              }}
+            ></div>
           </div>
           <div className="">
             <p className="text-xl font-semibold">Requirements</p>
-            <div>{jobInfo?.requirements || "No requirements"}</div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: jobInfo.description || " No requirements",
+              }}
+            ></div>
           </div>
           <div className="">
             <p className="text-xl font-semibold">Skills</p>
@@ -240,7 +260,7 @@ export default function JobDetail(props) {
           <div className="w-full border border-gray-200 rounded-lg p-4">
             <div className="flex gap-2 items-center mb-4">
               <img
-                src={jobInfo.imageUrls[0]}
+                src={jobInfo.imageUrls[0] || "/company.png"}
                 alt=""
                 className="rounded-md h-10 w-10 object-cover border border-gray-200"
               />
