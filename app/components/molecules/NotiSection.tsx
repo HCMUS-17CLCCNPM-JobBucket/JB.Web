@@ -12,6 +12,7 @@ export default function Notify() {
       const res = await notiAPI.getAll();
       setNoti(res.data.data.notifications);
     };
+    fetchNoti();
   }, []);
   return (
     <div className=" ">
