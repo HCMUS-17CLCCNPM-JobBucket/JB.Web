@@ -1,6 +1,6 @@
 import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
 import { blogAPI } from "app/api/modules/blogAPI";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -10,6 +10,16 @@ export default function LikeButton(props) {
 
   const [isInterested, setIsInterested] = useState(props.isInterested);
   const [interestCount, setInterestCount] = useState(props.interestCount);
+
+  useEffect(() => {
+    if (props.isInterested !== isInterested) {
+      setIsInterested(props.isInterested);
+    }
+    if (props.interestCount !== interestCount) {
+      setInterestCount(props.interestCount);
+    }
+  }, [props.isInterested, props.interestCount]);
+
   const handleLike = async () => {
     if (user.token !== "")
       if (props.type === "comment") {

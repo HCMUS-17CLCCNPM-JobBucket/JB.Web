@@ -18,22 +18,41 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
   });
 
   useEffect(() => {
-    setStatus({
-      ...status,
-      loading: true,
-    });
-    reviewAPI.getReviewByCompany(companyId, status.page).then((res) => {
-      setReviews(res.data.data.reviews.reviewResponses);
-      setRatingPercent({
-        data: res.data.data.reviews.ratingPercentages,
-        total: res.data.data.reviews.reviewResponses.length,
+    if (status.page > 1) {
+      // setStatus({
+      //   ...status,
+      //   loading: true,
+      // });
+      reviewAPI.getReviewByCompany(companyId, status.page).then((res) => {
+        setReviews([...reviews, ...res.data.data.reviews.reviewResponses]);
+        setStatus({
+          ...status,
+          // loading: false,
+          hasMore: res.data.data.reviews.reviewResponses > 0,
+        });
       });
-    });
-    setStatus({
-      ...status,
-      loading: false,
-    });
-  }, [status.refresh, status.page]);
+    }
+  }, [status.page]);
+
+  useEffect(() => {
+    if (status.page === 1) {
+      setStatus({
+        ...status,
+        loading: true,
+      });
+      reviewAPI.getReviewByCompany(companyId, 1).then((res) => {
+        setReviews(res.data.data.reviews.reviewResponses);
+        setRatingPercent({
+          data: res.data.data.reviews.ratingPercentages,
+          total: res.data.data.reviews.reviewResponses.length,
+        });
+      });
+      setStatus({
+        ...status,
+        loading: false,
+      });
+    }
+  }, [status.refresh]);
 
   const handleRefresh = () =>
     setStatus({
@@ -55,14 +74,14 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
       <div className="">
         <p className="text-xl font-semibold">{reviews.length} reviews</p>
         <div className="flex flex-col gap-8 mt-8">
-          {reviews.map((review, index) => (
+          {/* {reviews.map((review, index) => (
             <ReviewItem
               key={index}
               {...review}
               callback={handleRefresh}
               isAuthor={review.user.id === user.user.id}
             />
-          ))}
+          ))} */}
           {status.loading ? (
             <Loading />
           ) : reviews.length === 0 && status.loading === false ? (

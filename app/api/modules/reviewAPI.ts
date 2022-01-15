@@ -35,7 +35,11 @@ const reviewAPI = {
           content
           interestCount
           user{
-            id name avatarUrl userName email
+            id 
+            name 
+            avatarUrl 
+            userName 
+            email
           }
           userId
           createdDate

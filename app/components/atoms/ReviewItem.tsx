@@ -6,7 +6,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/solid";
 import reviewAPI from "app/api/modules/reviewAPI";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { toast } from "react-toastify";
 import RatingComponent from "../atoms/RatingComponent";
@@ -136,6 +136,19 @@ export default function ReviewItem(props) {
     isInterested: props.isInterested,
     interestCount: props.interestCount,
   });
+
+  useEffect(() => {
+    if (
+      props.isInterested !== status.isInterested &&
+      props.interestCount !== status.interestCount
+    ) {
+      setStatus({
+        isInterested: props.isInterested,
+        interestCount: props.interestCount,
+      });
+    }
+  }, [props.isInterested, props.interestCount]);
+
   const handleLike = async () => {
     const res = await reviewAPI.likeReview(props.id);
     setStatus({
@@ -278,7 +291,7 @@ export default function ReviewItem(props) {
                   <DotsVerticalIcon className="h-8 w-8 p-2 rounded-full hover:bg-gray-200" />
                 </Popover.Button>
 
-                <Popover.Panel className="absolute z-10 w-[200px] bg-white">
+                <Popover.Panel className="fixed z-50 w-[200px] bg-white">
                   <div className="flex flex-col gap-2  rounded-lg shadow-lg p-1">
                     <PopoverItem
                       icon={<PencilIcon className="w-4 h-4" />}
