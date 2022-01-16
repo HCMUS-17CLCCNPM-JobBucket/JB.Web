@@ -76,13 +76,15 @@ export default function Editor(props) {
   const [id, setID] = useState(props.id);
   const [salaryCurrency, setCurrency] = useState("");
   const [salaryDuration, setDuration] = useState("");
-  const [description, setDescrip] = useState("");
-  const [benefits, setBenefit] = useState("");
-  const [experiences, setExpe] = useState("");
-  const [responsibilities, setRespons] = useState("");
-  const [requirements, setRequire] = useState("");
-  const [optionalRequirements, setOrequire] = useState("");
-  const [whyJoinUs, setWhyjoin] = useState("");
+  const [description, setDescrip] = useState(props.description);
+  const [benefits, setBenefit] = useState(props.benefits);
+  const [experiences, setExpe] = useState(props.experiences);
+  const [responsibilities, setRespons] = useState(props.responsibilities);
+  const [requirements, setRequire] = useState(props.requirements);
+  const [optionalRequirements, setOrequire] = useState(
+    props.optionalRequirements
+  );
+  const [whyJoinUs, setWhyjoin] = useState(props.whyJoinUs);
   const [skills, setSkills] = useState([]);
   const [positions, setPositions] = useState([]);
   const [types, setTypes] = useState([]);
@@ -91,7 +93,9 @@ export default function Editor(props) {
   const [isUploadImg, setIsUploadImg] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
+  const expireDate = moment(props.expireDate);
   const [value, setValue] = useState({});
+  const [loadSkill, setLSkill] = useState<any>([]);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
@@ -106,6 +110,7 @@ export default function Editor(props) {
   };
 
   useEffect(() => {
+    console.log(props);
     const fetchData = async () => {
       console.log(props);
       const response = await jobAPI.getJobProperties();
@@ -114,6 +119,20 @@ export default function Editor(props) {
           response.data.data.jobProperties.skills.map((skill) => ({
             value: skill.id,
             label: skill.name,
+          }))
+        );
+        for (let i = 0; i < props.positions.length; i++) {
+          const temp = response.data.data.jobProperties.positions.find(
+            (x) => x.id == props.positions[i].id
+          );
+          let temp1 = loadSkill
+          setLSkill(temp1.push(temp));
+          
+        }
+        console.log(
+          loadSkill.map((position) => ({
+            value: position.id,
+            label: position.name,
           }))
         );
         setPositions(
@@ -138,6 +157,7 @@ export default function Editor(props) {
     };
     fetchData();
   }, []);
+  console.log(loadSkill);
 
   const formik = useFormik({
     initialValues: {
@@ -157,13 +177,13 @@ export default function Editor(props) {
       categoryIds: props.categoryIds,
       isVisaSponsorship: props.isVisaSponsorship,
       expireDate: props.expireDate,
-      benefits: props.benefits,
-      experiences: props.experiences,
-      responsibilities: props.responsibilities,
-      requirements: props.requirements,
-      optionalRequirements: props.optionalRequirements,
+      benefits: benefits,
+      experiences: experiences,
+      responsibilities: responsibilities,
+      requirements: requirements,
+      optionalRequirements: optionalRequirements,
       cultures: props.cultures,
-      whyJoinUs: props.whyJoinUs,
+      whyJoinUs: whyJoinUs,
       numberEmployeesToApplied: props.numberEmployeesToApplied,
       jobForm: props.jobForm,
       gender: props.gender,
@@ -287,20 +307,46 @@ export default function Editor(props) {
         <label>Salary</label>
         <div className="flex gap-4">
           <div className="w-80">
-            <Select
-              styles={customStyles}
-              options={currencyoptions}
-              placeholder="Currency"
-              onChange={(value) => setCurrency(value.value)}
-            />
+            {props.isEdit ? (
+              <Select
+                defaultValue={{
+                  value: formik.values.salaryCurrency,
+                  label: formik.values.salaryCurrency,
+                }}
+                styles={customStyles}
+                options={currencyoptions}
+                placeholder="Currency"
+                onChange={(value) => setCurrency(value.value)}
+              />
+            ) : (
+              <Select
+                styles={customStyles}
+                options={currencyoptions}
+                placeholder="Currency"
+                onChange={(value) => setCurrency(value.value)}
+              />
+            )}
           </div>
           <div className="w-80">
-            <Select
-              styles={customStyles}
-              options={durationoptions}
-              placeholder="Duration"
-              onChange={(value) => setDuration(value.value)}
-            />
+            {props.isEdit ? (
+              <Select
+                defaultValue={{
+                  value: formik.values.salaryDuration,
+                  label: formik.values.salaryDuration,
+                }}
+                styles={customStyles}
+                options={durationoptions}
+                placeholder="Duration"
+                onChange={(value) => setDuration(value.value)}
+              />
+            ) : (
+              <Select
+                styles={customStyles}
+                options={durationoptions}
+                placeholder="Duration"
+                onChange={(value) => setDuration(value.value)}
+              />
+            )}
           </div>
         </div>
         <div className="flex flex-col w-80">
@@ -329,6 +375,10 @@ export default function Editor(props) {
       <div className="flex flex-col">
         <label>Positions</label>
         <Select
+          // value={loadSkill.map((position) => ({
+          //   value: position.id,
+          //   label: position.name,
+          // }))}
           styles={customStyles}
           placeholder="Positions"
           isMulti
@@ -368,15 +418,27 @@ export default function Editor(props) {
       </div>
       <div className="w-80 flex flex-col">
         <label className="text-gray-700">Expire date</label>
-        <DatePicker
-          onChange={(value) => handleChangeExpire(value)}
-          format="DD-MM-YYYY"
-          style={{ borderRadius: "0.5rem" }}
-          size="large"
-          disabledDate={(current) => {
-            return current && current <= moment().subtract(1, "day");
-          }}
-        ></DatePicker>
+        {props.isEdit ? (
+          <DatePicker
+            defaultValue={expireDate}
+            format="DD-MM-YYYY"
+            style={{ borderRadius: "0.5rem" }}
+            size="large"
+            disabledDate={(current) => {
+              return current && current <= moment().subtract(1, "day");
+            }}
+          ></DatePicker>
+        ) : (
+          <DatePicker
+            onChange={(value) => handleChangeExpire(value)}
+            format="DD-MM-YYYY"
+            style={{ borderRadius: "0.5rem" }}
+            size="large"
+            disabledDate={(current) => {
+              return current && current <= moment().subtract(1, "day");
+            }}
+          ></DatePicker>
+        )}
       </div>
       <div className="flex flex-col ">
         <label htmlFor="gender" className="text-gray-700">
@@ -385,7 +447,7 @@ export default function Editor(props) {
         <div className="w-full py-2 text-base">
           <label className="inline-flex items-center">
             <input
-              // checked={cv.gender == "Male"}
+              checked={formik.values.gender == "Male"}
               type="radio"
               name="gender"
               value="Male"
@@ -395,7 +457,7 @@ export default function Editor(props) {
           </label>
           <label className="inline-flex items-center ml-6">
             <input
-              // checked={cv.gender == "Female"}
+              checked={formik.values.gender == "Female"}
               type="radio"
               name="gender"
               value="Female"
@@ -412,7 +474,7 @@ export default function Editor(props) {
         <div className="w-full py-2 text-base">
           <label className="inline-flex items-center">
             <input
-              // checked={cv.gender == "Male"}
+              checked={(formik.values.isVisaSponsorship = true)}
               type="radio"
               name="visa"
               onChange={(e) => (formik.values.isVisaSponsorship = true)}
@@ -421,7 +483,7 @@ export default function Editor(props) {
           </label>
           <label className="inline-flex items-center ml-6">
             <input
-              // checked={cv.gender == "Female"}
+              checked={(formik.values.isVisaSponsorship = false)}
               type="radio"
               name="visa"
               onChange={(e) => (formik.values.isVisaSponsorship = false)}

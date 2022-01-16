@@ -138,37 +138,66 @@ export const jobAPI = {
         query Job($id: Int) {
           jobs(id: $id) {
             id
-            title
-            organization {
-              name
-              id
-              addresses
-            }
-            types{
-              name
-            }
-            addresses
-            views
-            jobForm
-            expireDate
-            createdDate
-            benefits
-            description
-            experiences
-            requirements
-            minSalary
-            maxSalary
-            skills {
-              id
-              name
-            }
-            imageUrls
-            positions {
-              id
-            }
-            categories{
-              name
-            }
+    title
+    imageUrls
+    description
+    activeStatus
+    priority
+    addresses
+    cities
+    minSalary
+    maxSalary
+    salaryCurrency
+    salaryDuration
+    skills {
+      id
+      name
+    }   
+    positions {
+      id
+      name
+    }
+    applicationCount
+    interestCount
+    types {
+      id
+      name
+    }
+    categories {
+      id
+      name
+    }
+    isVisaSponsorship
+    employerId
+    employer {
+      name
+      avatarUrl
+      organizationId
+    }
+    createdDate
+    updatedDate
+    expireDate
+    benefits
+    experiences
+    responsibilities
+    requirements
+    optionalRequirements
+    cultures
+    whyJoinUs
+    numberEmployeesToApplied
+    jobForm
+    gender
+    views
+    isJobInterested
+    isJobApplied
+    organizationId
+    organization {
+      name
+      bio
+      country
+      phoneNumber
+      email
+    }
           }
         }
       `,
