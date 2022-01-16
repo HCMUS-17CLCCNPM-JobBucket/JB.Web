@@ -60,6 +60,8 @@ const reviewAPI = {
           organizationId: [companyId],
           size: 10,
           page,
+          sortBy: "createdDate",
+          isDescending: true,
         },
       },
     }),

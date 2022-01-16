@@ -14,25 +14,25 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
     page: 1,
     loading: false,
     refresh: false,
-    hasMore: true,
+    hasMore: false,
   });
 
-  useEffect(() => {
-    if (status.page > 1) {
-      // setStatus({
-      //   ...status,
-      //   loading: true,
-      // });
-      reviewAPI.getReviewByCompany(companyId, status.page).then((res) => {
-        setReviews([...reviews, ...res.data.data.reviews.reviewResponses]);
-        setStatus({
-          ...status,
-          // loading: false,
-          hasMore: res.data.data.reviews.reviewResponses > 0,
-        });
-      });
-    }
-  }, [status.page]);
+  // useEffect(() => {
+  //   if (status.page > 1) {
+  //     // setStatus({
+  //     //   ...status,
+  //     //   loading: true,
+  //     // });
+  //     reviewAPI.getReviewByCompany(companyId, status.page).then((res) => {
+  //       setReviews([...reviews, ...res.data.data.reviews.reviewResponses]);
+  //       setStatus({
+  //         ...status,
+  //         // loading: false,
+  //         hasMore: res.data.data.reviews.reviewResponses > 0,
+  //       });
+  //     });
+  //   }
+  // }, [status.page]);
 
   useEffect(() => {
     if (status.page === 1) {
