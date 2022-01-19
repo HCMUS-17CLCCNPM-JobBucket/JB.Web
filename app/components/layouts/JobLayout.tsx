@@ -18,11 +18,13 @@ import MobileFilterDialog from "../molecules/MobileFilterDialog";
 import Head from "next/head";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import TabGroup from "../atoms/TabGroup";
 
 const sortOptions = [
   { name: "Default", href: "default", current: false },
   { name: "Newest", href: "newest", current: false },
   { name: "Oldest", href: "oldest", current: false },
+  { name: "Most relevant", href: "most-relevant", current: false },
 ];
 const categories = [
   { title: "Browse All", path: "/" },
@@ -30,14 +32,6 @@ const categories = [
   { title: "Remote Job", path: "/rec" },
 ];
 
-// const salaryOptions = [
-//   { name: "All", value: [] },
-//   { name: "$500", value: [0, 500] },
-//   { name: "$500 - $1000", value: [500, 1000] },
-//   { name: "$1000 - $2000", value: [1000, 2000] },
-//   { name: "$2000 - $3000", value: [2000, 3000] },
-//   { name: ">= $3000", value: [0, 3000] },
-// ];
 export default function Job() {
   const router = useRouter();
 
@@ -114,18 +108,25 @@ export default function Job() {
     const newFilter = { ...filterOptionsInput };
     const query = router.query;
 
-    if (query.sort) {
-      if (query.sort === "default") {
+    console.log(query.sort);
+
+    switch (query.sort) {
+      case "default":
         newFilter.sortBy = "";
-      }
-      if (query.sort === "newest") {
+        break;
+      case "newest":
         newFilter.sortBy = "createdDate";
         newFilter.isDescending = true;
-      }
-      if (query.sort === "oldest") {
+        break;
+      case "oldest":
         newFilter.sortBy = "createdDate";
-        newFilter.isDescending = false;
-      }
+        newFilter.isDescending = true;
+        break;
+      case "most-relevant":
+        newFilter.sortBy = "";
+        break;
+      default:
+        break;
     }
 
     if (page === 1) {
@@ -176,6 +177,20 @@ export default function Job() {
               Filters
             </h1>
 
+            <TabGroup
+              tabs={[
+                {
+                  name: "Browse All",
+                  active: router.pathname === "/job",
+                  callback: () => router.push("/job"),
+                },
+                {
+                  name: "Recommend",
+                  active: router.pathname === "/job/recommend",
+                  callback: () => router.push("/job/recommend"),
+                },
+              ]}
+            />
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
