@@ -11,7 +11,8 @@ import { Menu, Popover } from "@headlessui/react";
 import DropdownAvatar from "../molecules/DropdownAvatar";
 import { BellIcon, PlusIcon } from "@heroicons/react/solid";
 import NotiSection from "../molecules/NotiSection";
-export function NavbarItem({ content, path }: any) {
+
+function NavbarItem({ content, path }: any) {
   return (
     <Link href={path} passHref>
       <p
@@ -37,41 +38,54 @@ export function Logo() {
 }
 
 const ButtonGroup = ({ roleId }) => {
+  const listNavRole1 = [
+    {
+      content: "Find Jobs",
+      path: "/job",
+    },
+    {
+      content: "Company",
+      path: "/company",
+    },
+    {
+      content: "CV",
+      path: "/list-cv",
+    },
+    {
+      content: "Blog",
+      path: "/blog",
+    },
+  ];
+
+  const listNavRole2 = [
+    {
+      content: "Employee",
+      path: "/employee",
+    },
+    {
+      content: "Recruiter",
+      path: "/recruiter",
+    },
+    {
+      content: "Company",
+      path: "/recruiter/company",
+    },
+  ];
+
   if (roleId === 1 || roleId === undefined)
     return (
       <div className="navbar__navigation">
-        <p className="navbar__item" onClick={() => router.push("/job")}>
-          Find Jobs
-        </p>
-        <p className="navbar__item" onClick={() => router.push("/company")}>
-          Company
-        </p>
-        <p className="navbar__item" onClick={() => router.push("/list-cv")}>
-          My CV
-        </p>
-        <p className="navbar__item" onClick={() => router.push("/blog")}>
-          Blog
-        </p>
+        {listNavRole1.map((item, index) => (
+          <NavbarItem key={index} content={item.content} path={item.path} />
+        ))}
       </div>
     );
   if (roleId === 2)
     return (
       <div className="navbar__navigation">
-        <p className="navbar__item" onClick={() => router.push("/employee")}>
-          Employee
-        </p>
-        <p
-          className="navbar__item"
-          onClick={() => router.push("/recruiter/jobs")}
-        >
-          Recruiter
-        </p>
-        <p
-          className="navbar__item"
-          onClick={() => router.push("/recruiter/company")}
-        >
-          Company
-        </p>
+        {listNavRole2.map((item, index) => (
+          <NavbarItem key={index} content={item.content} path={item.path} />
+        ))}
       </div>
     );
 
