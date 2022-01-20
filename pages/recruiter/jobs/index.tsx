@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useUserInfo } from "app/utils/hooks";
 import router from "next/router";
+import { useSelector } from "react-redux";
 
 export default function RecruiterJob() {
   const user = useUserInfo();
@@ -12,6 +13,19 @@ export default function RecruiterJob() {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const shouldRefresh = useSelector((state: any) => state.user.refreshJob);
+
+  useEffect(() => {
+    setPage(1);
+    setLoading(true);
+    jobAPI
+      .getJobByOrganization(user.user.organizationId, 1)
+      .then((res) => {
+        if (res.status === 200) setJobs(res.data.data.jobs);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err.response.status));
+  }, [shouldRefresh]);
 
   useEffect(() => {
     if (page === 1) {

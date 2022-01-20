@@ -18,7 +18,7 @@ export default function create() {
     positionIds: [],
     typeIds: [],
     categoryIds: [],
-    isVisaSponsorship: false,
+    isVisaSponsorship: true,
     expireDate: null,
     benefits: "",
     experiences: "",
@@ -29,7 +29,7 @@ export default function create() {
     whyJoinUs: "",
     numberEmployeesToApplied: 0,
     jobForm: "",
-    gender: "",
+    gender: "Male",
   };
   return (
     <RecruiterLayout>
