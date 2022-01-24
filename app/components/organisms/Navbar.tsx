@@ -64,7 +64,7 @@ const ButtonGroup = ({ roleId }) => {
     },
     {
       content: "Recruiter",
-      path: "/recruiter",
+      path: "/recruiter/jobs",
     },
     {
       content: "Company",

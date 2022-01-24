@@ -3,10 +3,12 @@ import { BellIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import notiAPI from "app/api/modules/notiAPI";
 import { Fragment, useEffect, useState } from "react";
 import Moment from "react-moment";
+import { useQuery, gql, useSubscription } from "@apollo/client";
+import { useUserInfo } from "app/utils/hooks";
 
 export default function Notify() {
   const [noti, setNoti] = useState([]);
-
+  const user = useUserInfo();
   useEffect(() => {
     const fetchNoti = async () => {
       const res = await notiAPI.getAll();
@@ -14,6 +16,29 @@ export default function Notify() {
     };
     fetchNoti();
   }, []);
+
+  const { data, loading } = useSubscription(
+    gql`
+      subscription getnote($token: String!) {
+        notification(token: $token) {
+          id
+          message
+        }
+      }
+    `,
+    {
+      variables: {
+        token: user.token,
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (data) {
+      setNoti([...noti, data.notification]);
+    }
+  }, [data]);
+
   return (
     <div className=" ">
       <Popover className="h-6 w-6 relative">
