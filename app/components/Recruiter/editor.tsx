@@ -188,7 +188,10 @@ export default function Editor(props) {
         whyJoinUs,
       };
 
-      if (imageFile == null || dataToPost.title == "") {
+      if (
+        (imageFile == null && dataToPost.imageUrls.length == 0) ||
+        dataToPost.title == ""
+      ) {
         toast("Job must have title and images", { type: "warning" });
         return;
       }
