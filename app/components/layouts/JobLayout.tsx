@@ -1,24 +1,16 @@
-import { Menu, Tab, Transition } from "@headlessui/react";
-import {
-  ChevronDownIcon,
-  FilterIcon,
-  ViewGridIcon,
-} from "@heroicons/react/solid";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon, FilterIcon } from "@heroicons/react/solid";
 import { jobAPI } from "app/api/modules/jobAPI";
 import SearchJob from "app/components/atoms/SearchBar/SearchJob";
 import helper from "app/utils/helper";
-import { usePrevious } from "app/utils/hooks";
-import router, { useRouter } from "next/router";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import TabGroup from "../atoms/TabGroup";
 import Filters from "../molecules/Filters";
 import JobInfinityScroll from "../molecules/JobInfinityScroll";
-import LoadingFullPage from "../molecules/LoadingFullPage";
 import MobileFilterDialog from "../molecules/MobileFilterDialog";
-import Head from "next/head";
-import { toast } from "react-toastify";
-import Link from "next/link";
-import TabGroup from "../atoms/TabGroup";
 
 const sortOptions = [
   { name: "Default", href: "default", current: false },
@@ -32,14 +24,13 @@ const categories = [
   { title: "Remote Job", path: "/rec" },
 ];
 
-export default function Job() {
+export default function JobLayout({ type }) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [jobs, setJobs] = useState<any>([]);
 
-  const [page, setPage] = useState(1);
   const [filterOptions, setFilterOptions] = useState({
     categories: [],
     skills: [],
@@ -55,7 +46,7 @@ export default function Job() {
     size: 10,
     sortBy: "",
     keyword: "",
-    numberEmployeesToApplied: [],
+    // numberEmployeesToApplied: [],
     createdDate: [],
     expireDate: [],
     skill: [],
@@ -82,18 +73,25 @@ export default function Job() {
   };
 
   const handleFilter = (values: any) => {
-    setFilterOptionsInput({ ...filterOptionsInput, ...values });
+    console.log(values);
+    setFilterOptionsInput({ ...values, page: 1 });
   };
 
   useMemo(() => {
+    if (type === "recommend") {
+      delete filterOptionsInput.keyword;
+    }
     const fetchData = async () => {
       setLoading(true);
       Promise.all([
-        jobAPI.getAll(filterOptionsInput),
+        jobAPI.getJobByRoute(filterOptionsInput, type),
         jobAPI.getJobProperties(),
       ])
         .then(([res, res2]) => {
-          if (res.status === 200) setJobs(res.data.data.jobs);
+          // if (res.status === 200) {
+          //   if (type === "all") setJobs(res.data.data.jobs);
+          //   else setJobs(res.data.data.jobRecommendations);
+          // }
           if (res2.status === 200)
             setFilterOptions(res2.data.data.jobProperties);
 
@@ -108,7 +106,7 @@ export default function Job() {
     const newFilter = { ...filterOptionsInput };
     const query = router.query;
 
-    console.log(query.sort);
+    if (query.keyword) newFilter.keyword = query.keyword as string;
 
     switch (query.sort) {
       case "default":
@@ -129,28 +127,37 @@ export default function Job() {
         break;
     }
 
-    if (page === 1) {
+    console.log(newFilter);
+    if (newFilter.page === 1) {
       setLoading(true);
       jobAPI
-        .getAll({ ...newFilter, page: 1 })
+        .getJobByRoute({ ...newFilter, page: 1 }, type)
         .then((res) => {
-          if (res.status === 200) setJobs(res.data.data.jobs);
+          if (res.status === 200) {
+            if (type === "all") setJobs(res.data.data.jobs);
+            else setJobs(res.data.data.jobRecommendations);
+          }
           setLoading(false);
         })
         .catch((err) => console.log(err.response.status));
-    } else if (page > 1) {
+    } else if (newFilter.page > 1) {
       jobAPI
-        .getAll({
-          ...newFilter,
-          page: page,
-        })
+        .getJobByRoute(
+          {
+            ...newFilter,
+            page: newFilter.page,
+          },
+          type
+        )
         .then((res) => {
-          if (res.status === 200) setJobs([...jobs, ...res.data.data.jobs]);
-
+          if (res.status === 200) {
+            if (type === "all") setJobs([...jobs, ...res.data.data.jobs]);
+            else setJobs([...jobs, ...res.data.data.jobRecommendations]);
+          }
           setHasMore(res.data.data.jobs.length > 0);
         });
     }
-  }, [filterOptionsInput, page, router.query]);
+  }, [filterOptionsInput, router.query]);
   return (
     <div className="bg-white">
       <Head>
@@ -219,7 +226,7 @@ export default function Job() {
                           {({ active }) => (
                             <Link
                               href={{
-                                pathname: "job",
+                                pathname: type === "all" ? "job" : "/recommend",
                                 query: { sort: option.href },
                               }}
                               passHref
@@ -311,7 +318,12 @@ export default function Job() {
               {/* Product grid */}
               <div className="lg:col-span-9">
                 <JobInfinityScroll
-                  setPage={() => setPage(page + 1)}
+                  setPage={() =>
+                    setFilterOptionsInput({
+                      ...filterOptionsInput,
+                      page: filterOptionsInput.page + 1,
+                    })
+                  }
                   hasMore={hasMore}
                   loading={loading}
                   jobs={jobs}

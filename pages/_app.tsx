@@ -1,6 +1,7 @@
 import { ApolloProvider } from "@apollo/react-hooks";
 import apolloClient from "app/api/apolloClient";
 import ToolbarBottom from "app/components/atoms/ToolbarBottom";
+import AuthProvider from "app/components/layouts/AuthProvider";
 import { GoogleAuthProvider } from "app/components/layouts/google-provider";
 import Footer from "app/components/organisms/Footer";
 import Navbar from "app/components/organisms/Navbar";
@@ -33,15 +34,15 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ApolloProvider client={apolloClient as any}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            {/* <AuthProvider> */}
-            <ToastContainer limit={3} />
-            {/* {loading && <LoadingTransition />} */}
+            <AuthProvider>
+              <ToastContainer limit={3} />
+              {/* {loading && <LoadingTransition />} */}
 
-            {!listExclude.includes(router.pathname) && <Navbar />}
-            <Component {...pageProps} />
-            <ToolbarBottom />
-            {!listExclude.includes(router.pathname) && <Footer />}
-            {/* </AuthProvider> */}
+              {!listExclude.includes(router.pathname) && <Navbar />}
+              <Component {...pageProps} />
+              <ToolbarBottom />
+              {!listExclude.includes(router.pathname) && <Footer />}
+            </AuthProvider>
           </PersistGate>
         </Provider>
       </ApolloProvider>

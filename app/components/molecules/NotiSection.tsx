@@ -57,11 +57,11 @@ export default function Notify() {
               leaveTo="opacity-0 translate-y-1"
             >
               <Popover.Panel className="absolute z-10 h-[400px] w-[500px] bg-white   px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl">
-                <div className="w-full h-full overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="p-2 w-full h-full overflow-auto rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                   {noti.length > 0 ? (
                     noti.map((item, index) => (
                       <div key={item.id}>
-                        <div className="px-4 py-4 hover:bg-gray-200 rounded-lg cursor-pointer flex items-center justify-between">
+                        <div className="px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer flex items-center justify-between">
                           <div className="flex gap-4 items-center">
                             <img
                               src="/common/check.png"

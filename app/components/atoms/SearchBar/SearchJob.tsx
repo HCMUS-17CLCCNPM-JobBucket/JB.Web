@@ -1,4 +1,5 @@
 import { XIcon } from "@heroicons/react/solid";
+import Router from "next/router";
 import React, { useState } from "react";
 
 export default function SearchJob({ styles, handleSearch }) {
@@ -8,14 +9,13 @@ export default function SearchJob({ styles, handleSearch }) {
     setKeyword(e.target.value);
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSearch(keyword);
+    // e.preventDefault();
+    // handleSearch(keyword);
+    Router.push(`/job?keyword=${keyword}`);
   };
 
   const handleClearInput = () => {
     setKeyword("");
-    // handleSearch("");
-    // handleReset();
   };
   return (
     <div

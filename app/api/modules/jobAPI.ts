@@ -82,11 +82,55 @@ export const jobAPI = {
         },
       }
     ),
+
+  getJobByRoute: (filter, route) => {
+    if (route === "all") {
+      return jobAPI.getAll(filter);
+    }
+
+    return jobAPI.getRec(filter);
+  },
   getAll: (filter) =>
     axiosClient.post("/graphql", {
       query: `
       query GetAllJobs($filter: ListJobRequestInput ) {
         jobs(filter: $filter) {
+          id
+          title
+          jobForm
+          isJobApplied
+    			isJobInterested
+          description
+          addresses
+          imageUrls
+          expireDate
+          minSalary
+          maxSalary
+          skills {
+            name
+          }
+          positions{
+            name
+          }
+          types{
+            name
+          }
+          categories{
+            name
+          }
+          createdDate
+        }
+      }
+    `,
+      variables: {
+        filter,
+      },
+    }),
+  getRec: (filter) =>
+    axiosClient.post("/graphql", {
+      query: `
+      query GetAllJobs($filter: ListJobRecommendationRequestInput ) {
+        jobRecommendations(filter: $filter) {
           id
           title
           jobForm
