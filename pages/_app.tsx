@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PersistGate } from "redux-persist/integration/react";
 import "../styles/globals.scss";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <GoogleAuthProvider>
       <ApolloProvider client={apolloClient as any}>
         <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
+          <PersistGate loading={<LoadingFullPage />} persistor={persistor}>
             <AuthProvider>
               <ToastContainer limit={3} />
               {/* {loading && <LoadingTransition />} */}

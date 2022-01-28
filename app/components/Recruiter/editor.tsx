@@ -6,8 +6,6 @@ import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Select, { StylesConfig } from "react-select";
-import { DatePicker } from "antd";
-import locale from "antd/es/date-picker/locale/zh_CN";
 import moment from "moment";
 import { toast } from "react-toastify";
 
@@ -368,7 +366,7 @@ export default function Editor(props) {
       </div>
       <div className="w-80 flex flex-col">
         <label className="text-gray-700">Expire date</label>
-        <DatePicker
+        {/* <DatePicker
           onChange={(value) => handleChangeExpire(value)}
           format="DD-MM-YYYY"
           style={{ borderRadius: "0.5rem" }}
@@ -376,7 +374,13 @@ export default function Editor(props) {
           disabledDate={(current) => {
             return current && current <= moment().subtract(1, "day");
           }}
-        ></DatePicker>
+        ></DatePicker> */}
+        <input
+          name="somedate"
+          type="date"
+          min={moment().format("yyyy-MM-DD").toString()}
+          className="border border-gray-300 rounded-md p-1"
+        ></input>
       </div>
       <div className="flex flex-col ">
         <label htmlFor="gender" className="text-gray-700">
