@@ -22,6 +22,7 @@
     "apollo-link-http": "^1.5.17",
     "apollo-link-ws": "^1.0.20",
     "graphql-tag": "^2.12.6",
+    "lottie-web": "^5.8.1",
     "moment": "^2.29.1",
     "next": "^12.0.1",
     "rc-slider": "^9.7.2",

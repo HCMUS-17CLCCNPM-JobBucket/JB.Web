@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cvActions } from "app/redux/features/cv";
 // import { DatePicker } from "react-rainbow-components";
-import { DatePicker } from "antd";
 import "antd/dist/antd.css";
-import locale from "antd/es/date-picker/locale/zh_CN";
 import moment from "moment";
 
 export default function PersonalInfo(props) {
@@ -179,7 +177,7 @@ export default function PersonalInfo(props) {
           <label htmlFor="birthdate" className="text-gray-700">
             BirthDate
           </label>
-          {isUpdate ? (
+          {/* {isUpdate ? (
             <DatePicker
               defaultValue={birthdate}
               format="DD-MM-YYYY"
@@ -194,7 +192,7 @@ export default function PersonalInfo(props) {
               style={{ borderRadius: "0.5rem" }}
               size="large"
             ></DatePicker>
-          )}
+          )} */}
         </div>
         <div className="flex flex-col col-span-2 ">
           <label htmlFor="introduction" className="text-gray-700">

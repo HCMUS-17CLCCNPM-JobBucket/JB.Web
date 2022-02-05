@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import Head from "next/head";
 import LoadingFullPage from "../molecules/LoadingFullPage";
 import UploadImage from "../atoms/UploadImage";
+import LoadingUploadNewItem from "../molecules/LoadingUploadNewItem";
 const config = {
   placeholderText: "Edit Your Content Here!",
   charCounterCount: true,
@@ -74,7 +75,7 @@ export default function BlogForm(props) {
     },
     onSubmit: async (values) => {
       setLoading(true);
-      if (previewSource !== "") {
+      if (imageFile !== null) {
         const imageRes: any = await imageAPI.uploadImage(imageFile);
         const res = await blogAPI.handleBlogByType(
           props.id,
@@ -119,7 +120,7 @@ export default function BlogForm(props) {
         </title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {loading && <LoadingFullPage />}
+      {loading && <LoadingUploadNewItem />}
       <p className="text-2xl font-semibold">
         {router.pathname === "/blog/post" ? "Add New Blog" : "Edit Blog"}
       </p>
@@ -128,7 +129,7 @@ export default function BlogForm(props) {
         <img
           src={previewSource || "https://via.placeholder.com/208x208"}
           alt=""
-          className="h-52 w-52 object-cover rounded-lg border-2 border-gray-200"
+          className="h-52 w-52 object-cover rounded-lg drop-shadow-lg"
         />
         <UploadImage onChange={handleImageChange} />
       </div>
