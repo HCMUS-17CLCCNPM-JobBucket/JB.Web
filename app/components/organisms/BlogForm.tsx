@@ -87,7 +87,6 @@ export default function BlogForm(props) {
           },
           props.type
         );
-        setLoading(false);
         handleRedirect(res);
       } else {
         const res = await blogAPI.handleBlogByType(
@@ -99,7 +98,6 @@ export default function BlogForm(props) {
           },
           props.type
         );
-        setLoading(false);
         handleRedirect(res);
       }
     },
@@ -163,7 +161,7 @@ export default function BlogForm(props) {
       />
 
       <button className="btn btn-primary w-40" type="submit">
-        Post
+        {router.pathname === "/blog/post" ? "Post" : "Update"}
       </button>
     </form>
   );

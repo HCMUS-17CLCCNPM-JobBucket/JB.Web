@@ -1,5 +1,6 @@
 import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/outline";
+import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import Selector from "../atoms/Select";
 
@@ -64,22 +65,21 @@ function Panel({ section, handleChange }) {
 }
 
 export default function Filters({ filters, callback }) {
+  console.log();
   const [scrollOverHeight, setScrollOverHeight] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState({});
-  // useEffect(() => {
-  //   setScrollOverHeight(window.scrollY > 100);
-  // }, []);
 
+  useEffect(() => {
+    const query = Router.query as any;
+    if (query.category) {
+      const category = query.category.split(",");
+      setSelectedFilter((oldObj) => ({
+        ...oldObj,
+        category: category.map((item) => filters[4].options[parseInt(item)]),
+      }));
+    }
+  }, []);
   const handleChange = (value, section) => {
-    // console.log(value);
-
-    // if (section.name === "Salary") {
-    //   setSelectedFilter({
-    //     ...selectedFilter,
-    //     [section.name.toLowerCase()]: value,
-    //   });
-    // }
-
     if (value.length === 0) {
       setSelectedFilter({
         ...selectedFilter,

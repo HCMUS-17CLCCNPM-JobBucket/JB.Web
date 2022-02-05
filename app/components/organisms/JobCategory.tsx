@@ -1,10 +1,16 @@
 import { jobAPI } from "app/api/modules/jobAPI";
+import Router from "next/router";
 import React, { useEffect, useState } from "react";
 
 function JobCategoryItem(props) {
   const [active, setActive] = useState(false);
+
+  const handleClick = () => {
+    Router.push(`/job?category=${props.id}`);
+  };
   return (
     <div
+      onClick={handleClick}
       onMouseMove={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
       className={`${props.styles} w-full cursor-pointer p-6 bg-white flex gap-4 rounded-xl hover:shadow-xl hover:bg-blue-600 ease-in transition-all 0.5s"`}
@@ -47,6 +53,7 @@ export default function JobCategory() {
         {data.slice(0, 8).map((item, index) => (
           <JobCategoryItem
             key={index}
+            id={item.id}
             styles="col-span-1 "
             title={item.name}
             value={item.totalCount}

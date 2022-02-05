@@ -18,11 +18,37 @@ const sortOptions = [
   { name: "Oldest", href: "oldest", current: false },
   { name: "Most relevant", href: "most-relevant", current: false },
 ];
-const categories = [
-  { title: "Browse All", path: "/" },
-  { title: "Recommend", path: "/rec" },
-  { title: "Remote Job", path: "/rec" },
-];
+
+const QueryHandler = (query, filter) => {
+  if (query.category) {
+    const category = query.category.split(",");
+    filter.category = [
+      ...filter.category,
+      ...category.map((item, index) => (item = parseInt(item))),
+    ];
+  }
+
+  if (query.keyword) filter.keyword = query.keyword as string;
+
+  switch (query.sort) {
+    case "default":
+      filter.sortBy = "";
+      break;
+    case "newest":
+      filter.sortBy = "createdDate";
+      filter.isDescending = true;
+      break;
+    case "oldest":
+      filter.sortBy = "createdDate";
+      filter.isDescending = true;
+      break;
+    case "most-relevant":
+      filter.sortBy = "";
+      break;
+    default:
+      break;
+  }
+};
 
 export default function JobLayout({ type }) {
   const router = useRouter();
@@ -38,7 +64,6 @@ export default function JobLayout({ type }) {
     types: [],
   });
 
-  // const [isLoadMore, setIsLoadMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [filterOptionsInput, setFilterOptionsInput] = useState({
     isDescending: false,
@@ -49,6 +74,7 @@ export default function JobLayout({ type }) {
     // numberEmployeesToApplied: [],
     createdDate: [],
     expireDate: [],
+    category: [],
     skill: [],
     position: [],
     salary: [],
@@ -73,61 +99,29 @@ export default function JobLayout({ type }) {
   };
 
   const handleFilter = (values: any) => {
-    console.log(values);
     setFilterOptionsInput({ ...values, page: 1 });
   };
 
   useMemo(() => {
-    if (type === "recommend") {
-      delete filterOptionsInput.keyword;
-    }
     const fetchData = async () => {
       setLoading(true);
-      Promise.all([
-        jobAPI.getJobByRoute(filterOptionsInput, type),
-        jobAPI.getJobProperties(),
-      ])
-        .then(([res, res2]) => {
-          // if (res.status === 200) {
-          //   if (type === "all") setJobs(res.data.data.jobs);
-          //   else setJobs(res.data.data.jobRecommendations);
-          // }
-          if (res2.status === 200)
-            setFilterOptions(res2.data.data.jobProperties);
-
-          setLoading(false);
-        })
-        .catch((err) => console.log(err));
+      const res = await jobAPI.getJobProperties();
+      if (res.status === 200) setFilterOptions(res.data.data.jobProperties);
+      setLoading(false);
     };
+
     fetchData();
   }, []);
 
   useEffect(() => {
     const newFilter = { ...filterOptionsInput };
     const query = router.query;
-
-    if (query.keyword) newFilter.keyword = query.keyword as string;
-
-    switch (query.sort) {
-      case "default":
-        newFilter.sortBy = "";
-        break;
-      case "newest":
-        newFilter.sortBy = "createdDate";
-        newFilter.isDescending = true;
-        break;
-      case "oldest":
-        newFilter.sortBy = "createdDate";
-        newFilter.isDescending = true;
-        break;
-      case "most-relevant":
-        newFilter.sortBy = "";
-        break;
-      default:
-        break;
+    if (type === "recommend") {
+      delete filterOptionsInput.keyword;
     }
+    QueryHandler(query, newFilter);
 
-    console.log(newFilter);
+    setFilterOptionsInput(newFilter);
     if (newFilter.page === 1) {
       setLoading(true);
       jobAPI
@@ -157,7 +151,7 @@ export default function JobLayout({ type }) {
           setHasMore(res.data.data.jobs.length > 0);
         });
     }
-  }, [filterOptionsInput, router.query]);
+  }, [router.query]); //filterOptionsInput,
   return (
     <div className="bg-white">
       <Head>

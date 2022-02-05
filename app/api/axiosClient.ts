@@ -5,6 +5,7 @@ import axios from "axios";
 import { store } from "app/redux/store";
 import { getNewAccessToken, login, logout } from "app/redux/features/user";
 import { authAPI } from "./modules/authAPI";
+import Router from "next/router";
 
 const { dispatch } = store;
 
@@ -36,20 +37,21 @@ axiosClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 axiosClient.defaults.timeout = 20000;
-// axiosClient.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response.status === 401) {
-//       authAPI.getAccessToken(getRefreshToken()).then((res) => {
-//         if (res.status === 200) {
-//           dispatch(getNewAccessToken(res.data.accessToken));
-//         } else {
-//           dispatch(logout());
-//         }
-//       });
-//     } else toast(error.response.data.message, { type: "error" });
+axiosClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status === 401) {
+      // authAPI.getAccessToken(getRefreshToken()).then((res) => {
+      //   if (res.status === 200) {
+      //     dispatch(getNewAccessToken(res.data.accessToken));
+      //   } else {
+      //     dispatch(logout());
+      //   }
+      // });
+      Router.reload();
+    } else toast(error.response.data.message, { type: "error" });
 
-//     return error;
-//   }
-// );
+    return error;
+  }
+);
 export default axiosClient;
