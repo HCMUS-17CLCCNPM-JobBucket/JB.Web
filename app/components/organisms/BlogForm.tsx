@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Head from "next/head";
 import LoadingFullPage from "../molecules/LoadingFullPage";
+import UploadImage from "../atoms/UploadImage";
 const config = {
   placeholderText: "Edit Your Content Here!",
   charCounterCount: true,
@@ -47,10 +48,11 @@ export default function BlogForm(props) {
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState(props.imageUrl);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
-    setPreviewSource(URL.createObjectURL(e.target.files[0]));
+  const handleImageChange = (file) => {
+    if (file) {
+      setImageFile(file);
+      setPreviewSource(URL.createObjectURL(file));
+    }
   };
   const handleRedirect = (res) => {
     if (res.data.errors) {
@@ -111,7 +113,7 @@ export default function BlogForm(props) {
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <title>
           {router.pathname === "/blog/post"
-            ? "Post new Blog"
+            ? "Add new Blog"
             : "Update " + props.title}{" "}
           | JobBucket
         </title>
@@ -121,13 +123,15 @@ export default function BlogForm(props) {
       <p className="text-2xl font-semibold">
         {router.pathname === "/blog/post" ? "Add New Blog" : "Edit Blog"}
       </p>
-      <img
-        src={previewSource || "https://via.placeholder.com/1134x160"}
-        alt=""
-        className="h-40 w-full object-cover rounded-lg"
-      />
-      <input type="file" onChange={handleImageChange} />
 
+      <div className=" flex gap-4 justify-center items-center">
+        <img
+          src={previewSource || "https://via.placeholder.com/208x208"}
+          alt=""
+          className="h-52 w-52 object-cover rounded-lg border-2 border-gray-200"
+        />
+        <UploadImage onChange={handleImageChange} />
+      </div>
       <BlogTagSelection value={tags} setValue={setTags} />
       <input
         type="text"

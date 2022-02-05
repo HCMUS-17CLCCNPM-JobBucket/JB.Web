@@ -13,7 +13,7 @@ const JobCard = (props) => {
           rel="noopener noreferrer"
           className="cursor-pointer max-w-xl text-blue-600 text-lg hover:underline"
         >
-          {props.title} Sales Executive (Up To $5000)
+          {props.title}
         </a>
         <p className="text-gray-400">
           Expire in <Moment format="DD/MM/YYYY" date={props.expiredDate} />
@@ -31,7 +31,7 @@ const JobCard = (props) => {
             {props.city}HCM • {props.jobForm}Fulltime
           </p>
           <p>
-            ${props.minSalary} 1.500 – ${props.maxSalary}2.500
+            ${props.minSalary} – ${props.maxSalary}
           </p>
         </div>
 

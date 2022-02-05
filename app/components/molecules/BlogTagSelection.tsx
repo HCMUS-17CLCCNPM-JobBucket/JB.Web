@@ -45,6 +45,7 @@ export default function BlogTagSelection({ value, setValue }) {
 
   return (
     <CreatableSelect
+      placeholder="Select tags"
       isClearable
       isMulti
       styles={customStyles}

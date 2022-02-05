@@ -6,6 +6,7 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
+import Script from "next/script";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -30,6 +31,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Nunito"
           />
           <link rel="icon" type="image/png" href="/logo.png" />
+          <Script src="https://unpkg.com/@themesberg/flowbite@1.3.0/dist/datepicker.bundle.js"></Script>
         </Head>
         <body>
           <Main />

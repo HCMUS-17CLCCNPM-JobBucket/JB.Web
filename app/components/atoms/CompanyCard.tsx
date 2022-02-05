@@ -37,7 +37,7 @@ export default function CompanyCard(props) {
             href={"/company/" + props.id}
             target="_blank"
             rel="noreferrer"
-            className="text-2xl font-bold dark:text-white line-clamp-3"
+            className="text-2xl font-bold dark:text-white line-clamp-3 hover:text-blue-600"
           >
             {props.name}
           </a>
