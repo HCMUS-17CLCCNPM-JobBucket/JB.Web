@@ -16,7 +16,7 @@ const wsLink = process.browser
   : null;
 
 const httplink = new HttpLink({
-  uri: "http://api.jobbucket.xyz/graphql",
+  uri: "https://api.jobbucket.xyz/graphql",
   credentials: "same-origin",
 });
 
