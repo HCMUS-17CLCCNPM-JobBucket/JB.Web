@@ -28,7 +28,7 @@ export default function OrgLayout({ company, organizationId, refreshPage }) {
         alt={company.name}
         className="w-full h-[400px] rounded-lg"
       />
-      <div className="mx-auto w-11/12 -translate-y-24 bg-white rounded-lg">
+      <div className="mx-auto w-11/12 bg-white rounded-lg">
         <InfoOrg {...company} handleScroll={handleScroll} />
         <div className="flex gap-8 mt-8">
           <div className="w-2/3">
@@ -50,7 +50,7 @@ export default function OrgLayout({ company, organizationId, refreshPage }) {
         </div>
         <MemberOrgSection company={company} refreshPage={refreshPage} />
       </div>
-      <div className="mx-auto w-11/12 translate-y-16" ref={ref}>
+      <div className="mx-auto w-11/12" ref={ref}>
         <ReviewOrg
           companyId={organizationId}
           setRatingPercent={setRatingPercentages}

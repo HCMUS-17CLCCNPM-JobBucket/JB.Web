@@ -66,7 +66,7 @@ function ReviewEditSection(props) {
   };
   return (
     <div
-      className={`${props.reviewId !== null && "p-8 rounded-lg bg-blue-100 "} ${
+      className={`${props.reviewId !== null && "p-8 rounded-lg bg-blue-50 "} ${
         loading && "opacity-50 cursor-not-allowed"
       }`}
     >
@@ -120,7 +120,7 @@ function ReviewEditSection(props) {
           Update
         </button>
         <button
-          className="rounded-lg bg-gray-400 w-48 h-12 "
+          className="w-48 h-12 text-blue-600"
           onClick={props.handleCloseEdit}
         >
           Cancel

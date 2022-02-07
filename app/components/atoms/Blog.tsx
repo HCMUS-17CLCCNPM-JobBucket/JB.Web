@@ -20,6 +20,7 @@ export default function Blog(props) {
       toast("Link copied to clipboard");
     }
   };
+  console.log(props.imageUrl);
   return (
     <div className="flex justify-between flex-col max-w-lg p-6 space-y-4 overflow-hidden bg-gray-50 rounded-lg shadow-md text-gray-800">
       <div className="flex justify-between items-center">
@@ -65,7 +66,7 @@ export default function Blog(props) {
       >
         <img
           onClick={handleRedirect}
-          src={props.imageUrl}
+          src={props.imageUrl || "https://via.placeholder.com/"}
           alt=""
           className="object-cover w-full mt-4 h-60 sm:h-80 bg-gray-500 rounded-md cursor-pointer"
         />

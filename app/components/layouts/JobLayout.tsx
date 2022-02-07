@@ -121,9 +121,14 @@ export default function JobLayout({ type }) {
     }
     QueryHandler(query, newFilter);
 
-    setFilterOptionsInput(newFilter);
+    // setFilterOptionsInput(newFilter);
     if (newFilter.page === 1) {
       setLoading(true);
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
       jobAPI
         .getJobByRoute({ ...newFilter, page: 1 }, type)
         .then((res) => {
@@ -151,7 +156,7 @@ export default function JobLayout({ type }) {
           setHasMore(res.data.data.jobs.length > 0);
         });
     }
-  }, [router.query]); //filterOptionsInput,
+  }, [filterOptionsInput, router.query]); //,
   return (
     <div className="bg-white">
       <Head>
