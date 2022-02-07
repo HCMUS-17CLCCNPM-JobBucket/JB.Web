@@ -8,7 +8,7 @@ import { InMemoryCache } from "apollo-boost";
 const wsLink = process.browser
   ? new WebSocketLink({
       // if you instantiate in the server, the error will be thrown
-      uri: `ws://api.jobbucket.xyz/graphql`,
+      uri: `wss://api.jobbucket.xyz/graphql`,
       options: {
         reconnect: true,
       },
