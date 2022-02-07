@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cvActions } from "app/redux/features/cv";
 // import { DatePicker } from "react-rainbow-components";
-import "antd/dist/antd.css";
 import moment from "moment";
 
 export default function PersonalInfo(props) {
