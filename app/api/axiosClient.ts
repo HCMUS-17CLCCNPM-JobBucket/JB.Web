@@ -48,7 +48,7 @@ axiosClient.interceptors.response.use(
       //     dispatch(logout());
       //   }
       // });
-      Router.reload();
+      // Router.reload();
     } else toast(error.response.data.message, { type: "error" });
 
     return error;
