@@ -23,11 +23,11 @@ export default function OrgLayout({ company, organizationId, refreshPage }) {
         <title>{company.name} | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <img
+      {/* <img
         src="https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg"
         alt={company.name}
         className="w-full h-[400px] rounded-lg"
-      />
+      /> */}
       <div className="mx-auto w-11/12 bg-white rounded-lg">
         <InfoOrg {...company} handleScroll={handleScroll} />
         <div className="flex gap-8 mt-8">

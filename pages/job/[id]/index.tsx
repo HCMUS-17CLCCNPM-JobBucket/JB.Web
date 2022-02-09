@@ -47,14 +47,14 @@ export default function JobDetail(props) {
         <title>{jobInfo.title} | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <img
+      {/* <img
         src={
           jobInfo?.imageUrls[1] ||
           "https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg"
         }
         alt=""
         className="h-52 w-full rounded-lg"
-      />
+      /> */}
       <div className="mt-3"></div>
       {jobInfo.categories.length > 0 && (
         <Badge content={jobInfo?.categories[0].name} />
