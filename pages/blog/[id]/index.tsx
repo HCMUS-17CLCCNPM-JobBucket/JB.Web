@@ -31,6 +31,7 @@ export default function BlogDetail(props) {
       const res = await blogAPI.getById(props.id);
       setBlogInfo(res.data.data.blogs[0]);
       setLoading(false);
+      console.log(res.data.data.blogs[0]);
     };
     fetchData();
   }, [refresh]);
@@ -69,7 +70,7 @@ export default function BlogDetail(props) {
       <div className="fixed top-50 left-16 flex flex-col gap-4">
         <div className="flex gap-2">
           <img
-            src={blogInfo?.user?.avatarUrl || "/avatar/avatar.png"}
+            src={blogInfo?.author?.avatarUrl || "/avatar/avatar.png"}
             alt=""
             className="h-12 w-12 avatar"
           />

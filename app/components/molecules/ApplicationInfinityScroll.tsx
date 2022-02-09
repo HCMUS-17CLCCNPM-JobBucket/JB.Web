@@ -92,7 +92,7 @@ export default function ApplicationInfinityScroll({
               </p>
               <div className="w-[200px] flex gap-3 items-center justify-center">
                 <img
-                  src={item.job.imageUrls[0]}
+                  src={item.job.imageUrls[0] || "/common/photo.png"}
                   alt=""
                   className="h-10 w-10 rounded-lg object-cover"
                 />
