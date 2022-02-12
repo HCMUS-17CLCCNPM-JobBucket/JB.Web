@@ -104,7 +104,7 @@ export default function Editor(props) {
   };
   const handleChangeExpire = (value) => {
     if (value != null) {
-      formik.values.expireDate = value.toISOString();
+      formik.values.expireDate = moment(value).toISOString();
     } else {
       formik.values.expireDate = "";
     }
@@ -497,25 +497,23 @@ export default function Editor(props) {
       <div className="w-80 flex flex-col">
         <label className="text-gray-700">Expire date</label>
         {props.isEdit ? (
-          <DatePicker
-            defaultValue={expireDate}
-            format="DD-MM-YYYY"
-            style={{ borderRadius: "0.5rem" }}
-            size="large"
-            disabledDate={(current) => {
-              return current && current <= moment().subtract(1, "day");
-            }}
-          ></DatePicker>
+          <input
+            defaultValue={props.expireDate.slice(0, 10)}
+            type="date"
+            className="input"
+            placeholder="Expire Date"
+            min={moment().format("YYYY-MM-DD")}
+            onChange={(e) => handleChangeExpire(e.target.value)}
+          />
         ) : (
-          <DatePicker
-            onChange={(value) => handleChangeExpire(value)}
-            format="DD-MM-YYYY"
-            style={{ borderRadius: "0.5rem" }}
-            size="large"
-            disabledDate={(current) => {
-              return current && current <= moment().subtract(1, "day");
-            }}
-          ></DatePicker>
+          <input
+            defaultValue={moment().format("YYYY-MM-DD")}
+            type="date"
+            className="input"
+            placeholder="Expire Date"
+            min={moment().format("YYYY-MM-DD")}
+            onChange={(e) => handleChangeExpire(e.target.value)}
+          />
         )}
       </div>
       <div className="flex flex-col ">
