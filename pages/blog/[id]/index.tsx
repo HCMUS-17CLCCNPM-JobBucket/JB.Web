@@ -19,11 +19,7 @@ export const getServerSideProps = async ({ params }) => {
 export default function BlogDetail(props) {
   const [loading, setLoading] = useState(false);
   const [blogInfo, setBlogInfo] = useState<any>({});
-
-  const [refresh, setRefresh] = useState(false);
   const commentRef = useRef(null);
-
-  const handleRefresh = () => setRefresh(!refresh);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +29,7 @@ export default function BlogDetail(props) {
       setLoading(false);
     };
     fetchData();
-  }, [refresh]);
+  }, []);
 
   const handleScrollToCommentSection = () => {
     if (commentRef && commentRef.current)
@@ -62,14 +58,14 @@ export default function BlogDetail(props) {
         <div ref={commentRef}>
           {/* <h3 className="text-lg font-semibold text-gray-900">Comments</h3> */}
 
-          <CommentSection blogId={props.id} handleRefresh={handleRefresh} />
+          <CommentSection blogId={props.id} />
         </div>
       </div>
       {/* card */}
       <div className="fixed top-50 left-16 flex flex-col gap-4">
         <div className="flex gap-2">
           <img
-            src={blogInfo?.user?.avatarUrl || "/avatar/avatar.png"}
+            src={blogInfo?.author?.avatarUrl || "/avatar/avatar.png"}
             alt=""
             className="h-12 w-12 avatar"
           />

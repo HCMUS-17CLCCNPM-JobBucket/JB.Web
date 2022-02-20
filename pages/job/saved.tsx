@@ -3,7 +3,6 @@ import JobDashboard from "app/components/layouts/JobDashboard";
 import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 
 export default function JobSaved() {
   const [jobs, setJobs] = useState([]);

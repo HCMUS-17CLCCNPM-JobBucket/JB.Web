@@ -103,6 +103,9 @@ export default function JobLayout({ type }) {
   };
 
   useMemo(() => {
+    if (type === "recommend") {
+      delete filterOptionsInput.keyword;
+    }
     const fetchData = async () => {
       setLoading(true);
       const res = await jobAPI.getJobProperties();
@@ -116,11 +119,10 @@ export default function JobLayout({ type }) {
   useEffect(() => {
     const newFilter = { ...filterOptionsInput };
     const query = router.query;
-    if (type === "recommend") {
-      delete filterOptionsInput.keyword;
-    }
+
     QueryHandler(query, newFilter);
 
+    console.log(newFilter);
     // setFilterOptionsInput(newFilter);
     if (newFilter.page === 1) {
       setLoading(true);

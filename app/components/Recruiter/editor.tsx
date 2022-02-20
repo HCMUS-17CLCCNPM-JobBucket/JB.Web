@@ -8,37 +8,41 @@ import { useSelector } from "react-redux";
 import Select, { StylesConfig } from "react-select";
 import moment from "moment";
 import { toast } from "react-toastify";
+import Loading from "../atoms/Loading";
 
 const config = {
   charCounterCount: true,
-  imageUploadURL: "https://api.cloudinary.com/v1_1/derekzohar/image/upload",
-  imageUploadParams: {
-    api_key: "866395791528912",
-    upload_preset: "images",
-  },
-  imageUploadMethod: "POST",
-  events: {
-    "froalaEditor.image.uploaded": (e, editor, response) => {
-      response = JSON.parse(response);
-      editor.image.insert(response.url, true, null, editor.image.get(), null);
-      // return false;
-    },
-  },
+  // imageUploadURL: "https://api.cloudinary.com/v1_1/derekzohar/image/upload",
+  // imageUploadParams: {
+  //   api_key: "866395791528912",
+  //   upload_preset: "images",
+  // },
+  // imageUploadMethod: "POST",
+  // events: {
+  //   "froalaEditor.image.uploaded": (e, editor, response) => {
+  //     response = JSON.parse(response);
+  //     editor.image.insert(response.url, true, null, editor.image.get(), null);
+  //     // return false;
+  //   },
+  // },
 };
 const FroalaEditorComponent: React.ComponentType<any> = dynamic(
   () => {
-    return new Promise((resolve) =>
-      import("froala-editor/js/plugins.pkgd.min.js").then((e) => {
-        import("react-froala-wysiwyg").then(resolve);
-      })
-    );
+    return new Promise((resolve) => {
+      try {
+        import("froala-editor/js/plugins.pkgd.min.js")
+          .then((e) => {
+            import("react-froala-wysiwyg").then(resolve);
+          })
+          .catch((e) => {});
+      } catch (error) {}
+    });
   },
   {
-    loading: () => null,
+    loading: () => <Loading />,
     ssr: false,
   }
 );
-
 const customStyles = {
   option: (provided, state) => ({
     ...provided,
@@ -74,7 +78,7 @@ export default function Editor(props) {
   const [id, setID] = useState(props.id);
   const [salaryCurrency, setCurrency] = useState("");
   const [salaryDuration, setDuration] = useState("");
-  const [description, setDescrip] = useState("");
+  const [description, setDescription] = useState("");
   const [benefits, setBenefit] = useState("");
   const [experiences, setExpe] = useState("");
   const [responsibilities, setRespons] = useState("");
@@ -105,7 +109,6 @@ export default function Editor(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(props);
       const response = await jobAPI.getJobProperties();
       if (response.status === 200) {
         setSkills(
@@ -266,6 +269,7 @@ export default function Editor(props) {
             <input
               type="number"
               id="minSalary"
+              name="minSalary"
               value={formik.values.minSalary}
               onChange={formik.handleChange}
               className="input"
@@ -276,6 +280,7 @@ export default function Editor(props) {
             <input
               type="number"
               id="maxSalary"
+              name="maxSalary"
               value={formik.values.maxSalary}
               onChange={formik.handleChange}
               className="input"
@@ -438,12 +443,12 @@ export default function Editor(props) {
         <label>Descriptions</label>
         <FroalaEditorComponent
           tag="textarea"
-          config={{ ...config, placeholderText: "Descriptions" }}
+          config={config}
           model={description}
-          onModelChange={(model) => setDescrip(model)}
+          onModelChange={(model) => setDescription(model)}
         />
       </div>
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         <label>Benefits</label>
         <FroalaEditorComponent
           tag="textarea"
@@ -496,7 +501,7 @@ export default function Editor(props) {
           model={whyJoinUs}
           onModelChange={(model) => setWhyjoin(model)}
         />
-      </div>
+      </div> */}
       {props.isEdit ? (
         <button className="btn btn-primary w-40" type="submit">
           Save changes
