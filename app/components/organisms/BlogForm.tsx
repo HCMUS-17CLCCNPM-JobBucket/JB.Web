@@ -14,19 +14,19 @@ import LoadingUploadNewItem from "../molecules/LoadingUploadNewItem";
 const config = {
   placeholderText: "Edit Your Content Here!",
   charCounterCount: true,
-  imageUploadURL: "https://api.cloudinary.com/v1_1/derekzohar/image/upload",
-  imageUploadParams: {
-    api_key: "866395791528912",
-    upload_preset: "images",
-  },
-  imageUploadMethod: "POST",
-  events: {
-    "froalaEditor.image.uploaded": (e, editor, response) => {
-      response = JSON.parse(response);
-      editor.image.insert(response.url, true, null, editor.image.get(), null);
-      // return false;
-    },
-  },
+  // imageUploadURL: "https://api.cloudinary.com/v1_1/derekzohar/image/upload",
+  // imageUploadParams: {
+  //   api_key: "866395791528912",
+  //   upload_preset: "images",
+  // },
+  // imageUploadMethod: "POST",
+  // events: {
+  //   "froalaEditor.image.uploaded": (e, editor, response) => {
+  //     response = JSON.parse(response);
+  //     editor.image.insert(response.url, true, null, editor.image.get(), null);
+  //     // return false;
+  //   },
+  // },
 };
 const FroalaEditorComponent: React.ComponentType<any> = dynamic(
   () => {

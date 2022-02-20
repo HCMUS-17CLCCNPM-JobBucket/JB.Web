@@ -19,11 +19,7 @@ export const getServerSideProps = async ({ params }) => {
 export default function BlogDetail(props) {
   const [loading, setLoading] = useState(false);
   const [blogInfo, setBlogInfo] = useState<any>({});
-
-  const [refresh, setRefresh] = useState(false);
   const commentRef = useRef(null);
-
-  const handleRefresh = () => setRefresh(!refresh);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,10 +27,9 @@ export default function BlogDetail(props) {
       const res = await blogAPI.getById(props.id);
       setBlogInfo(res.data.data.blogs[0]);
       setLoading(false);
-      console.log(res.data.data.blogs[0]);
     };
     fetchData();
-  }, [refresh]);
+  }, []);
 
   const handleScrollToCommentSection = () => {
     if (commentRef && commentRef.current)
@@ -63,7 +58,7 @@ export default function BlogDetail(props) {
         <div ref={commentRef}>
           {/* <h3 className="text-lg font-semibold text-gray-900">Comments</h3> */}
 
-          <CommentSection blogId={props.id} handleRefresh={handleRefresh} />
+          <CommentSection blogId={props.id} />
         </div>
       </div>
       {/* card */}

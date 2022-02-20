@@ -35,7 +35,7 @@ export default function BlogInfinityScroll({
     setPage();
   };
   return (
-    <div>
+    <div className="w-full">
       {isLoading ? (
         <LoadingFullPage />
       ) : blogs.length === 0 && loading === false ? (

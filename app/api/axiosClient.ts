@@ -10,7 +10,7 @@ import Router from "next/router";
 const { dispatch } = store;
 
 const axiosClient = axios.create({
-  baseURL: "https://api.jobbucket.xyz",
+  baseURL: "http://api.jobbucket.xyz",
   headers: {
     "content-type": "application/json",
   },
@@ -40,16 +40,19 @@ axiosClient.defaults.timeout = 20000;
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
-      // authAPI.getAccessToken(getRefreshToken()).then((res) => {
-      //   if (res.status === 200) {
-      //     dispatch(getNewAccessToken(res.data.accessToken));
-      //   } else {
-      //     dispatch(logout());
-      //   }
-      // });
-      Router.reload();
-    } else toast(error.response.data.message, { type: "error" });
+    // if (error.response.status === 401) {
+    //   // authAPI.getAccessToken(getRefreshToken()).then((res) => {
+    //   //   if (res.status === 200) {
+    //   //     dispatch(getNewAccessToken(res.data.accessToken));
+    //   //   } else {
+    //   //     dispatch(logout());
+    //   //   }
+    //   // });
+    //   Router.reload();
+    // } else
+    toast(error.response.data.message + "\n Please reload to continue", {
+      type: "error",
+    });
 
     return error;
   }
