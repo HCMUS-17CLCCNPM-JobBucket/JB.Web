@@ -10,7 +10,7 @@ import Router from "next/router";
 const { dispatch } = store;
 
 const axiosClient = axios.create({
-  baseURL: "http://api.jobbucket.xyz",
+  baseURL: "https://api.jobbucket.xyz",
   headers: {
     "content-type": "application/json",
   },
