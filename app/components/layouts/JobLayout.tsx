@@ -122,7 +122,6 @@ export default function JobLayout({ type }) {
 
     QueryHandler(query, newFilter);
 
-    console.log(newFilter);
     // setFilterOptionsInput(newFilter);
     if (newFilter.page === 1) {
       setLoading(true);
@@ -137,6 +136,8 @@ export default function JobLayout({ type }) {
           if (res.status === 200) {
             if (type === "all") setJobs(res.data.data.jobs);
             else setJobs(res.data.data.jobRecommendations);
+
+            console.log(res.data.data.jobRecommendations);
           }
           setLoading(false);
         })

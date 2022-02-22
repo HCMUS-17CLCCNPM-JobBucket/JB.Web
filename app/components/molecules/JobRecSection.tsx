@@ -7,7 +7,7 @@ export default function JobRecSection({ jobId }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     jobAPI
-      .jobRecommendation(parseInt(jobId))
+      .jobRecommendationByJobId(parseInt(jobId))
       .then((res) => {
         setData(res.data.data.jobRecommendations);
       })

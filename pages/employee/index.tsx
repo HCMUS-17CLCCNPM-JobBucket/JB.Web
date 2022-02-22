@@ -42,9 +42,9 @@ function JobPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await UserAPI.listEmployees(currentPage, keyword);
+      const res = await UserAPI.getRecEmployees(currentPage, keyword);
       if (res.status === 200) {
-        setEmployees(res.data.data.profiles);
+        setEmployees(res.data.data.profileRecommendations);
         setLoading(false);
       }
     };

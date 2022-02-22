@@ -22,7 +22,6 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function JobDetail(props) {
-  console.log(props);
   const [isExpired, setIsExpired] = useState(false);
   const [jobStatus, setJobStatus] = useState({
     isJobInterested: false,

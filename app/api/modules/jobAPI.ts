@@ -88,7 +88,7 @@ export const jobAPI = {
       return jobAPI.getAll(filter);
     }
 
-    return jobAPI.getRec(filter);
+    return jobAPI.jobRecommendation(filter);
   },
   getAll: (filter) =>
     axiosClient.post("/graphql", {
@@ -126,42 +126,42 @@ export const jobAPI = {
         filter,
       },
     }),
-  getRec: (filter) =>
-    axiosClient.post("/graphql", {
-      query: `
-      query GetAllJobs($filter: ListJobRecommendationRequestInput ) {
-        jobRecommendations(filter: $filter) {
-          id
-          title
-          jobForm
-          isJobApplied
-    			isJobInterested
-          description
-          addresses
-          imageUrls
-          expireDate
-          minSalary
-          maxSalary
-          skills {
-            name
-          }
-          positions{
-            name
-          }
-          types{
-            name
-          }
-          categories{
-            name
-          }
-          createdDate
-        }
-      }
-    `,
-      variables: {
-        filter,
-      },
-    }),
+  // getRec: (filter) =>
+  //   axiosClient.post("/graphql", {
+  //     query: `
+  //     query GetAllJobs($filter: ListJobRecommendationRequestInput ) {
+  //       jobRecommendations(filter: $filter) {
+  //         id
+  //         title
+  //         jobForm
+  //         isJobApplied
+  //   			isJobInterested
+  //         description
+  //         addresses
+  //         imageUrls
+  //         expireDate
+  //         minSalary
+  //         maxSalary
+  //         skills {
+  //           name
+  //         }
+  //         positions{
+  //           name
+  //         }
+  //         types{
+  //           name
+  //         }
+  //         categories{
+  //           name
+  //         }
+  //         createdDate
+  //       }
+  //     }
+  //   `,
+  //     variables: {
+  //       filter,
+  //     },
+  //   }),
   getJobById: (id: number) =>
     axiosClient.post("/graphql", {
       query: `
@@ -352,7 +352,7 @@ export const jobAPI = {
         }
       }`,
     }),
-  jobRecommendation: (jobId) =>
+  jobRecommendationByJobId: (jobId) =>
     axiosClient.post("/graphql", {
       query: `query jobRecommendations($filter: ListJobRecommendationRequestInput ) {
         jobRecommendations(filter : $filter) 
@@ -383,6 +383,35 @@ export const jobAPI = {
           page: 1,
           size: 5,
         },
+      },
+    }),
+  jobRecommendation: (filter) =>
+    axiosClient.post("/graphql", {
+      query: `query jobRecommendations($filter: ListJobRecommendationRequestInput ) {
+        jobRecommendations(filter : $filter) 
+        {
+          id
+          title
+          types {
+            name
+          }
+          addresses
+          cities
+          imageUrls
+          description
+          minSalary
+          maxSalary
+          isJobInterested
+          organization {
+            addresses
+            avatarUrl
+            name
+            id
+          }
+        }
+      }`,
+      variables: {
+        filter,
       },
     }),
   getJobByOrganization: (organizationId: number, page) =>

@@ -195,6 +195,48 @@ const UserAPI = {
       },
     }),
 
+  getRecEmployees: (page, keyword) =>
+    axiosClient.post("/graphql", {
+      query: `query getProfileById($filter: ListUserProfileRequestInput) {
+      profileRecommendations (filter: $filter) {
+        id
+        userName
+        skills {
+          skillName
+          level
+        }
+        name
+        email
+        awards
+        introduction
+        gender
+        avatarUrl
+        createdDate
+        updatedDate
+        address
+        introduction
+        website
+        birthdate
+        phone
+        github
+        experiences {
+          company
+          position
+          duration
+        }
+        educations {
+          school
+          major
+          status
+          profession
+        }
+        activities
+        certifications
+        views
+      }
+    }`,
+      variables: { filter: { page, size: 10, keyword, roleId: 1 } },
+    }),
   getApplicants: (employerId, filters) =>
     axiosClient.post("/graphql", {
       query: `query getApplicants($filter: ListJobApplicationRequestInput) {
