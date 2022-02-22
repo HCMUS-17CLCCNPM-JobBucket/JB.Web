@@ -285,13 +285,13 @@ export default function ReviewItem(props) {
           </div>
 
           {props.isAuthor && (
-            <div className="my-auto mx-8">
-              <Popover className="relative">
+            <div className="my-auto mx-8 relative">
+              <Popover className="">
                 <Popover.Button>
                   <DotsVerticalIcon className="h-8 w-8 p-2 rounded-full hover:bg-gray-200" />
                 </Popover.Button>
 
-                <Popover.Panel className="fixed z-50 w-[200px] bg-white">
+                <Popover.Panel className="absolute top-10 right-0 z-50 w-[200px] bg-white">
                   <div className="flex flex-col gap-2  rounded-lg shadow-lg p-1">
                     <PopoverItem
                       icon={<PencilIcon className="w-4 h-4" />}
