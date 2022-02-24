@@ -387,29 +387,72 @@ export const jobAPI = {
     }),
   jobRecommendation: (filter) =>
     axiosClient.post("/graphql", {
-      query: `query jobRecommendations($filter: ListJobRecommendationRequestInput ) {
-        jobRecommendations(filter : $filter) 
-        {
+      query: `query getJobRec($filter: ListJobRecommendationRequestInput ) {
+        jobRecommendations(filter: $filter) {
           id
           title
-          types {
-            name
-          }
-          addresses
-          cities
           imageUrls
           description
+          activeStatus
+          priority
+          addresses
+          cities
           minSalary
           maxSalary
-          isJobInterested
-          organization {
-            addresses
-            avatarUrl
-            name
+          salaryCurrency
+          salaryDuration
+          skills {
             id
+            name
+          }
+          positions {
+            id
+            name
+          }
+          applicationCount
+          interestCount
+          types {
+            id
+            name
+          }
+          categories {
+            id
+            name
+          }
+          isVisaSponsorship
+          employerId
+          employer {
+            name
+            avatarUrl
+            organizationId
+          }
+          createdDate
+          updatedDate
+          expireDate
+          benefits
+          experiences
+          responsibilities
+          requirements
+          optionalRequirements
+          cultures
+          whyJoinUs
+          numberEmployeesToApplied
+          jobForm
+          gender
+          views
+          isJobInterested
+          isJobApplied
+          organizationId
+          organization {
+            name
+            bio
+            country
+            phoneNumber
+            email
           }
         }
-      }`,
+      }
+      `,
       variables: {
         filter,
       },

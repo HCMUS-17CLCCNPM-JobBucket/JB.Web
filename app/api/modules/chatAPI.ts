@@ -1,7 +1,7 @@
 import axiosClient from "app/api/axiosClient";
 
 export const chatAPI = {
-  getConversation: (conversationId: string) =>
+  getConversationById: (conversationId: string) =>
     axiosClient.post("graphql", {
       query: `query getConversationById {
         conversations (id : 1) {
@@ -21,13 +21,14 @@ export const chatAPI = {
       }
       `,
     }),
-  getConversations: () => () =>
+  getConversations: () =>
     axiosClient.post("graphql", {
       query: `query listConversation {
         conversations {
           id
           userIds
           users {
+            avatarUrl
             id
             name
           }
@@ -41,10 +42,11 @@ export const chatAPI = {
       }
       `,
     }),
-  getMessages: (conversationId: string) => (conversationId: string) =>
+  getMessages: (conversationId: number, page: number) =>
     axiosClient.post("graphql", {
-      query: `query listMessage {
-        messages (conversationId : 1) {
+      query: `query listMessage($conversationId: Int!,  ) {
+        messages (conversationId : $conversationId
+          filter: { sortBy: "createdDate", isDescending: false }) {
           id
           content
           conversationId
@@ -52,27 +54,38 @@ export const chatAPI = {
             id
             name
           }
+          createdDate
         }
       }
       `,
+      variables: {
+        conversationId,
+        filter: {
+          sortBy: "createdDate",
+          isDescending: false,
+          page,
+          size: 10,
+        },
+      },
     }),
-  addMessage:
-    (conversationId: string, content: string) => (conversationId: string) =>
-      axiosClient.post("graphql", {
-        query: `mutation addMessage {
-            chat {
-              addMessage (message : {
-                content : "hello there again",
-                receiverId : 40,
-                conversationId : 1, (dùng receiverId HOẶC conversationId)
-                type : 1
-              })
-              {
-                id
-                content
-              }
-            }
+  addMessage: (conversationId: string, content: string) =>
+    axiosClient.post("graphql", {
+      query: `mutation addMessage($message: AddMessageRequestInput) {
+        chat {
+          addMessage(message: $message) {
+            id
+            content
           }
+        }
+      }
       `,
-      }),
+      variables: {
+        message: {
+          conversationId,
+          content,
+          receiverId: -1,
+          type: 1,
+        },
+      },
+    }),
 };

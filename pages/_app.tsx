@@ -39,10 +39,10 @@ function MyApp({ Component, pageProps }: AppProps) {
               <ToastContainer limit={3} />
               {/* {loading && <LoadingTransition />} */}
 
-              {!listExclude.includes(router.pathname) && <Navbar />}
+              {!router.pathname.includes("/chat") && <Navbar />}
               <Component {...pageProps} />
               <ToolbarBottom />
-              {!listExclude.includes(router.pathname) && <Footer />}
+              {!router.pathname.includes("/chat") && <Footer />}
             </AuthProvider>
           </PersistGate>
         </Provider>

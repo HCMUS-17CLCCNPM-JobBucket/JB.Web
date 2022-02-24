@@ -1,20 +1,36 @@
 // import { chatAPI } from "app/api/modules/chatAPI";
+import { chatAPI } from "app/api/modules/chatAPI";
 import { getAvatar } from "app/utils/getAvatar";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+function ChatCard(props) {
+  return (
+    <div className="flex gap-2">
+      <img src="" alt="" className="" />
+      <div className="flex flex-col">
+        <div className="font-bold">{props.name} 123</div>
+        <div className="text-sm">{props.lastMessage} </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ChatPage() {
   const user = useSelector((state: any) => state.user);
-  // useEffect(() => {
-  // const fetchData = async () => {
-  //   const res = await chatAPI.getAll(user.token);
-  //   if (res.status === 200 && res.data.data.length > 0) {
-  //     router.push("/chat/" + res.data.data[0].id);
-  //   }
-  // };
-  // if (user.token !== "") fetchData();
-  // }, []);
+  const [conversations, setConversations] = useState([]);
+  console.log(conversations);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await chatAPI.getConversations();
+      console.log(res.data.data.conversations);
+      if (res.status === 200) {
+        setConversations(res.data.data.conversations);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="flex h-screen antialiased text-gray-800">
       <div className="flex flex-row h-full w-full overflow-x-hidden">
@@ -56,7 +72,7 @@ export default function ChatPage() {
             </div>
             <div className="ml-2 font-bold text-2xl">QuickChat</div>
           </div> */}
-          <div className="hidden lg:flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
+          {/* <div className="hidden lg:flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
             <div className="h-20 w-20 rounded-full border overflow-hidden">
               <img
                 src={getAvatar(user.user.avatarUrl)}
@@ -73,14 +89,20 @@ export default function ChatPage() {
               </div>
               <div className="leading-none ml-1 text-xs">Active</div>
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-col mt-8" id="style-1">
             <div className="hidden lg:flex flex-row items-center justify-between text-xs">
               <span className="font-bold">Conversations</span>
               <span className="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
-                0
+                {conversations.length}
               </span>
             </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            {conversations.map((item, index) => (
+              <ChatCard key={index} lastMessage={item.lastMessage} />
+            ))}
           </div>
         </div>
         <div className="flex flex-col flex-auto h-full p-2 lg:p-6">
