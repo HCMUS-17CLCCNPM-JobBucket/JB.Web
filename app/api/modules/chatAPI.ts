@@ -17,6 +17,7 @@ export const chatAPI = {
             id
             content
           }
+         
         }
       }
       `,
@@ -40,6 +41,10 @@ export const chatAPI = {
             }
             id
             content
+          }
+          organization{
+            name
+            avatarUrl
           }
         }
       }
@@ -78,6 +83,7 @@ export const chatAPI = {
           addMessage(message: $message) {
             id
             content
+            conversationId
           }
         }
       }

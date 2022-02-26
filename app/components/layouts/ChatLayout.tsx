@@ -15,6 +15,8 @@ export default function ChatLayout(props) {
       const res = await chatAPI.getConversations();
       if (res.status === 200) {
         setConversations(res.data.data.conversations);
+
+        console.log(res);
       }
     };
     fetchData();
@@ -53,6 +55,7 @@ export default function ChatLayout(props) {
                 <ChatCard
                   key={index}
                   id={item.id}
+                  organization={item.organization}
                   name={
                     item.users[0].id === user.user.id
                       ? item.users[1].name

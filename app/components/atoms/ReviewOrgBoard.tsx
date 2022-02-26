@@ -8,7 +8,7 @@ export default function ReviewOrgBoard({ values }) {
       return { rating: index + 1, percentage: 0 };
     });
 
-  if (values.data.length > 0) {
+  if (values?.data.length > 0) {
     values.data.map((item) => {
       list.findIndex((element) => {
         if (element.rating === item.rating) {

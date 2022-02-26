@@ -146,7 +146,7 @@ export default function JobDetail(props) {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>
+                <span className="text-red-500">
                   Expired in{" "}
                   {<Moment format="DD/MM/YYYY" date={jobInfo?.expireDate} />}
                 </span>
@@ -160,11 +160,11 @@ export default function JobDetail(props) {
             jobId={jobInfo.id}
             expire={isExpired}
           />
-
           <SaveJobButton
             isInterested={jobStatus.isJobInterested}
             jobId={jobInfo.id}
           />
+          <button className="btn btn-primary">Message</button>
 
           <span className="ml-3 relative sm:hidden">
             <button

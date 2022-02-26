@@ -93,7 +93,7 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
               next={fetchMoreData}
               hasMore={status.hasMore}
               loader={<Loading />}
-              scrollableTarget="scrollableDiv"
+              // scrollableTarget="scrollableDiv"k
               className="flex flex-col gap-4 p-4 min-h-40 w-full"
             >
               {reviews.map((item, index) => (

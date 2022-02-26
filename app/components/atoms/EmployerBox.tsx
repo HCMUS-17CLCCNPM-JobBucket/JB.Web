@@ -1,3 +1,5 @@
+import { LinkPreview } from "@dhaiwat10/react-link-preview";
+import helper from "app/utils/helper";
 import React from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
@@ -12,9 +14,14 @@ export default function EmployerBox(props) {
             {props.senderId}
           </div> */}
           <div className="flex flex-col items-end">
-            <div className="relative lg:max-w-lg break-words mr-3 text-sm text-white bg-blue-500 py-2 px-4 shadow rounded-t-xl rounded-bl-xl">
-              <div>{props.content}</div>
-            </div>
+            {helper.validURL(props.content) ? (
+              <LinkPreview url={props.content} width="400px" />
+            ) : (
+              <div className="relative lg:max-w-lg break-words text-sm text-black bg-gray-300 py-2 px-4 shadow rounded-t-xl rounded-br-xl">
+                <div>{props.content}</div>
+              </div>
+            )}
+
             <Moment fromNow className="text-gray-500 text-sm px-4">
               {props.createdDate}
             </Moment>
@@ -30,9 +37,13 @@ export default function EmployerBox(props) {
             {props.senderId}
           </div> */}
           <div>
-            <div className="relative lg:max-w-lg break-words text-sm text-black bg-gray-300 py-2 px-4 shadow rounded-t-xl rounded-br-xl">
-              <div>{props.content}</div>
-            </div>
+            {helper.validURL(props.content) ? (
+              <LinkPreview url={props.content} width="400px" />
+            ) : (
+              <div className="relative lg:max-w-lg break-words text-sm text-black bg-gray-300 py-2 px-4 shadow rounded-t-xl rounded-br-xl">
+                <div>{props.content}</div>
+              </div>
+            )}
             <Moment fromNow className="text-gray-500 text-sm">
               {props.createdDate}
             </Moment>
