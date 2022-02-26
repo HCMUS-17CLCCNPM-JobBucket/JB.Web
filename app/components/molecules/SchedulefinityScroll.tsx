@@ -42,7 +42,7 @@ export default function ScheduleInfinityScroll({
       {isLoading ? (
         <Loading />
       ) : schedules.length === 0 && loading === false ? (
-        <ListEmpty message="No result match" />
+        <ListEmpty />
       ) : (
         <InfiniteScroll
           dataLength={schedules.length}
@@ -57,7 +57,7 @@ export default function ScheduleInfinityScroll({
           ))}
         </InfiniteScroll>
       )}
-      {!hasMore && <p className="text-center">No more data</p>}
+      {/* {!hasMore && <p className="text-center">No more data</p>} */}
     </div>
   );
 }

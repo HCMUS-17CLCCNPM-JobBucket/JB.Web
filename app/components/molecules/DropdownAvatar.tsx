@@ -118,7 +118,7 @@ export default function DropdownAvatar() {
                 </DropdownItem>
               </div>
             </Menu.Item>
-            <Menu.Item>
+            {/* <Menu.Item>
               <div className="px-1 py-1">
                 <DropdownItem content="Settings">
                   <svg
@@ -172,7 +172,7 @@ export default function DropdownAvatar() {
                   </svg>
                 </DropdownItem>
               </div>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item>
               <div className="px-1 py-1">
                 <DropdownItem content="Logout" onClick={handleLogout}>

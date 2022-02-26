@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { XIcon } from "@heroicons/react/solid";
 import { useUserInfo } from "app/utils/hooks";
+import Router from "next/router";
 
 export function ExperienceItem({ company, position, duration, description }) {
   return (
@@ -29,12 +30,14 @@ export function SkillButton({ skillName, level, onDelete }) {
   return (
     <div className="px-4 py-1 rounded-full border border-blue-600 flex gap-2 items-center group">
       <p>{skillName + " (" + level + "/5) "}</p>
-      {onDelete !== null && user.user.roleId === 1 && (
-        <XIcon
-          className="h-4 w-4 text-red-600 hidden group-hover:block cursor-pointer"
-          onClick={onDelete}
-        />
-      )}
+      {onDelete !== null &&
+        user.user.roleId === 1 &&
+        Router.pathname == "/profile/edit" && (
+          <XIcon
+            className="h-4 w-4 text-red-600 hidden group-hover:block cursor-pointer"
+            onClick={onDelete}
+          />
+        )}
     </div>
   );
 }

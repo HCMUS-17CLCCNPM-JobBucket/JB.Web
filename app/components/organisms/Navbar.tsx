@@ -124,7 +124,14 @@ export default function Navbar() {
               className="h-6 w-6 rounded-full cursor-pointer"
               onClick={(_) => router.push("/blog/post")}
             />
+
             <NotiSection />
+            <img
+              src="/common/chat.png"
+              alt="chat"
+              className="h-6 w-6 rounded-full cursor-pointer"
+              onClick={(_) => router.push("/chat")}
+            />
             <DropdownAvatar />
           </div>
         )}

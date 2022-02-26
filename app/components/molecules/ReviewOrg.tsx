@@ -41,10 +41,11 @@ export default function ReviewOrg({ companyId, setRatingPercent }) {
         loading: true,
       });
       reviewAPI.getReviewByCompany(companyId, 1).then((res) => {
-        setReviews(res.data.data.reviews.reviewResponses);
+        console.log(res);
+        setReviews(res.data.data.reviews?.reviewResponses || []);
         setRatingPercent({
-          data: res.data.data.reviews.ratingPercentages,
-          total: res.data.data.reviews.reviewResponses.length,
+          data: res.data.data.reviews?.ratingPercentages,
+          total: res.data.data.reviews?.reviewResponses.length,
         });
       });
       setStatus({

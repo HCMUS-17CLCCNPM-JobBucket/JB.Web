@@ -37,28 +37,12 @@ export function useChat(
   useEffect(() => {
     if (data) {
       setChats((chats) => [data.chat, ...chats]);
-      // setNoti([...noti, data.notification]);
-      console.log(data);
     }
   }, [data]);
 
   useEffect(() => {
     setLoading(true);
     setError(false);
-    // const fetchData = async () => {
-    // const res = await chatAPI.getListChat(token, conversationId, pageNumber);
-    // if (res.status === 200) {
-    //   // const temp = chats.concat(res.data.data);
-    //   if (res.data.data !== chats) {
-    //     setChats((prev: any) => {
-    //       return [...prev, ...res.data.data];
-    //     });
-    //   }
-    //   setHasMore(res.data.data.length > 0);
-    //   setLoading(false);
-    //   if (pageNumber === 0) chatRef.current.scrollIntoView();
-    // }
-    // };
     const fetchData = async () => {
       const res = await chatAPI.getMessages(conversationId, pageNumber);
       if (res.status === 200) {
@@ -79,16 +63,7 @@ export function useChat(
   useEffect(() => {
     setLoading(true);
     setError(false);
-    // const fetchData = async () => {
-    //   // const res = await chatAPI.getListChat(token, conversationId, 0);
-    //   // if (res.status === 200) {
-    //     setPageNumber(0);
-    //     setChats(res.data.data);
-    //     setHasMore(res.data.data.length > 0);
-    //     setLoading(false);
-    //     if (res.data.data.length !== 0) chatRef.current.scrollIntoView();
-    //   // }
-    // };
+
     const fetchData = async () => {
       const res = await chatAPI.getMessages(conversationId, 0);
       if (res.status === 200) {
@@ -96,7 +71,7 @@ export function useChat(
         setChats(res.data.data.messages);
         setHasMore(res.data.data.messages.length > 0);
         setLoading(false);
-        if (res.data.data.messages.length !== 0)
+        if (res.data.data.messages.length !== 0 && chatRef.current)
           chatRef.current.scrollIntoView();
       }
     };

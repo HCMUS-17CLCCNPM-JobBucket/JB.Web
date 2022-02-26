@@ -35,6 +35,9 @@ export const chatAPI = {
           createdDate
           updatedDate
           lastMessage {
+            sender{
+              name
+            }
             id
             content
           }
@@ -44,9 +47,9 @@ export const chatAPI = {
     }),
   getMessages: (conversationId: number, page: number) =>
     axiosClient.post("graphql", {
-      query: `query listMessage($conversationId: Int!,  ) {
+      query: `query listMessage($conversationId: Int!, $filter: ListMessageRequestInput  ) {
         messages (conversationId : $conversationId
-          filter: { sortBy: "createdDate", isDescending: false }) {
+          filter: $filter) {
           id
           content
           conversationId

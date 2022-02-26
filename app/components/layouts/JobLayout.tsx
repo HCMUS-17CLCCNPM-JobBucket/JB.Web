@@ -153,10 +153,14 @@ export default function JobLayout({ type }) {
         )
         .then((res) => {
           if (res.status === 200) {
-            if (type === "all") setJobs([...jobs, ...res.data.data.jobs]);
-            else setJobs([...jobs, ...res.data.data.jobRecommendations]);
+            if (type === "all") {
+              setJobs([...jobs, ...res.data.data.jobs]);
+              setHasMore(res.data.data.jobs.length > 0);
+            } else {
+              setJobs([...jobs, ...res.data.data.jobRecommendations]);
+              setHasMore(res.data.data.jobRecommendations.length > 0);
+            }
           }
-          setHasMore(res.data.data.jobs.length > 0);
         });
     }
   }, [filterOptionsInput, router.query]); //,

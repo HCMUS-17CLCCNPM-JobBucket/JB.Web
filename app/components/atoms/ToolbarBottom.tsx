@@ -45,9 +45,9 @@ export default function ToolbarBottom() {
               />
             </svg>
           </button>
-          <button className="">
+          {/* <button className="">
             <img src="/common/chat.png" alt="chat" className="h-10 w-10" />
-          </button>
+          </button> */}
         </div>
       )}
     </div>
