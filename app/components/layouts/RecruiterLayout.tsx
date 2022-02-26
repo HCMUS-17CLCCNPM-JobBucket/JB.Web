@@ -4,7 +4,7 @@ import React from "react";
 
 export default function RecruiterLayout(props) {
   return (
-    <div className="w-full px-16">
+    <div className="w-full px-2 xs:px-4 md:px-16">
       <div className="w-full">
         <TabGroup
           styles={" mx-auto"}

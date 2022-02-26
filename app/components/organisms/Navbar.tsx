@@ -102,10 +102,12 @@ export default function Navbar() {
 
   // useOutsideAlerter(wrapperRef, handleOutsideClicked);
   return (
-    <div className="navbar sticky top-0 bg-white z-50">
+    <div className="navbar sticky top-0 bg-white z-50 px-4 md:px-16 py-4">
       <Logo />
 
-      <ButtonGroup roleId={user.user?.roleId || undefined} />
+      <div className="hidden md:block">
+        <ButtonGroup roleId={user.user?.roleId || undefined} />
+      </div>
 
       <div>
         {user.token == "" ? (

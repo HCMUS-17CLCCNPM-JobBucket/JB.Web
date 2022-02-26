@@ -43,7 +43,7 @@ export default function DropdownAvatar() {
                 className="border border-gray-200 rounded-full h-10 w-10 object-cover"
                 alt="avatar"
               />
-              <p className="text-base font-semibold">
+              <p className="text-base font-semibold hidden md:block">
                 {user.user.name || "User"}
               </p>
             </div>

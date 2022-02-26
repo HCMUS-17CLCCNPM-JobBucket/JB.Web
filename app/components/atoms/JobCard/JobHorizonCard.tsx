@@ -41,14 +41,16 @@ export default function JobHorizonCard(props) {
                   )}
                 </p>
               </a>
-              <span className="text-gray-600">
+              <span className="text-gray-600 line-clamp-1">
                 {props.addresses == null ? "No addresses" : props.addresses[0]}
               </span>
             </div>
-            <SalaryRange
-              minSalary={props.minSalary}
-              maxSalary={props.maxSalary}
-            />
+            <div className="hidden lg:block">
+              <SalaryRange
+                minSalary={props.minSalary}
+                maxSalary={props.maxSalary}
+              />
+            </div>
           </div>
         </div>
         <div
@@ -56,17 +58,14 @@ export default function JobHorizonCard(props) {
             __html: props.description || " No description",
           }}
           className="job-horizon-card__desc line-clamp"
-        >
-          {/* Bosch Car Multimedia team is looking for full-time HMI Engineers
-          working at Ho Chi Minh City, Vietnam. The CM team develops
-          high-quality, state-of-the-art Automotive Head Unit and Home Appliance
-          Linux/Android-based systems. Together with other Bosch locations
-          worldwide, we provide software solutions for navigation, vehicle
-          functions, autonomous driving, camera, and IoT features to the car
-          marker. */}
+        ></div>
+        <div className="block lg:hidden">
+          <SalaryRange
+            minSalary={props.minSalary}
+            maxSalary={props.maxSalary}
+          />
         </div>
-
-        <div className="flex mt-2">
+        <div className="flex mt-2 flex-wrap gap-2">
           {props.skills.map((skill, index) => (
             <Badge key={index} content={skill.name} type="skill" />
           ))}
@@ -77,44 +76,46 @@ export default function JobHorizonCard(props) {
           <p>
             Expires in <Moment format="DD/MM/YYYY" date={props.expireDate} />
           </p>
-          -
-          <p>
-            Posted <Moment fromNow date={props.createdDate} />
+
+          <p className="hidden md:block">
+            - Posted <Moment fromNow date={props.createdDate} />
           </p>
         </div>
-        {user.user.roleId === 2 ? (
-          <div>
-            <button
-              onClick={() =>
-                router.push("/recruiter/jobs/" + props.id + "/edit")
-              }
-              type="button"
-              className="mr-4 bg-blue-600 text-white inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="-ml-1 mr-2 h-5 w-5 "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+        <div className="hidden xs:block">
+          {user.user.roleId === 2 ? (
+            <div>
+              <button
+                onClick={() =>
+                  router.push("/recruiter/jobs/" + props.id + "/edit")
+                }
+                type="button"
+                className="mr-4 bg-blue-600 text-white inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-              <p>Edit</p>
-            </button>
-            <DeleteDialog id={props.id}></DeleteDialog>
-          </div>
-        ) : (
-          <SaveJobButton
-            isInterested={props.isJobInterested}
-            jobId={props.id}
-          />
-        )}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="-ml-1 mr-2 h-5 w-5 "
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+                <p>Edit</p>
+              </button>
+              <DeleteDialog id={props.id}></DeleteDialog>
+            </div>
+          ) : (
+            <SaveJobButton
+              isInterested={props.isJobInterested}
+              jobId={props.id}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

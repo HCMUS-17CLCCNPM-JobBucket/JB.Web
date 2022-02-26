@@ -40,7 +40,7 @@ export default function RecruiterJob() {
         <title>Jobs | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex flex-col">
+      <div className="flex flex-col mt-1">
         <div className="flex justify-end pr-4">
           <button
             onClick={() => router.push("/recruiter/jobs/create")}

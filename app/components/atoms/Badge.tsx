@@ -21,7 +21,7 @@ export default function Badge(props) {
           : props.type === "skill"
           ? "bg-gray-500"
           : "bg-blue-500"
-      } w-max inline-block rounded-full text-white px-4 py-1 text-xs font-bold mr-3`}
+      } w-max inline-block rounded-full text-white px-4 py-1 text-xs font-bold`}
     >
       {props.content}
     </span>

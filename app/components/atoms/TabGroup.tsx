@@ -5,7 +5,7 @@ const Tab = ({ name, active, callback, number }) => {
     <div
       className={
         (active ? "bg-blue-600 text-white " : "text-gray-400") +
-        " rounded-full w-[150px] px-8 py-1 cursor-pointer"
+        " rounded-full w-full  md:w-[150px] cursor-pointer px-2 py-1 md:px-4 "
       }
       onClick={callback}
     >
@@ -24,7 +24,11 @@ const Tab = ({ name, active, callback, number }) => {
  */
 export default function TabGroup(props) {
   return (
-    <div className={"flex rounded-full w-max bg-gray-100 p-1 " + props.styles}>
+    <div
+      className={
+        "flex rounded-full w-full md:w-max bg-gray-100 p-1 " + props.styles
+      }
+    >
       {props.tabs.map((tab) => (
         <Tab
           key={tab.name}
