@@ -41,7 +41,7 @@ export default function JobSaved() {
         <title>Saved Job | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex">
+      <div className="flex flex-col mt-1">
         <JobInfinityScroll
           hasMore={hasMore}
           loading={loading}

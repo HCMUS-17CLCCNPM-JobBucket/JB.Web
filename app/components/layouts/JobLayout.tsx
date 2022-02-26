@@ -179,7 +179,7 @@ export default function JobLayout({ type }) {
         />
         <div className="flex justify-center">
           <SearchJob
-            styles="lg:w-1/2 w-5/6 mx-8 px-2 py-1 hover:shadow-lg"
+            styles="w-full lg:w-1/2 mx-4 md:mx-8 px-2 py-1 hover:shadow-lg"
             handleSearch={handleSearch}
             // handleReset={handleReset}
           />

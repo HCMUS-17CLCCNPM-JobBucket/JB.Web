@@ -37,8 +37,7 @@ export default function CompanyPage() {
         next={fetchMoreData}
         hasMore={hasMore}
         loader={<Loading />}
-        scrollableTarget="scrollableDiv"
-        className="grid grid-cols-3 gap-4 w-full px-12 py-4"
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full px-2 xl:px-12 py-4"
       >
         {orgs.map((item, index) => (
           <CompanyCard key={index} {...item} />

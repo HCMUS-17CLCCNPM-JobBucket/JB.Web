@@ -4,8 +4,9 @@ import TabGroup from "../atoms/TabGroup";
 
 export default function JobDashboard(props) {
   return (
-    <div className="px-16 ">
+    <div className="w-full px-2 xs:px-4 md:px-16">
       <TabGroup
+        styles={" mx-auto"}
         tabs={[
           {
             name: "Saved",
@@ -24,7 +25,7 @@ export default function JobDashboard(props) {
           },
         ]}
       />
-      <div className="mt-8">{props.children}</div>
+      <div className="mt-8 w-full">{props.children}</div>
     </div>
   );
 }

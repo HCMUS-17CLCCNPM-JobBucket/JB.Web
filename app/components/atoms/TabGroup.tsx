@@ -26,7 +26,7 @@ export default function TabGroup(props) {
   return (
     <div
       className={
-        "flex rounded-full w-full md:w-max bg-gray-100 p-1 " + props.styles
+        "flex rounded-full w-full md:w-max bg-gray-100 p-1 " + props?.styles
       }
     >
       {props.tabs.map((tab) => (
