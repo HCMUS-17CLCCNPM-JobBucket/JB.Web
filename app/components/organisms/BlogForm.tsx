@@ -105,7 +105,7 @@ export default function BlogForm(props) {
 
   return (
     <form
-      className="px-48 py-4 flex flex-col gap-4"
+      className="px-2 md:px-16 xl:px-48 py-4 flex flex-col gap-4"
       onSubmit={formik.handleSubmit}
     >
       <Head>
@@ -123,7 +123,7 @@ export default function BlogForm(props) {
         {router.pathname === "/blog/post" ? "Add New Blog" : "Edit Blog"}
       </p>
 
-      <div className=" flex gap-4 justify-center items-center">
+      <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
         <img
           src={previewSource || "https://via.placeholder.com/208x208"}
           alt=""
