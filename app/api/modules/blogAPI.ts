@@ -47,7 +47,7 @@ export const blogAPI = {
         }
       `,
       variables: {
-        filter: { authorId: userId, page: 0, size: 12 },
+        filter: { authorId: userId, page, size: 12 },
       },
     });
   },
