@@ -46,15 +46,15 @@ function Login() {
         })
         .catch((err) => {
           setIsLogin(false);
-          toast(err.response.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          // toast(err.response.data.message, {
+          //   position: "top-right",
+          //   autoClose: 5000,
+          //   hideProgressBar: false,
+          //   closeOnClick: true,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          //   progress: undefined,
+          // });
         });
 
       setIsLogin(false);
@@ -73,7 +73,6 @@ function Login() {
 
   useEffect(() => {
     const fetchData = async () => {
-    
       const res = await authAPI.loginWithGoogle({
         GoogleId: googleAuth.googleUser.googleId,
         TokenId: googleAuth.googleUser.tokenId,

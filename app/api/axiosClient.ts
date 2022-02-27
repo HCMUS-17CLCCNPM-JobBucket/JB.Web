@@ -50,9 +50,13 @@ axiosClient.interceptors.response.use(
     //   // });
     //   Router.reload();
     // } else
-    toast(error.response.data.message + "\n Please reload to continue", {
-      type: "error",
-    });
+    toast(
+      error.response.data.message + error.response.status === 401 &&
+        "\n Please reload to continue",
+      {
+        type: "error",
+      }
+    );
 
     return error;
   }
