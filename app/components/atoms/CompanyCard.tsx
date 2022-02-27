@@ -8,7 +8,7 @@ export default function CompanyCard(props) {
   return (
     <div
       className="h-[14rem] w-full p-4 rounded-2xl bg-white dark:bg-slate-800 shadow-lg dark:shadow-slate-700 
-    flex flex-col ease-linear duration-300 md:flex-row-reverse"
+    flex ease-linear duration-300 flex-row-reverse"
     >
       <div className=" h-full w-full  shadow-md rounded-2xl basis-2/3 relative">
         {/* <div className=" text-white z-10 bg-[#5865F2] absolute pl-8 pr-8 pb-2 pt-2  rounded-tl-2xl rounded-br-2xl font-semibold">

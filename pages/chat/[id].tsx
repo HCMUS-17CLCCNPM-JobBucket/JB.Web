@@ -13,7 +13,7 @@ export const getServerSideProps = async ({ params }) => {
 };
 export default function MyComponent(props) {
   const chatRef = useRef(null);
-  const [isChat, setIsChat] = useState(false);
+  // const [isChat, setIsChat] = useState(false);
   const [value, setValue] = useState("");
   const user = useSelector((state: any) => state.user);
   const [conversations, setConversations] = useState([]);
@@ -30,7 +30,7 @@ export default function MyComponent(props) {
     page,
     props.id,
     setPage,
-    isChat,
+    // isChat,
     chatRef,
     value
   );
@@ -55,6 +55,17 @@ export default function MyComponent(props) {
       const res = await chatAPI.getConversations();
       if (res.status === 200) {
         setConversations(res.data.data.conversations);
+
+        const findConversation = res.data.data.conversations.find(
+          (conversation) => conversation.id === props.id
+        );
+        if (findConversation) {
+          setHeaderInfo(
+            findConversation.users[0].id === user.user.id
+              ? findConversation.users[1]
+              : findConversation.users[0]
+          );
+        }
       }
     };
     if (user.token !== "") fetchData();
@@ -76,10 +87,21 @@ export default function MyComponent(props) {
     }
   };
 
+  console.log(headerInfo);
+
   return (
-    <ChatLayout>
+    <ChatLayout chats={chats}>
       <div className="flex flex-col h-full overflow-x-auto mb-4">
-        <div className="flex flex-col-reverse gap-4">
+        <div className="sticky top-0 flex gap-4 bg-white  rounded-xl px-4 py-2 items-center z-50">
+          <img
+            src={headerInfo.avatarUrl || "/avatar/avatar.png"}
+            alt=""
+            className="h-10 w-10 border rounded-full"
+          />
+          <p className="text-lg font-semibold">{headerInfo.name}</p>
+        </div>
+        {/* <div className=" flex flex-col"> */}
+        <div className="flex-1 flex flex-col-reverse gap-1">
           {chats.map((item, index) => {
             if (index === 0 && chatRef !== null) {
               return (
@@ -100,6 +122,7 @@ export default function MyComponent(props) {
           })}
           <div ref={chatRef}></div>
         </div>
+        {/* </div> */}
       </div>
 
       <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">

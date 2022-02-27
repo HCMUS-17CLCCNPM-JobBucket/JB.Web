@@ -58,10 +58,8 @@ export const chatAPI = {
           id
           content
           conversationId
-          sender {
-            id
-            name
-          }
+          
+          senderId
           createdDate
         }
       }

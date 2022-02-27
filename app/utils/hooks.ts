@@ -8,7 +8,7 @@ export function useChat(
   pageNumber,
   conversationId,
   setPageNumber,
-  isChat,
+  // isChat,
   chatRef,
   value
 ) {
@@ -33,8 +33,6 @@ export function useChat(
       },
     }
   );
-
-  console.log(pageNumber, chats);
 
   useEffect(() => {
     if (data) {

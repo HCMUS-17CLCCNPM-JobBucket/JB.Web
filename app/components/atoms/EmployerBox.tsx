@@ -28,7 +28,7 @@ export default function EmployerBox(props) {
 
   if (user.user.id === props.senderId) {
     return (
-      <div className="col-start-6 col-end-13 p-3 rounded-lg">
+      <div className="col-start-6 col-end-13 px-3 rounded-lg">
         <div className="flex gap-2 items-center justify-start flex-row-reverse">
           {/* <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
             {props.senderId}
@@ -37,7 +37,7 @@ export default function EmployerBox(props) {
             {helper.validURL(props.content) ? (
               <PreviewImg src={props.content} />
             ) : (
-              <div className="relative lg:max-w-lg break-words text-sm text-black bg-gray-300 py-2 px-4 shadow rounded-t-xl rounded-br-xl">
+              <div className="relative lg:max-w-lg break-words text-sm text-white bg-blue-400 py-2 px-4 shadow rounded-br-none rounded-xl">
                 <div>{props.content}</div>
               </div>
             )}
@@ -51,7 +51,7 @@ export default function EmployerBox(props) {
     );
   } else {
     return (
-      <div className="col-start-1 col-end-8 p-3 rounded-lg">
+      <div className="col-start-1 col-end-8 px-3 rounded-lg">
         <div className="flex gap-2 flex-row">
           {/* <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-400 flex-shrink-0">
             {props.senderId}
