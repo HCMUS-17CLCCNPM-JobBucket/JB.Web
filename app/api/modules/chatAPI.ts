@@ -70,7 +70,7 @@ export const chatAPI = {
         conversationId,
         filter: {
           sortBy: "createdDate",
-          isDescending: false,
+          isDescending: true,
           page,
           size: 10,
         },

@@ -15,8 +15,6 @@ export default function ChatLayout(props) {
       const res = await chatAPI.getConversations();
       if (res.status === 200) {
         setConversations(res.data.data.conversations);
-
-        console.log(res);
       }
     };
     fetchData();

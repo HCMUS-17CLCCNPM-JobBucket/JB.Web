@@ -17,7 +17,7 @@ export default function MyComponent(props) {
   const [value, setValue] = useState("");
   const user = useSelector((state: any) => state.user);
   const [conversations, setConversations] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [headerInfo, setHeaderInfo] = useState<any>({
     id: 0,
     avatarUrl: "",

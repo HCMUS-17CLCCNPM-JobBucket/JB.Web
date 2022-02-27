@@ -5,7 +5,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
 // import companyReducer from "./features/company";
-import cvReducer from "./features/cv"
+import cvReducer from "./features/cv";
 // import createSagaMiddleware from "redux-saga";
 
 //redux config
@@ -13,7 +13,7 @@ const persistConfig = {
   key: "root",
   storage: storage,
   stateReconciler: autoMergeLevel2,
-  whitelist: ["user","cv"],
+  whitelist: ["user", "cv"],
 };
 // let sagaMiddleware = createSagaMiddleware();
 

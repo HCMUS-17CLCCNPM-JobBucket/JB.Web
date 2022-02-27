@@ -1,7 +1,6 @@
 import Router from "next/router";
 
 export function ChatCard(props) {
-  console.log(props);
   return (
     <div
       onClick={() => Router.push("/chat/" + props.id)}

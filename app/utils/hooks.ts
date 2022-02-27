@@ -34,6 +34,8 @@ export function useChat(
     }
   );
 
+  console.log(pageNumber, chats);
+
   useEffect(() => {
     if (data) {
       setChats((chats) => [data.chat, ...chats]);
@@ -46,38 +48,37 @@ export function useChat(
     const fetchData = async () => {
       const res = await chatAPI.getMessages(conversationId, pageNumber);
       if (res.status === 200) {
-        if (res.data.data.messages !== chats) {
-          setChats((prev: any) => {
-            return [...prev, ...res.data.data.messages];
-          });
-        }
-        setHasMore(res.data.data.messages.length > 0);
-        setLoading(false);
-        if (pageNumber === 0) chatRef.current.scrollIntoView();
+        // if (res.data.data.messages !== chats) {
+        const data1 = res.data.data.messages.reverse();
+        setChats((prev: any) => [...prev, ...data1]);
       }
-    };
-    if (pageNumber !== 0) fetchData();
-    return () => {};
-  }, [pageNumber]);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(false);
-
-    const fetchData = async () => {
-      const res = await chatAPI.getMessages(conversationId, 0);
-      if (res.status === 200) {
-        setPageNumber(0);
-        setChats(res.data.data.messages);
-        setHasMore(res.data.data.messages.length > 0);
-        setLoading(false);
-        if (res.data.data.messages.length !== 0 && chatRef.current)
-          chatRef.current.scrollIntoView();
-      }
+      setHasMore(res.data.data.messages.length > 0);
+      setLoading(false);
+      if (pageNumber === 1) chatRef.current.scrollIntoView();
+      // }
     };
     fetchData();
     return () => {};
-  }, [conversationId, isChat]);
+  }, [pageNumber]);
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setError(false);
+
+  //   const fetchData = async () => {
+  //     const res = await chatAPI.getMessages(conversationId, 1);
+  //     if (res.status === 200) {
+  //       setPageNumber(1);
+  //       setChats(res.data.data.messages.reverse());
+  //       setHasMore(res.data.data.messages.length > 0);
+  //       setLoading(false);
+  //       if (res.data.data.messages.length !== 0 && chatRef.current)
+  //         chatRef.current.scrollIntoView();
+  //     }
+  //   };
+  //   fetchData();
+  //   return () => {};
+  // }, [conversationId, isChat]);
   return { loadingChat: loading, error, chats, hasMore };
 }
 
