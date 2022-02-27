@@ -11,7 +11,7 @@ export function ChatCard(props) {
             " w-full"
       }
     >
-      <div className="flex gap-2 items-center">
+      <div className="hidden md:flex gap-2 items-center">
         <img
           src={props.organization.avatarUrl}
           alt={props.organization.name}
@@ -22,8 +22,12 @@ export function ChatCard(props) {
         </p>
       </div>
       <div className="flex gap-2 items-center ">
-        <img src={props.avatarUrl} alt="" className="h-10 w-10 rounded-full" />
-        <div className="flex flex-col w-full">
+        <img
+          src={props.avatarUrl}
+          alt=""
+          className="mx-auto md:mx-0 h-8 w-8 md:h-10 md:w-10 rounded-full"
+        />
+        <div className="hidden md:flex flex-col w-full">
           <div className="font-bold truncate">{props.name}</div>
           <div className="text-sm text-gray-400 w-[150px] truncate">
             {props.lastMessage}

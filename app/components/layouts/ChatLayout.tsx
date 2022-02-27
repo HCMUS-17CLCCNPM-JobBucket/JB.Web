@@ -22,9 +22,12 @@ export default function ChatLayout(props) {
   return (
     <div className="flex h-screen antialiased text-gray-800">
       <div className="flex flex-row h-full w-full overflow-x-hidden">
-        <div className="flex flex-col py-8 pl-6 pr-2 lg:w-64 w-16 bg-white flex-shrink-0">
+        <div
+          className="flex flex-col py-8 px-1 md:pl-6 md:pr-2 md:w-64 sm:w-16 w-12
+         bg-white flex-shrink-0"
+        >
           <div
-            onClick={() => router.push("/job")}
+            onClick={() => router.back()}
             className="flex gap-1 lg:gap-2 cursor-pointer text-gray-500 hover:text-black ease-in-trans"
           >
             <svg
@@ -42,7 +45,7 @@ export default function ChatLayout(props) {
             Back
           </div>
           <div className="flex flex-col ">
-            <div className="hidden lg:flex flex-row items-center justify-between text-xs">
+            <div className="hidden md:flex flex-row items-center justify-between text-xs">
               <span className="font-bold text-lg">Conversations</span>
               <span className="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
                 {conversations.length}
@@ -66,7 +69,7 @@ export default function ChatLayout(props) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col flex-auto h-full p-2 lg:p-6">
+        <div className="flex flex-col flex-auto h-full p-2 pl-0 lg:p-6">
           <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
             {props.children}
           </div>

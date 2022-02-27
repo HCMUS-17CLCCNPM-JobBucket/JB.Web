@@ -79,30 +79,29 @@ export default function MyComponent(props) {
   return (
     <ChatLayout>
       <div className="flex flex-col h-full overflow-x-auto mb-4">
-        <div className="flex flex-col h-full">
-          <div className="flex flex-col-reverse gap-4">
-            {chats.map((item, index) => {
-              if (index === 0 && chatRef !== null) {
-                return (
-                  <div key={index} ref={chatRef}>
-                    <EmployerBox {...item} />
-                  </div>
-                );
-              }
-              if (chats.length - 3 === index) {
-                return (
-                  <div key={index} ref={lastChatElementRef}>
-                    <EmployerBox {...item} />
-                  </div>
-                );
-              } else {
-                return <EmployerBox key={index} {...item} />;
-              }
-            })}
-            <div ref={chatRef}></div>
-          </div>
+        <div className="flex flex-col-reverse gap-4">
+          {chats.map((item, index) => {
+            if (index === 0 && chatRef !== null) {
+              return (
+                <div key={index} ref={chatRef}>
+                  <EmployerBox {...item} />
+                </div>
+              );
+            }
+            if (chats.length - 3 === index) {
+              return (
+                <div key={index} ref={lastChatElementRef}>
+                  <EmployerBox {...item} />
+                </div>
+              );
+            } else {
+              return <EmployerBox key={index} {...item} />;
+            }
+          })}
+          <div ref={chatRef}></div>
         </div>
       </div>
+
       <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
         <div>
           <button className="flex items-center justify-center text-gray-400 hover:text-gray-600">

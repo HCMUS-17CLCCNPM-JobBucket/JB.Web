@@ -3,6 +3,26 @@ import helper from "app/utils/helper";
 import React from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
+
+const PreviewImg = ({ src }) => {
+  return (
+    <div className="w-full">
+      <div className="hidden md:block">
+        <LinkPreview url={src} width="400px" />
+      </div>
+      <a
+        href={src}
+        target="_blank"
+        rel="noreferrer"
+        className="block md:hidden underline text-md relative lg:max-w-lg 
+        break-words text-sm text-black bg-gray-300 py-2 px-4 shadow rounded-t-xl rounded-br-xl"
+      >
+        Link
+      </a>
+    </div>
+  );
+};
+
 export default function EmployerBox(props) {
   const user = useSelector((state: any) => state.user);
 
@@ -15,7 +35,7 @@ export default function EmployerBox(props) {
           </div> */}
           <div className="flex flex-col items-end">
             {helper.validURL(props.content) ? (
-              <LinkPreview url={props.content} width="400px" />
+              <PreviewImg src={props.content} />
             ) : (
               <div className="relative lg:max-w-lg break-words text-sm text-black bg-gray-300 py-2 px-4 shadow rounded-t-xl rounded-br-xl">
                 <div>{props.content}</div>
@@ -38,7 +58,7 @@ export default function EmployerBox(props) {
           </div> */}
           <div>
             {helper.validURL(props.content) ? (
-              <LinkPreview url={props.content} width="400px" />
+              <PreviewImg src={props.content} />
             ) : (
               <div className="relative lg:max-w-lg break-words text-sm text-black bg-gray-300 py-2 px-4 shadow rounded-t-xl rounded-br-xl">
                 <div>{props.content}</div>
