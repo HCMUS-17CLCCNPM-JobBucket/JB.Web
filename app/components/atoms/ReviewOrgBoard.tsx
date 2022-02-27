@@ -19,7 +19,7 @@ export default function ReviewOrgBoard({ values }) {
   }
 
   return (
-    <div className="w-1/3">
+    <div className="w-full md:w-1/3">
       <div className="bg-white shadow-lg rounded-lg px-4 py-4">
         <div className="mb-1 tracking-wide px-4 py-4">
           <h2 className="text-gray-800 font-semibold mt-1">

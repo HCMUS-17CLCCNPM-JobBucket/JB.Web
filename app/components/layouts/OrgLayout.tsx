@@ -18,7 +18,7 @@ export default function OrgLayout({ company, organizationId, refreshPage }) {
   };
 
   return (
-    <div className="py-4 px-16 w-full ">
+    <div className="py-4 px-4 md:px-16 w-full ">
       <Head>
         <title>{company.name} | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -30,8 +30,8 @@ export default function OrgLayout({ company, organizationId, refreshPage }) {
       /> */}
       <div className="mx-auto w-11/12 bg-white rounded-lg">
         <InfoOrg {...company} handleScroll={handleScroll} />
-        <div className="flex gap-8 mt-8">
-          <div className="w-2/3">
+        <div className="flex flex-col md:flex-row gap-8 mt-8">
+          <div className="w-full md:w-2/3">
             <div className="p-8 shadow-lg rounded-lg">
               <p className="text-2xl font-semibold">
                 Overview about {company.name}

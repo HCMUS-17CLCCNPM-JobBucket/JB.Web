@@ -6,13 +6,13 @@ export default function InfoOrg(props) {
   const user = useUserInfo();
 
   return (
-    <div className=" p-4 w-full rounded-lg shadow-lg">
+    <div className="p-4 w-full rounded-lg shadow-lg">
       <div className="flex justify-between">
-        <div className="flex gap-8">
+        <div className="flex flex-col sm:flex-row gap-8 w-full">
           <img
             src={props.avatarUrl}
             alt={props.name}
-            className="h-40 w-40 rounded-md object-cover"
+            className="h-40 w-full sm:w-40 rounded-md object-cover"
           />
           <div>
             <p className="text-3xl font-semibold">{props.name}</p>
@@ -71,16 +71,35 @@ export default function InfoOrg(props) {
             </div>
           </div>
         </div>
+        <div className="hidden md:block">
+          {user.user.roleId === 3 ? (
+            <button
+              className="btn btn-primary h-12 w-40"
+              onClick={() => router.push("/manager/edit")}
+            >
+              Update
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary h-12 w-40"
+              onClick={props.handleScroll}
+            >
+              Write Review
+            </button>
+          )}
+        </div>
+      </div>
+      <div className="block md:hidden">
         {user.user.roleId === 3 ? (
           <button
-            className="btn btn-primary h-12 w-40"
+            className="btn btn-primary h-12 w-full mt-4"
             onClick={() => router.push("/manager/edit")}
           >
             Update
           </button>
         ) : (
           <button
-            className="btn btn-primary h-12 w-40"
+            className="btn btn-primary h-12 w-full mt-4"
             onClick={props.handleScroll}
           >
             Write Review
