@@ -41,7 +41,7 @@ export default function RecruiterJob() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="flex flex-col mt-1">
-        <div className="flex justify-end pr-4">
+        <div className="flex justify-end pr-4 mt-4">
           <button
             onClick={() => router.push("/recruiter/jobs/create")}
             type="button"
