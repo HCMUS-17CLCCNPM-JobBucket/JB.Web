@@ -37,32 +37,14 @@ export default function BlogDetail(props) {
       helper.scrollToRef(commentRef);
   };
   return (
-    <div className="relative w-full h-full flex justify-center">
+    <div className="relative w-full h-full px-8 md:px-0">
       <Head>
         <title>{blogInfo.title} | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       {loading && <LoadingFullPage />}
-      {/* content */}
-      <div className="w-1/2 flex flex-col gap-8">
-        <p className="text-3xl font-semibold mt-2">{blogInfo?.title}</p>
-
-        {blogInfo?.imageUrl !== "" && (
-          <img
-            src={blogInfo?.imageUrl}
-            alt=""
-            className="w-full h-full rounded-lg object-cover"
-          />
-        )}
-        <div dangerouslySetInnerHTML={{ __html: blogInfo?.content }} />
-        <div ref={commentRef}>
-          {/* <h3 className="text-lg font-semibold text-gray-900">Comments</h3> */}
-
-          <CommentSection blogId={props.id} />
-        </div>
-      </div>
       {/* card */}
-      <div className="fixed top-50 left-16 flex flex-col gap-4">
+      <div className="lg:fixed lg:top-50 left-16 flex flex-col gap-4 w-56">
         <div className="flex gap-2">
           <img
             src={blogInfo?.author?.avatarUrl || "/avatar/avatar.png"}
@@ -113,6 +95,25 @@ export default function BlogDetail(props) {
           </button>
         </div>
       </div>
+      {/* content */}
+      <div className="lg:w-1/2 mx-auto flex flex-col gap-8">
+        <p className="text-3xl font-semibold mt-2">{blogInfo?.title}</p>
+
+        {blogInfo?.imageUrl !== "" && (
+          <img
+            src={blogInfo?.imageUrl}
+            alt=""
+            className="w-full h-full rounded-lg object-cover"
+          />
+        )}
+        <div dangerouslySetInnerHTML={{ __html: blogInfo?.content }} />
+        <div ref={commentRef}>
+          {/* <h3 className="text-lg font-semibold text-gray-900">Comments</h3> */}
+
+          <CommentSection blogId={props.id} />
+        </div>
+      </div>
+
       {/* <div className="fixed top-50 right-16 flex flex-col gap-4 ">
         <p className="text-xl font-semibold text-center">
           Similar blogs for you
