@@ -37,7 +37,7 @@ export default function BlogDetail(props) {
       helper.scrollToRef(commentRef);
   };
   return (
-    <div className="relative w-full h-full px-8 md:px-0">
+    <div className="relative w-full h-full px-8 lg:px-0">
       <Head>
         <title>{blogInfo.title} | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

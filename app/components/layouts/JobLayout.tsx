@@ -175,8 +175,43 @@ export default function JobLayout({ type }) {
         <MobileFilterDialog
           mobileFiltersOpen={mobileFiltersOpen}
           setMobileFiltersOpen={setMobileFiltersOpen}
-          filters={[]}
-        />
+          callback={handleFilter}
+          filters={[
+            {
+              id: "Cities",
+              name: "Cities",
+              options: [
+                { id: "Ho Chi Minh", name: "Ho Chi Minh" },
+                { id: "Ha Noi", name: "Ha Noi" },
+              ],
+            },
+            {
+              id: "Skills",
+              name: "Skill",
+              options: filterOptions.skills,
+            },
+            {
+              id: "Positions",
+              name: "Position",
+              options: filterOptions.positions,
+            },
+            {
+              id: "Types",
+              name: "Type",
+              options: filterOptions.types,
+            },
+            {
+              id: "Category",
+              name: "Category",
+              options: filterOptions.categories,
+            },
+            // {
+            //   id: "Salary",
+            //   name: "Salary",
+            //   options: salaryOptions,
+            // },
+          ]}
+        ></MobileFilterDialog>
         <div className="flex justify-center">
           <SearchJob
             styles="w-full lg:w-1/2 mx-4 md:mx-8 px-2 py-1 hover:shadow-lg"
