@@ -1,17 +1,18 @@
 import { blogAPI } from "app/api/modules/blogAPI";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import LikeButton from "./Button/LikeButton";
 import Reply from "./ReplyComents";
+import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
 
 export default function Comment({
   id,
   parentId,
   content,
   user,
-  isInterested,
-  interestCount,
+  isInterested: isInterestedProp,
+  interestCount: interestCountProp,
   createdDate,
   updatedDate,
   children,
@@ -27,6 +28,24 @@ export default function Comment({
     content: content,
     isEdited: false,
   });
+
+  const [status, setStatus] = useState({
+    isInterested: isInterestedProp,
+    interestCount: interestCountProp,
+  });
+
+  // useEffect(() => {
+  //   if (
+  //     isInterestedProp !== status.isInterested &&
+  //     interestCountProp !== status.interestCount
+  //   ) {
+  //     setStatus({
+  //       isInterested: isInterestedProp,
+  //       interestCount: interestCountProp,
+  //     });
+  //   }
+  // }, [isInterestedProp, interestCountProp]);
+
   const handleEdit = async () => {
     const res = await blogAPI.updateComment(editState.content, id);
     setEditState({ ...editState, isEdited: false });
@@ -47,7 +66,14 @@ export default function Comment({
     setIsReplied(false);
     callback();
   };
-
+  const handleLike = async () => {
+    const res = await blogAPI.likeComment(id);
+    console.log(res);
+    setStatus({
+      isInterested: res.data.data.blog.addInterestedComment.isInterested,
+      interestCount: res.data.data.blog.addInterestedComment.interestCount,
+    });
+  };
   return (
     <div>
       <div className="relative flex items-center group">
@@ -143,12 +169,23 @@ export default function Comment({
                 )}
               </div>
               <div className="font-semibold px-4 text-gray-700 flex items-center space-x-1">
-                <LikeButton
+                {/* <LikeButton
                   id={id}
                   type="comment"
                   isInterested={isInterested}
                   interestCount={interestCount}
-                />
+                /> */}
+                <button
+                  className="flex items-center justify-center"
+                  onClick={handleLike}
+                >
+                  {status.isInterested ? (
+                    <ThumbUpIconSolid className="w-5 h-5 text-blue-600" />
+                  ) : (
+                    <ThumbUpIconSolid className="w-5 h-5 text-gray-600" />
+                  )}
+                  <span className="ml-1">{status.interestCount}</span>
+                </button>
                 <small className="self-center">.</small>
                 {type !== "sub" && (
                   <>

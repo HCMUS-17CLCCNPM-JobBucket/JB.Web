@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CommentInput from "./CommentInput";
 import Comments from "./Comments";
+import LoadingFullPage from "./LoadingFullPage";
 
 export default function CommentSection({ blogId }) {
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [commentVal, setCommentVal] = useState("");
   const [comments, setComments] = useState([]);
   const user = useSelector((state: any) => state.user);
+
+  //loading state
+  const [loading, setLoading] = useState(false);
 
   const handleUserComment = async (e) => {
     e.preventDefault();
@@ -25,6 +29,7 @@ export default function CommentSection({ blogId }) {
 
   useEffect(() => {
     const fetchComments = async () => {
+      setLoading(true);
       const res = await blogAPI.getCommentBlogById(blogId, {
         page: 0,
         size: 10,
@@ -32,6 +37,7 @@ export default function CommentSection({ blogId }) {
       });
 
       setComments(res.data.data.blogs[0].comments);
+      setLoading(false);
     };
     fetchComments();
   }, [shouldRefresh]);
@@ -42,11 +48,15 @@ export default function CommentSection({ blogId }) {
         setComment={setCommentVal}
         callback={handleUserComment}
       />
-      <Comments
-        comments={comments}
-        blogId={blogId}
-        callback={() => setShouldRefresh(!shouldRefresh)}
-      />
+      {loading ? (
+        <LoadingFullPage />
+      ) : (
+        <Comments
+          comments={comments}
+          blogId={blogId}
+          callback={() => setShouldRefresh(!shouldRefresh)}
+        />
+      )}
     </div>
   );
 }

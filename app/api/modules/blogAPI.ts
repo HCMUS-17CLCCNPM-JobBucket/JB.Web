@@ -322,6 +322,8 @@ export const blogAPI = {
           blog{
             addInterestedComment(id: $id){ 
               id
+              isInterested
+              interestCount
             }
           }
         }
@@ -337,6 +339,8 @@ export const blogAPI = {
         blog{
           removeInterestedComment(id: $id){ 
             id
+            isInterested
+            interestCount
           }
         }
       }
