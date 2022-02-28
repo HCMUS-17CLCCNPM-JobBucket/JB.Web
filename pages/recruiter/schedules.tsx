@@ -44,7 +44,7 @@ export default function RecruiterJob() {
         <title>Schedules | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex gap-2 justify-end w-full">
+      <div className="flex flex-col gap-2 md:justify-end w-full mt-4 md:flex-row">
         <SelectScheduleStatus onChange={(val) => setStatus(val)} />
         <SelectJob onChange={(val) => setJobId(val)} />
       </div>

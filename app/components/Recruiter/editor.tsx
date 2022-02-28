@@ -263,8 +263,8 @@ export default function Editor(props) {
         />
       </div>
       <div className="flex flex-col gap-2">
-        <div className="flex gap-4">
-          <div className="flex flex-col w-80">
+        <div className="flex md:flex-row gap-4 flex-col">
+          <div className="flex flex-col md:w-80 w-full">
             <label>MinSalary</label>
             <input
               type="number"
@@ -275,7 +275,7 @@ export default function Editor(props) {
               className="input"
             />
           </div>
-          <div className="flex flex-col w-80">
+          <div className="flex flex-col md:w-80 w-full">
             <label>MaxSalary</label>
             <input
               type="number"
@@ -288,8 +288,8 @@ export default function Editor(props) {
           </div>
         </div>
         <label>Salary</label>
-        <div className="flex gap-4">
-          <div className="w-80">
+        <div className="flex md:flex-row gap-4 flex-col">
+          <div className="md:w-80 w-full">
             <Select
               styles={customStyles}
               options={currencyoptions}
@@ -297,7 +297,7 @@ export default function Editor(props) {
               onChange={(value) => setCurrency(value.value)}
             />
           </div>
-          <div className="w-80">
+          <div className="md:w-80 w-full">
             <Select
               styles={customStyles}
               options={durationoptions}
@@ -306,7 +306,7 @@ export default function Editor(props) {
             />
           </div>
         </div>
-        <div className="flex flex-col w-80">
+        <div className="flex flex-col md:w-80 w-full">
           <label>Number employees</label>
           <input
             type="number"
@@ -369,7 +369,7 @@ export default function Editor(props) {
           }
         />
       </div>
-      <div className="w-80 flex flex-col">
+      <div className="md:w-80 w-full flex flex-col">
         <label className="text-gray-700">Expire date</label>
         {/* <DatePicker
           onChange={(value) => handleChangeExpire(value)}
