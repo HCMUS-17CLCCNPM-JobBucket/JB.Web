@@ -17,9 +17,9 @@ const Avatar = ({ src, alt, name }) => (
 export default function InterviewCard(props) {
   const user = useUserInfo();
   return (
-    <div className="w-full rounded-lg flex gap-16">
-      <div>
-        <div className="flex w-52">
+    <div className="job-horizon-card hover:shadow-lg relative w-full">
+      <div className="job-horizon-card__header">
+        <div className=" flex flex-col gap-4 items-start justify-start overflow-hidden">
           <Avatar
             src={
               user.user.roleId === 1
@@ -37,24 +37,25 @@ export default function InterviewCard(props) {
                 : props.interviewee.name
             }
           />
+          <div>
+            <p className="text-xl font-semibold">{props.job.title}</p>
+          </div>
         </div>
       </div>
-      <div className="flex flex-1 justify-between items-center">
-        <div>
-          <p className="text-xl font-semibold w-52">{props.job.title}</p>
-          {/* <p className="text-gray-500">{props.description}</p> */}
+      <div className="gap-4 flex flex-col md:flex-row md:justify-between md:items-center px-6 py-2 border-t">
+        <div className="flex gap-2">
+          <p className="text-blue-600 font-semibold">
+            {props.status === 0
+              ? "Open"
+              : props.status === 1
+              ? "Closed "
+              : "Pending"}
+          </p>
+          <p className="md:block">
+            - Created at{" "}
+            <Moment format="ddd DD/MM/yyyy">{props.interviewTime}</Moment>
+          </p>
         </div>
-        <p className="font-semibold text-xl">
-          {props.status === 0
-            ? "Open"
-            : props.status === 1
-            ? "Closed "
-            : "Pending"}
-        </p>
-        <p className="text-lg">
-          Created at{" "}
-          <Moment format="ddd DD/MM/yyyy">{props.interviewTime}</Moment>
-        </p>
         {user.user.roleId === 2 && <InterviewButton {...props} />}
       </div>
     </div>
