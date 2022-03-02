@@ -200,11 +200,13 @@ export default function Editor(props) {
       }
 
       if (props.isEdit) {
-        console.log(dataToPost);
         const res = await jobAPI.update({
           ...dataToPost,
         });
-        if (res.status === 200) toast("Update success");
+        if (res.status === 200) {
+          toast("Update success");
+          router.push("/recruiter/jobs");
+        }
       } else {
         const imageRes: any = await imageAPI.uploadImage(imageFile);
         const res = await jobAPI.add(
