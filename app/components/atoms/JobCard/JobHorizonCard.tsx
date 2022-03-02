@@ -13,6 +13,8 @@ import { useUserInfo } from "app/utils/hooks";
 export default function JobHorizonCard(props) {
   const user = useUserInfo();
 
+  console.log(user.user.roleId);
+
   return (
     <div className="job-horizon-card hover:shadow-lg relative w-full">
       <div className="job-horizon-card__header">
@@ -71,7 +73,7 @@ export default function JobHorizonCard(props) {
           ))}
         </div>
       </div>
-      <div className="flex justify-between items-center px-6 py-2 border-t">
+      <div className="flex flex-col sm:flex-row justify-between items-center px-6 py-2 border-t">
         <div className="flex gap-2">
           <p>
             Expires in <Moment format="DD/MM/YYYY" date={props.expireDate} />
@@ -81,7 +83,7 @@ export default function JobHorizonCard(props) {
             - Posted <Moment fromNow date={props.createdDate} />
           </p>
         </div>
-        <div className="hidden xs:block">
+        <div className="">
           {user.user.roleId === 2 ? (
             <div>
               <button

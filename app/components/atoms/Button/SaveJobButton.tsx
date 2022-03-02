@@ -35,7 +35,7 @@ export default function SaveJobButton({ isInterested, jobId }) {
         (isSaved
           ? "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50"
           : "bg-blue-600 text-white ") +
-        " inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
+        "w-40 md:w-24  inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium "
       }
     >
       <svg
