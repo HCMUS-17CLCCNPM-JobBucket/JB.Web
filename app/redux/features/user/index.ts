@@ -9,8 +9,12 @@ export const userSlice = createSlice({
     user: {
       avatarUrl: "",
     },
+    refreshJob: false,
   },
   reducers: {
+    updateRefresh: (state,action)=>{
+      state.refreshJob = action.payload;
+    },
     updateAvatar: (state, action) => {
       state.user.avatarUrl = action.payload;
     },
@@ -48,6 +52,7 @@ export const {
   getNewAccessToken,
   updateProfile,
   updateAvatar,
+  updateRefresh,
 } = userSlice.actions;
 
 export default userSlice.reducer;

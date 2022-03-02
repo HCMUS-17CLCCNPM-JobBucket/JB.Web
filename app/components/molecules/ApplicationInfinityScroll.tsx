@@ -10,6 +10,7 @@ import JobHorizonCard from "../atoms/JobCard/JobHorizonCard";
 import ListEmpty from "../atoms/ListEmpty";
 import Loading from "../atoms/Loading";
 import LoadingFullPage from "./LoadingFullPage";
+import ApplicationCV from "app/components/cv/reviewCv/applicationCV";
 
 export default function ApplicationInfinityScroll({
   hasMore,
@@ -88,7 +89,7 @@ export default function ApplicationInfinityScroll({
                   </p>
                 </div>
                 <div className="xs:block flex gap-4">
-                  <a
+                  {/* <a
                     href={item.cVPDFUrl}
                     target="_blank"
                     rel="noreferrer"
@@ -100,7 +101,9 @@ export default function ApplicationInfinityScroll({
                       className="h-10 w-10 rounded-lg object-cover"
                     />
                     <p className="text-blue-600 font-semibold">CV</p>
-                  </a>
+                    
+                  </a> */}
+                  <ApplicationCV id={item.cVId}></ApplicationCV>
                   <SetScheduleInterviewButton
                     jobId={item.job.id}
                     // description={"123123"}

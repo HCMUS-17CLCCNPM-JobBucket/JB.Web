@@ -293,7 +293,7 @@ export default function JobDetail(props) {
             <p className="font-semibold">
               Locations:{" "}
               <span className="font-medium">
-                {jobInfo.organization.addresses[0]}
+                {jobInfo.addresses[0]}
               </span>
             </p>
           </div>

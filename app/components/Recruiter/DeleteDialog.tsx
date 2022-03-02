@@ -3,9 +3,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { jobAPI } from "app/api/modules/jobAPI";
 import { toast } from "react-toastify";
+import { updateRefresh } from "app/redux/features/user";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function DeleteDialog({ id }) {
   let [isOpen, setIsOpen] = useState(false);
+  const shouldRefresh = useSelector((state: any) => state.user.refreshJob);
+  const dispatch = useDispatch();
 
   function closeModal() {
     setIsOpen(false);
@@ -14,11 +19,11 @@ export default function DeleteDialog({ id }) {
   function openModal() {
     setIsOpen(true);
   }
-
   const handleDeleteJob = async () => {
     const res = await jobAPI.delete(id);
     if (res.status === 200) {
       closeModal();
+      dispatch(updateRefresh(!shouldRefresh));
       toast("Delete Success");
     }
   };

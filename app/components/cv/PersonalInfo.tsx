@@ -11,7 +11,7 @@ export default function PersonalInfo(props) {
   const isUpdate = useSelector((state: any) => state.cv.isUpdate);
   const handleChangeBirthdate = (value) => {
     if (value != null) {
-      dispatch(cvActions.changeBirthdate(value.toISOString()));
+      dispatch(cvActions.changeBirthdate(moment(value).toISOString()));
     } else {
       dispatch(cvActions.changeBirthdate(null));
     }
@@ -176,22 +176,23 @@ export default function PersonalInfo(props) {
           <label htmlFor="birthdate" className="text-gray-700">
             BirthDate
           </label>
-          {/* {isUpdate ? (
-            <DatePicker
-              defaultValue={birthdate}
-              format="DD-MM-YYYY"
-              onChange={(value) => handleChangeBirthdate(value)}
-              style={{ borderRadius: "0.5rem" }}
-              size="large"
-            ></DatePicker>
+          {isUpdate ? (
+            <input
+              defaultValue={cv.birthdate.slice(0, 10)}
+              type="date"
+              className="input"
+              placeholder="Birthdate"
+              onChange={(e) => handleChangeBirthdate(e.target.value)}
+            />
           ) : (
-            <DatePicker
-              onChange={(value) => handleChangeBirthdate(value)}
-              format="DD-MM-YYYY"
-              style={{ borderRadius: "0.5rem" }}
-              size="large"
-            ></DatePicker>
-          )} */}
+            <input
+              defaultValue={moment().format("YYYY-MM-DD")}
+              type="date"
+              className="input"
+              placeholder="Birthdate"
+              onChange={(e) => handleChangeBirthdate(e.target.value)}
+            />
+          )}
         </div>
         <div className="flex flex-col col-span-2 ">
           <label htmlFor="introduction" className="text-gray-700">

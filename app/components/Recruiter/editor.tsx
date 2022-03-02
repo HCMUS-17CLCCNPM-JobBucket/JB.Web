@@ -6,6 +6,7 @@ import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Select, { StylesConfig } from "react-select";
+
 import moment from "moment";
 import { toast } from "react-toastify";
 import Loading from "../atoms/Loading";
@@ -78,13 +79,15 @@ export default function Editor(props) {
   const [id, setID] = useState(props.id);
   const [salaryCurrency, setCurrency] = useState("");
   const [salaryDuration, setDuration] = useState("");
-  const [description, setDescription] = useState("");
-  const [benefits, setBenefit] = useState("");
-  const [experiences, setExpe] = useState("");
-  const [responsibilities, setRespons] = useState("");
-  const [requirements, setRequire] = useState("");
-  const [optionalRequirements, setOrequire] = useState("");
-  const [whyJoinUs, setWhyjoin] = useState("");
+  const [description, setDescription] = useState(props.description);
+  const [benefits, setBenefit] = useState(props.benefits);
+  const [experiences, setExpe] = useState(props.experiences);
+  const [responsibilities, setRespons] = useState(props.responsibilities);
+  const [requirements, setRequire] = useState(props.requirements);
+  const [optionalRequirements, setOrequire] = useState(
+    props.optionalRequirements
+  );
+  const [whyJoinUs, setWhyjoin] = useState(props.whyJoinUs);
   const [skills, setSkills] = useState([]);
   const [positions, setPositions] = useState([]);
   const [types, setTypes] = useState([]);
@@ -92,8 +95,11 @@ export default function Editor(props) {
   const user = useSelector((state: any) => state.user);
   const [isUploadImg, setIsUploadImg] = useState(true);
   const [imageFile, setImageFile] = useState(null);
-  const [previewSource, setPreviewSource] = useState("");
-  const [value, setValue] = useState({});
+  const [previewSource, setPreviewSource] = useState(props.imageUrls);
+  const expireDate = moment(props.expireDate);
+  const [isMale, setGender] = useState(props.gender == "Male");
+  const [isVisa, setVisa] = useState(props.isVisaSponsorship);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
@@ -101,7 +107,7 @@ export default function Editor(props) {
   };
   const handleChangeExpire = (value) => {
     if (value != null) {
-      formik.values.expireDate = value.toISOString();
+      formik.values.expireDate = moment(value).toISOString();
     } else {
       formik.values.expireDate = "";
     }
@@ -139,7 +145,6 @@ export default function Editor(props) {
     };
     fetchData();
   }, []);
-
   const formik = useFormik({
     initialValues: {
       title: props.title,
@@ -152,19 +157,19 @@ export default function Editor(props) {
       maxSalary: props.maxSalary,
       salaryCurrency: props.salaryCurrency,
       salaryDuration: props.salaryDuration,
-      skillIds: props.skillIds,
-      positionIds: props.positionIds,
-      typeIds: props.typeIds,
-      categoryIds: props.categoryIds,
+      skillIds: props.skillIds.map((skill) => skill.id),
+      positionIds: props.positionIds.map((position) => position.id),
+      typeIds: props.typeIds.map((type) => type.id),
+      categoryIds: props.categoryIds.map((category) => category.id),
       isVisaSponsorship: props.isVisaSponsorship,
       expireDate: props.expireDate,
-      benefits: props.benefits,
-      experiences: props.experiences,
-      responsibilities: props.responsibilities,
-      requirements: props.requirements,
-      optionalRequirements: props.optionalRequirements,
+      benefits: benefits,
+      experiences: experiences,
+      responsibilities: responsibilities,
+      requirements: requirements,
+      optionalRequirements: optionalRequirements,
       cultures: props.cultures,
-      whyJoinUs: props.whyJoinUs,
+      whyJoinUs: whyJoinUs,
       numberEmployeesToApplied: props.numberEmployeesToApplied,
       jobForm: props.jobForm,
       gender: props.gender,
@@ -172,6 +177,8 @@ export default function Editor(props) {
     onSubmit: async (values) => {
       const dataToPost = {
         ...values,
+        gender: isMale ? "Male" : "Female",
+        isVisaSponsorship: isVisa,
         id,
         salaryCurrency,
         salaryDuration,
@@ -184,7 +191,16 @@ export default function Editor(props) {
         whyJoinUs,
       };
 
+      if (
+        (imageFile == null && dataToPost.imageUrls.length == 0) ||
+        dataToPost.title == ""
+      ) {
+        toast("Job must have title and images", { type: "warning" });
+        return;
+      }
+
       if (props.isEdit) {
+        console.log(dataToPost);
         const res = await jobAPI.update({
           ...dataToPost,
         });
@@ -236,6 +252,19 @@ export default function Editor(props) {
       </div>
       <div className="flex flex-col">
         <label className="text-gray-700">Images</label>
+        {previewSource != null && previewSource != "" ? (
+          <img
+            src={previewSource}
+            alt=""
+            className="h-52 w-52 rounded-lg mb-4"
+          />
+        ) : (
+          <img
+            src="https://via.placeholder.com/160x160"
+            alt=""
+            className="h-52 w-52 rounded-lg mb-4"
+          />
+        )}
         <input type="file" onChange={handleImageChange} className="input" />
       </div>
       <div className="flex flex-col">
@@ -267,6 +296,7 @@ export default function Editor(props) {
           <div className="flex flex-col md:w-80 w-full">
             <label>MinSalary</label>
             <input
+              min="0"
               type="number"
               id="minSalary"
               name="minSalary"
@@ -278,6 +308,7 @@ export default function Editor(props) {
           <div className="flex flex-col md:w-80 w-full">
             <label>MaxSalary</label>
             <input
+              min="0"
               type="number"
               id="maxSalary"
               name="maxSalary"
@@ -288,27 +319,54 @@ export default function Editor(props) {
           </div>
         </div>
         <label>Salary</label>
-        <div className="flex md:flex-row gap-4 flex-col">
-          <div className="md:w-80 w-full">
-            <Select
-              styles={customStyles}
-              options={currencyoptions}
-              placeholder="Currency"
-              onChange={(value) => setCurrency(value.value)}
-            />
+        <div className="flex gap-4">
+          <div className="w-80">
+            {props.isEdit ? (
+              <Select
+                defaultValue={{
+                  value: formik.values.salaryCurrency,
+                  label: formik.values.salaryCurrency,
+                }}
+                styles={customStyles}
+                options={currencyoptions}
+                placeholder="Currency"
+                onChange={(value) => setCurrency(value.value)}
+              />
+            ) : (
+              <Select
+                styles={customStyles}
+                options={currencyoptions}
+                placeholder="Currency"
+                onChange={(value) => setCurrency(value.value)}
+              />
+            )}
           </div>
-          <div className="md:w-80 w-full">
-            <Select
-              styles={customStyles}
-              options={durationoptions}
-              placeholder="Duration"
-              onChange={(value) => setDuration(value.value)}
-            />
+          <div className="w-80">
+            {props.isEdit ? (
+              <Select
+                defaultValue={{
+                  value: formik.values.salaryDuration,
+                  label: formik.values.salaryDuration,
+                }}
+                styles={customStyles}
+                options={durationoptions}
+                placeholder="Duration"
+                onChange={(value) => setDuration(value.value)}
+              />
+            ) : (
+              <Select
+                styles={customStyles}
+                options={durationoptions}
+                placeholder="Duration"
+                onChange={(value) => setDuration(value.value)}
+              />
+            )}
           </div>
         </div>
         <div className="flex flex-col md:w-80 w-full">
           <label>Number employees</label>
           <input
+            min="0"
             type="number"
             id="numberEmployeesToApplied"
             value={formik.values.numberEmployeesToApplied}
@@ -319,73 +377,149 @@ export default function Editor(props) {
       </div>
       <div className="flex flex-col">
         <label>Skills</label>
-        <Select
-          styles={customStyles}
-          placeholder="Skills"
-          isMulti
-          options={skills}
-          onChange={(value) =>
-            (formik.values.skillIds = value.map((skill) => skill.value))
-          }
-        />
+        {props.isEdit ? (
+          <Select
+            defaultValue={props.skillIds.map((skill) => ({
+              value: skill.id,
+              label: skill.name,
+            }))}
+            styles={customStyles}
+            placeholder="Skills"
+            isMulti
+            options={skills}
+            onChange={(value) => {
+              formik.values.skillIds = value.map((skill) => skill.value);
+            }}
+          />
+        ) : (
+          <Select
+            styles={customStyles}
+            placeholder="Skills"
+            isMulti
+            options={skills}
+            onChange={(value) =>
+              (formik.values.skillIds = value.map((skill) => skill.value))
+            }
+          />
+        )}
       </div>
       <div className="flex flex-col">
         <label>Positions</label>
-        <Select
-          styles={customStyles}
-          placeholder="Positions"
-          isMulti
-          options={positions}
-          onChange={(value) =>
-            (formik.values.positionIds = value.map(
-              (position) => position.value
-            ))
-          }
-        />
+        {props.isEdit ? (
+          <Select
+            defaultValue={props.positionIds.map((position) => ({
+              value: position.id,
+              label: position.name,
+            }))}
+            styles={customStyles}
+            placeholder="Positions"
+            isMulti
+            options={positions}
+            onChange={(value) =>
+              (formik.values.positionIds = value.map(
+                (position) => position.value
+              ))
+            }
+          />
+        ) : (
+          <Select
+            styles={customStyles}
+            placeholder="Positions"
+            isMulti
+            options={positions}
+            onChange={(value) =>
+              (formik.values.positionIds = value.map(
+                (position) => position.value
+              ))
+            }
+          />
+        )}
       </div>
       <div className="flex flex-col">
         <label>Types</label>
-        <Select
-          styles={customStyles}
-          placeholder="Types"
-          isMulti
-          options={types}
-          onChange={(value) =>
-            (formik.values.typeIds = value.map((type) => type.value))
-          }
-        />
+        {props.isEdit ? (
+          <Select
+            defaultValue={props.typeIds.map((type) => ({
+              value: type.id,
+              label: type.name,
+            }))}
+            styles={customStyles}
+            placeholder="Types"
+            isMulti
+            options={types}
+            onChange={(value) =>
+              (formik.values.typeIds = value.map((type) => type.value))
+            }
+          />
+        ) : (
+          <Select
+            defaultValue={props.typeIds.map((type) => ({
+              value: type.id,
+              label: type.name,
+            }))}
+            styles={customStyles}
+            placeholder="Types"
+            isMulti
+            options={types}
+            onChange={(value) =>
+              (formik.values.typeIds = value.map((type) => type.value))
+            }
+          />
+        )}
       </div>
       <div className="flex flex-col">
         <label>Categories</label>
-        <Select
-          styles={customStyles}
-          placeholder="Categories"
-          isMulti
-          options={categories}
-          onChange={(value) =>
-            (formik.values.categoryIds = value.map(
-              (category) => category.value
-            ))
-          }
-        />
+        {props.isEdit ? (
+          <Select
+            defaultValue={props.categoryIds.map((category) => ({
+              value: category.id,
+              label: category.name,
+            }))}
+            styles={customStyles}
+            placeholder="Categories"
+            isMulti
+            options={categories}
+            onChange={(value) =>
+              (formik.values.categoryIds = value.map(
+                (category) => category.value
+              ))
+            }
+          />
+        ) : (
+          <Select
+            styles={customStyles}
+            placeholder="Categories"
+            isMulti
+            options={categories}
+            onChange={(value) =>
+              (formik.values.categoryIds = value.map(
+                (category) => category.value
+              ))
+            }
+          />
+        )}
       </div>
       <div className="md:w-80 w-full flex flex-col">
         <label className="text-gray-700">Expire date</label>
-        {/* <DatePicker
-          onChange={(value) => handleChangeExpire(value)}
-          format="DD-MM-YYYY"
-          style={{ borderRadius: "0.5rem" }}
-          size="large"
-          disabledDate={(current) => {
-            return current && current <= moment().subtract(1, "day");
-          }}
-        ></DatePicker> */}
-        <input
-          name="somedate"
-          type="date"
-          min={moment().format("yyyy-MM-DD").toString()}
-          className="border border-gray-300 rounded-md p-1"
-        ></input>
+        {props.isEdit ? (
+          <input
+            defaultValue={props.expireDate.slice(0, 10)}
+            type="date"
+            className="input"
+            placeholder="Expire Date"
+            min={moment().format("YYYY-MM-DD")}
+            onChange={(e) => handleChangeExpire(e.target.value)}
+          />
+        ) : (
+          <input
+            defaultValue={moment().format("YYYY-MM-DD")}
+            type="date"
+            className="input"
+            placeholder="Expire Date"
+            min={moment().format("YYYY-MM-DD")}
+            onChange={(e) => handleChangeExpire(e.target.value)}
+          />
+        )}
       </div>
       <div className="flex flex-col ">
         <label htmlFor="gender" className="text-gray-700">
@@ -394,21 +528,21 @@ export default function Editor(props) {
         <div className="w-full py-2 text-base">
           <label className="inline-flex items-center">
             <input
-              // checked={cv.gender == "Male"}
+              checked={isMale}
               type="radio"
               name="gender"
               value="Male"
-              onChange={(e) => (formik.values.gender = "Male")}
+              onChange={(e) => setGender(true)}
             />
             <span className="ml-2 text-gray-700">Male</span>
           </label>
           <label className="inline-flex items-center ml-6">
             <input
-              // checked={cv.gender == "Female"}
+              checked={!isMale}
               type="radio"
               name="gender"
               value="Female"
-              onChange={(e) => (formik.values.gender = "Female")}
+              onChange={(e) => setGender(false)}
             />
             <span className="ml-2 text-gray-700">Female</span>
           </label>
@@ -421,19 +555,19 @@ export default function Editor(props) {
         <div className="w-full py-2 text-base">
           <label className="inline-flex items-center">
             <input
-              // checked={cv.gender == "Male"}
+              checked={isVisa}
               type="radio"
               name="visa"
-              onChange={(e) => (formik.values.isVisaSponsorship = true)}
+              onChange={(e) => setVisa(true)}
             />
             <span className="ml-2 text-gray-700">Yes</span>
           </label>
           <label className="inline-flex items-center ml-6">
             <input
-              // checked={cv.gender == "Female"}
+              checked={!isVisa}
               type="radio"
               name="visa"
-              onChange={(e) => (formik.values.isVisaSponsorship = false)}
+              onChange={(e) => setVisa(false)}
             />
             <span className="ml-2 text-gray-700">No</span>
           </label>
@@ -448,7 +582,7 @@ export default function Editor(props) {
           onModelChange={(model) => setDescription(model)}
         />
       </div>
-      {/* <div className="flex flex-col">
+      <div className="flex flex-col">
         <label>Benefits</label>
         <FroalaEditorComponent
           tag="textarea"
@@ -501,7 +635,7 @@ export default function Editor(props) {
           model={whyJoinUs}
           onModelChange={(model) => setWhyjoin(model)}
         />
-      </div> */}
+      </div>
       {props.isEdit ? (
         <button className="btn btn-primary w-40" type="submit">
           Save changes
