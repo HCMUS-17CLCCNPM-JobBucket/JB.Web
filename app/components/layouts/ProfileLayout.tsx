@@ -45,29 +45,31 @@ export function SkillButton({ skillName, level, onDelete }) {
 export default function ProfileLayout(props) {
   const user = useUserInfo();
   return (
-    <div className="px-20 py-10 flex flex-col gap-12">
+    <div className="px-8 md:px-20 py-10 flex flex-col gap-6 md:gap-12">
       <Head>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <title>{props.profile.name} Profile | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex gap-12">
+      <div className="flex gap-6 md:gap-12">
         <img
           src={props.profile.avatarUrl || "/avatar/avatar.png"}
           alt=""
-          className="rounded-full h-40 w-40 object-cover"
+          className="rounded-full  h-16 w-16 md:h-24 md:w-24 lg:h-40 lg:w-40 object-cover"
         />
 
         <div className="flex flex-col gap-2 w-full">
           <div className="flex justify-between">
             <div>
-              <p className="text-4xl font-semibold">{props.profile.name}</p>
+              <p className="text-xl md:text-2xl lg:text-4xl font-semibold">
+                {props.profile.name}
+              </p>
               {/* <p className="text-sm text-gray-400">
                 Web Dev | Software Engineer
               </p> */}
             </div>
 
-            <div className="flex gap-2">
+            <div className="hidden md:flex gap-2">
               {user.user.roleId === 2 && (
                 <button className="btn btn-primary w-40">Message</button>
               )}
@@ -82,14 +84,19 @@ export default function ProfileLayout(props) {
               )}
             </div>
           </div>
-          <p className="text-lg">{props.profile.email}</p>
+          <p className="text-md md:text-lg">{props.profile.email}</p>
 
-          <p className="mt-2 text-gray-600">{props.profile.introduction}</p>
+          <p className="hidden md:block mt-2 text-gray-600">
+            {props.profile.introduction}
+          </p>
         </div>
       </div>
+      <p className="md:hidden block mt-2 text-gray-600">
+        {props.profile.introduction}
+      </p>
       <hr className="h-[1px] w-full text-gray-400" />
 
-      <div className="ml-52 ">
+      <div className="ml:ml-16 md:ml-36 lg:ml-52 ">
         {props.profile.skills.length > 0 && (
           <div>
             <p className="text-2xl font-semibold text-blue-500">Skills</p>
@@ -103,7 +110,7 @@ export default function ProfileLayout(props) {
           </div>
         )}
 
-        <div className="grid grid-cols-2 mt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 mt-4">
           {/* left */}
           {props.profile.experiences?.length > 0 && (
             <div className="flex flex-col gap-8">
