@@ -81,7 +81,7 @@ export default function DropdownAvatar() {
             </Menu.Item>
             <Menu.Item>
               <div className="px-1 py-1">
-                {user.user.id === 1 && (
+                {user.user.roleId === 1 && (
                   <DropdownItem
                     content="My Job"
                     onClick={() => router.push("/job/saved")}
