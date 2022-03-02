@@ -19,6 +19,7 @@ export default function ChatLayout(props) {
     };
     fetchData();
   }, [props.chats]);
+
   return (
     <div className="flex h-screen antialiased text-gray-800">
       <div className="flex flex-row h-full w-full overflow-x-hidden">
@@ -62,7 +63,9 @@ export default function ChatLayout(props) {
                       ? item.users[1].name
                       : item.users[0].name
                   }
-                  lastMessage={item.lastMessage.content}
+                  lastMessage={
+                    item.lastMessage !== null && item.lastMessage.content
+                  }
                   avatarUrl={item.users[1].avatarUrl || "/avatar/avatar.png"}
                 />
               ))}

@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useQuery, gql, useSubscription } from "@apollo/client";
 import { useUserInfo } from "app/utils/hooks";
+import { toast } from "react-toastify";
 
 export default function Notify() {
   const [noti, setNoti] = useState([]);
@@ -35,10 +36,13 @@ export default function Notify() {
 
   useEffect(() => {
     if (data) {
-      setNoti([...noti, data.notification]);
+      setNoti([data.notification, ...noti]);
+
+      toast(data.notification.message);
     }
   }, [data]);
 
+  console.log(noti);
   return (
     <div className=" ">
       <Popover className="h-6 w-6 relative">
@@ -72,9 +76,12 @@ export default function Notify() {
                               {item.message}
                             </p>
                           </div>
-                          <Moment fromNow className="text-sm text-gray-400">
-                            {item.createdDate}
-                          </Moment>
+
+                          <Moment
+                            fromNow
+                            date={item.createdDate}
+                            className="text-sm text-gray-400"
+                          />
                         </div>
                         <hr className="mx-3" />
                       </div>

@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import Head from "next/head";
 import JobRecSection from "app/components/molecules/JobRecSection";
 import router from "next/router";
+import { chatAPI } from "app/api/modules/chatAPI";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await jobAPI.getJobByIdWithoutToken(parseInt(params.id));
@@ -22,6 +23,7 @@ export const getServerSideProps = async ({ params }) => {
 };
 
 export default function JobDetail(props) {
+  console.log(props);
   const [isExpired, setIsExpired] = useState(false);
   const [jobStatus, setJobStatus] = useState({
     isJobInterested: false,
@@ -39,6 +41,14 @@ export default function JobDetail(props) {
     };
     fetchData();
   }, []);
+
+  const onCreateConversation = async () => {
+    const res = await chatAPI.createConversation(jobInfo.employerId);
+
+    if (res.status === 200) {
+      router.push(`/chat/${res.data.data.chat.addOrGet.id}`);
+    }
+  };
 
   return (
     <div className="flex-1 px-16 py-4">
@@ -164,7 +174,9 @@ export default function JobDetail(props) {
             isInterested={jobStatus.isJobInterested}
             jobId={jobInfo.id}
           />
-          <button className="btn btn-primary">Message</button>
+          <button className="btn btn-primary" onClick={onCreateConversation}>
+            Message
+          </button>
 
           <span className="ml-3 relative sm:hidden">
             <button

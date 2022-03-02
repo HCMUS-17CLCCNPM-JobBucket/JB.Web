@@ -13,7 +13,6 @@ export const getServerSideProps = async ({ params }) => {
 };
 export default function MyComponent(props) {
   const chatRef = useRef(null);
-  // const [isChat, setIsChat] = useState(false);
   const [value, setValue] = useState("");
   const user = useSelector((state: any) => state.user);
   const [conversations, setConversations] = useState([]);
@@ -86,8 +85,6 @@ export default function MyComponent(props) {
       }
     }
   };
-
-  console.log(headerInfo);
 
   return (
     <ChatLayout chats={chats}>

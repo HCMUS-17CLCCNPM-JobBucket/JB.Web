@@ -1,6 +1,32 @@
 import axiosClient from "app/api/axiosClient";
 
 export const chatAPI = {
+  createConversation: (receiverId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation addOrGetConversation($conversation: AddConversationRequestInput) {
+        chat {
+          addOrGet(conversation: $conversation) {
+            id
+            users {
+              id
+              userName
+            }
+            organization {
+              id
+              name
+            }
+            lastMessage {
+              id
+              content
+            }
+          }
+        }
+      }
+      `,
+      variables: {
+        conversation: { receiverId },
+      },
+    }),
   getConversationById: (conversationId: string) =>
     axiosClient.post("graphql", {
       query: `query getConversationById {

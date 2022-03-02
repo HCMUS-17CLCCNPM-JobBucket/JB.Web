@@ -4,10 +4,11 @@ const notiAPI = {
   getAll: () =>
     axiosClient.post("graphql", {
       query: `query getNoti {
-        notifications {
+        notifications(filter: { sortBy: "createdDate", isDescending: true }) {
           id
           seenByUser
           message
+          createdDate
         }
       }`,
     }),

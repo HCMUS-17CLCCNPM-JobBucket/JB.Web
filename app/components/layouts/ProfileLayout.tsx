@@ -66,15 +66,21 @@ export default function ProfileLayout(props) {
                 Web Dev | Software Engineer
               </p> */}
             </div>
-            {user.user.roleId === 1 ? (
-              <Link href="/profile/edit" passHref>
-                <button className="btn btn-primary w-40 h-10">Edit</button>
-              </Link>
-            ) : (
-              <Link href="/" passHref>
-                <button className="btn btn-primary w-40 h-10">CV</button>
-              </Link>
-            )}
+
+            <div className="flex gap-2">
+              {user.user.roleId === 2 && (
+                <button className="btn btn-primary w-40">Message</button>
+              )}
+              {user.user.roleId === 1 ? (
+                <Link href="/profile/edit" passHref>
+                  <button className="btn btn-primary w-40 h-10">Edit</button>
+                </Link>
+              ) : (
+                <Link href="/" passHref>
+                  <button className="btn btn-primary w-40 h-10">CV</button>
+                </Link>
+              )}
+            </div>
           </div>
           <p className="text-lg">{props.profile.email}</p>
 

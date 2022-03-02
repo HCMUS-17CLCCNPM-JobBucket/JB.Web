@@ -181,6 +181,7 @@ export const jobAPI = {
       query: `
         query Job($id: Int) {
           jobs(id: $id) {
+            employerId
             id
             title
             organization {

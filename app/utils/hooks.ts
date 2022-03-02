@@ -24,6 +24,9 @@ export function useChat(
         chat(token: $token) {
           id
           content
+          senderId
+          conversationId
+          createdDate
         }
       }
     `,
