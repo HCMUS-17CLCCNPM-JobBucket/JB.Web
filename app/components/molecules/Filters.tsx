@@ -2,7 +2,7 @@ import { Disclosure } from "@headlessui/react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/outline";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
-import Selector from "../atoms/Select";
+import Selector from "../atoms/Select/Selector";
 
 function Panel({ section, handleChange }) {
   const [list, setList] = useState(
@@ -65,7 +65,6 @@ function Panel({ section, handleChange }) {
 }
 
 export default function Filters({ filters, callback }) {
-  console.log();
   const [scrollOverHeight, setScrollOverHeight] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState({});
 
@@ -88,7 +87,7 @@ export default function Filters({ filters, callback }) {
       });
       return;
     }
-    const newValue = value.map((item) => item.value);
+    const newValue = value.map((item) => item.id);
 
     if (newValue.length === 0)
       setSelectedFilter({
@@ -97,6 +96,7 @@ export default function Filters({ filters, callback }) {
         [section.name.toLowerCase()]: [],
       });
 
+    //if section.name exists in selectedFilter, add last item of newValue to it
     if (selectedFilter[section.name.toLowerCase()])
       setSelectedFilter({
         ...selectedFilter,
@@ -126,13 +126,15 @@ export default function Filters({ filters, callback }) {
             <p className="font-semibold text-gray-500">{section.name}</p>
             <Selector
               options={section.options.map((option) => {
-                return { value: option.id || option.value, label: option.name };
+                return { id: option.id || option.value, name: option.name };
               })}
-              onChange={(e) => handleChange(e, section)}
-              value={null}
+              values={[]}
+              setValues={(e) => handleChange(e, section)}
               placeholder={
                 section.options.length > 0 ? section.options[0].name : ""
               }
+              displayValue="name"
+              loading={false}
               isMulti={true}
             />
           </div>

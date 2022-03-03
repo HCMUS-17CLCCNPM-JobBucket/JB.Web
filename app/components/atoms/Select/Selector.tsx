@@ -26,6 +26,7 @@ export default function Selector({
       singleSelect={!isMulti}
       selectedValues={values}
       onSelect={setValues}
+      onRemove={(selected) => setValues(selected)}
       displayValue={displayValue}
       placeholder={placeholder}
       onKeyPressFn={onKeyPressFn}

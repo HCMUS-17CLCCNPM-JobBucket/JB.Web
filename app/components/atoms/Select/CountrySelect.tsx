@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import Selector from "app/components/atoms/Select";
+import Selector from "app/components/atoms/Select/Selector";
 
 export default function CountrySelect({ value, onChange }) {
   const [countries, setCountries] = React.useState([]);
@@ -14,11 +14,22 @@ export default function CountrySelect({ value, onChange }) {
   return (
     <Selector
       options={countries.map((item) => {
-        return { value: item.name, label: item.name };
+        return { id: item.name, name: item.name };
       })}
+      values={[]}
+      setValues={(e) => onChange(e)}
       placeholder="Select Country"
-      onChange={(e) => onChange(e.value)}
-      value={{ value: value, label: value }}
+      displayValue="name"
+      loading={false}
+      isMulti={false}
     />
+    // <Selector
+    //   options={countries.map((item) => {
+    //     return { value: item.name, label: item.name };
+    //   })}
+    //   placeholder="Select Country"
+    //   onChange={(e) => onChange(e.value)}
+    //   value={{ value: value, label: value }}
+    // />
   );
 }

@@ -3,13 +3,7 @@ import { XIcon } from "@heroicons/react/outline";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import Router from "next/router";
 import { Fragment, useEffect, useState } from "react";
-import Selector from "../atoms/Select";
-
-const subCategories = [
-  { name: "IT", href: "#" },
-  { name: "Marketing", href: "#" },
-  { name: "Business", href: "#" },
-];
+import Selector from "../atoms/Select/Selector";
 
 export default function MobileFilterDialog(props) {
   const [selectedFilter, setSelectedFilter] = useState({});
@@ -32,15 +26,7 @@ export default function MobileFilterDialog(props) {
     }
   }, []);
   const handleChange = (value, section) => {
-    if (value.length === 0) {
-      setSelectedFilter({
-        ...selectedFilter,
-        page: 1,
-        [section.name.toLowerCase()]: [],
-      });
-      return;
-    }
-    const newValue = value.map((item) => item.value);
+    const newValue = value.map((item) => item.id);
 
     if (newValue.length === 0)
       setSelectedFilter({
@@ -118,17 +104,19 @@ export default function MobileFilterDialog(props) {
                       <Selector
                         options={section.options.map((option) => {
                           return {
-                            value: option.id || option.value,
-                            label: option.name,
+                            id: option.id || option.value,
+                            name: option.name,
                           };
                         })}
-                        onChange={(e) => handleChange(e, section)}
-                        value={null}
+                        values={[]}
+                        setValues={(e) => handleChange(e, section)}
                         placeholder={
                           section.options.length > 0
                             ? section.options[0].name
                             : ""
                         }
+                        displayValue="name"
+                        loading={false}
                         isMulti={true}
                       />
                     </div>

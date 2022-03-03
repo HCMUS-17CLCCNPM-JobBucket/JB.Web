@@ -2,7 +2,6 @@ import { blogAPI } from "app/api/modules/blogAPI";
 import { imageAPI } from "app/api/modules/imageAPI";
 import { orgAPI } from "app/api/modules/organization";
 import CountrySelect from "app/components/atoms/Select/CountrySelect";
-import BlogTagSelection from "app/components/molecules/BlogTagSelection";
 import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
