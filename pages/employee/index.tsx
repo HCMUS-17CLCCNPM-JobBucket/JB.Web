@@ -1,11 +1,13 @@
 import UserAPI from "app/api/modules/userAPI";
 import KeywordNotFound from "app/components/atoms/KeywordNotFound";
+import ListEmpty from "app/components/atoms/ListEmpty";
 import Loading from "app/components/atoms/Loading";
 import EmployeeFilter from "app/components/molecules/EmployeeFilter";
 import FoundUser from "app/components/molecules/FoundUser";
 import userRoles, { getUserRole } from "app/utils/userRoles";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 
@@ -25,41 +27,52 @@ const customStyles = {
 // };
 
 function JobPage() {
-  const [categories, setCategories] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(0);
-
-  const [jobLength, setJobLength] = useState(0);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [keyword, setKeyword] = useState("");
-  const [city, setCity] = useState([]);
-  const [category, setCategory] = useState(0);
-
-  const [isTimeOuted, IsTimeOuted] = useState(false);
+  const [filters, setFilters] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const user = useSelector((state: any) => state.user);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await UserAPI.getRecEmployees(currentPage, keyword);
+      const res = await UserAPI.getRecEmployees(currentPage, filters);
       if (res.status === 200) {
-        setEmployees(res.data.data.profileRecommendations);
-        setLoading(false);
+        setEmployees((pre) => [
+          ...pre,
+          ...res.data.data.profileRecommendations,
+        ]);
+        setHasMore(res.data.data.profileRecommendations.length > 0);
       }
     };
     if (user.user.roleId === 2) {
       fetchData();
     }
-  }, [keyword, currentPage]);
+  }, [currentPage]);
 
-  const jobSection =
-    keyword !== "" && employees.length === 0 ? (
-      <KeywordNotFound keyword={keyword} />
-    ) : (
-      employees.map((item, index) => <FoundUser {...item} key={index} />)
-    );
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const res = await UserAPI.getRecEmployees(0, filters);
+      if (res.status === 200) {
+        setEmployees(res.data.data.profileRecommendations);
+        setLoading(false);
+        setHasMore(res.data.data.profileRecommendations.length > 0);
+      }
+    };
+    if (user.user.roleId === 2) {
+      fetchData();
+    }
+  }, [filters]);
 
+  const onSearchSubmit = (val) => {
+    setFilters(val);
+  };
+
+  const fetchMoreData = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
   return (
     <div className="dark:bg-gray-900">
       <Head>
@@ -69,11 +82,8 @@ function JobPage() {
       {/* <Toolbar /> */}
       <div className="xl:px-60 md:px-8 px-2 py-8 w-full">
         <p className="text-3xl">Search for Employees</p>
-        <EmployeeFilter
-          handleFilterSubmit={setCity}
-          handleSearchSubmit={setKeyword}
-        />
-        <div className="flex w-full justify-between p-4">
+        <EmployeeFilter onSearchSubmit={onSearchSubmit} />
+        {/* <div className="flex w-full justify-between p-4">
           <p>{employees.length} results</p>
           <Select
             instanceId="select-filter"
@@ -82,11 +92,26 @@ function JobPage() {
             onChange={(value) => setCategory(value.value)}
             placeholder="Categories"
           />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {employees.map((item, index) => (
-            <FoundUser {...item} key={index} />
-          ))}
+        </div> */}
+        <div className="">
+          {loading ? (
+            <Loading />
+          ) : employees.length === 0 && loading === false ? (
+            <ListEmpty message="No result match" />
+          ) : (
+            <InfiniteScroll
+              dataLength={employees.length}
+              next={fetchMoreData}
+              hasMore={hasMore}
+              loader={<Loading />}
+              scrollableTarget="scrollableDiv"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            >
+              {employees.map((item, index) => (
+                <FoundUser {...item} key={index} />
+              ))}
+            </InfiniteScroll>
+          )}
         </div>
       </div>
       <div className="h-16"></div>

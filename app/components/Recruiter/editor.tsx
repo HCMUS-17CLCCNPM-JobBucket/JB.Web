@@ -6,7 +6,6 @@ import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Select, { StylesConfig } from "react-select";
-
 import moment from "moment";
 import { toast } from "react-toastify";
 import Loading from "../atoms/Loading";
