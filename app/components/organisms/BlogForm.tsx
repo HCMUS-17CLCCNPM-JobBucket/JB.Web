@@ -1,6 +1,5 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import { imageAPI } from "app/api/modules/imageAPI";
-import BlogTagSelection from "app/components/molecules/BlogTagSelection";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 import router from "next/router";
@@ -44,7 +43,6 @@ const FroalaEditorComponent: React.ComponentType<any> = dynamic(
 
 export default function BlogForm(props) {
   const [loading, setLoading] = useState(false);
-  const [tags, setTags] = useState(props.tags);
   const [content, setContent] = useState(props.content);
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState(props.imageUrl);
@@ -81,7 +79,6 @@ export default function BlogForm(props) {
           props.id,
           {
             ...values,
-            tags,
             content,
             imageUrl: imageRes.data.url ? imageRes.data.url : "",
           },
@@ -93,7 +90,6 @@ export default function BlogForm(props) {
           props.id,
           {
             ...values,
-            tags,
             content,
           },
           props.type
@@ -131,11 +127,11 @@ export default function BlogForm(props) {
         />
         <UploadImage onChange={handleImageChange} />
       </div>
-      <BlogTagSelection value={tags} setValue={setTags} />
       <input
         type="text"
         id="title"
         name="title"
+        required
         value={formik.values.title}
         onChange={formik.handleChange}
         className="input"
@@ -145,6 +141,7 @@ export default function BlogForm(props) {
         <textarea
           className="input"
           id="description"
+          required
           placeholder="Enter your description"
           name="description"
           value={formik.values.description}
@@ -157,6 +154,7 @@ export default function BlogForm(props) {
         tag="textarea"
         config={config}
         model={content}
+        required
         onModelChange={(model) => setContent(model)}
       />
 

@@ -44,8 +44,9 @@ export default function EmployeeFilter({ onSearchSubmit }) {
   }, []);
 
   const onSkillKeyPressFn = (event: any, value: string) => {
-    console.log(event);
     if (event.key === "Enter" && value !== "") {
+      event.preventDefault();
+
       setSelectedSkills((prev) => [
         ...prev,
         { id: value.trim(), name: value.trim() },
@@ -53,8 +54,8 @@ export default function EmployeeFilter({ onSearchSubmit }) {
     }
   };
   const onCityKeyPressFn = (event: any, value: string) => {
-    console.log(event);
     if (event.key === "Enter" && value !== "") {
+      event.preventDefault();
       setSelectedSkills((prev) => [
         ...prev,
         { id: value.trim(), name: value.trim() },
