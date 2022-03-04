@@ -323,47 +323,47 @@ export default function JobLayout({ type, query }) {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-10">
               {/* Filters */}
-              {!loading && (
-                <Filters
-                  filters={[
-                    {
-                      id: "Cities",
-                      name: "Cities",
-                      options: [
-                        { id: "Ho Chi Minh", name: "Ho Chi Minh" },
-                        { id: "Ha Noi", name: "Ha Noi" },
-                      ],
-                    },
-                    {
-                      id: "Skills",
-                      name: "Skill",
-                      options: filterOptions.skills,
-                    },
-                    {
-                      id: "Positions",
-                      name: "Position",
-                      options: filterOptions.positions,
-                    },
-                    {
-                      id: "Types",
-                      name: "Type",
-                      options: filterOptions.types,
-                    },
-                    {
-                      id: "Category",
-                      name: "Category",
-                      value: filterOptionsInput.category,
-                      options: filterOptions.categories,
-                    },
-                    // {
-                    //   id: "Salary",
-                    //   name: "Salary",
-                    //   options: salaryOptions,
-                    // },
-                  ]}
-                  callback={handleFilter}
-                />
-              )}
+
+              <Filters
+                filters={[
+                  {
+                    id: "Cities",
+                    name: "Cities",
+                    options: [
+                      { id: "Ho Chi Minh", name: "Ho Chi Minh" },
+                      { id: "Ha Noi", name: "Ha Noi" },
+                    ],
+                  },
+                  {
+                    id: "Skills",
+                    name: "Skill",
+                    options: filterOptions.skills,
+                  },
+                  {
+                    id: "Positions",
+                    name: "Position",
+                    options: filterOptions.positions,
+                  },
+                  {
+                    id: "Types",
+                    name: "Type",
+                    options: filterOptions.types,
+                  },
+                  {
+                    id: "Category",
+                    name: "Category",
+                    value: filterOptionsInput.category,
+                    options: filterOptions.categories,
+                  },
+                  // {
+                  //   id: "Salary",
+                  //   name: "Salary",
+                  //   options: salaryOptions,
+                  // },
+                ]}
+                callback={handleFilter}
+                loading={loading}
+              />
               {/* Product grid */}
               <div className="lg:col-span-9">
                 <JobInfinityScroll
