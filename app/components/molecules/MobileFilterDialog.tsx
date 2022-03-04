@@ -102,6 +102,7 @@ export default function MobileFilterDialog(props) {
                         {section.name}
                       </p>
                       <Selector
+                        creatable={false}
                         options={section.options.map((option) => {
                           return {
                             id: option.id || option.value,

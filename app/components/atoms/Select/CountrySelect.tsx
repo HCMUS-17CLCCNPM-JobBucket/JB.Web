@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import Selector from "app/components/atoms/Select/Selector";
+import Selector from "./";
 
 export default function CountrySelect({ value, onChange }) {
   const [countries, setCountries] = React.useState([]);

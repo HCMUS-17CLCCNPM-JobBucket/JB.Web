@@ -1,6 +1,5 @@
 import { blogAPI } from "app/api/modules/blogAPI";
 import { imageAPI } from "app/api/modules/imageAPI";
-import BlogTagSelection from "app/components/molecules/BlogTagSelection";
 import BlogForm from "app/components/organisms/BlogForm";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
