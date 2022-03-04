@@ -1,6 +1,13 @@
 import JobLayout from "app/components/layouts/JobLayout";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 
-export default function JobPage() {
-  return <JobLayout type="all"></JobLayout>;
+export const getServerSideProps = ({ query }) => {
+  return {
+    props: { query },
+  };
+};
+
+export default function JobPage(props) {
+  return <JobLayout type="all" query={props.query}></JobLayout>;
 }

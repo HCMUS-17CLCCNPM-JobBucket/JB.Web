@@ -13,8 +13,6 @@ import { useUserInfo } from "app/utils/hooks";
 export default function JobHorizonCard(props) {
   const user = useUserInfo();
 
-  console.log(user.user.roleId);
-
   return (
     <div className="job-horizon-card hover:shadow-lg relative w-full">
       <div className="job-horizon-card__header">

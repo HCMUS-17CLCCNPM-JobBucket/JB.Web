@@ -54,6 +54,7 @@ export default function BlogForm(props) {
     }
   };
   const handleRedirect = (res) => {
+    k;
     if (res.data.errors) {
       toast.warning("Please fill all the fields");
     } else

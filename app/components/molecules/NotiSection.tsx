@@ -42,7 +42,6 @@ export default function Notify() {
     }
   }, [data]);
 
-  console.log(noti);
   return (
     <div className=" ">
       <Popover className="h-6 w-6 relative">

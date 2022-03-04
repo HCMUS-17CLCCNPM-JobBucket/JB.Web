@@ -20,17 +20,17 @@ const sortOptions = [
 ];
 
 const QueryHandler = (query, filter) => {
-  if (query.category) {
-    const category = query.category.split(",");
-    filter.category = [
-      ...filter.category,
-      ...category.map((item, index) => (item = parseInt(item))),
-    ];
-  }
+  // if (query.category) {
+  //   const category = query.category.split(",");
+  //   filter.category = [
+  //     ...filter.category,
+  //     ...category.map((item, index) => (item = parseInt(item))),
+  //   ];
+  // }
 
-  if (query.keyword) filter.keyword = query.keyword as string;
+  if (query?.keyword) filter.keyword = query.keyword as string;
 
-  switch (query.sort) {
+  switch (query?.sort) {
     case "default":
       filter.sortBy = "";
       break;
@@ -51,7 +51,7 @@ const QueryHandler = (query, filter) => {
   }
 };
 
-export default function JobLayout({ type }) {
+export default function JobLayout({ type, query }) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
@@ -75,7 +75,9 @@ export default function JobLayout({ type }) {
     // numberEmployeesToApplied: [],
     createdDate: [],
     expireDate: [],
-    category: [],
+    category: query?.category
+      ? query.category.split(",").map((item) => parseInt(item))
+      : [],
     skill: [],
     position: [],
     salary: [],
@@ -119,12 +121,15 @@ export default function JobLayout({ type }) {
 
   useEffect(() => {
     const newFilter = { ...filterOptionsInput };
-    const query = router.query;
 
     QueryHandler(query, newFilter);
 
+    setFilterOptionsInput({ ...newFilter });
+  }, [query]);
+
+  useEffect(() => {
     // setFilterOptionsInput(newFilter);
-    if (newFilter.page === 1) {
+    if (filterOptionsInput.page === 1) {
       setLoading(true);
       window.scroll({
         top: 0,
@@ -132,7 +137,7 @@ export default function JobLayout({ type }) {
         behavior: "smooth",
       });
       jobAPI
-        .getJobByRoute({ ...newFilter, page: 1 }, type)
+        .getJobByRoute({ ...filterOptionsInput, page: 1 }, type)
         .then((res) => {
           if (res.status === 200) {
             if (type === "all") setJobs(res.data.data.jobs);
@@ -141,12 +146,12 @@ export default function JobLayout({ type }) {
           setLoading(false);
         })
         .catch((err) => console.log(err.response.status));
-    } else if (newFilter.page > 1) {
+    } else if (filterOptionsInput.page > 1) {
       jobAPI
         .getJobByRoute(
           {
-            ...newFilter,
-            page: newFilter.page,
+            ...filterOptionsInput,
+            page: filterOptionsInput.page,
           },
           type
         )
@@ -162,7 +167,7 @@ export default function JobLayout({ type }) {
           }
         });
     }
-  }, [filterOptionsInput, router.query]); //,
+  }, [filterOptionsInput]); //,
   return (
     <div className="bg-white">
       <Head>
@@ -202,6 +207,7 @@ export default function JobLayout({ type }) {
             {
               id: "Category",
               name: "Category",
+              value: filterOptionsInput.category,
               options: filterOptions.categories,
             },
             // {
@@ -317,44 +323,47 @@ export default function JobLayout({ type }) {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-10">
               {/* Filters */}
-              <Filters
-                filters={[
-                  {
-                    id: "Cities",
-                    name: "Cities",
-                    options: [
-                      { id: "Ho Chi Minh", name: "Ho Chi Minh" },
-                      { id: "Ha Noi", name: "Ha Noi" },
-                    ],
-                  },
-                  {
-                    id: "Skills",
-                    name: "Skill",
-                    options: filterOptions.skills,
-                  },
-                  {
-                    id: "Positions",
-                    name: "Position",
-                    options: filterOptions.positions,
-                  },
-                  {
-                    id: "Types",
-                    name: "Type",
-                    options: filterOptions.types,
-                  },
-                  {
-                    id: "Category",
-                    name: "Category",
-                    options: filterOptions.categories,
-                  },
-                  // {
-                  //   id: "Salary",
-                  //   name: "Salary",
-                  //   options: salaryOptions,
-                  // },
-                ]}
-                callback={handleFilter}
-              />
+              {!loading && (
+                <Filters
+                  filters={[
+                    {
+                      id: "Cities",
+                      name: "Cities",
+                      options: [
+                        { id: "Ho Chi Minh", name: "Ho Chi Minh" },
+                        { id: "Ha Noi", name: "Ha Noi" },
+                      ],
+                    },
+                    {
+                      id: "Skills",
+                      name: "Skill",
+                      options: filterOptions.skills,
+                    },
+                    {
+                      id: "Positions",
+                      name: "Position",
+                      options: filterOptions.positions,
+                    },
+                    {
+                      id: "Types",
+                      name: "Type",
+                      options: filterOptions.types,
+                    },
+                    {
+                      id: "Category",
+                      name: "Category",
+                      value: filterOptionsInput.category,
+                      options: filterOptions.categories,
+                    },
+                    // {
+                    //   id: "Salary",
+                    //   name: "Salary",
+                    //   options: salaryOptions,
+                    // },
+                  ]}
+                  callback={handleFilter}
+                />
+              )}
               {/* Product grid */}
               <div className="lg:col-span-9">
                 <JobInfinityScroll

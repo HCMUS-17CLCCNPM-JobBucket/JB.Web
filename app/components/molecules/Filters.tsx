@@ -68,16 +68,6 @@ export default function Filters({ filters, callback }) {
   const [scrollOverHeight, setScrollOverHeight] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState({});
 
-  useEffect(() => {
-    const query = Router.query as any;
-    if (query.category) {
-      const category = query.category.split(",");
-      setSelectedFilter((oldObj) => ({
-        ...oldObj,
-        category: category.map((item) => filters[4].options[parseInt(item)]),
-      }));
-    }
-  }, []);
   const handleChange = (value, section) => {
     if (value.length === 0) {
       setSelectedFilter({
@@ -129,7 +119,16 @@ export default function Filters({ filters, callback }) {
               options={section.options.map((option) => {
                 return { id: option.id || option.value, name: option.name };
               })}
-              values={[]}
+              values={
+                section.value
+                  ? section.value.map((value) => ({
+                      id: value,
+                      name: section.options.find(
+                        (option) => option.id === value
+                      )?.name,
+                    }))
+                  : []
+              }
               setValues={(e) => handleChange(e, section)}
               placeholder={
                 section.options.length > 0 ? section.options[0].name : ""
