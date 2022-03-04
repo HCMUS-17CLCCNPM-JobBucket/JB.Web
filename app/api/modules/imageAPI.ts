@@ -11,6 +11,15 @@ export const imageAPI = {
       formData
     );
   },
+  deleteImage: (id) => {
+    return axios.post(
+      "https://api.cloudinary.com/v1_1/derekzohar/image/destroy",
+      {
+        public_id: id,
+      }
+    );
+  },
+
   uploadCV: (cv) => {
     const formData = new FormData();
     formData.append("file", cv);

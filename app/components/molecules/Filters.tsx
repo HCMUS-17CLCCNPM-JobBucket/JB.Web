@@ -101,10 +101,11 @@ export default function Filters({ filters, callback }) {
       setSelectedFilter({
         ...selectedFilter,
         page: 1,
-        [section.name.toLowerCase()]: [
-          ...selectedFilter[section.name.toLowerCase()],
-          newValue[newValue.length - 1],
-        ],
+        // [section.name.toLowerCase()]: [
+        //   ...selectedFilter[section.name.toLowerCase()],
+        //   newValue[newValue.length - 1],
+        // ],
+        [section.name.toLowerCase()]: [...newValue],
       });
     else
       setSelectedFilter({
@@ -136,6 +137,7 @@ export default function Filters({ filters, callback }) {
               displayValue="name"
               loading={false}
               isMulti={true}
+              creatable={false}
             />
           </div>
         ))}

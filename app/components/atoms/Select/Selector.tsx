@@ -9,6 +9,7 @@ export default function Selector({
   isMulti,
   loading,
   displayValue,
+  creatable,
 }) {
   const onKeyPressFn = (event: any, value: string) => {
     if (event.key === "Enter" && value !== "") {
@@ -29,10 +30,11 @@ export default function Selector({
       onRemove={(selected) => setValues(selected)}
       displayValue={displayValue}
       placeholder={placeholder}
-      onKeyPressFn={onKeyPressFn}
+      onKeyPressFn={creatable && onKeyPressFn}
       style={{
         chips: {
           background: "#0070f3",
+          color: "#fff",
         },
         multiselectContainer: {
           color: "#0070f3",
@@ -43,6 +45,7 @@ export default function Selector({
           border: "1px solid",
           borderBottom: "1px solid blue",
           borderRadius: "8px",
+          width: "100%",
         },
       }}
     />

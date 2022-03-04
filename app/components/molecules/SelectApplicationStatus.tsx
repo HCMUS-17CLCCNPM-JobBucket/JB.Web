@@ -12,5 +12,18 @@ export default function SelectApplicationStatus({ onChange }) {
       }))}
       onChange={(e) => onChange(e.value)}
     />
+    // <Selector
+    //   creatable={false}
+    //   options={ApplicationStatus.map((item, index) => ({
+    //     id: index,
+    //     name: item,
+    //   }))}
+    //   values={[]}
+    //   setValues={onChange}
+    //   placeholder="Status"
+    //   displayValue="name"
+    //   loading={false}
+    //   isMulti={false}
+    // />
   );
 }

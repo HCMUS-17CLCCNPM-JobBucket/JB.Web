@@ -16,7 +16,7 @@ const sortOptions = [
   { name: "Default", href: "default", current: false },
   { name: "Newest", href: "newest", current: false },
   { name: "Oldest", href: "oldest", current: false },
-  { name: "Most relevant", href: "most-relevant", current: false },
+  // { name: "Most relevant", href: "most-relevant", current: false },
 ];
 
 const QueryHandler = (query, filter) => {
@@ -40,12 +40,13 @@ const QueryHandler = (query, filter) => {
       break;
     case "oldest":
       filter.sortBy = "createdDate";
-      filter.isDescending = true;
+      filter.isDescending = false;
       break;
-    case "most-relevant":
-      filter.sortBy = "";
-      break;
+    // case "most-relevant":
+    //   filter.sortBy = "";
+    //   break;
     default:
+      filter.sortBy = "";
       break;
   }
 };

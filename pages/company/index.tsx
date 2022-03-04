@@ -31,7 +31,7 @@ export default function CompanyPage() {
         <title>Search Company | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <SearchOrg />
+      {/* <SearchOrg /> */}
       <InfiniteScroll
         dataLength={orgs.length}
         next={fetchMoreData}

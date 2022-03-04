@@ -43,25 +43,6 @@ export default function EmployeeFilter({ onSearchSubmit }) {
     fetchData();
   }, []);
 
-  const onSkillKeyPressFn = (event: any, value: string) => {
-    if (event.key === "Enter" && value !== "") {
-      event.preventDefault();
-
-      setSelectedSkills((prev) => [
-        ...prev,
-        { id: value.trim(), name: value.trim() },
-      ]);
-    }
-  };
-  const onCityKeyPressFn = (event: any, value: string) => {
-    if (event.key === "Enter" && value !== "") {
-      event.preventDefault();
-      setSelectedSkills((prev) => [
-        ...prev,
-        { id: value.trim(), name: value.trim() },
-      ]);
-    }
-  };
   const onSearchFn = () => {
     onSearchSubmit({
       skills: selectedSkills.map((skill) => skill.name),
@@ -82,10 +63,12 @@ export default function EmployeeFilter({ onSearchSubmit }) {
             displayValue="name"
             loading={false}
             isMulti={true}
+            creatable={true}
           />
         </div>
         <div className="relative text-gray-700 flex-grow h-full">
           <Selector
+            creatable={true}
             options={sortOptionsCity.map((option) => {
               return { id: option.value, name: option.label };
             })}

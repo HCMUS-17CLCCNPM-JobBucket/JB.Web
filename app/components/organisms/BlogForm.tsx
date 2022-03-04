@@ -75,6 +75,7 @@ export default function BlogForm(props) {
       setLoading(true);
       if (imageFile !== null) {
         const imageRes: any = await imageAPI.uploadImage(imageFile);
+
         const res = await blogAPI.handleBlogByType(
           props.id,
           {
