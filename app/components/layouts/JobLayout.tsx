@@ -131,7 +131,7 @@ export default function JobLayout({ type, query }) {
   }, [query]);
 
   useEffect(() => {
-    if (user.token === "") {
+    if (user.token === "" && type === "recommend") {
       return;
     }
 

@@ -55,7 +55,9 @@ export default function JobDetail(props) {
     <div className="flex-1 px-16 py-4">
       <Head>
         <title>{jobInfo.title} | JobBucket</title>
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content={jobInfo.description} />
       </Head>
       {/* <img
         src={
