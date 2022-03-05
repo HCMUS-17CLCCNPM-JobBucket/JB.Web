@@ -11,6 +11,7 @@ import TabGroup from "../atoms/TabGroup";
 import Filters from "../molecules/Filters";
 import JobInfinityScroll from "../molecules/JobInfinityScroll";
 import MobileFilterDialog from "../molecules/MobileFilterDialog";
+import { useUserInfo } from "app/utils/hooks";
 
 const sortOptions = [
   { name: "Default", href: "default", current: false },
@@ -53,6 +54,8 @@ const QueryHandler = (query, filter) => {
 
 export default function JobLayout({ type, query }) {
   const router = useRouter();
+
+  const user = useUserInfo();
 
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -128,7 +131,10 @@ export default function JobLayout({ type, query }) {
   }, [query]);
 
   useEffect(() => {
-    // setFilterOptionsInput(newFilter);
+    if (user.token === "") {
+      return;
+    }
+
     if (filterOptionsInput.page === 1) {
       setLoading(true);
       window.scroll({
