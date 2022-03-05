@@ -27,7 +27,7 @@ const customStyles = {
 // };
 
 function JobPage() {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,7 +54,7 @@ function JobPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await UserAPI.getRecEmployees(0, filters);
+      const res = await UserAPI.getRecEmployees(1, filters);
       if (res.status === 200) {
         setEmployees(res.data.data.profileRecommendations);
         setLoading(false);
