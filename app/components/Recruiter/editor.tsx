@@ -504,7 +504,7 @@ export default function Editor(props) {
         <label className="text-gray-700">Expire date</label>
         {props.isEdit ? (
           <input
-            defaultValue={props.expireDate.slice(0, 10)}
+            defaultValue={moment(props.expireDate).format("YYYY-MM-DD")}
             type="date"
             className="input"
             placeholder="Expire Date"
