@@ -7,7 +7,6 @@ import moment from "moment";
 export default function PersonalInfo(props) {
   const cv = useSelector((state: any) => state.cv);
   const dispatch = useDispatch();
-  const birthdate = moment(cv.birthDate);
   const isUpdate = useSelector((state: any) => state.cv.isUpdate);
   const handleChangeBirthdate = (value) => {
     if (value != null) {
@@ -178,7 +177,11 @@ export default function PersonalInfo(props) {
           </label>
           {isUpdate ? (
             <input
-              defaultValue={cv.birthdate.slice(0, 10)}
+              defaultValue={
+                cv.birthDate == null || cv.birthDate == ""
+                  ? null
+                  : moment(cv.birthDate).format("YYYY-MM-DD")
+              }
               type="date"
               className="input"
               placeholder="Birthdate"
