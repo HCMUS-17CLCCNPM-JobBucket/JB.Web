@@ -12,6 +12,7 @@ export function useChat(
   chatRef,
   value
 ) {
+  console.log(conversationId);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [chats, setChats] = useState<any>([]);
@@ -44,10 +45,12 @@ export function useChat(
   }, [data]);
 
   useEffect(() => {
+    console.log("reload", pageNumber);
     setLoading(true);
     setError(false);
     const fetchData = async () => {
       const res = await chatAPI.getMessages(conversationId, pageNumber);
+      console.log(res.data.data.messages);
       if (res.status === 200) {
         // if (res.data.data.messages !== chats) {
         const data1 = res.data.data.messages.reverse();
@@ -55,31 +58,31 @@ export function useChat(
       }
       setHasMore(res.data.data.messages.length > 0);
       setLoading(false);
-      if (pageNumber === 1) chatRef.current.scrollIntoView();
+      chatRef.current.scrollIntoView();
       // }
     };
     fetchData();
     return () => {};
   }, [pageNumber]);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   setError(false);
+  useEffect(() => {
+    setLoading(true);
+    setError(false);
 
-  //   const fetchData = async () => {
-  //     const res = await chatAPI.getMessages(conversationId, 1);
-  //     if (res.status === 200) {
-  //       setPageNumber(1);
-  //       setChats(res.data.data.messages.reverse());
-  //       setHasMore(res.data.data.messages.length > 0);
-  //       setLoading(false);
-  //       if (res.data.data.messages.length !== 0 && chatRef.current)
-  //         chatRef.current.scrollIntoView();
-  //     }
-  //   };
-  //   fetchData();
-  //   return () => {};
-  // }, [conversationId, isChat]);
+    const fetchData = async () => {
+      const res = await chatAPI.getMessages(conversationId, 1);
+      if (res.status === 200) {
+        setPageNumber(1);
+        setChats(res.data.data.messages.reverse());
+        setHasMore(res.data.data.messages.length > 0);
+        setLoading(false);
+        if (res.data.data.messages.length !== 0 && chatRef.current)
+          chatRef.current.scrollIntoView();
+      }
+    };
+    fetchData();
+    return () => {};
+  }, [conversationId]);
   return { loadingChat: loading, error, chats, hasMore };
 }
 
