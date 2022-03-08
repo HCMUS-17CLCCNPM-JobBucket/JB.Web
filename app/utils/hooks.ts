@@ -45,7 +45,6 @@ export function useChat(
   }, [data]);
 
   useEffect(() => {
-    console.log("reload", pageNumber);
     setLoading(true);
     setError(false);
     const fetchData = async () => {
@@ -58,10 +57,10 @@ export function useChat(
       }
       setHasMore(res.data.data.messages.length > 0);
       setLoading(false);
-      chatRef.current.scrollIntoView();
+      // if (pageNumber === 1) chatRef.current.scrollIntoView();
       // }
     };
-    fetchData();
+    if (pageNumber > 1) fetchData();
     return () => {};
   }, [pageNumber]);
 
