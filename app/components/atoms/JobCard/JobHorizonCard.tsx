@@ -53,6 +53,12 @@ export default function JobHorizonCard(props) {
             </div>
           </div>
         </div>
+        <p>
+          Position:{" "}
+          <span className="text-blue-600 font-semibold">
+            {props.positions[0].name}
+          </span>
+        </p>
         <div
           dangerouslySetInnerHTML={{
             __html: props.description || " No description",
