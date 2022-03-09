@@ -17,14 +17,14 @@ export default function RecruiterJob() {
   const [status, setStatus] = useState(0);
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
 
     UserAPI.getApplicants(user.user.id, { page, jobId, status }).then((res) => {
       if (res.status === 200)
         setApplicants([...applicants, ...res.data.data.jobApplications]);
 
       setHasMore(res.data.data.jobApplications.length > 0);
-      setLoading(false);
+      // setLoading(false);
     });
   }, [page]);
 

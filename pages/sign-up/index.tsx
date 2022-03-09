@@ -8,7 +8,7 @@ import * as Yup from "yup";
 
 export default function SignUp(props) {
   const [isRoleClicked, setIsRoleClicked] = useState(false);
-
+  const [checked, setChecked] = useState(false);
   const [isSigned, setIsSigned] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -32,20 +32,21 @@ export default function SignUp(props) {
       const userDataToPost = {
         email: values.email,
         password: values.password,
-        roleId: values.roleId,
+        roleId: checked ? 3 : 1,
         name: values.fullName,
       };
-      authAPI
-        .register(userDataToPost)
-        .then((res) => {
-          if (res.status === 200) {
-            router.push({
-              pathname: "/sign-up/verify/[email]",
-              query: { email: values.email },
-            });
-          }
-        })
-        .catch((error) => setIsSigned(true));
+      console.log(userDataToPost);
+      // authAPI
+      //   .register(userDataToPost)
+      //   .then((res) => {
+      //     if (res.status === 200) {
+      //       router.push({
+      //         pathname: "/sign-up/verify/[email]",
+      //         query: { email: values.email },
+      //       });
+      //     }
+      //   })
+      //   .catch((error) => setIsSigned(true));
     },
   });
 
@@ -140,6 +141,15 @@ export default function SignUp(props) {
                       {formik.errors.confirmPassword}
                     </p>
                   )}
+              </div>
+
+              <div className="flex gap-2 mt-4">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
+                />
+                <p className="text-blue-600 font-semibold">As manager</p>
               </div>
 
               {/* <EmployerCheckbox

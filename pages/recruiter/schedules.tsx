@@ -17,13 +17,11 @@ export default function RecruiterJob() {
   const [status, setStatus] = useState(0);
 
   useEffect(() => {
-    setLoading(true);
     interviewAPI.getListScheduleHr(user.user.id, { page }).then((res) => {
       if (res.status === 200)
         setApplicants([...applicants, ...res.data.data.interviews]);
 
       setHasMore(res.data.data.interviews.length > 0);
-      setLoading(false);
     });
   }, [page]);
 

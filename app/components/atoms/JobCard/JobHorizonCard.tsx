@@ -12,7 +12,6 @@ import { useUserInfo } from "app/utils/hooks";
 
 export default function JobHorizonCard(props) {
   const user = useUserInfo();
-
   return (
     <div className="job-horizon-card hover:shadow-lg relative w-full">
       <div className="job-horizon-card__header">
@@ -56,7 +55,9 @@ export default function JobHorizonCard(props) {
         <p>
           Position:{" "}
           <span className="text-blue-600 font-semibold">
-            {props.positions[0].name}
+            {props.positions.length > 0
+              ? props.positions[0].name
+              : "No position"}
           </span>
         </p>
         <div
