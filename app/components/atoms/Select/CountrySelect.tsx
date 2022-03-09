@@ -8,13 +8,14 @@ export default function CountrySelect({ value, onChange }) {
     axios
       .get("https://countriesnow.space/api/v0.1/countries/iso")
       .then((res) => {
+        console.log(res.data.data);
         setCountries(res.data.data);
       });
   }, []);
   return (
     <Selector
       options={countries.map((item) => {
-        return { id: item.name, name: item.name };
+        return { value: item.name, label: item.name };
       })}
       values={[]}
       setValues={(e) => onChange(e)}

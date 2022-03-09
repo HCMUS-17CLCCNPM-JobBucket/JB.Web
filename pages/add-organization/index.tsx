@@ -7,9 +7,10 @@ import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Head from "next/head";
+import { updateOrgId } from "app/redux/features/user";
 const FroalaEditorComponent: React.ComponentType<any> = dynamic(
   () => {
     return new Promise((resolve) =>
@@ -32,14 +33,7 @@ export default function UpdateOrg(props) {
   // const [address, setAddress] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState("");
-  const user = useSelector((state: any) => state.user);
-
-  useEffect(() => {
-    orgAPI.getById(user.user.organizationId).then((res) => {
-      setCompany(res.data.data.organizations[0]);
-      setAddress(res.data.data.organizations[0].addresses[0]);
-    });
-  }, []);
+  const dispatch = useDispatch();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -50,29 +44,31 @@ export default function UpdateOrg(props) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: company?.name || "",
-      addresses: company.addresses,
-      avatarUrl: company?.avatarUrl || "",
-      bio: company?.bio || "",
-      country: company?.country || "",
-      email: company?.email || "",
+      name: "",
+      addresses: [],
+      avatarUrl: "",
+      bio: "",
+      country: "",
+      email: "",
       imageUrls: [],
-      phoneNumber: company?.phoneNumber || "",
+      phoneNumber: "",
     },
     onSubmit: async (values) => {
       setLoading(true);
       if (imageFile === null) {
         const dataToSend = {
           ...values,
-          addresses: address,
-          id: company.id,
+          //   addresses: address,
+          //   id: company.id,
         };
-        const res = await orgAPI.update(dataToSend);
+        const res = await orgAPI.add(dataToSend);
+
         if (res.status === 200) {
-          toast.success("Organization updated successfully");
+          dispatch(updateOrgId(res.data.data.organization.add.id));
+          toast.success("Organization added successfully");
           router.push("/manager");
         } else {
-          toast.error("Organization update failed");
+          toast.error("Organization added failed");
         }
       } else {
         const imageRes = await imageAPI.uploadImage(imageFile);
@@ -80,11 +76,11 @@ export default function UpdateOrg(props) {
           const dataToSend = {
             ...values,
             avatarUrl: imageRes.data.url,
-            addresses: address,
+            addresses: [address],
             country,
             id: company.id,
           };
-          const res = await orgAPI.update(dataToSend);
+          const res = await orgAPI.add(dataToSend);
           if (res.status === 200) {
             toast.success("Organization updated successfully");
             router.push("/manager");
@@ -125,19 +121,18 @@ export default function UpdateOrg(props) {
           type="text"
           id="name"
           name="name"
+          required
           value={formik.values.name}
           onChange={formik.handleChange}
-          className="col-span-3 rounded-lg border-transparent flex-1 appearance-none 
-          border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 
-          placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 
-          focus:ring-purple-600 focus:border-transparent"
-          placeholder="name"
+          className="col-span-3 input"
+          placeholder="Organization's name"
         />
         <input
           type="text"
           className="input"
           id="country"
           name="country"
+          placeholder="Country"
           value={formik.values.country}
           onChange={formik.handleChange}
         />
@@ -147,53 +142,47 @@ export default function UpdateOrg(props) {
           type="email"
           id="email"
           name="email"
+          required
           value={formik.values.email}
           onChange={formik.handleChange}
-          className="col-span-3 rounded-lg border-transparent flex-1 appearance-none 
-          border border-gray-300 py-2 px-4 bg-white text-gray-700 
-          placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 
-          focus:ring-purple-600 focus:border-transparent"
-          placeholder="email"
+          className="col-span-3 input"
+          placeholder="Email"
         />
         <input
           type="text"
           id="phoneNumber"
           name="phoneNumber"
+          required
           value={formik.values.phoneNumber}
           onChange={formik.handleChange}
-          className="col-span-1 rounded-lg border-transparent flex-1 appearance-none 
-          border border-gray-300 py-2 px-4 bg-white text-gray-700 
-          placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 
-          focus:ring-purple-600 focus:border-transparent"
-          placeholder="phoneNumber"
+          className="col-span-1 input"
+          placeholder="PhoneNumber"
         />
       </div>
+      <input
+        type="text"
+        id="addresses"
+        name="addresses"
+        value={address}
+        required
+        onChange={(e) => setAddress(e.target.value)}
+        className="col-span-1 input"
+        placeholder="Address"
+      />
       <label className="text-gray-700">
         <textarea
-          className="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 
-          bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base 
-          focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+          className="input"
           id="bio"
-          placeholder="Enter your bio"
+          placeholder="Bio"
           name="bio"
+          required
           value={formik.values.bio}
           onChange={formik.handleChange}
           rows={5}
           cols={40}
         ></textarea>
       </label>
-      <input
-        type="text"
-        id="addresses"
-        name="addresses"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        className="col-span-1 rounded-lg border-transparent flex-1 appearance-none 
-          border border-gray-300 py-2 px-4 bg-white text-gray-700 
-          placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 
-          focus:ring-purple-600 focus:border-transparent"
-        placeholder="addresses"
-      />
+
       {/* <FroalaEditorComponent
         tag="textarea"
         config={{
@@ -205,7 +194,7 @@ export default function UpdateOrg(props) {
       /> */}
 
       <button className="btn btn-primary w-40" type="submit">
-        Update
+        Add
       </button>
     </form>
   );

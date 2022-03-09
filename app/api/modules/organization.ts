@@ -68,16 +68,7 @@ export const orgAPI = {
       }
       `,
       variables: {
-        addOrg: {
-          name: "",
-          address: [],
-          avatarUrl: "",
-          bio: "",
-          country: "",
-          email: "",
-          imageUrls: [],
-          phoneNumber: "",
-        },
+        addOrg: org,
       },
     }),
   update: (updateOrg) =>

@@ -41,7 +41,26 @@ function Login() {
         .then((res) => {
           if (res.status === 200) {
             dispatch(login(res.data));
-            router.push("/");
+
+            switch (res.data.user.roleId) {
+              case 1:
+                router.push("/job");
+                break;
+              case 2:
+                router.push("/employee");
+                break;
+              case 3:
+                if (res.data.user.organizationId === 0) {
+                  router.push("/add-organization");
+                } else {
+                  router.push("/manager");
+                }
+                break;
+              default:
+                router.push("/");
+
+                break;
+            }
           }
         })
         .catch((err) => {
@@ -187,6 +206,12 @@ function Login() {
                 Sign up
               </a>
             </div>
+            <p
+              className="w-full cursor-pointer text-indigo-600 hover:text-indigo-800 text-center"
+              onClick={() => router.push("/sign-up")}
+            >
+              Sign up as a manager
+            </p>
           </div>
         </div>
       </div>

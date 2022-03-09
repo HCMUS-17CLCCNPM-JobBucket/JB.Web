@@ -8,11 +8,12 @@ export const userSlice = createSlice({
     refreshToken: "",
     user: {
       avatarUrl: "",
+      organizationId: 0,
     },
     refreshJob: false,
   },
   reducers: {
-    updateRefresh: (state,action)=>{
+    updateRefresh: (state, action) => {
       state.refreshJob = action.payload;
     },
     updateAvatar: (state, action) => {
@@ -28,7 +29,7 @@ export const userSlice = createSlice({
       return state;
     },
     logout: (state) => {
-      state.user = { avatarUrl: "" };
+      state.user = { avatarUrl: "", organizationId: 0 };
       state.token = "";
       state.refreshToken = "";
       return state;
@@ -39,6 +40,10 @@ export const userSlice = createSlice({
     },
     updateEmail: (state, action) => {
       state.email = action.payload;
+      return state;
+    },
+    updateOrgId: (state, action) => {
+      state.user = { ...state.user, organizationId: action.payload };
       return state;
     },
   },
@@ -53,6 +58,7 @@ export const {
   updateProfile,
   updateAvatar,
   updateRefresh,
+  updateOrgId,
 } = userSlice.actions;
 
 export default userSlice.reducer;
