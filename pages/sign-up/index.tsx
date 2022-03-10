@@ -35,7 +35,6 @@ export default function SignUp(props) {
         roleId: checked ? 3 : 1,
         name: values.fullName,
       };
-      console.log(userDataToPost);
       // authAPI
       //   .register(userDataToPost)
       //   .then((res) => {
@@ -56,8 +55,8 @@ export default function SignUp(props) {
         <title>Sign Up | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="lg:w-1/2 xl:max-w-screen-sm ">
-        <div className="mt-16 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
+      <div className="w-full sm:w-2/3 lg:w-1/2">
+        <div className="mt-4 px-4 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
           <h2
             className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
               xl:text-bold"

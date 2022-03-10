@@ -115,8 +115,8 @@ function Login() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       {isLogin && <LoadingFullPage />}
-      <div className="lg:w-1/2 xl:max-w-screen-sm">
-        <div className="mt-16 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
+      <div className="w-full sm:w-2/3 lg:w-1/2">
+        <div className="mt-4 px-4 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
           <h2
             className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
               xl:text-bold"
@@ -206,12 +206,12 @@ function Login() {
                 Sign up
               </a>
             </div>
-            <p
+            {/* <p
               className="w-full cursor-pointer text-indigo-600 hover:text-indigo-800 text-center"
               onClick={() => router.push("/sign-up")}
             >
               Sign up as a manager
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
