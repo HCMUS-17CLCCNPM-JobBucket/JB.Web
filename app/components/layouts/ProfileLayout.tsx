@@ -73,13 +73,9 @@ export default function ProfileLayout(props) {
               {user.user.roleId === 2 && (
                 <button className="btn btn-primary w-40">Message</button>
               )}
-              {user.user.roleId === 1 ? (
+              {user.user.roleId === 1 && (
                 <Link href="/profile/edit" passHref>
                   <button className="btn btn-primary w-40 h-10">Edit</button>
-                </Link>
-              ) : (
-                <Link href="/" passHref>
-                  <button className="btn btn-primary w-40 h-10">CV</button>
                 </Link>
               )}
             </div>
