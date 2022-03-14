@@ -22,6 +22,7 @@ export default function RecruiterJob() {
     UserAPI.getApplicants(user.user.id, { page, jobId, status }).then((res) => {
       if (res.status === 200)
         setApplicants([...applicants, ...res.data.data.jobApplications]);
+      console.log(res.data.data.jobApplications);
 
       setHasMore(res.data.data.jobApplications.length > 0);
       // setLoading(false);

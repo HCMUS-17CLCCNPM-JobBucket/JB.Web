@@ -103,7 +103,23 @@ export default function ApplicationInfinityScroll({
                     <p className="text-blue-600 font-semibold">CV</p>
                     
                   </a> */}
-                  <ApplicationCV id={item.cVId}></ApplicationCV>
+                  {item.cVId === -1 ? (
+                    <a
+                      href={item.cVPDFUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex gap-3 items-center cursor-pointer"
+                    >
+                      <img
+                        src="/common/cv.png"
+                        alt=""
+                        className="h-10 w-10 rounded-lg object-cover"
+                      />
+                      <p className="text-blue-600 font-semibold">CV</p>
+                    </a>
+                  ) : (
+                    <ApplicationCV id={item.cVId} />
+                  )}
                   <SetScheduleInterviewButton
                     jobId={item.job.id}
                     // description={"123123"}
