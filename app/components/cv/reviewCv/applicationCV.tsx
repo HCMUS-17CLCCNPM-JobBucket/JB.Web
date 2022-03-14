@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { CvAPI } from "app/api/modules/cvAPI";
 import { cvActions } from "app/redux/features/cv";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function ApplicationCV(props) {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
@@ -27,8 +28,10 @@ export default function ApplicationCV(props) {
   const toReview = async () => {
     await CvAPI.getCvById(props.id, userToken.token).then((res) => {
       if (res.status === 200) {
-        dispatch(cvActions.initData(res.data.data.cv[0]));
-        openModal();
+        if (res.data.data.cv[0]) {
+          dispatch(cvActions.initData(res.data.data.cv[0]));
+          openModal();
+        } else toast.warning("this applicant do not have defaut cv");
       }
     });
   };
