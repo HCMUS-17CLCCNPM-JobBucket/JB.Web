@@ -12,7 +12,7 @@ export function useChat(
   chatRef,
   value
 ) {
-  console.log(conversationId);
+  // console.log(conversationId);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [chats, setChats] = useState<any>([]);
