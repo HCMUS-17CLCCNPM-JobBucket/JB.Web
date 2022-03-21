@@ -1,4 +1,5 @@
 import { blogAPI } from "app/api/modules/blogAPI";
+import SearchOrg from "app/components/atoms/SearchBar/SearchOrg";
 import BlogInfinityScroll from "app/components/molecules/BlogInfinityScroll";
 import { useUserInfo } from "app/utils/hooks";
 import moment from "moment";
@@ -11,6 +12,8 @@ export default function MyBlog() {
   const [hasMore, setHasMore] = useState(false);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [keyword, setKeyword] = useState("");
+
   //call api to get saved jobs
   useEffect(() => {
     if (page === 1) {
@@ -31,12 +34,27 @@ export default function MyBlog() {
     }
   }, [page]);
 
+  useEffect(() => {
+    setLoading(true);
+    blogAPI
+      .getAll({ page: 1, size: 10, keyword: keyword.trim() })
+      .then((res) => {
+        if (res.status === 200) setJobs(res.data.data.blogs);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err.response.status));
+  }, [keyword]);
+
+  const onSearch = async (val) => {
+    setKeyword(val);
+  };
   return (
-    <div className="px-16 w-full">
+    <div className="px-16 flex flex-col items-center justify-center w-full ">
       <Head>
         <title>Blog | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <SearchOrg onSearch={onSearch} />
       <div className="flex">
         <BlogInfinityScroll
           hasMore={hasMore}

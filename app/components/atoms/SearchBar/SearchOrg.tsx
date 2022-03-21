@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function SearchOrg() {
+export default function SearchOrg(props) {
+  const [val, setVal] = useState("");
+
+  const onEnterPress = (e) => {
+    if (e.key === "Enter") {
+      props.onSearch(val);
+    }
+  };
   return (
-    <div className="flex justify-between items-center w-[850px] mb-8">
+    <div className="sm:flex sm:justify-between sm:items-center w-full px-4 md:w-[700px]  xl:w-[850px] mb-8">
       <div>
         <p>What are people saying about your company?</p>
       </div>
-      <fieldset className="w-40 space-y-1 text-gray-800">
+      <fieldset className="w-full sm:w-40 space-y-1 text-gray-800">
         <label className="hidden">Search</label>
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -27,8 +34,11 @@ export default function SearchOrg() {
           <input
             type="search"
             name="Search"
+            value={val}
+            onChange={(e) => setVal(e.target.value)}
+            onKeyPress={onEnterPress}
             placeholder="Search..."
-            className="w-32 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none 
+            className="w-full py-2 pl-10 text-sm rounded-md focus:outline-none 
             bg-gray-100 text-gray-800 focus:bg-gray-50 focus:border-indigo-600"
           />
         </div>

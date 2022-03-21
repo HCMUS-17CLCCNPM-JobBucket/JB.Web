@@ -10,6 +10,9 @@ export default function CompanyPage() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
+  const [loading, setLoading] = useState(false);
+  const [keyword, setKeyword] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await orgAPI.getAll({
@@ -19,11 +22,30 @@ export default function CompanyPage() {
       setOrgs([...orgs, ...res.data.data.organizations]);
       setHasMore(res.data.data.organizations.length > 0);
     };
-    fetchData();
+    if (page > 1) fetchData();
   }, [page]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const res = await orgAPI.getAll({
+        page: 1,
+        size: 10,
+        keyword: keyword.trim(),
+      });
+      setOrgs(res.data.data.organizations);
+      setHasMore(res.data.data.organizations.length > 0);
+      setLoading(false);
+    };
+    fetchData();
+  }, [keyword]);
 
   const fetchMoreData = async () => {
     setPage(page + 1);
+  };
+
+  const onSearch = async (val) => {
+    setKeyword(val);
   };
   return (
     <div className="flex flex-col items-center justify-center w-full">
@@ -31,19 +53,23 @@ export default function CompanyPage() {
         <title>Search Company | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {/* <SearchOrg /> */}
-      <InfiniteScroll
-        dataLength={orgs.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        loader={<Loading />}
-        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full px-2 xl:px-12 py-4"
-      >
-        {orgs.map((item, index) => (
-          <CompanyCard key={index} {...item} />
-        ))}
-      </InfiniteScroll>
-      {!hasMore && <p className="text-center">No more data</p>}
+      <SearchOrg onSearch={onSearch} />
+
+      {loading ? (
+        <Loading />
+      ) : (
+        <InfiniteScroll
+          dataLength={orgs.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<Loading />}
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full px-2 xl:px-12 py-4"
+        >
+          {orgs.map((item, index) => (
+            <CompanyCard key={index} {...item} />
+          ))}
+        </InfiniteScroll>
+      )}
     </div>
   );
 }
