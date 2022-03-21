@@ -14,6 +14,8 @@ import JobRecSection from "app/components/molecules/JobRecSection";
 import router from "next/router";
 import { chatAPI } from "app/api/modules/chatAPI";
 import { useUserInfo } from "app/utils/hooks";
+import UserAPI from "app/api/modules/userAPI";
+import FoundUser from "app/components/molecules/FoundUser";
 
 export const getServerSideProps = async ({ params }) => {
   const res = await jobAPI.getJobByIdWithoutToken(parseInt(params.id));
@@ -21,6 +23,37 @@ export const getServerSideProps = async ({ params }) => {
   return {
     props: { id: params.id },
   };
+};
+
+export const EmployeeRecSection = ({ jobId, userId }) => {
+  const [employees, setEmployees] = useState([]);
+  const user = useUserInfo();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await UserAPI.getRecEmployees(1, { size: 6, userId }, jobId);
+      if (res.status === 200) {
+        setEmployees(res.data.data.profileRecommendations);
+      }
+    };
+    fetchData();
+  }, []);
+  return (
+    <div>
+      {user.user.roleId === 2 && (
+        <div>
+          <p className="text-xl font-semibold text-gray-500 px-4">
+            Recommend Employees
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {employees.map((item, index) => (
+              <FoundUser {...item} key={index} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default function JobDetail(props) {
@@ -297,6 +330,8 @@ export default function JobDetail(props) {
           <JobRecSection jobId={jobInfo.id} />
         </div>
       </div>
+
+      <EmployeeRecSection jobId={jobInfo.id} userId={-1} />
     </div>
   );
 }

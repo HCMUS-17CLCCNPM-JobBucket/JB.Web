@@ -5,6 +5,7 @@ import { XIcon } from "@heroicons/react/solid";
 import { useUserInfo } from "app/utils/hooks";
 import Router from "next/router";
 import { chatAPI } from "app/api/modules/chatAPI";
+import { EmployeeRecSection } from "pages/job/[id]";
 
 export function ExperienceItem({ company, position, duration, description }) {
   return (
@@ -195,6 +196,8 @@ export default function ProfileLayout(props) {
           </div>
         </div>
       </div>
+
+      <EmployeeRecSection jobId={-1} userId={props.id} />
     </div>
   );
 }

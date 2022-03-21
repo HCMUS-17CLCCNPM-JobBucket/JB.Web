@@ -235,7 +235,16 @@ const UserAPI = {
         views
       }
     }`,
-      variables: { filter: { page, size: 10, roleId: 1, ...filters, jobId } },
+      variables: {
+        filter: {
+          page,
+          size: filters?.size === null ? 10 : filters.size,
+          roleId: 1,
+          ...filters,
+          jobId,
+          userId: filters?.userId === null ? -1 : filters.userId,
+        },
+      },
     }),
   getApplicants: (employerId, filters) =>
     axiosClient.post("/graphql", {

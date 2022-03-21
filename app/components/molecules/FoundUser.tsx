@@ -41,7 +41,7 @@ export default function FoundUser(props) {
         <p className="line-clamp-2 text-center text-gray-500">
           {props.introduction}
         </p>
-        <div className="flex flex-wrap">
+        <div className="flex gap-1 flex-wrap">
           {props.skills.map((item, index) => (
             <Badge key={index} content={item.skillName} />
           ))}
