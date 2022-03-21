@@ -40,5 +40,17 @@ export default function SelectJob({ onChange }) {
       }))}
       onChange={(e) => onChange(e.value)}
     />
+    // <Selector
+    //   creatable={true}
+    //   options={jobs.map((option) => {
+    //     return { id: option.id, name: option.title };
+    //   })}
+    //   values={[]}
+    //   setValues={(e) => onChange(e.value)}
+    //   placeholder="Job"
+    //   displayValue="name"
+    //   loading={false}
+    //   isMulti={false}
+    // />
   );
 }

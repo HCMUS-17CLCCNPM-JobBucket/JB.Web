@@ -195,7 +195,7 @@ const UserAPI = {
       },
     }),
 
-  getRecEmployees: (page, filters) =>
+  getRecEmployees: (page, filters, jobId) =>
     axiosClient.post("/graphql", {
       query: `query getProfileById($filter: ListUserProfileRequestInput) {
       profileRecommendations (filter: $filter) {
@@ -235,7 +235,7 @@ const UserAPI = {
         views
       }
     }`,
-      variables: { filter: { page, size: 10, roleId: 1, ...filters } },
+      variables: { filter: { page, size: 10, roleId: 1, ...filters, jobId } },
     }),
   getApplicants: (employerId, filters) =>
     axiosClient.post("/graphql", {

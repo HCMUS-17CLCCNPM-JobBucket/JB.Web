@@ -4,6 +4,7 @@ import ListEmpty from "app/components/atoms/ListEmpty";
 import Loading from "app/components/atoms/Loading";
 import EmployeeFilter from "app/components/molecules/EmployeeFilter";
 import FoundUser from "app/components/molecules/FoundUser";
+import SelectJob from "app/components/molecules/SelectJob";
 import userRoles, { getUserRole } from "app/utils/userRoles";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -35,9 +36,11 @@ function JobPage() {
   const [hasMore, setHasMore] = useState(true);
   const user = useSelector((state: any) => state.user);
 
+  const [jobId, setJobId] = useState(-1);
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await UserAPI.getRecEmployees(currentPage, filters);
+      const res = await UserAPI.getRecEmployees(currentPage, filters, jobId);
       if (res.status === 200) {
         setEmployees((pre) => [
           ...pre,
@@ -54,7 +57,7 @@ function JobPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await UserAPI.getRecEmployees(1, filters);
+      const res = await UserAPI.getRecEmployees(1, filters, jobId);
       if (res.status === 200) {
         setEmployees(res.data.data.profileRecommendations);
         setLoading(false);
@@ -64,7 +67,7 @@ function JobPage() {
     if (user.user.roleId === 2) {
       fetchData();
     }
-  }, [filters]);
+  }, [filters, jobId]);
 
   const onSearchSubmit = (val) => {
     setFilters(val);
@@ -93,6 +96,12 @@ function JobPage() {
             placeholder="Categories"
           />
         </div> */}
+
+        <div className="flex justify-between mt-4">
+          <p>{employees.length} results</p>
+
+          <SelectJob onChange={(val) => setJobId(val)} />
+        </div>
         <div className="">
           {loading ? (
             <Loading />

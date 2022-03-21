@@ -45,7 +45,6 @@ export default function JobDetail(props) {
 
   const onCreateConversation = async () => {
     const res = await chatAPI.createConversation(jobInfo.employerId);
-
     if (res.status === 200) {
       router.push(`/chat/${res.data.data.chat.addOrGet.id}`);
     }
@@ -170,8 +169,11 @@ export default function JobDetail(props) {
           isInterested={jobStatus.isJobInterested}
           jobId={jobInfo.id}
         />
-        {user.user.roleId === "employer" && (
-          <button className="btn btn-primary" onClick={onCreateConversation}>
+        {user.user.roleId === 1 && (
+          <button
+            className="btn btn-primary w-40"
+            onClick={onCreateConversation}
+          >
             Message
           </button>
         )}

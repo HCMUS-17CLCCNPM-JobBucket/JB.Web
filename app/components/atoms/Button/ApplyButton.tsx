@@ -102,8 +102,8 @@ export default function ApplyButton({ value, jobId, expire }) {
       <div className="flex items-center justify-center relative">
         {expire || user.token === "" ? (
           <button
-            className="cursor-not-allowed flex gap-2 bg-red-600 hover:bg-red-700 items-center px-4 py-2 border border-transparent 
-          rounded-md shadow-sm text-sm font-medium text-white focus:outline-none"
+            className="cursor-not-allowed flex justify-center gap-2 bg-red-600 hover:bg-red-700 items-center px-4 py-2 border border-transparent 
+          rounded-md shadow-sm text-sm font-medium text-white focus:outline-none  w-40"
           >
             <LockClosedIcon className="h-4 w-4" />
             Apply Job

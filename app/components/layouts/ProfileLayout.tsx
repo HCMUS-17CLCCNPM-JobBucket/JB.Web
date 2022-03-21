@@ -4,6 +4,7 @@ import Link from "next/link";
 import { XIcon } from "@heroicons/react/solid";
 import { useUserInfo } from "app/utils/hooks";
 import Router from "next/router";
+import { chatAPI } from "app/api/modules/chatAPI";
 
 export function ExperienceItem({ company, position, duration, description }) {
   return (
@@ -44,6 +45,14 @@ export function SkillButton({ skillName, level, onDelete }) {
 
 export default function ProfileLayout(props) {
   const user = useUserInfo();
+
+  const onMessage = async () => {
+    const res = await chatAPI.createConversation(props.profile.id);
+
+    if (res.status === 200) {
+      Router.push(`/chat/${res.data.data.chat.addOrGet.id}`);
+    }
+  };
   return (
     <div className="px-8 md:px-20 py-10 flex flex-col gap-6 md:gap-12">
       <Head>
@@ -71,7 +80,9 @@ export default function ProfileLayout(props) {
 
             <div className="hidden md:flex gap-2">
               {user.user.roleId === 2 && (
-                <button className="btn btn-primary w-40">Message</button>
+                <button className="btn btn-primary w-40" onClick={onMessage}>
+                  Message
+                </button>
               )}
               {user.user.roleId === 1 && (
                 <Link href="/profile/edit" passHref>
