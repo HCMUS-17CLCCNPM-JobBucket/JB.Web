@@ -49,7 +49,7 @@ export default function MyBlog() {
     setKeyword(val);
   };
   return (
-    <div className="px-16 flex flex-col items-center justify-center w-full ">
+    <div className="px-4 md:px-16 flex flex-col items-center justify-center w-full ">
       <Head>
         <title>Blog | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

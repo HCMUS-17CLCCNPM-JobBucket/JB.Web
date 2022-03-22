@@ -49,7 +49,6 @@ export function useChat(
     setError(false);
     const fetchData = async () => {
       const res = await chatAPI.getMessages(conversationId, pageNumber);
-      console.log(res.data.data.messages);
       if (res.status === 200) {
         // if (res.data.data.messages !== chats) {
         const data1 = res.data.data.messages.reverse();

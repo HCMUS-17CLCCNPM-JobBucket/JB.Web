@@ -48,7 +48,12 @@ export default function Notify() {
         {({ open }) => (
           <>
             <Popover.Button>
-              <BellIcon className="h-6 w-6 rounded-full cursor-pointer" />
+              <div className="">
+                <BellIcon className="h-6 w-6 rounded-full cursor-pointer" />
+                {/* <p className="top-0 right-0 absolute text-sm text-white p-1 bg-red-500 rounded-full">
+                  5
+                </p> */}
+              </div>
             </Popover.Button>
             <Transition
               as={Fragment}

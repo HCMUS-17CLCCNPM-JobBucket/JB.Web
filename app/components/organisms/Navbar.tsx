@@ -11,6 +11,8 @@ import { Menu, Popover } from "@headlessui/react";
 import DropdownAvatar from "../molecules/DropdownAvatar";
 import { BellIcon, PlusIcon } from "@heroicons/react/solid";
 import NotiSection from "../molecules/NotiSection";
+import { useSubscription, gql } from "@apollo/client";
+import { toast } from "react-toastify";
 
 function NavbarItem({ content, path }: any) {
   return (
@@ -70,6 +72,10 @@ const ButtonGroup = ({ roleId }) => {
       content: "Company",
       path: "/recruiter/company",
     },
+    {
+      content: "Blog",
+      path: "/blog",
+    },
   ];
 
   if (roleId === 1 || roleId === undefined)
@@ -95,12 +101,31 @@ const ButtonGroup = ({ roleId }) => {
 export default function Navbar() {
   const user = useSelector((state: any) => state.user);
   const [open, setOpen] = useState(false);
-  // const wrapperRef = useRef(null);
-  // const handleOutsideClicked = () => {
-  //   setOpen(false);
-  // };
+  const { data, loading: loadingChat } = useSubscription(
+    gql`
+      subscription waitForMessage($token: String!) {
+        chat(token: $token) {
+          id
+          content
+          senderId
+          conversationId
+          createdDate
+        }
+      }
+    `,
+    {
+      variables: {
+        token: user.token,
+      },
+    }
+  );
 
-  // useOutsideAlerter(wrapperRef, handleOutsideClicked);
+  useEffect(() => {
+    if (data) {
+      // console.log(data);
+      toast(data.content);
+    }
+  }, [data]);
   return (
     <div className="navbar sticky top-0 bg-white z-50 px-4 md:px-16 py-4">
       <Logo />

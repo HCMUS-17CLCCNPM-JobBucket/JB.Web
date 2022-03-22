@@ -20,7 +20,6 @@ export default function Blog(props) {
       toast("Link copied to clipboard");
     }
   };
-  console.log(props.imageUrl);
   return (
     <div className="flex justify-between flex-col max-w-lg p-6 space-y-4 overflow-hidden bg-gray-50 rounded-lg shadow-md text-gray-800">
       <div className="flex justify-between items-center">

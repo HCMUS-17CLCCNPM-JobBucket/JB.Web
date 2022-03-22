@@ -10,10 +10,10 @@ export default function SearchOrg(props) {
   };
   return (
     <div className="sm:flex sm:justify-between sm:items-center w-full px-4 md:w-[700px]  xl:w-[850px] mb-8">
-      <div>
+      {/* <div>
         <p>What are people saying about your company?</p>
-      </div>
-      <fieldset className="w-full sm:w-40 space-y-1 text-gray-800">
+      </div> */}
+      <fieldset className="w-full space-y-1 text-gray-800">
         <label className="hidden">Search</label>
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
