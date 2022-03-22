@@ -19,8 +19,8 @@ import * as Yup from "yup";
 
 function Login() {
   // const user = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const [isLogin, setIsLogin] = useState(false);
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -35,7 +35,9 @@ function Login() {
       //   .required("Required!"),
     }),
     onSubmit: (values) => {
-      setIsLogin(true);
+      setLoading(true);
+      const res = authAPI.login(values);
+
       authAPI
         .login(values)
         .then((res) => {
@@ -62,21 +64,22 @@ function Login() {
                 break;
             }
           }
+          setLoading(false);
         })
         .catch((err) => {
-          setIsLogin(false);
-          // toast(err.response.data.message, {
-          //   position: "top-right",
-          //   autoClose: 5000,
-          //   hideProgressBar: false,
-          //   closeOnClick: true,
-          //   pauseOnHover: true,
-          //   draggable: true,
-          //   progress: undefined,
-          // });
+          toast(err.response.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
 
-      setIsLogin(false);
+      setLoading(false);
+
       // if (res.status === 200) {
       //   setIsLogin(false);
       //   dispatch(login(res.data));
@@ -92,6 +95,7 @@ function Login() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const res = await authAPI.loginWithGoogle({
         GoogleId: googleAuth.googleUser.googleId,
         TokenId: googleAuth.googleUser.tokenId,
@@ -104,6 +108,7 @@ function Login() {
 
         router.push("/");
       }
+      setLoading(false);
     };
     if (googleAuth.isSignedIn) fetchData();
   }, [googleAuth.isSignedIn]);
@@ -114,7 +119,7 @@ function Login() {
         <title>Login | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {isLogin && <LoadingFullPage />}
+      {loading && <LoadingFullPage />}
       <div className="w-full sm:w-2/3 lg:w-1/2">
         <div className="mt-4 px-4 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
           <h2

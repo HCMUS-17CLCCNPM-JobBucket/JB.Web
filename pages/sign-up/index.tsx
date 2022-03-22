@@ -1,4 +1,5 @@
 import { authAPI } from "app/api/modules/authAPI";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import { useFormik } from "formik";
 import Head from "next/head";
 // import { useDispatch } from "react-redux";
@@ -7,7 +8,7 @@ import React, { useState } from "react";
 import * as Yup from "yup";
 
 export default function SignUp(props) {
-  const [isRoleClicked, setIsRoleClicked] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
   const [isSigned, setIsSigned] = useState(false);
   const formik = useFormik({
@@ -29,6 +30,7 @@ export default function SignUp(props) {
       fullName: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
+      setLoading(true);
       const userDataToPost = {
         email: values.email,
         password: values.password,
@@ -46,6 +48,7 @@ export default function SignUp(props) {
           }
         })
         .catch((error) => setIsSigned(true));
+      setLoading(false);
     },
   });
 
@@ -55,6 +58,7 @@ export default function SignUp(props) {
         <title>Sign Up | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      {loading && <LoadingFullPage />}
       <div className="w-full sm:w-2/3 lg:w-1/2">
         <div className="mt-4 px-4 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
           <h2
