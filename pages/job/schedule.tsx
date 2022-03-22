@@ -17,14 +17,15 @@ export default function ScheduleEmployee() {
   const [status, setStatus] = useState(0);
 
   useEffect(() => {
-    setLoading(true);
-    interviewAPI.getListScheduleEmployee(user.user.id, { page }).then((res) => {
-      if (res.status === 200)
-        setApplicants([...applicants, ...res.data.data.interviews]);
+    if (page > 0)
+      interviewAPI
+        .getListScheduleEmployee(user.user.id, { page })
+        .then((res) => {
+          if (res.status === 200)
+            setApplicants([...applicants, ...res.data.data.interviews]);
 
-      setHasMore(res.data.data.interviews.length > 0);
-      setLoading(false);
-    });
+          setHasMore(res.data.data.interviews.length > 0);
+        });
   }, [page]);
 
   useEffect(() => {
