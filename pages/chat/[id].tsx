@@ -4,6 +4,7 @@ import EmployerBox from "app/components/atoms/EmployerBox";
 import ChatLayout from "app/components/layouts/ChatLayout";
 import { useChat } from "app/utils/hooks";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
 
 export const getServerSideProps = async ({ params }) => {
@@ -99,24 +100,33 @@ export default function MyComponent(props) {
         </div>
         {/* <div className=" flex flex-col"> */}
         <div className="flex-1 flex flex-col-reverse gap-1">
-          {chats.map((item, index) => {
-            if (index === 0 && chatRef !== null) {
-              return (
-                <div key={index} ref={chatRef}>
-                  <EmployerBox {...item} />
-                </div>
-              );
-            }
-            if (chats.length - 3 === index) {
-              return (
-                <div key={index} ref={lastChatElementRef}>
-                  <EmployerBox {...item} />
-                </div>
-              );
-            } else {
-              return <EmployerBox key={index} {...item} />;
-            }
-          })}
+          <InfiniteScroll
+            dataLength={chats.length}
+            next={() => setPage((prevPageNumber) => prevPageNumber + 1)}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            scrollableTarget="scrollableDiv"
+            className="flex flex-col-reverse gap-4 p-4 min-h-40 w-full"
+          >
+            {chats.map((item, index) => {
+              if (index === 0 && chatRef !== null) {
+                return (
+                  <div key={index} ref={chatRef}>
+                    <EmployerBox {...item} />
+                  </div>
+                );
+              }
+              if (chats.length - 3 === index) {
+                return (
+                  <div key={index} ref={lastChatElementRef}>
+                    <EmployerBox {...item} />
+                  </div>
+                );
+              } else {
+                return <EmployerBox key={index} {...item} />;
+              }
+            })}
+          </InfiniteScroll>
           <div ref={chatRef}></div>
         </div>
         {/* </div> */}

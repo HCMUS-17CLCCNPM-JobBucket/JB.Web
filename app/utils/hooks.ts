@@ -74,7 +74,7 @@ export function useChat(
         setChats(res.data.data.messages.reverse());
         setHasMore(res.data.data.messages.length > 0);
         setLoading(false);
-        if (res.data.data.messages.length !== 0 && chatRef.current)
+        if (res.data.data.messages.length !== 0 && chatRef.current !== null)
           chatRef.current.scrollIntoView();
       }
     };
