@@ -34,59 +34,34 @@ function Login() {
       //   .min(8, "Minimum 8 characters")
       //   .required("Required!"),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setLoading(true);
-      const res = authAPI.login(values);
+      const res = await authAPI.login(values);
 
-      authAPI
-        .login(values)
-        .then((res) => {
-          if (res.status === 200) {
-            dispatch(login(res.data));
+      if (res.status === 200) {
+        dispatch(login(res.data));
 
-            switch (res.data.user.roleId) {
-              case 1:
-                router.push("/job");
-                break;
-              case 2:
-                router.push("/employee");
-                break;
-              case 3:
-                if (res.data.user.organizationId === 0) {
-                  router.push("/add-organization");
-                } else {
-                  router.push("/manager");
-                }
-                break;
-              default:
-                router.push("/");
-
-                break;
+        switch (res.data.user.roleId) {
+          case 1:
+            router.push("/job");
+            break;
+          case 2:
+            router.push("/employee");
+            break;
+          case 3:
+            if (res.data.user.organizationId === 0) {
+              router.push("/add-organization");
+            } else {
+              router.push("/manager");
             }
-          }
-          setLoading(false);
-        })
-        .catch((err) => {
-          toast(err.response.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        });
+            break;
+          default:
+            router.push("/");
 
+            break;
+        }
+      }
       setLoading(false);
-
-      // if (res.status === 200) {
-      //   setIsLogin(false);
-      //   dispatch(login(res.data));
-      //   router.push("/");
-      // } else {
-      //   console.log(res);
-      // }
     },
   });
 
