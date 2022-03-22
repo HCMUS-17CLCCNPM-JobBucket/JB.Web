@@ -14,6 +14,7 @@ import Review from "app/components/cv/reviewCv";
 import Create from "app/components/cv/dialog/addCV";
 import { imageAPI } from "app/api/modules/imageAPI";
 import { toast } from "react-toastify";
+import Router from "next/router";
 
 export default function CvEditor() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
@@ -77,6 +78,7 @@ export default function CvEditor() {
       await CvAPI.update(cv, userToken.token).then((res) => {
         if (res.status === 200) {
           toast("Change success");
+          Router.push("/list-cv");
         }
       });
     }
