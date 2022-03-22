@@ -123,7 +123,7 @@ export default function JobLayout({ type, query }) {
   }, []);
 
   useEffect(() => {
-    const newFilter = { ...filterOptionsInput };
+    const newFilter = { ...filterOptionsInput, page: 1 };
 
     QueryHandler(query, newFilter);
 
@@ -278,8 +278,11 @@ export default function JobLayout({ type, query }) {
                           {({ active }) => (
                             <Link
                               href={{
-                                pathname: type === "all" ? "job" : "/recommend",
-                                query: { sort: option.href },
+                                pathname:
+                                  type === "all" ? "/job" : "/job/recommend",
+                                query: {
+                                  sort: option.href,
+                                },
                               }}
                               passHref
                             >
