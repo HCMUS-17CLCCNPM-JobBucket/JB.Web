@@ -25,7 +25,7 @@ export default function SignUp(props) {
         .min(8, "Minimum 8 characters")
         .required("Required!"),
       confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "Password's not match")
+        .oneOf([Yup.ref("password")], "Password dont match")
         .required("Required!"),
       fullName: Yup.string().required("Required"),
     }),
@@ -37,17 +37,15 @@ export default function SignUp(props) {
         roleId: checked ? 3 : 1,
         name: values.fullName,
       };
-      authAPI
-        .register(userDataToPost)
-        .then((res) => {
-          if (res.status === 200) {
-            router.push({
-              pathname: "/sign-up/verify/[email]",
-              query: { email: values.email },
-            });
-          }
-        })
-        .catch((error) => setIsSigned(true));
+      const res = await authAPI.register(userDataToPost);
+
+      if (res.status === 200) {
+        router.push({
+          pathname: "/sign-up/verify/[email]",
+          query: { email: values.email },
+        });
+      }
+
       setLoading(false);
     },
   });
