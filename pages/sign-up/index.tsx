@@ -35,17 +35,17 @@ export default function SignUp(props) {
         roleId: checked ? 3 : 1,
         name: values.fullName,
       };
-      // authAPI
-      //   .register(userDataToPost)
-      //   .then((res) => {
-      //     if (res.status === 200) {
-      //       router.push({
-      //         pathname: "/sign-up/verify/[email]",
-      //         query: { email: values.email },
-      //       });
-      //     }
-      //   })
-      //   .catch((error) => setIsSigned(true));
+      authAPI
+        .register(userDataToPost)
+        .then((res) => {
+          if (res.status === 200) {
+            router.push({
+              pathname: "/sign-up/verify/[email]",
+              query: { email: values.email },
+            });
+          }
+        })
+        .catch((error) => setIsSigned(true));
     },
   });
 
