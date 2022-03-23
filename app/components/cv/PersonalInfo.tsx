@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cvActions } from "app/redux/features/cv";
 // import { DatePicker } from "react-rainbow-components";
@@ -20,6 +20,9 @@ export default function PersonalInfo(props) {
     dispatch(cvActions.setFile(file));
     dispatch(cvActions.setAvatarURL(URL.createObjectURL(e.target.files[0])));
   };
+  useEffect(() => {
+    dispatch(cvActions.changeBirthdate(moment().toISOString()));
+  }, []);
   return (
     <div className="border-gray-300 border p-10 bg-white mb-8">
       {props.isUpdate && (
