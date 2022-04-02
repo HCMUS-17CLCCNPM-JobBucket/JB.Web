@@ -86,7 +86,7 @@ const ButtonGroup = ({ roleId }) => {
         ))}
       </div>
     );
-  if (roleId === 2)
+  if (roleId === 2 || roleId === 3)
     return (
       <div className="navbar__navigation">
         {listNavRole2.map((item, index) => (
@@ -153,12 +153,12 @@ export default function Navbar() {
             />
 
             <NotiSection />
-            <img
+            {/* <img
               src="/common/chat.png"
               alt="chat"
               className="h-6 w-6 rounded-full cursor-pointer"
               onClick={(_) => router.push("/chat")}
-            />
+            /> */}
             <DropdownAvatar />
           </div>
         )}
