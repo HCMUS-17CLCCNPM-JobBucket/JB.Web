@@ -316,12 +316,12 @@ export default function JobDetail(props) {
                 >
                   {jobInfo.organization.name}
                 </p>
-                {/* <p className="text-xs text-gray-600 ">Posted by: John Smith</p> */}
+                <p className="text-xs text-gray-600 ">
+                  Posted by:{" "}
+                  <span className="font-semibold">{jobInfo.employer.name}</span>
+                </p>
               </div>
             </div>
-            {/* <p className="font-semibold">
-              Staffs: <span className="font-medium">100-499</span>
-            </p> */}
             <p className="font-semibold">
               Locations:{" "}
               <span className="font-medium">{jobInfo.addresses[0]}</span>
