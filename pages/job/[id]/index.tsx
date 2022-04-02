@@ -193,22 +193,24 @@ export default function JobDetail(props) {
         </div>
       </div>
       <div className="w-fit gap-2 mt-3 flex justify-between items-center">
-        <ApplyButton
-          value={jobStatus.isJobApplied}
-          jobId={jobInfo.id}
-          expire={isExpired}
-        />
-        <SaveJobButton
-          isInterested={jobStatus.isJobInterested}
-          jobId={jobInfo.id}
-        />
         {user.user.roleId === 1 && (
-          <button
-            className="btn btn-primary w-40"
-            onClick={onCreateConversation}
-          >
-            Message
-          </button>
+          <div className="flex gap-2">
+            <ApplyButton
+              value={jobStatus.isJobApplied}
+              jobId={jobInfo.id}
+              expire={isExpired}
+            />
+            <SaveJobButton
+              isInterested={jobStatus.isJobInterested}
+              jobId={jobInfo.id}
+            />
+            <button
+              className="btn btn-primary w-40"
+              onClick={onCreateConversation}
+            >
+              Message
+            </button>
+          </div>
         )}
 
         <span className="ml-3 relative sm:hidden">

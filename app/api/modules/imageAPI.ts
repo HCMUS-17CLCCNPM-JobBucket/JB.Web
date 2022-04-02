@@ -3,6 +3,7 @@ import axios from "axios";
 export const imageAPI = {
   uploadImage: (img) => {
     const formData = new FormData();
+    console.log(img);
     formData.append("file", img);
     formData.append("upload_preset", "images");
 

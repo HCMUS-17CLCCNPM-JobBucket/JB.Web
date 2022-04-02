@@ -19,7 +19,7 @@ export default function ApplyButton({ value, jobId, expire }) {
   const [hasActive, setHasActive] = useState(value);
   const [isOnlMode, setIsOnlMode] = useState(true);
   const user = useUserInfo();
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFiles, setImageFiles] = useState([]);
   let [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -48,9 +48,25 @@ export default function ApplyButton({ value, jobId, expire }) {
   // let [categories] = useState(["Online", "Local"]);
 
   const handleApply = async (e) => {
+    let listImg = imageFiles.map(
+      (file) =>
+        new Promise((resolve, reject) => {
+          imageAPI
+            .uploadImage(file)
+            .then((res) => {
+              resolve(res.data.url);
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        })
+    );
+
+    let listImgUrl = await Promise.all(listImg);
+
     if (isOnlMode === false) {
-      if (imageFile !== null) {
-        const pdfRes: any = await imageAPI.uploadCV(imageFile);
+      if (imageFiles !== []) {
+        const pdfRes: any = await imageAPI.uploadCV(imageFiles);
 
         if (pdfRes.status === 200) {
           const res = await jobAPI.apply(jobId, -1, pdfRes.data.url);
@@ -76,8 +92,7 @@ export default function ApplyButton({ value, jobId, expire }) {
     }
   };
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
+    setImageFiles(Array.from(e.target.files));
   };
 
   useEffect(() => {
@@ -198,14 +213,14 @@ export default function ApplyButton({ value, jobId, expire }) {
                 <div className="mt-4"></div>
                 {isOnlMode ? (
                   <div>
-                    <div className=" relative ">
+                    {/* <div className=" relative ">
                       <input
                         type="text"
                         id="rounded-email"
                         className="input"
                         placeholder="Name CV"
                       />
-                    </div>
+                    </div> */}
                     <div className="mt-2 flex flex-col justify-between">
                       {cv.map((item, index) => (
                         <Checkbox
@@ -218,7 +233,7 @@ export default function ApplyButton({ value, jobId, expire }) {
                   </div>
                 ) : (
                   <div>
-                    <input type="file" onChange={handleImageChange} />
+                    <input type="file" multiple onChange={handleImageChange} />
                   </div>
                 )}
 
