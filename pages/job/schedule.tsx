@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 
 export default function ScheduleEmployee() {
   const user = useUserInfo();
-  const [applicants, setApplicants] = useState([]);
+  const [interviews, setInterviews] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ export default function ScheduleEmployee() {
         .getListScheduleEmployee(user.user.id, { page })
         .then((res) => {
           if (res.status === 200)
-            setApplicants([...applicants, ...res.data.data.interviews]);
+            setInterviews([...interviews, ...res.data.data.interviews]);
 
           setHasMore(res.data.data.interviews.length > 0);
         });
@@ -33,7 +33,7 @@ export default function ScheduleEmployee() {
     interviewAPI
       .getListScheduleEmployee(user.user.id, { page: 0, jobId, status })
       .then((res) => {
-        if (res.status === 200) setApplicants([...res.data.data.interviews]);
+        if (res.status === 200) setInterviews([...res.data.data.interviews]);
 
         setHasMore(res.data.data.interviews.length > 0);
         setLoading(false);
@@ -52,7 +52,7 @@ export default function ScheduleEmployee() {
       <ScheduleInfinityScroll
         hasMore={hasMore}
         loading={loading}
-        schedules={applicants}
+        schedules={interviews}
         setPage={() => setPage(page + 1)}
       />
       <div className="h-[300px]"></div>

@@ -117,10 +117,12 @@ export default function JobHorizonCard(props) {
               <DeleteDialog id={props.id}></DeleteDialog>
             </div>
           ) : (
-            <SaveJobButton
-              isInterested={props.isJobInterested}
-              jobId={props.id}
-            />
+            router.pathname !== "/job/applied" && (
+              <SaveJobButton
+                isInterested={props.isJobInterested}
+                jobId={props.id}
+              />
+            )
           )}
         </div>
       </div>

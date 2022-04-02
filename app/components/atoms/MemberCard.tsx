@@ -31,11 +31,11 @@ function DeleteMemDialog({ member, refreshPage }) {
   return (
     <>
       <div className=" flex items-center justify-center w-full">
-        <button className="flex gap-2 items-center justify-center w-full btn btn-primary font-semibold">
-          <TrashIcon
-            onClick={openModal}
-            className="text-white h-6 w-6 cursor-pointer"
-          />{" "}
+        <button
+          onClick={openModal}
+          className="flex gap-2 items-center justify-center w-full btn btn-primary font-semibold"
+        >
+          <TrashIcon className="text-white h-6 w-6 cursor-pointer" />
           Delete
         </button>
       </div>

@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import Router from "next/router";
 
 export default function CvEditor() {
+  const [loading, setLoading] = useState(false);
   const PDFViewer = dynamic(import("app/components/cv/template"), {
     ssr: false,
   });

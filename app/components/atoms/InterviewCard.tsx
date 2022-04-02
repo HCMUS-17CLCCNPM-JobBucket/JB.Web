@@ -15,12 +15,13 @@ const Avatar = ({ src, alt, name }) => (
 );
 
 export default function InterviewCard(props) {
+  console.log(props);
   const user = useUserInfo();
   return (
     <div className="job-horizon-card hover:shadow-lg relative w-full">
       <div className="job-horizon-card__header">
         <div className=" flex flex-col gap-4 items-start justify-start overflow-hidden">
-          <Avatar
+          {/* <Avatar
             src={
               user.user.roleId === 1
                 ? props.interviewer.avatarUrl
@@ -36,9 +37,10 @@ export default function InterviewCard(props) {
                 ? props.interviewer.name
                 : props.interviewee.name
             }
-          />
+          /> */}
           <div>
             <p className="text-xl font-semibold">{props.job.title}</p>
+            <p>{props.description}</p>
           </div>
         </div>
       </div>
@@ -52,7 +54,7 @@ export default function InterviewCard(props) {
               : "Pending"}
           </p>
           <p className="md:block">
-            - Created at{" "}
+            - <span className="font-semibold">Interview Time</span>:{" "}
             <Moment format="ddd DD/MM/yyyy">{props.interviewTime}</Moment>
           </p>
         </div>

@@ -80,11 +80,11 @@ export default function ProfileLayout(props) {
             </div>
 
             <div className="hidden md:flex gap-2">
-              {user.user.roleId === 2 && (
+              {/* {user.user.roleId === 2 && (
                 <button className="btn btn-primary w-40" onClick={onMessage}>
                   Message
                 </button>
-              )}
+              )} */}
               {user.user.roleId === 1 && (
                 <Link href="/profile/edit" passHref>
                   <button className="btn btn-primary w-40 h-10">Edit</button>

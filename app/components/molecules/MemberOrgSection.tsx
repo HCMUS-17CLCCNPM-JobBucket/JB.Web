@@ -147,7 +147,7 @@ export default function MemberOrgSection({ company, refreshPage }) {
   const user = useUserInfo();
   return (
     <div>
-      {company.members && (
+      {user.user.roleId >= 2 && (
         <div className="p-8 shadow-lg rounded-lg">
           <div className="flex justify-between w-full">
             <p className="text-2xl font-semibold">Members</p>
@@ -155,8 +155,8 @@ export default function MemberOrgSection({ company, refreshPage }) {
               <AddNewMemDialog refreshPage={refreshPage} />
             )}
           </div>
-          <div className="flex gap-4 mt-8">
-            {company.members.map((member) => (
+          <div className="grid grid-cols-4 gap-4 mt-8">
+            {company?.members?.map((member) => (
               <MemberCard
                 key={member.id}
                 {...member}
