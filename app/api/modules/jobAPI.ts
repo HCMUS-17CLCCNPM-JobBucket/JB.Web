@@ -324,7 +324,7 @@ export const jobAPI = {
         filter: { page, size: 10, isInterested: true },
       },
     }),
-  getAppliedJobs: (userId, page) =>
+  getAppliedJobs: (userId, filters) =>
     axiosClient.post("/graphql", {
       query: `query listAppliedUserOfJob($filter: ListJobApplicationRequestInput ) {
         jobApplications(filter: $filter) {
@@ -367,7 +367,7 @@ export const jobAPI = {
       }
       `,
       variables: {
-        filter: { userId, page },
+        filter: { userId, ...filters },
       },
     }),
 

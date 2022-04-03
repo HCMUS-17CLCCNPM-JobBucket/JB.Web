@@ -67,7 +67,7 @@ const AppliedJobCard = (props) => {
   return (
     <div className="job-horizon-card hover:shadow-lg relative w-full">
       <div className="job-horizon-card__header">
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <Badge
             content={
               props.job.categories.length > 0 && props.job.categories[0].name
@@ -76,7 +76,7 @@ const AppliedJobCard = (props) => {
           {moment(props.job.createdDate).diff(moment(), "days") * -1 <= 3 && (
             <Badge content="New for you" type="new" />
           )}
-        </div>
+        </div> */}
         <div className="job-horizon-card__company">
           <a href={"/job/" + props.job.id} target="_blank" rel="noreferrer">
             <img src={props.job.imageUrls[0]} alt="Google" />
@@ -116,12 +116,12 @@ const AppliedJobCard = (props) => {
               : "No position"}
           </span>
         </p>
-        <div
+        {/* <div
           dangerouslySetInnerHTML={{
             __html: props.job.description || " No description",
           }}
           className="job-horizon-card__desc line-clamp"
-        ></div>
+        ></div> */}
         <div className="block lg:hidden">
           <SalaryRange
             minSalary={props.job.minSalary}
@@ -141,9 +141,9 @@ const AppliedJobCard = (props) => {
             <Moment format="DD/MM/YYYY" date={props.job.expireDate} />
           </p>
 
-          <p className="hidden md:block">
+          {/* <p className="hidden md:block">
             - Posted <Moment fromNow date={props.job.createdDate} />
-          </p>
+          </p> */}
         </div>
         <div className="">
           {user.user.roleId === 2 ? (

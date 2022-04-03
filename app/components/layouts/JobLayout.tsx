@@ -113,10 +113,10 @@ export default function JobLayout({ type, query }) {
       delete filterOptionsInput.keyword;
     }
     const fetchData = async () => {
-      setLoading(true);
+      // setLoading(true);
       const res = await jobAPI.getJobProperties();
       if (res.status === 200) setFilterOptions(res.data.data.jobProperties);
-      setLoading(false);
+      // setLoading(false);
     };
 
     fetchData();
