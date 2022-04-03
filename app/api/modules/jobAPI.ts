@@ -47,7 +47,7 @@ export const jobAPI = {
   unApply: (jobId: string) =>
     axiosClient.post("/graphql", {
       query: `
-        mutation unApplyJob($id: Int) {
+        mutation unApplyJob($id: Int!) {
           job{
             unapply(id: $id){ 
               jobId

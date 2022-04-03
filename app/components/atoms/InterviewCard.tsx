@@ -15,7 +15,6 @@ const Avatar = ({ src, alt, name }) => (
 );
 
 export default function InterviewCard(props) {
-  console.log(props);
   const user = useUserInfo();
   return (
     <div className="job-horizon-card hover:shadow-lg relative w-full">
