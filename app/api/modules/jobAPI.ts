@@ -328,6 +328,10 @@ export const jobAPI = {
     axiosClient.post("/graphql", {
       query: `query listAppliedUserOfJob($filter: ListJobApplicationRequestInput ) {
         jobApplications(filter: $filter) {
+          createdDate
+          cVId
+          cVPDFUrl
+          status
           job{
             id
             title
@@ -337,12 +341,9 @@ export const jobAPI = {
             types {
               name
             }
-            isJobInterested
             addresses
-            views
             jobForm
             expireDate
-            createdDate
             benefits
             description
             experiences
@@ -356,6 +357,7 @@ export const jobAPI = {
             imageUrls
             positions {
               id
+              name
             }
             categories{
               name

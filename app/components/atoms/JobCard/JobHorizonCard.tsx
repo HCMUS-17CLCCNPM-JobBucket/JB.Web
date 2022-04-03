@@ -9,6 +9,9 @@ import SaveJobButton from "../Button/SaveJobButton";
 import SalaryRange from "../SalaryRange";
 import DeleteDialog from "app/components/Recruiter/DeleteDialog";
 import { useUserInfo } from "app/utils/hooks";
+import ApplicationCV from "app/components/cv/reviewCv/applicationCV";
+import SetScheduleInterviewButton from "../Button/SetScheduleInterviewButton";
+import ApplicationStatus from "app/enums/ApplicationStatus";
 
 export default function JobHorizonCard(props) {
   const user = useUserInfo();
@@ -126,6 +129,60 @@ export default function JobHorizonCard(props) {
           )}
         </div>
       </div>
+
+      {router.pathname === "/job/applied" && (
+        <div className="gap-4 flex flex-col md:flex-row md:justify-between md:items-center px-6 py-2 border-t">
+          <div className="flex gap-2">
+            <p className="text-red-600 font-semibold">
+              {ApplicationStatus[props.status]}
+            </p>
+            <p className="md:block">
+              - Applied <Moment fromNow>{props.createdDate}</Moment>{" "}
+            </p>
+          </div>
+          <div className="xs:block flex gap-4">
+            {/* <a
+                    href={item.cVPDFUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex gap-3 items-center cursor-pointer"
+                  >
+                    <img
+                      src="/common/cv.png"
+                      alt=""
+                      className="h-10 w-10 rounded-lg object-cover"
+                    />
+                    <p className="text-blue-600 font-semibold">CV</p>
+                    
+                  </a> */}
+            {props.cVId === -1 ? (
+              <a
+                href={props.cVPDFUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex gap-3 items-center cursor-pointer"
+              >
+                <img
+                  src="/common/cv.png"
+                  alt=""
+                  className="h-10 w-10 rounded-lg object-cover"
+                />
+                <p className="text-blue-600 font-semibold">CV</p>
+              </a>
+            ) : (
+              <ApplicationCV id={props.cVId} />
+            )}
+            <SetScheduleInterviewButton
+              jobId={props.job.id}
+              // description={"123123"}
+              // interviewTime={""}
+              intervieweeCVId={-1}
+              intervieweeId={props.user.id}
+              interviewerId={user.user.id}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
