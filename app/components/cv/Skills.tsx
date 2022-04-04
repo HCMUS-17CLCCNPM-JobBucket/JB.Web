@@ -1,52 +1,92 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cvActions } from "app/redux/features/cv";
-
+import Select, { StylesConfig, InputActionMeta } from "react-select";
+import { jobAPI } from "app/api/modules/jobAPI";
+import { toast } from "react-toastify";
 export default function Skills() {
+  const ListID = useSelector((state: any) => state.cv.listID);
+  const [skills, setSkills] = useState([]);
+  const handleChangeSelect = (id) => {
+    ListID.includes(parseInt(id))
+      ? (toast.warn("skill is existed"), setSkill(-1))
+      : setSkill(id);
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await jobAPI.getJobProperties();
+      if (response.status === 200) {
+        setSkills(
+          response.data.data.jobProperties.skills.map((skill) => ({
+            value: skill.id,
+            label: skill.name,
+          }))
+        );
+      }
+    };
+    fetchData();
+  }, []);
   const [isEdit, setIsEdit] = useState(false);
   const [editindex, setIndex] = useState(0);
   const [tempSkill, setTempSkill] = useState({
     skillName: "",
     level: "",
   });
-  const [skill, setSkill] = useState("");
+  const [skill, setSkill] = useState(-1);
   const [level, setLevel] = useState("1");
   const dispatch = useDispatch();
   const SkillList = useSelector((state: any) => state.cv.skill);
   const onHandleAdd = () => {
-    const newSkill = {
-      skillName: skill,
-      level: parseInt(level),
-    };
-    dispatch(cvActions.addSkill(newSkill));
-    setSkill("");
-    setLevel("1");
+    if (skill == -1) {
+      toast.warn("please pick a skill");
+    } else {
+      const tempskill = skills.find((data) => data.value == skill);
+      const newSkill = {
+        skillName: tempskill.label,
+        level: parseInt(level),
+      };
+      dispatch(cvActions.addSkill(newSkill));
+      dispatch(cvActions.setListID([...ListID, tempskill.value]));
+      setSkill(-1);
+      setLevel("1");
+    }
   };
   const handleChangeLevel = (e) => {
     setLevel(e.target.value);
   };
-  const deleteHandler = (index) => {
+  const deleteHandler = (index, data) => {
     dispatch(cvActions.deleteSkill(index));
+    const removeskill = skills.find((skill) => skill.label == data.skillName);
+    let temp = [...ListID];
+    temp.splice(temp.indexOf(removeskill.value), 1);
+    dispatch(cvActions.setListID(temp));
   };
   const editHander = (index, data) => {
     dispatch(cvActions.deleteSkill(index));
-    setSkill(data.skillName);
+    const removeskill = skills.find((skill) => skill.label == data.skillName);
+    let temp = [...ListID];
+    temp.splice(temp.indexOf(removeskill.value), 1);
+    dispatch(cvActions.setListID(temp));
+    const editskill = skills.find((skill) => skill.label == data.skillName);
+    setSkill(editskill.value);
     setLevel(data.level);
     setTempSkill(data);
     setIndex(index);
     setIsEdit(true);
   };
   const onSaveEdit = () => {
+    const tempskill = skills.find((data) => data.value == skill);
     const data = {
       index: editindex,
       data: {
-        skillName: skill,
+        skillName: tempskill.label,
         level: parseInt(level),
       },
     };
     dispatch(cvActions.editSkill(data));
+    dispatch(cvActions.setListID([...ListID, tempskill.value]));
     setIsEdit(false);
-    setSkill("");
+    setSkill(-1);
     setLevel("1");
   };
   const onCancle = () => {
@@ -57,9 +97,11 @@ export default function Skills() {
         level: parseInt(tempSkill.level),
       },
     };
+    const tempskill = skills.find((data) => data.value == skill);
     dispatch(cvActions.editSkill(data));
+    dispatch(cvActions.setListID([...ListID, tempskill.value]));
     setIsEdit(false);
-    setSkill("");
+    setSkill(-1);
     setLevel("1");
   };
   return (
@@ -100,7 +142,7 @@ export default function Skills() {
               </button>
               <button
                 disabled={isEdit}
-                onClick={() => deleteHandler(index)}
+                onClick={() => deleteHandler(index, data)}
                 type="button"
                 className="h-10 px-4 text-white transition-colors duration-150 bg-red-500 rounded-lg focus:outline-none hover:bg-red-600 disabled:opacity-50"
               >
@@ -126,14 +168,21 @@ export default function Skills() {
       <div className="flex flex-col md:grid md:grid-cols-2 md:gap-4">
         <div className="flex flex-col">
           <label className="text-gray-700">Skill Name</label>
-          <input
-            onChange={(e) => setSkill(e.target.value)}
+          <select
+            className=" rounded-lg border-transparent border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             value={skill}
-            type="text"
-            id="skill"
-            className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-            placeholder="Skill"
-          />
+            placeholder="Skills"
+            onChange={(e) => {
+              handleChangeSelect(e.target.value);
+            }}
+          >
+            <option value={-1} disabled hidden>
+              Skills
+            </option>
+            {skills.map((skill) => (
+              <option value={skill.value}>{skill.label}</option>
+            ))}
+          </select>
         </div>
         <div className="flex flex-col">
           <label className="text-gray-700">Level</label>

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialCvState = {
+  listID: [],
   cVName: "",
   file: null,
   name: "",
@@ -28,6 +29,9 @@ const cvSlice = createSlice({
   name: "cv",
   initialState: initialCvState,
   reducers: {
+    setListID(state, actions) {
+      state.listID = actions.payload;
+    },
     setFile(state, actions) {
       state.file = actions.payload;
     },

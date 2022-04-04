@@ -10,6 +10,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import dynamic from "next/dynamic";
 import Download from "app/components/cv/dialog/download";
 import ListEmpty from "app/components/atoms/ListEmpty";
+import UserAPI from "app/api/modules/userAPI";
+import { jobAPI } from "app/api/modules/jobAPI";
 // import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
 // import MyDoc from "app/components/cv/mydoc";
 
@@ -39,6 +41,13 @@ export default function ListCv() {
     await CvAPI.getCvById(id, userToken.token).then((res) => {
       if (res.status === 200) {
         dispatch(cvActions.initData(res.data.data.cv[0]));
+        const tempListId = [];
+        res.data.data.cv[0].skills.map((skill) => {
+          tempListId.push(
+            skills.find((data) => data.label == skill.skillName).value
+          );
+        });
+        dispatch(cvActions.setListID(tempListId));
         dispatch(cvActions.changeUpdateState(true));
         dispatch(cvActions.changeID(id));
         router.push("/cv-editor");
@@ -54,6 +63,7 @@ export default function ListCv() {
       }
     });
   };
+  const [skills, setSkills] = useState([]);
   useEffect(() => {
     if (userToken.token == "") {
       router.push("/login");
@@ -65,6 +75,15 @@ export default function ListCv() {
             setmyCv(res.data.data.cv);
           }
         });
+        const response = await jobAPI.getJobProperties();
+        if (response.status === 200) {
+          setSkills(
+            response.data.data.jobProperties.skills.map((skill) => ({
+              value: skill.id,
+              label: skill.name,
+            }))
+          );
+        }
       };
       fetchData();
     }
@@ -72,6 +91,11 @@ export default function ListCv() {
   const createCv = () => {
     dispatch(cvActions.resetState());
     dispatch(cvActions.changeUpdateState(false));
+    UserAPI.getProfile().then((res) => {
+      dispatch(
+        cvActions.initData({ ...res.data.data.profiles[0], skills: [] })
+      );
+    });
     router.push("/cv-editor");
   };
   const handleCallback = () => {
