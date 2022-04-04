@@ -110,10 +110,12 @@ export default function InterviewCard(props) {
                   {props.totalInterviewRound}
                 </p>
               </div>
-              <div className="flex gap-2 justify-end items-end w-full  cursor-pointer">
-                <img src="/common/notepad.png" alt="" className="h-8 w-8" />
-                <p className="font-semibold text-sm">Summary</p>
-              </div>
+              {user.user.roleId === 2 && (
+                <div className="flex gap-2 justify-end items-end w-full  cursor-pointer">
+                  <img src="/common/notepad.png" alt="" className="h-8 w-8" />
+                  <p className="font-semibold text-sm">Summary</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
