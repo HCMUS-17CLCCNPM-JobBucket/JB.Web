@@ -50,7 +50,7 @@ export default function InterviewButton(props) {
     <>
       <div className="">
         <button onClick={openModal} className="btn btn-primary w-40">
-          Interview
+          Next Round
         </button>
       </div>
 
@@ -146,7 +146,7 @@ export default function InterviewButton(props) {
 
                   <div className="w-full flex justify-end">
                     <button type="submit" className="btn btn-primary w-40">
-                      Submit
+                      Next Round
                     </button>
                   </div>
                 </form>

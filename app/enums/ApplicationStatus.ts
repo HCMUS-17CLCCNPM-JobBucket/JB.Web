@@ -1,9 +1,7 @@
 const ApplicationStatus = [
   "APPLIED",
   "CANCELLED",
-  "IN_REVIEW",
-  "INTERVIEW",
-  "OFFER",
+  "PROCESSING",
   "PASSED",
   "FAILED",
 ];

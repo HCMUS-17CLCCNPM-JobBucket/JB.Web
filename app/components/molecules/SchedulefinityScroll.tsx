@@ -50,7 +50,7 @@ export default function ScheduleInfinityScroll({
           hasMore={hasMore}
           loader={<Loading />}
           scrollableTarget="scrollableDiv"
-          className="flex flex-col gap-4 p-4 min-h-40 w-full"
+          className="grid grid-cols-2 gap-4 p-4 min-h-40 w-full"
         >
           {schedules.map((item, index) => (
             <InterviewCard key={index} {...item} />

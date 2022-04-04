@@ -15,23 +15,26 @@ const interviewAPI = {
           description
           interviewTime
           status
-          job{
+          totalInterviewRound
+          currentInterviewRound
+          job {
             id
             title
           }
-          interviewer{
+          interviewer {
             id
             name
             avatarUrl
           }
-          interviewee{
+          interviewee {
             id
             name
             avatarUrl
           }
-          form {
-            overallRating
-            result
+          forms {
+            
+            round
+            title
             note
             sections {
               question
@@ -65,23 +68,26 @@ const interviewAPI = {
           description
           interviewTime
           status
-          job{
+          totalInterviewRound
+          currentInterviewRound
+          job {
             id
             title
           }
-          interviewer{
+          interviewer {
             id
             name
             avatarUrl
           }
-          interviewee{
+          interviewee {
             id
             name
             avatarUrl
           }
-          form {
-            overallRating
-            result
+          forms {
+            
+            round
+            title
             note
             sections {
               question
@@ -92,6 +98,7 @@ const interviewAPI = {
           }
         }
       }
+      
       `,
       variables: {
         filter: {
@@ -123,7 +130,9 @@ const interviewAPI = {
         interview{
           update(interview: $updateInterview){
             id jobId intervieweeCVId interviewerId intervieweeId description interviewTime 
-            status 
+            status
+            totalInterviewRound
+            currentInterviewRound
             form{
               overallRating
               result
