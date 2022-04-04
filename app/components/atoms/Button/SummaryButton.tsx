@@ -3,6 +3,7 @@ import interviewAPI from "app/api/modules/interviewAPI";
 import ComponentWithLabel from "app/components/molecules/ComponentWithLabel";
 import QAInterviewSection from "app/components/molecules/QAInterviewSection";
 import ResultInterviewSelection from "app/components/molecules/ResultInterviewSelection";
+import { useUserInfo } from "app/utils/hooks";
 import { useFormik } from "formik";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
@@ -10,10 +11,9 @@ import { toast } from "react-toastify";
 export default function SummaryButton(props) {
   let [isOpen, setIsOpen] = useState(false);
 
+  const user = useUserInfo();
+
   const [temp, setTemp] = useState({
-    note: props.form?.note || "",
-    overallRating: props.form?.overallRating || 3,
-    result: props.form?.result || 0,
     sections: props.form?.sections || [],
   });
 
@@ -29,30 +29,33 @@ export default function SummaryButton(props) {
     enableReinitialize: true,
     initialValues: {
       id: props.id,
-      status: 0,
       jobId: props.jobId,
       description: "",
-      intervieweeCVId: props.intervieweeCVId,
-      intervieweeId: props.intervieweeId,
-      interviewerId: props.interviewerId,
-      interviewTime: props.interviewTime,
+      note: props.form?.note || "",
+      round: props.form?.round || 0,
+      title: props.form?.title || "",
     },
 
     onSubmit: async (values) => {
-      // const res = await interviewAPI.update({ ...values, form: temp });
-      // if (res.status === 200) {
-      //   toast("Interview updated successfully");
-      //   closeModal();
-      // }
-      const res = await interviewAPI.nextRound(props.id, temp);
+      const res = await interviewAPI.update({
+        ...values,
+        sections: temp.sections,
+      });
     },
   });
   return (
     <>
-      <div className="">
-        <button onClick={openModal} className="btn btn-primary w-40">
-          Next Round
-        </button>
+      <div className="h-fit">
+        {/* <button className="btn btn-primary w-40">Next Round</button> */}
+        {user.user.roleId === 2 && (
+          <button
+            onClick={openModal}
+            className="flex gap-2 justify-end items-end w-full  cursor-pointer"
+          >
+            <img src="/common/notepad.png" alt="" className="h-8 w-8" />
+            <p className="font-semibold text-sm">Summary</p>
+          </button>
+        )}
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -95,45 +98,28 @@ export default function SummaryButton(props) {
                   as="h3"
                   className="text-lg leading-6 text-gray-900 font-semibold"
                 >
-                  Interview Form
+                  Summary Round {props.round}
                 </Dialog.Title>
                 <form
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col gap-4 mt-4"
                 >
-                  <div className="grid grid-cols-2 gap-4">
-                    <ComponentWithLabel label="Result">
-                      <ResultInterviewSelection
-                        value={temp.result}
-                        onChange={(e) => setTemp({ ...temp, result: e.value })}
-                      />
-                    </ComponentWithLabel>
-                    <ComponentWithLabel label="Overall Rating">
-                      <input
-                        type="number"
-                        className="input"
-                        max={5}
-                        min={1}
-                        // defaultValue={5}
-                        value={temp.overallRating}
-                        onChange={(e) =>
-                          setTemp({
-                            ...temp,
-                            overallRating: parseInt(e.target.value),
-                          })
-                        }
-                      />
-                    </ComponentWithLabel>
-                  </div>
+                  <ComponentWithLabel label="Result">
+                    {/* <ResultInterviewSelection
+                      value={temp.round}
+                      onChange={(e) => setTemp({ ...temp, round: e.value })}
+                    /> */}
+                  </ComponentWithLabel>
+
                   <ComponentWithLabel label="Note">
-                    <textarea
+                    {/* <textarea
                       value={temp.note}
                       onChange={(e) =>
                         setTemp({ ...temp, note: e.target.value })
                       }
                       className="input h-[150px]"
                       placeholder="Note"
-                    />
+                    /> */}
                   </ComponentWithLabel>
                   <hr />
                   <ComponentWithLabel label="">

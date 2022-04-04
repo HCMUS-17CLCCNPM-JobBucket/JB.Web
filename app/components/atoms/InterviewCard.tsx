@@ -8,6 +8,7 @@ import Moment from "react-moment";
 import NextRoundButton from "./Button/NextRoundButton";
 import InterviewButton from "./Button/NextRoundButton";
 import SetScheduleInterviewButton from "./Button/SetScheduleInterviewButton";
+import SummaryButton from "./Button/SummaryButton";
 
 const Avatar = ({ src, alt, name }) => (
   <div className="flex gap-2 items-center">
@@ -63,18 +64,29 @@ export default function InterviewCard(props) {
       <div className="job-horizon-card__header">
         <div className="flex flex-col gap-4 items-start justify-start overflow-hidden">
           <div className="flex justify-between w-full">
-            <div className="flex justify-between w-2/3">
+            {user.user.roleId === 2 && (
               <Avatar
                 src={props.interviewee.avatarUrl}
                 alt={props.interviewee.name}
                 name={props.interviewee.name}
               />
-              <Avatar
-                src={props.interviewer.avatarUrl}
-                alt={props.interviewer.name}
-                name={props.interviewer.name}
-              />
-            </div>
+            )}
+
+            {user.user.roleId === 1 && (
+              <div className="flex justify-between w-2/3">
+                <Avatar
+                  src={props.interviewer.avatarUrl}
+                  alt={props.interviewer.name}
+                  name={props.interviewer.name}
+                />
+
+                <Avatar
+                  src={props.organization.avatarUrl}
+                  alt={props.organization.name}
+                  name={props.organization.name}
+                />
+              </div>
+            )}
             <img
               src="/common/message.png"
               alt="Message"
@@ -92,9 +104,10 @@ export default function InterviewCard(props) {
             >
               {props.job.title}
             </a>
+
             <p>{props.description}</p>
 
-            <div className="flex justify-between w-full">
+            <div className="flex justify-between items-end w-full">
               <div>
                 <p className="md:block">
                   <span className="font-semibold">Interview Time</span>:{" "}
@@ -112,19 +125,21 @@ export default function InterviewCard(props) {
                   {props.totalInterviewRound}
                 </p>
               </div>
-              {user.user.roleId === 2 && (
-                <div className="flex gap-2 justify-end items-end w-full  cursor-pointer">
-                  <img src="/common/notepad.png" alt="" className="h-8 w-8" />
-                  <p className="font-semibold text-sm">Summary</p>
-                </div>
-              )}
+              <SummaryButton
+                id={props.id}
+                round={props.currentInterviewRound}
+              />
             </div>
           </div>
         </div>
       </div>
       <div className="gap-4 flex flex-col md:flex-row md:justify-between md:items-center px-6 py-2 border-t">
         <div className="flex gap-2">
-          <p className="text-red-600 font-semibold">
+          <p
+            className={`${
+              props.status === 3 ? "text-green-500" : "text-red-600"
+            }  font-semibold`}
+          >
             {ScheduleStatus[props.status + 1]}
           </p>
           {/* <p className="md:block">
@@ -135,25 +150,25 @@ export default function InterviewCard(props) {
         {user.user.roleId === 2 && props.status === 1 && (
           <div className="flex justify-center gap-2">
             <button
-              className="bg-red-600 text-white w-28 rounded-md"
+              className="bg-red-600 text-white w-28 h-10 rounded-md"
               onClick={onFail}
             >
               Fail
             </button>
             <button
-              className="bg-green-500 text-white w-28 rounded-md"
+              className="bg-green-500 text-white w-28 h-10 rounded-md"
               onClick={onPass}
             >
               Pass
             </button>
-            {/* <button onClick={onNextRound} className="btn btn-primary w-40">
-              Next Round
-            </button> */}
-            <NextRoundButton
-              id={props.id}
-              round={props.currentInterviewRound}
-            />
-            {/* <InterviewButton {...props} /> */}
+
+            {props.currentInterviewRound !== props.totalInterviewRound && (
+              <NextRoundButton
+                id={props.id}
+                round={props.currentInterviewRound}
+                onRefresh={props.onRefresh}
+              />
+            )}
           </div>
         )}
 

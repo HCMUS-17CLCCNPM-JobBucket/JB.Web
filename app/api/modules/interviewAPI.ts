@@ -17,6 +17,10 @@ const interviewAPI = {
           status
           totalInterviewRound
           currentInterviewRound
+          organization{
+            name
+            avatarUrl
+          }
           job {
             id
             title
@@ -70,6 +74,10 @@ const interviewAPI = {
           status
           totalInterviewRound
           currentInterviewRound
+          organization{
+            name
+            avatarUrl
+          }
           job {
             id
             title

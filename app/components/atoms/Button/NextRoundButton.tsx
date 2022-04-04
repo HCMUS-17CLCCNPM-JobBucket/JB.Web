@@ -28,6 +28,7 @@ export default function NextRoundButton(props) {
     onSubmit: async (values) => {
       const res = await interviewAPI.nextRound(values.id, values.interviewTime);
 
+      props.onRefresh();
       closeModal();
       toast("Interview updated successfully");
     },

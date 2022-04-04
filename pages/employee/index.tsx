@@ -64,7 +64,7 @@ function JobPage() {
         setHasMore(res.data.data.profileRecommendations.length > 0);
       }
     };
-    if (user.user.roleId === 2) {
+    if (user.user.roleId >= 2) {
       fetchData();
     }
   }, [filters, jobId]);

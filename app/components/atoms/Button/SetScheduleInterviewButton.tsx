@@ -32,7 +32,7 @@ export default function SetScheduleInterviewButton({
       intervieweeId,
       interviewerId,
       interviewTime: "",
-      totalInterviewRound: 0,
+      totalInterviewRound: 1,
     },
 
     onSubmit: async (values) => {
@@ -109,6 +109,7 @@ export default function SetScheduleInterviewButton({
                         name="interviewTime"
                         value={formik.values.interviewTime}
                         onChange={formik.handleChange}
+                        required
                         type="datetime-local"
                         className="input"
                         placeholder="Description"
