@@ -15,6 +15,7 @@ export default function RecruiterJob() {
   const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState(-1);
   const [status, setStatus] = useState(0);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     interviewAPI.getListScheduleHr(user.user.id, { page }).then((res) => {
@@ -35,7 +36,9 @@ export default function RecruiterJob() {
         setHasMore(res.data.data.interviews.length > 0);
         setLoading(false);
       });
-  }, [jobId, status]);
+  }, [jobId, status, refresh]);
+
+  const onRefresh = () => setRefresh(!refresh);
   return (
     <RecruiterLayout>
       <Head>
@@ -51,6 +54,7 @@ export default function RecruiterJob() {
         loading={loading}
         schedules={applicants}
         setPage={() => setPage(page + 1)}
+        onRefresh={onRefresh}
       />
       <div className="h-[300px]"></div>
     </RecruiterLayout>

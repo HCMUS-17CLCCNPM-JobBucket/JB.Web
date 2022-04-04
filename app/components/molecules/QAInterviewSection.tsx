@@ -47,7 +47,7 @@ export default function QAInterviewSection({ value, onChange }) {
     question: "",
     answer: "",
     note: "",
-    rating: 0,
+    rating: 1,
   });
   const handleAdd = (e) => {
     e.preventDefault();

@@ -19,7 +19,11 @@ export default function RecruiterJob() {
   useEffect(() => {
     // setLoading(true);
 
-    UserAPI.getApplicants(user.user.id, { page, jobId, status }).then((res) => {
+    UserAPI.getApplicants(user.user.id, {
+      page,
+      jobId,
+      status,
+    }).then((res) => {
       if (res.status === 200)
         setApplicants([...applicants, ...res.data.data.jobApplications]);
       console.log(res.data.data.jobApplications);
@@ -32,15 +36,16 @@ export default function RecruiterJob() {
   useEffect(() => {
     setLoading(true);
 
-    UserAPI.getApplicants(user.user.id, { page: 0, jobId, status }).then(
-      (res) => {
-        if (res.status === 200)
-          setApplicants([...res.data.data.jobApplications]);
+    UserAPI.getApplicants(user.user.id, {
+      page: 0,
+      jobId,
+      status: status,
+    }).then((res) => {
+      if (res.status === 200) setApplicants([...res.data.data.jobApplications]);
 
-        setHasMore(res.data.data.jobApplications.length > 0);
-        setLoading(false);
-      }
-    );
+      setHasMore(res.data.data.jobApplications.length > 0);
+      setLoading(false);
+    });
   }, [jobId, status]);
 
   return (

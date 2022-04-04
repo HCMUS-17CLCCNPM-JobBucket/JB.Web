@@ -1,3 +1,10 @@
-const ScheduleStatus = ["Unverified", "Accepted", "Denied", "Passed", "Failed"];
+const ScheduleStatus = [
+  //   "All",
+  "Unverified",
+  "Accepted",
+  "Denied",
+  "Passed",
+  "Failed",
+];
 
 export default ScheduleStatus;

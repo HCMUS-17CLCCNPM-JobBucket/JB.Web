@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 
 export default function SetScheduleInterviewButton({
   jobId,
-  //   description,
-  //   interviewTime,
+  onReschedule,
+  interviewTime,
   interviewerId,
   intervieweeId,
   intervieweeCVId,
@@ -32,13 +32,18 @@ export default function SetScheduleInterviewButton({
       intervieweeId,
       interviewerId,
       interviewTime: "",
+      totalInterviewRound: 0,
     },
 
     onSubmit: async (values) => {
-      const res = await interviewAPI.add(values);
-      if (res.status === 200) {
-        toast("Interview added successfully", { type: "success" });
-        closeModal();
+      if (onReschedule === null) {
+        const res = await interviewAPI.add(values);
+        if (res.status === 200) {
+          toast("Interview added successfully", { type: "success" });
+          closeModal();
+        }
+      } else {
+        onReschedule(values.interviewTime, closeModal);
       }
     },
   });
@@ -97,17 +102,30 @@ export default function SetScheduleInterviewButton({
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col gap-4 mt-4"
                 >
-                  <ComponentWithLabel label="Interview Time">
-                    <input
-                      id="interviewTime"
-                      name="interviewTime"
-                      value={formik.values.interviewTime}
-                      onChange={formik.handleChange}
-                      type="datetime-local"
-                      className="input"
-                      placeholder="Description"
-                    />
-                  </ComponentWithLabel>
+                  <div className="flex gap-2 justify-between items-center w-full">
+                    <ComponentWithLabel label="Interview Time">
+                      <input
+                        id="interviewTime"
+                        name="interviewTime"
+                        value={formik.values.interviewTime}
+                        onChange={formik.handleChange}
+                        type="datetime-local"
+                        className="input"
+                        placeholder="Description"
+                      />
+                    </ComponentWithLabel>
+                    <ComponentWithLabel label="Total Round">
+                      <input
+                        id="totalInterviewRound"
+                        name="totalInterviewRound"
+                        value={formik.values.totalInterviewRound}
+                        onChange={formik.handleChange}
+                        type="number"
+                        className="input"
+                        placeholder="Description"
+                      />
+                    </ComponentWithLabel>
+                  </div>
                   <ComponentWithLabel label="Description">
                     <textarea
                       id="description"

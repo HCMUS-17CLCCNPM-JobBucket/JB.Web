@@ -124,6 +124,98 @@ const interviewAPI = {
         addInterview,
       },
     }),
+
+  accept: (id) =>
+    axiosClient.post("/graphql", {
+      query: `mutation acceptInterview($id: Int!){
+        interview{
+          acceptInterview(interviewId: $id){
+            id
+      
+          }
+        }
+      }
+    `,
+      variables: {
+        id,
+      },
+    }),
+  deny: (id) =>
+    axiosClient.post("/graphql", {
+      query: `mutation denyInterview($id: Int!){
+        interview{
+          denyInterview(interviewId: $id){
+            id
+          }
+        }
+      }
+    `,
+      variables: {
+        id,
+      },
+    }),
+
+  reschedule: (interviewId, newDate) =>
+    axiosClient.post("/graphql", {
+      query: `mutation reschedule($interviewId: Int!, $newDate: DateTime!){
+        interview{
+          reschedule(interviewId: $interviewId, newDateTime: $newDate){
+            id
+          }
+        }
+      }
+    `,
+      variables: {
+        interviewId,
+        newDate,
+      },
+    }),
+  fail: (interviewId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation failInterview($interviewId: Int!){
+        interview{
+          failAplication(interviewId: $interviewId){
+            id
+          }
+        }
+      }
+    `,
+
+      variables: {
+        interviewId,
+      },
+    }),
+  pass: (interviewId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation passInterview($interviewId: Int!){
+        interview{
+          passAplication(interviewId: $interviewId){
+            id
+          }
+        }
+      }
+    `,
+
+      variables: {
+        interviewId,
+      },
+    }),
+  nextRound: (interviewId, newDate) =>
+    axiosClient.post("/graphql", {
+      query: `mutation nextRound($interviewId: Int!, $newDate:DateTime!){
+        interview{
+          nextInterview(interviewId:$interviewId, newDateTime:$newDate){
+            id
+          }
+        }
+      }
+    `,
+
+      variables: {
+        interviewId,
+        newDate,
+      },
+    }),
   update: (updateInterview) =>
     axiosClient.post("/graphql", {
       query: `mutation updateInterview($updateInterview: UpdateInterviewRequestInput!){
@@ -133,9 +225,9 @@ const interviewAPI = {
             status
             totalInterviewRound
             currentInterviewRound
-            form{
-              overallRating
-              result
+            forms{
+              title
+              round
               note
             sections{
               question

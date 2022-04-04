@@ -16,6 +16,7 @@ export default function ScheduleInfinityScroll({
   loading,
   schedules,
   setPage,
+  onRefresh,
 }) {
   const user = useUserInfo();
   const [isLoading, setIsLoading] = useState(loading);
@@ -53,7 +54,7 @@ export default function ScheduleInfinityScroll({
           className="grid grid-cols-2 gap-4 p-4 min-h-40 w-full"
         >
           {schedules.map((item, index) => (
-            <InterviewCard key={index} {...item} />
+            <InterviewCard key={index} {...item} onRefresh={onRefresh} />
           ))}
         </InfiniteScroll>
       )}

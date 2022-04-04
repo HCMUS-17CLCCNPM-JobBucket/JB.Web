@@ -15,9 +15,10 @@ export default function ScheduleEmployee() {
   const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState(-1);
   const [status, setStatus] = useState(0);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    if (page > 0)
+    if (page > 1)
       interviewAPI
         .getListScheduleEmployee(user.user.id, { page })
         .then((res) => {
@@ -30,15 +31,20 @@ export default function ScheduleEmployee() {
 
   useEffect(() => {
     setLoading(true);
+
     interviewAPI
-      .getListScheduleEmployee(user.user.id, { page: 0, jobId, status })
+      .getListScheduleEmployee(user.user.id, { page: 1, jobId, status })
       .then((res) => {
+        setPage(1);
         if (res.status === 200) setInterviews([...res.data.data.interviews]);
 
         setHasMore(res.data.data.interviews.length > 0);
         setLoading(false);
       });
-  }, [jobId, status]);
+  }, [jobId, status, refresh]);
+
+  const onRefresh = () => setRefresh(!refresh);
+
   return (
     <JobDashboard>
       <Head>
@@ -54,6 +60,7 @@ export default function ScheduleEmployee() {
         loading={loading}
         schedules={interviews}
         setPage={() => setPage(page + 1)}
+        onRefresh={onRefresh}
       />
       <div className="h-[300px]"></div>
     </JobDashboard>

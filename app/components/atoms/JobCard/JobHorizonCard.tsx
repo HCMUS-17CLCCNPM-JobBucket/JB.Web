@@ -172,14 +172,15 @@ export default function JobHorizonCard(props) {
             ) : (
               <ApplicationCV id={props.cVId} />
             )}
-            <SetScheduleInterviewButton
+            {/* <SetScheduleInterviewButton
               jobId={props.job.id}
               // description={"123123"}
-              // interviewTime={""}
+              interviewTime={""}
+              onReschedule={null}
               intervieweeCVId={-1}
               intervieweeId={props.user.id}
               interviewerId={user.user.id}
-            />
+            /> */}
           </div>
         </div>
       )}

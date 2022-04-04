@@ -39,11 +39,12 @@ export default function InterviewButton(props) {
     },
 
     onSubmit: async (values) => {
-      const res = await interviewAPI.update({ ...values, form: temp });
-      if (res.status === 200) {
-        toast("Interview updated successfully");
-        closeModal();
-      }
+      // const res = await interviewAPI.update({ ...values, form: temp });
+      // if (res.status === 200) {
+      //   toast("Interview updated successfully");
+      //   closeModal();
+      // }
+      const res = await interviewAPI.nextRound(props.id, temp);
     },
   });
   return (

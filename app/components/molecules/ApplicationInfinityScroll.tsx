@@ -123,7 +123,8 @@ export default function ApplicationInfinityScroll({
                   <SetScheduleInterviewButton
                     jobId={item.job.id}
                     // description={"123123"}
-                    // interviewTime={""}
+                    onReschedule={null}
+                    interviewTime={""}
                     intervieweeCVId={-1}
                     intervieweeId={item.user.id}
                     interviewerId={user.user.id}
