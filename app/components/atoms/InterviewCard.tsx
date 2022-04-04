@@ -5,7 +5,8 @@ import { useUserInfo } from "app/utils/hooks";
 import Router from "next/router";
 import React, { useState } from "react";
 import Moment from "react-moment";
-import InterviewButton from "./Button/InterviewButton";
+import NextRoundButton from "./Button/NextRoundButton";
+import InterviewButton from "./Button/NextRoundButton";
 import SetScheduleInterviewButton from "./Button/SetScheduleInterviewButton";
 
 const Avatar = ({ src, alt, name }) => (
@@ -145,9 +146,13 @@ export default function InterviewCard(props) {
             >
               Pass
             </button>
-            <button onClick={onNextRound} className="btn btn-primary w-40">
+            {/* <button onClick={onNextRound} className="btn btn-primary w-40">
               Next Round
-            </button>
+            </button> */}
+            <NextRoundButton
+              id={props.id}
+              round={props.currentInterviewRound}
+            />
             {/* <InterviewButton {...props} /> */}
           </div>
         )}

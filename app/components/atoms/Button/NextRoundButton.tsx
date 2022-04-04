@@ -7,15 +7,8 @@ import { useFormik } from "formik";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function InterviewButton(props) {
+export default function NextRoundButton(props) {
   let [isOpen, setIsOpen] = useState(false);
-
-  const [temp, setTemp] = useState({
-    note: props.form?.note || "",
-    overallRating: props.form?.overallRating || 3,
-    result: props.form?.result || 0,
-    sections: props.form?.sections || [],
-  });
 
   function closeModal() {
     setIsOpen(false);
@@ -29,22 +22,14 @@ export default function InterviewButton(props) {
     enableReinitialize: true,
     initialValues: {
       id: props.id,
-      status: 0,
-      jobId: props.jobId,
-      description: "",
-      intervieweeCVId: props.intervieweeCVId,
-      intervieweeId: props.intervieweeId,
-      interviewerId: props.interviewerId,
-      interviewTime: props.interviewTime,
+      interviewTime: "",
     },
 
     onSubmit: async (values) => {
-      // const res = await interviewAPI.update({ ...values, form: temp });
-      // if (res.status === 200) {
-      //   toast("Interview updated successfully");
-      //   closeModal();
-      // }
-      const res = await interviewAPI.nextRound(props.id, temp);
+      const res = await interviewAPI.nextRound(values.id, values.interviewTime);
+
+      closeModal();
+      toast("Interview updated successfully");
     },
   });
   return (
@@ -90,23 +75,28 @@ export default function InterviewButton(props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full  max-w-[1000px] h-[600px] overflow-auto p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-full  max-w-[400px] h-[230px] overflow-auto p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-lg leading-6 text-gray-900 font-semibold"
                 >
-                  Interview Form
+                  Interview Round {props.round + 1}
                 </Dialog.Title>
                 <form
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col gap-4 mt-4"
                 >
-                  <div className="grid grid-cols-2 gap-4">
-                    <ComponentWithLabel label="Result">
-                      
-                    </ComponentWithLabel>
-                   
-                  </div>
+                  <ComponentWithLabel label="Interview Time">
+                    <input
+                      id="interviewTime"
+                      name="interviewTime"
+                      value={formik.values.interviewTime}
+                      onChange={formik.handleChange}
+                      type="datetime-local"
+                      className="input"
+                      placeholder="Description"
+                    />
+                  </ComponentWithLabel>
 
                   <div className="w-full flex justify-end">
                     <button type="submit" className="btn btn-primary w-40">
