@@ -14,7 +14,7 @@ export default function RecruiterJob() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState(-1);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(-1);
 
   useEffect(() => {
     // setLoading(true);
@@ -22,7 +22,7 @@ export default function RecruiterJob() {
     UserAPI.getApplicants(user.user.id, {
       page,
       jobId,
-      status,
+      status: status - 1,
     }).then((res) => {
       if (res.status === 200)
         setApplicants([...applicants, ...res.data.data.jobApplications]);
@@ -39,7 +39,7 @@ export default function RecruiterJob() {
     UserAPI.getApplicants(user.user.id, {
       page: 0,
       jobId,
-      status: status,
+      status: status - 1,
     }).then((res) => {
       if (res.status === 200) setApplicants([...res.data.data.jobApplications]);
 

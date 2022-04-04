@@ -14,7 +14,7 @@ export default function ScheduleEmployee() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState(-1);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(-1);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,11 @@ export default function ScheduleEmployee() {
     setLoading(true);
 
     interviewAPI
-      .getListScheduleEmployee(user.user.id, { page: 1, jobId, status })
+      .getListScheduleEmployee(user.user.id, {
+        page: 1,
+        jobId,
+        status: status - 1,
+      })
       .then((res) => {
         setPage(1);
         if (res.status === 200) setInterviews([...res.data.data.interviews]);

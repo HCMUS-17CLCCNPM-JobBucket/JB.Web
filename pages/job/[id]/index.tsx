@@ -76,12 +76,12 @@ export default function JobDetail(props) {
     fetchData();
   }, []);
 
-  const onCreateConversation = async () => {
-    const res = await chatAPI.createConversation(jobInfo.employerId);
-    if (res.status === 200) {
-      router.push(`/chat/${res.data.data.chat.addOrGet.id}`);
-    }
-  };
+  // const onCreateConversation = async () => {
+  //   const res = await chatAPI.createConversation(jobInfo.employerId);
+  //   if (res.status === 200) {
+  //     router.push(`/chat/${res.data.data.chat.addOrGet.id}`);
+  //   }
+  // };
 
   return (
     <div className="flex-1 px-16 py-4">
@@ -204,12 +204,12 @@ export default function JobDetail(props) {
               isInterested={jobStatus.isJobInterested}
               jobId={jobInfo.id}
             />
-            <button
+            {/* <button
               className="btn btn-primary w-40"
               onClick={onCreateConversation}
             >
               Message
-            </button>
+            </button> */}
           </div>
         )}
 

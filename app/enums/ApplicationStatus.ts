@@ -1,5 +1,5 @@
 const ApplicationStatus = [
-  // "ALL",
+  "ALL",
   "APPLIED",
   "CANCELLED",
   "PROCESSING",

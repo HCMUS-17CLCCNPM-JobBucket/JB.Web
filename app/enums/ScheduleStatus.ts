@@ -1,5 +1,5 @@
 const ScheduleStatus = [
-  //   "All",
+    "All",
   "Unverified",
   "Accepted",
   "Denied",

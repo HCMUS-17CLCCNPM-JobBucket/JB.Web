@@ -14,7 +14,7 @@ export default function RecruiterJob() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState(-1);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(-1);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function RecruiterJob() {
   useEffect(() => {
     setLoading(true);
     interviewAPI
-      .getListScheduleHr(user.user.id, { page: 0, jobId, status })
+      .getListScheduleHr(user.user.id, { page: 0, jobId, status: status - 1 })
       .then((res) => {
         if (res.status === 200) setApplicants([...res.data.data.interviews]);
 

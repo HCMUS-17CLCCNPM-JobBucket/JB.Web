@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function InterviewButton(props) {
+export default function SummaryButton(props) {
   let [isOpen, setIsOpen] = useState(false);
 
   const [temp, setTemp] = useState({
@@ -103,10 +103,47 @@ export default function InterviewButton(props) {
                 >
                   <div className="grid grid-cols-2 gap-4">
                     <ComponentWithLabel label="Result">
-                      
+                      <ResultInterviewSelection
+                        value={temp.result}
+                        onChange={(e) => setTemp({ ...temp, result: e.value })}
+                      />
                     </ComponentWithLabel>
-                   
+                    <ComponentWithLabel label="Overall Rating">
+                      <input
+                        type="number"
+                        className="input"
+                        max={5}
+                        min={1}
+                        // defaultValue={5}
+                        value={temp.overallRating}
+                        onChange={(e) =>
+                          setTemp({
+                            ...temp,
+                            overallRating: parseInt(e.target.value),
+                          })
+                        }
+                      />
+                    </ComponentWithLabel>
                   </div>
+                  <ComponentWithLabel label="Note">
+                    <textarea
+                      value={temp.note}
+                      onChange={(e) =>
+                        setTemp({ ...temp, note: e.target.value })
+                      }
+                      className="input h-[150px]"
+                      placeholder="Note"
+                    />
+                  </ComponentWithLabel>
+                  <hr />
+                  <ComponentWithLabel label="">
+                    <QAInterviewSection
+                      value={temp.sections}
+                      onChange={(val) =>
+                        setTemp({ ...temp, sections: [val, ...temp.sections] })
+                      }
+                    />
+                  </ComponentWithLabel>
 
                   <div className="w-full flex justify-end">
                     <button type="submit" className="btn btn-primary w-40">

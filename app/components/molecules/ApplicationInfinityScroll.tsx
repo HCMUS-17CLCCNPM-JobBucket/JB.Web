@@ -82,7 +82,7 @@ export default function ApplicationInfinityScroll({
               <div className="gap-4 flex flex-col md:flex-row md:justify-between md:items-center px-6 py-2 border-t">
                 <div className="flex gap-2">
                   <p className="text-red-600 font-semibold">
-                    {ApplicationStatus[item.status]}
+                    {ApplicationStatus[item.status + 1]}
                   </p>
                   <p className="md:block">
                     - Applied <Moment fromNow>{item.createdDate}</Moment>{" "}

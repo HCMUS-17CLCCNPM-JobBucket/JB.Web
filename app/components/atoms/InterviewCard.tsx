@@ -56,6 +56,7 @@ export default function InterviewCard(props) {
       Router.push(`/chat/${res.data.data.chat.addOrGet.id}`);
     }
   };
+
   return (
     <div className="col-span-1 job-horizon-card hover:shadow-lg relative w-full">
       <div className="job-horizon-card__header">
@@ -144,7 +145,10 @@ export default function InterviewCard(props) {
             >
               Pass
             </button>
-            <InterviewButton {...props} />
+            <button onClick={onNextRound} className="btn btn-primary w-40">
+              Next Round
+            </button>
+            {/* <InterviewButton {...props} /> */}
           </div>
         )}
 

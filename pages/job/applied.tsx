@@ -13,17 +13,19 @@ export default function AppliedJob() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState(-1);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(-1);
   const user = useUserInfo();
 
   useEffect(() => {
     setPage(1);
     setLoading(true);
     jobAPI
-      .getAppliedJobs(user.user.id, { page: 1, jobId, status })
+      .getAppliedJobs(user.user.id, { page: 1, jobId, status: status - 1 })
       .then((res) => {
-        if (page === 1) setJobs(res.data.data.jobApplications);
-        if (page > 1) setJobs([...jobs, ...res.data.data.jobApplications]);
+        setPage(1);
+        setJobs(res.data.data.jobApplications);
+
+        setPage(1);
 
         setHasMore(res.data.data.jobApplications.length > 0);
         setLoading(false);
@@ -34,7 +36,7 @@ export default function AppliedJob() {
     const fetchData = async () => {
       setLoading(true);
       jobAPI
-        .getAppliedJobs(user.user.id, { page, jobId, status })
+        .getAppliedJobs(user.user.id, { page, jobId, status: status - 1 })
         .then((res) => {
           // if (page === 1) setJobs(res.data.data.jobApplications);
           setJobs([...jobs, ...res.data.data.jobApplications]);

@@ -188,7 +188,7 @@ const AppliedJobCard = (props) => {
         <div className="gap-4 flex flex-col md:flex-row md:justify-between md:items-center px-6 py-2 border-t">
           <div className="flex gap-2">
             <p className="text-red-600 font-semibold">
-              {ApplicationStatus[props.status]}
+              {ApplicationStatus[props.status + 1]}
             </p>
             <p className="md:block">
               - Applied <Moment fromNow>{props.createdDate}</Moment>{" "}
