@@ -1,17 +1,31 @@
 import { Dialog, Transition } from "@headlessui/react";
 import interviewAPI from "app/api/modules/interviewAPI";
 import ComponentWithLabel from "app/components/molecules/ComponentWithLabel";
-import QAInterviewSection from "app/components/molecules/QAInterviewSection";
-import ResultInterviewSelection from "app/components/molecules/ResultInterviewSelection";
+import QAInterviewSection, {
+  QAList,
+} from "app/components/molecules/QAInterviewSection";
 import { useUserInfo } from "app/utils/hooks";
 import { useFormik } from "formik";
-import { Fragment, useState } from "react";
-import { toast } from "react-toastify";
+import { Fragment, useEffect, useState } from "react";
+import Selector from "../Select";
 
 export default function SummaryButton(props) {
   let [isOpen, setIsOpen] = useState(false);
 
+  const [currentForm, setCurrentForm] = useState({
+    note: "",
+    round: props.round.toString(),
+    title: "",
+    sections: [],
+  });
+  const [round, setRound] = useState(-1);
   const user = useUserInfo();
+
+  useEffect(() => {
+    if (round !== -1) {
+      setCurrentForm(props.forms.find((form) => form.round == round));
+    }
+  }, [round]);
 
   /*{ note: "", round: "1", title: "", sections: [] }*/
   const [form, setForm] = useState({
@@ -39,16 +53,11 @@ export default function SummaryButton(props) {
     },
 
     onSubmit: async (values) => {
-      console.log({
-        ...values,
-        forms: [...props.forms, form],
-      });
       const res = await interviewAPI.update({
         ...values,
         forms: [...props.forms, form],
       });
 
-      console.log(res);
       closeModal();
     },
   });
@@ -108,25 +117,53 @@ export default function SummaryButton(props) {
                 >
                   Summary Round {props.round}
                 </Dialog.Title>
-                <form
-                  onSubmit={formik.handleSubmit}
-                  className="flex flex-col gap-4 mt-4"
-                >
-                  {/* <div className="flex gap-3"> */}
-                  <ComponentWithLabel label="Title" styles="flex-1">
-                    <input
-                      type="text"
-                      name="title"
-                      id="title"
-                      className="input"
-                      value={form.title}
-                      onChange={(e) =>
-                        setForm({ ...form, title: e.target.value })
-                      }
-                      required
-                    />
-                  </ComponentWithLabel>
-                  {/* <ComponentWithLabel label="Round" styles=" w-20">
+                <Selector
+                  placeholder={`Round`}
+                  options={props.forms
+                    .map((form) => ({
+                      label: "Round " + form.round + " - " + form.title,
+                      value: form.round,
+                    }))
+                    .concat({ label: "Current Round", value: -1 })}
+                  onChange={(val) => setRound(val.value)}
+                />
+                {round !== -1 ? (
+                  <div className="flex flex-col gap-2 mt-4">
+                    <p>
+                      <span className="font-semibold">Title: </span>
+                      {currentForm.title || "N/A"}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Round: </span>
+                      {currentForm.round || "N/A"}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Note: </span>
+                      {currentForm.note || "N/A"}
+                    </p>
+                    <span className="font-semibold">Question: </span>
+                    <QAList value={currentForm.sections} />
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={formik.handleSubmit}
+                    className="flex flex-col gap-4 mt-4"
+                  >
+                    {/* <div className="flex gap-3"> */}
+                    <ComponentWithLabel label="Title" styles="flex-1">
+                      <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        className="input"
+                        value={form.title}
+                        onChange={(e) =>
+                          setForm({ ...form, title: e.target.value })
+                        }
+                        required
+                      />
+                    </ComponentWithLabel>
+                    {/* <ComponentWithLabel label="Round" styles=" w-20">
                       <input
                         type="number"
                         name="round"
@@ -136,36 +173,40 @@ export default function SummaryButton(props) {
                         onChange={formik.handleChange}
                       />
                     </ComponentWithLabel> */}
-                  {/* </div> */}
+                    {/* </div> */}
 
-                  <ComponentWithLabel label="Note">
-                    <textarea
-                      name="note"
-                      id="note"
-                      value={form.note}
-                      onChange={(e) =>
-                        setForm({ ...form, note: e.target.value })
-                      }
-                      className="input h-[150px]"
-                      placeholder="Note"
-                    />
-                  </ComponentWithLabel>
-                  <hr />
-                  {/* <ComponentWithLabel label="">
-                    <QAInterviewSection
-                      value={form.sections}
-                      onChange={(val) =>
-                        setForm({ ...form, sections: [val, ...form.sections] })
-                      }
-                    />
-                  </ComponentWithLabel> */}
+                    <ComponentWithLabel label="Note">
+                      <textarea
+                        name="note"
+                        id="note"
+                        value={form.note}
+                        onChange={(e) =>
+                          setForm({ ...form, note: e.target.value })
+                        }
+                        className="input h-[150px]"
+                        placeholder="Note"
+                      />
+                    </ComponentWithLabel>
+                    <hr />
+                    <ComponentWithLabel label="">
+                      <QAInterviewSection
+                        value={form.sections}
+                        onChange={(val) =>
+                          setForm({
+                            ...form,
+                            sections: [val, ...form.sections],
+                          })
+                        }
+                      />
+                    </ComponentWithLabel>
 
-                  <div className="w-full flex justify-end">
-                    <button type="submit" className="btn btn-primary w-40">
-                      Note
-                    </button>
-                  </div>
-                </form>
+                    <div className="w-full flex justify-end">
+                      <button type="submit" className="btn btn-primary w-40">
+                        Note
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
             </Transition.Child>
           </div>

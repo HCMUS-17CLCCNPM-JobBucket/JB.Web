@@ -5,7 +5,7 @@ import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/solid";
 import RatingComponent from "../atoms/RatingComponent";
 
-function QAList({ value }) {
+export function QAList({ value }) {
   return (
     <div className="w-full">
       <div className="w-full max-w-md p-2 bg-white rounded-2xl flex flex-col gap-2">
