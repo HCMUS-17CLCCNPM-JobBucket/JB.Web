@@ -22,6 +22,7 @@ const Avatar = ({ src, alt, name }) => (
 );
 
 export default function InterviewCard(props) {
+  console.log(props);
   const user = useUserInfo();
   const onAccept = async () => {
     const res = await interviewAPI.accept(props.id);
@@ -105,7 +106,7 @@ export default function InterviewCard(props) {
               {props.job.title}
             </a>
 
-            <p>{props.description}</p>
+            <p>{props.description || "No Description"}</p>
 
             <div className="flex justify-between items-end w-full">
               <div>
@@ -127,7 +128,10 @@ export default function InterviewCard(props) {
               </div>
               <SummaryButton
                 id={props.id}
+                jobId={props.job.id}
                 round={props.currentInterviewRound}
+                interviewTime={props.interviewTime}
+                forms={props.forms}
               />
             </div>
           </div>

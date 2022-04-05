@@ -13,8 +13,12 @@ export default function SummaryButton(props) {
 
   const user = useUserInfo();
 
-  const [temp, setTemp] = useState({
-    sections: props.form?.sections || [],
+  /*{ note: "", round: "1", title: "", sections: [] }*/
+  const [form, setForm] = useState({
+    note: "",
+    round: props.round.toString(),
+    title: "",
+    sections: [],
   });
 
   function closeModal() {
@@ -30,23 +34,27 @@ export default function SummaryButton(props) {
     initialValues: {
       id: props.id,
       jobId: props.jobId,
-      description: "",
-      note: props.form?.note || "",
-      round: props.form?.round || 0,
-      title: props.form?.title || "",
+      interviewTime: props.interviewTime || "",
+      forms: props.forms || [],
     },
 
     onSubmit: async (values) => {
+      console.log({
+        ...values,
+        forms: [...props.forms, form],
+      });
       const res = await interviewAPI.update({
         ...values,
-        sections: temp.sections,
+        forms: [...props.forms, form],
       });
+
+      console.log(res);
+      closeModal();
     },
   });
   return (
     <>
       <div className="h-fit">
-        {/* <button className="btn btn-primary w-40">Next Round</button> */}
         {user.user.roleId === 2 && (
           <button
             onClick={openModal}
@@ -104,36 +112,57 @@ export default function SummaryButton(props) {
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col gap-4 mt-4"
                 >
-                  <ComponentWithLabel label="Result">
-                    {/* <ResultInterviewSelection
-                      value={temp.round}
-                      onChange={(e) => setTemp({ ...temp, round: e.value })}
-                    /> */}
+                  {/* <div className="flex gap-3"> */}
+                  <ComponentWithLabel label="Title" styles="flex-1">
+                    <input
+                      type="text"
+                      name="title"
+                      id="title"
+                      className="input"
+                      value={form.title}
+                      onChange={(e) =>
+                        setForm({ ...form, title: e.target.value })
+                      }
+                      required
+                    />
                   </ComponentWithLabel>
+                  {/* <ComponentWithLabel label="Round" styles=" w-20">
+                      <input
+                        type="number"
+                        name="round"
+                        id="round"
+                        className="input"
+                        value={form.round}
+                        onChange={formik.handleChange}
+                      />
+                    </ComponentWithLabel> */}
+                  {/* </div> */}
 
                   <ComponentWithLabel label="Note">
-                    {/* <textarea
-                      value={temp.note}
+                    <textarea
+                      name="note"
+                      id="note"
+                      value={form.note}
                       onChange={(e) =>
-                        setTemp({ ...temp, note: e.target.value })
+                        setForm({ ...form, note: e.target.value })
                       }
                       className="input h-[150px]"
                       placeholder="Note"
-                    /> */}
-                  </ComponentWithLabel>
-                  <hr />
-                  <ComponentWithLabel label="">
-                    <QAInterviewSection
-                      value={temp.sections}
-                      onChange={(val) =>
-                        setTemp({ ...temp, sections: [val, ...temp.sections] })
-                      }
                     />
                   </ComponentWithLabel>
+                  <hr />
+                  {/* <ComponentWithLabel label="">
+                    <QAInterviewSection
+                      value={form.sections}
+                      onChange={(val) =>
+                        setForm({ ...form, sections: [val, ...form.sections] })
+                      }
+                    />
+                  </ComponentWithLabel> */}
 
                   <div className="w-full flex justify-end">
                     <button type="submit" className="btn btn-primary w-40">
-                      Next Round
+                      Note
                     </button>
                   </div>
                 </form>
