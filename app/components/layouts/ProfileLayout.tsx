@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { XIcon } from "@heroicons/react/solid";
@@ -6,6 +6,7 @@ import { useUserInfo } from "app/utils/hooks";
 import Router from "next/router";
 import { chatAPI } from "app/api/modules/chatAPI";
 import { EmployeeRecSection } from "pages/job/[id]";
+import OpenToWorkButton from "../atoms/Button/OpenToWorkButton";
 
 export function ExperienceItem({ company, position, duration, description }) {
   return (
@@ -46,7 +47,6 @@ export function SkillButton({ skillName, level, onDelete }) {
 
 export default function ProfileLayout(props) {
   const user = useUserInfo();
-
   return (
     <div className="px-8 md:px-20 py-10 flex flex-col gap-6 md:gap-12">
       <Head>
@@ -55,11 +55,14 @@ export default function ProfileLayout(props) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="flex gap-6 md:gap-12">
-        <img
-          src={props.profile.avatarUrl || "/avatar/avatar.png"}
-          alt=""
-          className="rounded-full  h-16 w-16 md:h-24 md:w-24 lg:h-40 lg:w-40 object-cover"
-        />
+        <div>
+          <img
+            src={props.profile.avatarUrl || "/avatar/avatar.png"}
+            alt=""
+            className="rounded-full  h-16 w-16 md:h-24 md:w-24 lg:h-40 lg:w-40 object-cover"
+          />
+          <OpenToWorkButton value={props.profile.profileStatus === 1} />
+        </div>
 
         <div className="flex flex-col gap-2 w-full">
           <div className="flex justify-between">

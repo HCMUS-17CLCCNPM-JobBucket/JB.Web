@@ -68,6 +68,7 @@ const UserAPI = {
             createdDate
             updatedDate
             address
+            profileStatus
             introduction
             website
             birthdate
