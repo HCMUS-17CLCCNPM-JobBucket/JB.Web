@@ -101,8 +101,9 @@ export default function ApplicationCV(props) {
               >
                 <div className=" inline-block w-full max-w-7xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <div className="flex flex-col">
-                    {templateId == "1" ||
-                      (templateId == "" && <PDFViewer></PDFViewer>)}
+                    {(templateId == "1" || templateId == "") && (
+                      <PDFViewer></PDFViewer>
+                    )}
                     {templateId == "2" && <PDFViewer1></PDFViewer1>}
                     {templateId == "3" && <PDFViewer2></PDFViewer2>}
                     {templateId == "4" && <PDFViewer3></PDFViewer3>}
