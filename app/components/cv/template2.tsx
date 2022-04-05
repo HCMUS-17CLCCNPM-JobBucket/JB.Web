@@ -45,7 +45,7 @@ export default function Template(props) {
     },
     avatar: {
       width: "auto",
-      height: 150,
+      height: 120,
     },
     infos: {
       marginVertical: 2,
@@ -78,7 +78,6 @@ export default function Template(props) {
     },
     Name: {
       fontSize: 26,
-      marginBottom: 2,
       width: "65%",
       fontFamily: "NunitoBold",
       color: "#1e88e5",
@@ -88,22 +87,17 @@ export default function Template(props) {
       color: "#1e88e5",
     },
     contact: {
-      width: "65%",
+      width: "100%",
       justifyContent: "space-between",
     },
     introduction: {
-      marginVertical: 15,
+      width: "65%",
     },
-    destext: {
-      display: "flex",
-      width: 130,
-      alignItems: "flex-end",
-      marginRight: 10,
-    },
+    destext: {},
     workElement: {
-      width: "70%",
+      width: "50%",
       display: "flex",
-      flexDirection: "row",
+      flexDirection: "column",
       marginBottom: 15,
     },
     exArea: {
@@ -125,6 +119,15 @@ export default function Template(props) {
       width: 12,
       backgroundColor: "gray",
     },
+    split: {
+      marginTop: 20,
+      display: "flex",
+      flexDirection: "row",
+    },
+    quotes: {
+      height: 40,
+      width: 40,
+    },
   });
   return (
     <PDFViewer width="100%" height="600px">
@@ -136,6 +139,17 @@ export default function Template(props) {
             )}
             <View style={styles.contactArea}>
               <Text style={styles.Name}>{cv.name}</Text>
+              <Image style={styles.quotes} src="/quotes.png"></Image>
+              <View style={styles.introduction}>
+                <Text>{cv.introduction}</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.split}>
+            <View style={styles.workElement} wrap>
+              <View style={styles.destext}>
+                <Text style={styles.Description}>INFORMATION</Text>
+              </View>
               <View style={styles.contact}>
                 {cv.email != "" && cv.email != null && (
                   <View style={styles.infos}>
@@ -187,124 +201,121 @@ export default function Template(props) {
                 )}
               </View>
             </View>
-          </View>
-          <View style={styles.introduction}>
-            <Text>{cv.introduction}</Text>
-          </View>
-          <View style={styles.workView}>
-            {experienceList.length != 0 && (
-              <View style={styles.workElement} wrap>
-                <View style={styles.destext}>
-                  <Text style={styles.Description}>WORKS EXPERIENCES</Text>
-                </View>
-                <View style={styles.exArea}>
-                  {experienceList.map((data) => (
-                    <View style={styles.exElement}>
-                      <Text style={styles.Description}>{data.company}</Text>
-                      <Text>{data.position}</Text>
-                      <Text>{data.duration} </Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            )}
-            {EducationList.length != 0 && (
-              <View style={styles.workElement} wrap>
-                <View style={styles.destext}>
-                  <Text style={styles.Description}>EDUCATION</Text>
-                </View>
-                <View style={styles.exArea}>
-                  {EducationList.map((data) => (
-                    <View style={styles.exElement}>
-                      {data.status == "Graduated" ? (
-                        <View style={styles.introArea}>
-                          <Text style={styles.granduated}>{data.school}</Text>
-                          <Image
-                            style={styles.icon}
-                            src="/graduation.png"
-                          ></Image>
-                        </View>
-                      ) : (
-                        <View style={styles.introArea}>
-                          <Text style={styles.studying}>{data.school}</Text>
-                          <Image
-                            style={styles.icon}
-                            src="/reading-book.png"
-                          ></Image>
-                        </View>
-                      )}
-                      <Text>{data.major}</Text>
-                      <Text>{data.profession}</Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            )}
-
-            {SkillList.length != 0 && (
-              <View style={styles.workElement} wrap>
-                <View style={styles.destext}>
-                  <Text style={styles.Description}>SKILLS</Text>
-                </View>
-                <View wrap>
-                  {SkillList.map((data) => (
-                    <View style={styles.skillElement}>
-                      <Text>{data.skillName}</Text>
-                      <View style={styles.introArea}>
-                        {[...Array(parseInt(data.level))].map(() => (
-                          <View style={styles.boxblue}></View>
-                        ))}
-                        {[...Array(5 - parseInt(data.level))].map(() => (
-                          <View style={styles.boxgray}></View>
-                        ))}
+            <View style={styles.workView}>
+              {experienceList.length != 0 && (
+                <View style={styles.workElement} wrap>
+                  <View style={styles.destext}>
+                    <Text style={styles.Description}>WORKS EXPERIENCES</Text>
+                  </View>
+                  <View style={styles.exArea}>
+                    {experienceList.map((data) => (
+                      <View style={styles.exElement}>
+                        <Text style={styles.Description}>{data.company}</Text>
+                        <Text>{data.position}</Text>
+                        <Text>{data.duration} </Text>
                       </View>
-                    </View>
-                  ))}
+                    ))}
+                  </View>
                 </View>
-              </View>
-            )}
-            {ActivityList.length != 0 && (
-              <View style={styles.workElement} wrap>
-                <View style={styles.destext}>
-                  <Text style={styles.Description}>ACTIVITIES</Text>
+              )}
+              {EducationList.length != 0 && (
+                <View style={styles.workElement} wrap>
+                  <View style={styles.destext}>
+                    <Text style={styles.Description}>EDUCATION</Text>
+                  </View>
+                  <View style={styles.exArea}>
+                    {EducationList.map((data) => (
+                      <View style={styles.exElement}>
+                        {data.status == "Graduated" ? (
+                          <View style={styles.introArea}>
+                            <Text style={styles.granduated}>{data.school}</Text>
+                            <Image
+                              style={styles.icon}
+                              src="/graduation.png"
+                            ></Image>
+                          </View>
+                        ) : (
+                          <View style={styles.introArea}>
+                            <Text style={styles.studying}>{data.school}</Text>
+                            <Image
+                              style={styles.icon}
+                              src="/reading-book.png"
+                            ></Image>
+                          </View>
+                        )}
+                        <Text>{data.major}</Text>
+                        <Text>{data.profession}</Text>
+                      </View>
+                    ))}
+                  </View>
                 </View>
-                <View style={styles.exArea}>
-                  {ActivityList.map((data) => (
-                    <View style={styles.exElement}>
-                      <Text>{data}</Text>
-                    </View>
-                  ))}
+              )}
+
+              {SkillList.length != 0 && (
+                <View style={styles.workElement} wrap>
+                  <View style={styles.destext}>
+                    <Text style={styles.Description}>SKILLS</Text>
+                  </View>
+                  <View wrap>
+                    {SkillList.map((data) => (
+                      <View style={styles.skillElement}>
+                        <Text>{data.skillName}</Text>
+                        <View style={styles.introArea}>
+                          {[...Array(parseInt(data.level))].map(() => (
+                            <View style={styles.boxblue}></View>
+                          ))}
+                          {[...Array(5 - parseInt(data.level))].map(() => (
+                            <View style={styles.boxgray}></View>
+                          ))}
+                        </View>
+                      </View>
+                    ))}
+                  </View>
                 </View>
-              </View>
-            )}
-            {CertiList.length != 0 && (
-              <View style={styles.workElement} wrap>
-                <View style={styles.destext}>
-                  <Text style={styles.Description}>CERTIFICATIONS</Text>
+              )}
+              {ActivityList.length != 0 && (
+                <View style={styles.workElement} wrap>
+                  <View style={styles.destext}>
+                    <Text style={styles.Description}>ACTIVITIES</Text>
+                  </View>
+                  <View style={styles.exArea}>
+                    {ActivityList.map((data) => (
+                      <View style={styles.exElement}>
+                        <Text>{data}</Text>
+                      </View>
+                    ))}
+                  </View>
                 </View>
-                <View style={styles.exArea}>
-                  {CertiList.map((data) => (
-                    <View style={styles.exElement}>
-                      <Text>{data}</Text>
-                    </View>
-                  ))}
+              )}
+              {CertiList.length != 0 && (
+                <View style={styles.workElement} wrap>
+                  <View style={styles.destext}>
+                    <Text style={styles.Description}>CERTIFICATIONS</Text>
+                  </View>
+                  <View style={styles.exArea}>
+                    {CertiList.map((data) => (
+                      <View style={styles.exElement}>
+                        <Text>{data}</Text>
+                      </View>
+                    ))}
+                  </View>
                 </View>
-              </View>
-            )}
-            {AwardList.length != 0 && (
-              <View style={styles.workElement} wrap>
-                <View style={styles.destext}>
-                  <Text style={styles.Description}>AWARDS</Text>
+              )}
+              {AwardList.length != 0 && (
+                <View style={styles.workElement} wrap>
+                  <View style={styles.destext}>
+                    <Text style={styles.Description}>AWARDS</Text>
+                  </View>
+                  <View style={styles.exArea}>
+                    {AwardList.map((data) => (
+                      <View style={styles.exElement}>
+                        <Text>{data}</Text>
+                      </View>
+                    ))}
+                  </View>
                 </View>
-                <View style={styles.exArea}>
-                  {AwardList.map((data) => (
-                    <View style={styles.exElement}>
-                      <Text>{data}</Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            )}
+              )}
+            </View>
           </View>
         </Page>
       </Document>

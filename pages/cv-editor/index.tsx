@@ -29,6 +29,7 @@ export default function CvEditor() {
     if (cvInfo.file != null) {
       const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
       const cv = {
+        cVTemplate: cvInfo.templateId,
         cVName: cvInfo.cVName,
         id: cvInfo.id,
         name: cvInfo.name,
@@ -56,6 +57,7 @@ export default function CvEditor() {
       });
     } else {
       const cv = {
+        cVTemplate: cvInfo.templateId,
         cVName: cvInfo.cVName,
         id: cvInfo.id,
         name: cvInfo.name,

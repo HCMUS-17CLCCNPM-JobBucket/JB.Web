@@ -10,6 +10,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import dynamic from "next/dynamic";
 import Download from "app/components/cv/dialog/download";
 import ListEmpty from "app/components/atoms/ListEmpty";
+import UserAPI from "app/api/modules/userAPI";
+import { jobAPI } from "app/api/modules/jobAPI";
 // import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
 // import MyDoc from "app/components/cv/mydoc";
 
@@ -17,7 +19,19 @@ export default function ListCv() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
     ssr: false,
   });
-
+  const PDFViewer1 = dynamic(import("app/components/cv/template1"), {
+    ssr: false,
+  });
+  const PDFViewer2 = dynamic(import("app/components/cv/template2"), {
+    ssr: false,
+  });
+  const PDFViewer3 = dynamic(import("app/components/cv/template3"), {
+    ssr: false,
+  });
+  const PDFViewer4 = dynamic(import("app/components/cv/template4"), {
+    ssr: false,
+  });
+  const templateId = useSelector((state: any) => state.cv.templateId);
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -39,6 +53,14 @@ export default function ListCv() {
     await CvAPI.getCvById(id, userToken.token).then((res) => {
       if (res.status === 200) {
         dispatch(cvActions.initData(res.data.data.cv[0]));
+        console.log(res.data.data.cv[0]);
+        const tempListId = [];
+        res.data.data.cv[0].skills.map((skill) => {
+          tempListId.push(
+            skills.find((data) => data.label == skill.skillName).value
+          );
+        });
+        dispatch(cvActions.setListID(tempListId));
         dispatch(cvActions.changeUpdateState(true));
         dispatch(cvActions.changeID(id));
         router.push("/cv-editor");
@@ -54,6 +76,7 @@ export default function ListCv() {
       }
     });
   };
+  const [skills, setSkills] = useState([]);
   useEffect(() => {
     if (userToken.token == "") {
       router.push("/login");
@@ -65,6 +88,15 @@ export default function ListCv() {
             setmyCv(res.data.data.cv);
           }
         });
+        const response = await jobAPI.getJobProperties();
+        if (response.status === 200) {
+          setSkills(
+            response.data.data.jobProperties.skills.map((skill) => ({
+              value: skill.id,
+              label: skill.name,
+            }))
+          );
+        }
       };
       fetchData();
     }
@@ -72,6 +104,11 @@ export default function ListCv() {
   const createCv = () => {
     dispatch(cvActions.resetState());
     dispatch(cvActions.changeUpdateState(false));
+    UserAPI.getProfile().then((res) => {
+      dispatch(
+        cvActions.initData({ ...res.data.data.profiles[0], skills: [] })
+      );
+    });
     router.push("/cv-editor");
   };
   const handleCallback = () => {
@@ -186,7 +223,13 @@ export default function ListCv() {
               >
                 <div className=" inline-block w-full max-w-7xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <div className="flex flex-col">
-                    <PDFViewer color="#1e88e5"></PDFViewer>
+                    {(templateId == "1" || templateId == "") && (
+                      <PDFViewer></PDFViewer>
+                    )}
+                    {templateId == "2" && <PDFViewer1></PDFViewer1>}
+                    {templateId == "3" && <PDFViewer2></PDFViewer2>}
+                    {templateId == "4" && <PDFViewer3></PDFViewer3>}
+                    {templateId == "5" && <PDFViewer4></PDFViewer4>}
                   </div>
                 </div>
               </Transition.Child>

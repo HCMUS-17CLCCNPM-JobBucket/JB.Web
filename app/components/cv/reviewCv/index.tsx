@@ -1,12 +1,25 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import dynamic from "next/dynamic";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ReviewCv() {
   const PDFViewer = dynamic(import("app/components/cv/template"), {
     ssr: false,
   });
-
+  const PDFViewer1 = dynamic(import("app/components/cv/template1"), {
+    ssr: false,
+  });
+  const PDFViewer2 = dynamic(import("app/components/cv/template2"), {
+    ssr: false,
+  });
+  const PDFViewer3 = dynamic(import("app/components/cv/template3"), {
+    ssr: false,
+  });
+  const PDFViewer4 = dynamic(import("app/components/cv/template4"), {
+    ssr: false,
+  });
+  const templateId = useSelector((state: any) => state.cv.templateId);
   // const [color, setColor] = useState("#1e88e5");
   let [isOpen, setIsOpen] = useState(false);
 
@@ -108,7 +121,12 @@ export default function ReviewCv() {
                       <button onClick={() => setColor("#1e88e5")}>blue</button>
                       <button onClick={() => setColor("yellow")}>yellow</button>
                     </div> */}
-                    <PDFViewer color="#1e88e5"></PDFViewer>
+                    {(templateId == "1" ||
+                      templateId == "" )&& <PDFViewer></PDFViewer>}
+                    {templateId == "2" && <PDFViewer1></PDFViewer1>}
+                    {templateId == "3" && <PDFViewer2></PDFViewer2>}
+                    {templateId == "4" && <PDFViewer3></PDFViewer3>}
+                    {templateId == "5" && <PDFViewer4></PDFViewer4>}
                   </div>
                 </div>
               </Transition.Child>

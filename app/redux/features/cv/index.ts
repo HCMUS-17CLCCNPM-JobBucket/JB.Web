@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialCvState = {
+  templateId: "1",
+  listID: [],
   cVName: "",
   file: null,
   name: "",
@@ -28,6 +30,12 @@ const cvSlice = createSlice({
   name: "cv",
   initialState: initialCvState,
   reducers: {
+    setTemplateId(state, actions) {
+      state.templateId = actions.payload;
+    },
+    setListID(state, actions) {
+      state.listID = actions.payload;
+    },
     setFile(state, actions) {
       state.file = actions.payload;
     },
@@ -41,6 +49,7 @@ const cvSlice = createSlice({
       state.isUpdate = actions.payload;
     },
     initData(state, actions) {
+      state.templateId = actions.payload.cVTemplate;
       state.cVName = actions.payload.cVName;
       state.file = null;
       state.name = actions.payload.name;
