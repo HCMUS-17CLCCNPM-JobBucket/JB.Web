@@ -43,7 +43,7 @@ export default function Edit(props) {
   };
   return (
     <RecruiterLayout>
-      <Editor isEdit {...data}></Editor>
+      <Editor isEdit {...data} createdDate={props.jobs[0].createdDate}></Editor>
     </RecruiterLayout>
   );
 }

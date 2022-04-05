@@ -65,6 +65,10 @@ const customStyles = {
 };
 
 export default function Editor(props) {
+  const disable =
+    Math.abs(moment(props.createdDate).diff(moment.now(), "day")) >= 3;
+
+  console.log(disable);
   const currencyoptions = [
     { value: "VND", label: "VND" },
     { value: "USD", label: "USD" },
@@ -245,6 +249,7 @@ export default function Editor(props) {
           type="text"
           id="title"
           name="title"
+          disabled={disable}
           value={formik.values.title}
           onChange={formik.handleChange}
           className="input"
@@ -301,6 +306,7 @@ export default function Editor(props) {
               type="number"
               id="minSalary"
               name="minSalary"
+              disabled={disable}
               value={formik.values.minSalary}
               onChange={formik.handleChange}
               className="input"
@@ -313,6 +319,7 @@ export default function Editor(props) {
               type="number"
               id="maxSalary"
               name="maxSalary"
+              disabled={disable}
               value={formik.values.maxSalary}
               onChange={formik.handleChange}
               className="input"
