@@ -48,25 +48,25 @@ export default function ApplyButton({ value, jobId, expire }) {
   // let [categories] = useState(["Online", "Local"]);
 
   const handleApply = async (e) => {
-    let listImg = imageFiles.map(
-      (file) =>
-        new Promise((resolve, reject) => {
-          imageAPI
-            .uploadImage(file)
-            .then((res) => {
-              resolve(res.data.url);
-            })
-            .catch((err) => {
-              reject(err);
-            });
-        })
-    );
+    // let listImg = imageFiles.map(
+    //   (file) =>
+    //     new Promise((resolve, reject) => {
+    //       imageAPI
+    //         .uploadImage(file)
+    //         .then((res) => {
+    //           resolve(res.data.url);
+    //         })
+    //         .catch((err) => {
+    //           reject(err);
+    //         });
+    //     })
+    // );
 
-    let listImgUrl = await Promise.all(listImg);
+    // let listImgUrl = await Promise.all(listImg);
 
     if (isOnlMode === false) {
       if (imageFiles !== []) {
-        const pdfRes: any = await imageAPI.uploadCV(imageFiles);
+        const pdfRes: any = await imageAPI.uploadCV(imageFiles[0]);
 
         if (pdfRes.status === 200) {
           const res = await jobAPI.apply(jobId, -1, pdfRes.data.url);
