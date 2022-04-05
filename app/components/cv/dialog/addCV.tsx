@@ -23,6 +23,7 @@ export default function AddCV() {
     if (cvInfo.file != null) {
       const imageRes: any = await imageAPI.uploadCV(cvInfo.file);
       const cv = {
+        cVTemplate: cvInfo.templateId,
         cVName: cvName,
         name: cvInfo.name,
         avatarUrl: imageRes.data.url,
@@ -58,6 +59,7 @@ export default function AddCV() {
       });
     } else {
       const cv = {
+        cVTemplate: cvInfo.templateId,
         cVName: cvName,
         name: cvInfo.name,
         avatarUrl: cvInfo.avatar,
