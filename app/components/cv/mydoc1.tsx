@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Moment from "react-moment";
+
 import moment from "moment";
 import {
   Page,
@@ -32,11 +32,11 @@ export default function Template(props) {
       fontFamily: "NunitoRegular",
     },
     workView: {
-      // flexDirection: "column",
+      marginTop: 20,
     },
     avatar: {
       width: "auto",
-      height: 150,
+      height: 120,
     },
     infos: {
       marginVertical: 2,
@@ -64,12 +64,10 @@ export default function Template(props) {
 
     contactArea: {
       marginLeft: 20,
-      // flexDirection: "column",
       justifyContent: "center",
     },
     Name: {
       fontSize: 26,
-      marginBottom: 2,
       width: "65%",
       fontFamily: "NunitoBold",
       color: "#1e88e5",
@@ -79,11 +77,11 @@ export default function Template(props) {
       color: "#1e88e5",
     },
     contact: {
-      width: "65%",
+      width: "80%",
       justifyContent: "space-between",
     },
     introduction: {
-      marginVertical: 15,
+      width: "65%",
     },
     destext: {
       display: "flex",
@@ -116,9 +114,12 @@ export default function Template(props) {
       width: 12,
       backgroundColor: "gray",
     },
+    quotes: {
+      height: 40,
+      width: 40,
+    },
   });
   return (
-    <PDFViewer width="100%" height="600px">
       <Document>
         <Page size="A4" style={styles.page} orientation="portrait" wrap>
           <View style={styles.introArea}>
@@ -127,6 +128,17 @@ export default function Template(props) {
             )}
             <View style={styles.contactArea}>
               <Text style={styles.Name}>{props.cv.name}</Text>
+              <Image style={styles.quotes} src="/quotes.png"></Image>
+              <View style={styles.introduction}>
+                <Text>{props.cv.introduction}</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.workView}>
+            <View style={styles.workElement} wrap>
+              <View style={styles.destext}>
+                <Text style={styles.Description}>INFORMATION</Text>
+              </View>
               <View style={styles.contact}>
                 {props.cv.email != "" && props.cv.email != null && (
                   <View style={styles.infos}>
@@ -167,7 +179,9 @@ export default function Template(props) {
                 {props.cv.birthDate != "" && props.cv.birthDate != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/calendar.png"></Image>
-                    <Text>{moment(props.cv.birthDate).format("DD/MM/YYYY")}</Text>
+                    <Text>
+                      {moment(props.cv.birthDate).format("DD/MM/YYYY")}
+                    </Text>
                   </View>
                 )}
                 {props.cv.gender != "" && props.cv.gender != null && (
@@ -178,11 +192,6 @@ export default function Template(props) {
                 )}
               </View>
             </View>
-          </View>
-          <View style={styles.introduction}>
-            <Text>{props.cv.introduction}</Text>
-          </View>
-          <View style={styles.workView}>
             {props.cv.experience.length != 0 && (
               <View style={styles.workElement} wrap>
                 <View style={styles.destext}>
@@ -299,6 +308,5 @@ export default function Template(props) {
           </View>
         </Page>
       </Document>
-    </PDFViewer>
   );
 }

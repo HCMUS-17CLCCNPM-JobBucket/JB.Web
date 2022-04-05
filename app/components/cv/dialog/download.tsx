@@ -5,7 +5,11 @@ import { CvAPI } from "app/api/modules/cvAPI";
 import { useSelector, useDispatch } from "react-redux";
 import { cvActions } from "app/redux/features/cv";
 import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
-import MyDoc from "app/components/cv/mydoc";
+import Mydoc from "app/components/cv/mydoc";
+import Mydoc1 from "app/components/cv/mydoc1";
+import Mydoc2 from "app/components/cv/mydoc2";
+import Mydoc3 from "app/components/cv/mydoc3";
+import Mydoc4 from "app/components/cv/mydoc4";
 
 export default function Download({ index }) {
   let [isOpen, setIsOpen] = useState(false);
@@ -99,14 +103,57 @@ export default function Download({ index }) {
                         type="button"
                         className=" px-4 py-2 text-sm font-semibold text-white bg-blue-500 border border-transparent rounded-md hover:bg-blue-800"
                       >
-                        <PDFDownloadLink
-                          document={<MyDoc cvInfo={cvInfo} color="#1e88e5" />}
-                          fileName={cvName}
-                        >
-                          <p className="text-white text-sm font-semibold m-0 p-0">
-                            Download
-                          </p>
-                        </PDFDownloadLink>
+                        {(cvInfo.templateId == "1" ||
+                          cvInfo.templateId == undefined) && (
+                          <PDFDownloadLink
+                            document={<Mydoc cv={cvInfo} />}
+                            fileName={cvName}
+                          >
+                            <p className="text-white text-sm font-semibold m-0 p-0">
+                              Download
+                            </p>
+                          </PDFDownloadLink>
+                        )}
+                        {cvInfo.templateId == "2" && (
+                          <PDFDownloadLink
+                            document={<Mydoc1 cv={cvInfo} />}
+                            fileName={cvName}
+                          >
+                            <p className="text-white text-sm font-semibold m-0 p-0">
+                              Download
+                            </p>
+                          </PDFDownloadLink>
+                        )}
+                        {cvInfo.templateId == "3" && (
+                          <PDFDownloadLink
+                            document={<Mydoc2 cv={cvInfo} />}
+                            fileName={cvName}
+                          >
+                            <p className="text-white text-sm font-semibold m-0 p-0">
+                              Download
+                            </p>
+                          </PDFDownloadLink>
+                        )}
+                        {cvInfo.templateId == "4" && (
+                          <PDFDownloadLink
+                            document={<Mydoc3 cv={cvInfo} />}
+                            fileName={cvName}
+                          >
+                            <p className="text-white text-sm font-semibold m-0 p-0">
+                              Download
+                            </p>
+                          </PDFDownloadLink>
+                        )}
+                        {cvInfo.templateId == "5" && (
+                          <PDFDownloadLink
+                            document={<Mydoc4 cv={cvInfo} />}
+                            fileName={cvName}
+                          >
+                            <p className="text-white text-sm font-semibold m-0 p-0">
+                              Download
+                            </p>
+                          </PDFDownloadLink>
+                        )}
                       </button>
                       <button
                         type="button"

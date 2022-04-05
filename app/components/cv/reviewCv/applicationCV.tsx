@@ -21,7 +21,7 @@ export default function ApplicationCV(props) {
   const PDFViewer4 = dynamic(import("app/components/cv/template4"), {
     ssr: false,
   });
-  const templateId = useSelector((state: any) => state.cv.templateId);
+  const cv = useSelector((state: any) => state.cv);
 
   const dispatch = useDispatch();
   const userToken = useSelector((state: any) => state.user);
@@ -101,13 +101,13 @@ export default function ApplicationCV(props) {
               >
                 <div className=" inline-block w-full max-w-7xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <div className="flex flex-col">
-                    {(templateId == "1" || templateId == "") && (
-                      <PDFViewer></PDFViewer>
+                    {(cv.templateId == "1" || cv.templateId == null) && (
+                      <PDFViewer1 cv={cv}></PDFViewer1>
                     )}
-                    {templateId == "2" && <PDFViewer1></PDFViewer1>}
-                    {templateId == "3" && <PDFViewer2></PDFViewer2>}
-                    {templateId == "4" && <PDFViewer3></PDFViewer3>}
-                    {templateId == "5" && <PDFViewer4></PDFViewer4>}
+                    {cv.templateId == "2" && <PDFViewer1 cv={cv}></PDFViewer1>}
+                    {cv.templateId == "3" && <PDFViewer2 cv={cv}></PDFViewer2>}
+                    {cv.templateId == "4" && <PDFViewer3 cv={cv}></PDFViewer3>}
+                    {cv.templateId == "5" && <PDFViewer4 cv={cv}> </PDFViewer4>}
                   </div>
                 </div>
               </Transition.Child>

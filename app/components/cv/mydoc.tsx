@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { cvActions } from "app/redux/features/cv";
 import Moment from "react-moment";
 import moment from "moment";
 import {
@@ -9,11 +8,12 @@ import {
   View,
   Document,
   StyleSheet,
+  PDFViewer,
   Font,
   Image,
 } from "@react-pdf/renderer";
 
-export default function Mydoc(props) {
+export default function Template(props) {
   Font.register({
     family: "NunitoBold",
     src: "/font/Nunito-Bold.ttf",
@@ -52,7 +52,7 @@ export default function Mydoc(props) {
     },
     granduated: {
       fontFamily: "NunitoBold",
-      color: props.color,
+      color: "#1e88e5",
       marginRight: 5,
     },
 
@@ -72,7 +72,7 @@ export default function Mydoc(props) {
       marginBottom: 2,
       width: "65%",
       fontFamily: "NunitoBold",
-      color: props.color,
+      color: "#1e88e5",
     },
     Description: {
       fontFamily: "NunitoBold",
@@ -121,77 +121,74 @@ export default function Mydoc(props) {
     <Document>
       <Page size="A4" style={styles.page} orientation="portrait" wrap>
         <View style={styles.introArea}>
-          {props.avatar != "" && (
-            <Image style={styles.avatar} src={props.cvInfo.avatar}></Image>
+          {props.cv.avatar != "" && props.cv.avatar != null && (
+            <Image style={styles.avatar} src={props.cv.avatar}></Image>
           )}
           <View style={styles.contactArea}>
-            <Text style={styles.Name}>{props.cvInfo.name}</Text>
+            <Text style={styles.Name}>{props.cv.name}</Text>
             <View style={styles.contact}>
-              {props.cvInfo.email != "" && props.cvInfo.email != null && (
+              {props.cv.email != "" && props.cv.email != null && (
                 <View style={styles.infos}>
                   <Image style={styles.icon} src="/email.png"></Image>
-                  <Text>{props.cvInfo.email}</Text>
+                  <Text>{props.cv.email}</Text>
                 </View>
               )}
-              {props.cvInfo.phonenumber != "" &&
-                props.cvInfo.phonenumber != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/call.png"></Image>
-                    <Text>{props.cvInfo.phonenumber}</Text>
-                  </View>
-                )}
-              {props.cvInfo.address != "" && props.cvInfo.address != null && (
+              {props.cv.phonenumber != "" && props.cv.phonenumber != null && (
+                <View style={styles.infos}>
+                  <Image style={styles.icon} src="/call.png"></Image>
+                  <Text>{props.cv.phonenumber}</Text>
+                </View>
+              )}
+              {props.cv.address != "" && props.cv.address != null && (
                 <View style={styles.infos}>
                   <Image style={styles.icon} src="/home.png"></Image>
-                  <Text>{props.cvInfo.address}</Text>
+                  <Text>{props.cv.address}</Text>
                 </View>
               )}
-              {props.cvInfo.website != "" && props.cvInfo.website != null && (
+              {props.cv.website != "" && props.cv.website != null && (
                 <View style={styles.infos}>
                   <Image style={styles.icon} src="/global.png"></Image>
-                  <Text>{props.cvInfo.website}</Text>
+                  <Text>{props.cv.website}</Text>
                 </View>
               )}
-              {props.cvInfo.github != "" && props.cvInfo.github != null && (
+              {props.cv.github != "" && props.cv.github != null && (
                 <View style={styles.infos}>
                   <Image style={styles.icon} src="/github.png"></Image>
-                  <Text>{props.cvInfo.github}</Text>
+                  <Text>{props.cv.github}</Text>
                 </View>
               )}
-              {props.cvInfo.reference != null && props.cvInfo.reference != "" && (
+              {props.cv.reference != null && props.cv.reference != "" && (
                 <View style={styles.infos}>
                   <Image style={styles.icon} src="/reference.jpg"></Image>
-                  <Text>{props.cvInfo.reference}</Text>
+                  <Text>{props.cv.reference}</Text>
                 </View>
               )}
-              {props.cvInfo.birthDate != "" && props.cvInfo.birthDate != null && (
+              {props.cv.birthDate != "" && props.cv.birthDate != null && (
                 <View style={styles.infos}>
                   <Image style={styles.icon} src="/calendar.png"></Image>
-                  <Text>
-                    {moment(props.cvInfo.birthDate).format("DD/MM/YYYY")}
-                  </Text>
+                  <Text>{moment(props.cv.birthDate).format("DD/MM/YYYY")}</Text>
                 </View>
               )}
-              {props.cvInfo.gender != "" && props.cvInfo.gender != null && (
+              {props.cv.gender != "" && props.cv.gender != null && (
                 <View style={styles.infos}>
                   <Image style={styles.icon} src="/gender.png"></Image>
-                  <Text>{props.cvInfo.gender}</Text>
+                  <Text>{props.cv.gender}</Text>
                 </View>
               )}
             </View>
           </View>
         </View>
         <View style={styles.introduction}>
-          <Text>{props.cvInfo.introduction}</Text>
+          <Text>{props.cv.introduction}</Text>
         </View>
         <View style={styles.workView}>
-          {props.cvInfo.experience.length != 0 && (
+          {props.cv.experience.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>WORKS EXPERIENCES</Text>
               </View>
               <View style={styles.exArea}>
-                {props.cvInfo.experience.map((data) => (
+                {props.cv.experience.map((data) => (
                   <View style={styles.exElement}>
                     <Text style={styles.Description}>{data.company}</Text>
                     <Text>{data.position}</Text>
@@ -201,13 +198,13 @@ export default function Mydoc(props) {
               </View>
             </View>
           )}
-          {props.cvInfo.education.length != 0 && (
+          {props.cv.education.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>EDUCATION</Text>
               </View>
               <View style={styles.exArea}>
-                {props.cvInfo.education.map((data) => (
+                {props.cv.education.map((data) => (
                   <View style={styles.exElement}>
                     {data.status == "Graduated" ? (
                       <View style={styles.introArea}>
@@ -234,13 +231,13 @@ export default function Mydoc(props) {
             </View>
           )}
 
-          {props.cvInfo.skill.length != 0 && (
+          {props.cv.skill.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>SKILLS</Text>
               </View>
               <View wrap>
-                {props.cvInfo.skill.map((data) => (
+                {props.cv.skill.map((data) => (
                   <View style={styles.skillElement}>
                     <Text>{data.skillName}</Text>
                     <View style={styles.introArea}>
@@ -256,13 +253,13 @@ export default function Mydoc(props) {
               </View>
             </View>
           )}
-          {props.cvInfo.activity.length != 0 && (
+          {props.cv.activity.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>ACTIVITIES</Text>
               </View>
               <View style={styles.exArea}>
-                {props.cvInfo.activity.map((data) => (
+                {props.cv.activity.map((data) => (
                   <View style={styles.exElement}>
                     <Text>{data}</Text>
                   </View>
@@ -270,13 +267,13 @@ export default function Mydoc(props) {
               </View>
             </View>
           )}
-          {props.cvInfo.certification.length != 0 && (
+          {props.cv.certification.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>CERTIFICATIONS</Text>
               </View>
               <View style={styles.exArea}>
-                {props.cvInfo.certification.map((data) => (
+                {props.cv.certification.map((data) => (
                   <View style={styles.exElement}>
                     <Text>{data}</Text>
                   </View>
@@ -284,13 +281,13 @@ export default function Mydoc(props) {
               </View>
             </View>
           )}
-          {props.cvInfo.award.length != 0 && (
+          {props.cv.award.length != 0 && (
             <View style={styles.workElement} wrap>
               <View style={styles.destext}>
                 <Text style={styles.Description}>AWARDS</Text>
               </View>
               <View style={styles.exArea}>
-                {props.cvInfo.award.map((data) => (
+                {props.cv.award.map((data) => (
                   <View style={styles.exElement}>
                     <Text>{data}</Text>
                   </View>
