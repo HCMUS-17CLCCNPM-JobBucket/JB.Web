@@ -117,7 +117,6 @@ export default function Template(props) {
     },
   });
   return (
-    <PDFViewer width="100%" height="600px">
       <Document>
         <Page size="A4" style={styles.page} orientation="portrait" wrap>
           <View style={styles.overall}>
@@ -301,6 +300,5 @@ export default function Template(props) {
           </View>
         </Page>
       </Document>
-    </PDFViewer>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cvActions } from "app/redux/features/cv";
 // import { DatePicker } from "react-rainbow-components";
@@ -6,6 +6,9 @@ import moment from "moment";
 
 export default function PersonalInfo(props) {
   const cv = useSelector((state: any) => state.cv);
+  useEffect(() => {
+    cv.templateId == null && dispatch(cvActions.setTemplateId("1"));
+  }, []);
   const dispatch = useDispatch();
   const isUpdate = useSelector((state: any) => state.cv.isUpdate);
   const handleChangeBirthdate = (value) => {

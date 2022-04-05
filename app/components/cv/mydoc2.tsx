@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import {
   Page,
@@ -31,11 +30,11 @@ export default function Template(props) {
       fontFamily: "NunitoRegular",
     },
     workView: {
-      width: "50%",
+      // flexDirection: "column",
     },
     avatar: {
-      height: "auto",
-      width: 150,
+      width: "auto",
+      height: 120,
     },
     infos: {
       marginVertical: 2,
@@ -47,8 +46,7 @@ export default function Template(props) {
       marginRight: 10,
     },
     introArea: {
-      marginLeft: 20,
-      width: "43%",
+      flexDirection: "row",
     },
     granduated: {
       fontFamily: "NunitoBold",
@@ -63,12 +61,13 @@ export default function Template(props) {
     },
 
     contactArea: {
+      marginLeft: 20,
+      // flexDirection: "column",
       justifyContent: "center",
     },
     Name: {
-      fontSize: 20,
-      marginBottom: 2,
-      marginTop: 20,
+      fontSize: 26,
+      width: "65%",
       fontFamily: "NunitoBold",
       color: "#1e88e5",
     },
@@ -77,17 +76,15 @@ export default function Template(props) {
       color: "#1e88e5",
     },
     contact: {
+      width: "100%",
       justifyContent: "space-between",
     },
     introduction: {
-      marginTop: 20,
+      width: "65%",
     },
-    destext: {
-      display: "flex",
-      width: 130,
-      marginRight: 10,
-    },
+    destext: {},
     workElement: {
+      width: "50%",
       display: "flex",
       flexDirection: "column",
       marginBottom: 15,
@@ -111,16 +108,89 @@ export default function Template(props) {
       width: 12,
       backgroundColor: "gray",
     },
-    overall: {
+    split: {
+      marginTop: 20,
       display: "flex",
       flexDirection: "row",
     },
+    quotes: {
+      height: 40,
+      width: 40,
+    },
   });
   return (
-    <PDFViewer width="100%" height="600px">
       <Document>
         <Page size="A4" style={styles.page} orientation="portrait" wrap>
-          <View style={styles.overall}>
+          <View style={styles.introArea}>
+            {props.cv.avatar != "" && props.cv.avatar != null && (
+              <Image style={styles.avatar} src={props.cv.avatar}></Image>
+            )}
+            <View style={styles.contactArea}>
+              <Text style={styles.Name}>{props.cv.name}</Text>
+              <Image style={styles.quotes} src="/quotes.png"></Image>
+              <View style={styles.introduction}>
+                <Text>{props.cv.introduction}</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.split}>
+            <View style={styles.workElement} wrap>
+              <View style={styles.destext}>
+                <Text style={styles.Description}>INFORMATION</Text>
+              </View>
+              <View style={styles.contact}>
+                {props.cv.email != "" && props.cv.email != null && (
+                  <View style={styles.infos}>
+                    <Image style={styles.icon} src="/email.png"></Image>
+                    <Text>{props.cv.email}</Text>
+                  </View>
+                )}
+                {props.cv.phonenumber != "" && props.cv.phonenumber != null && (
+                  <View style={styles.infos}>
+                    <Image style={styles.icon} src="/call.png"></Image>
+                    <Text>{props.cv.phonenumber}</Text>
+                  </View>
+                )}
+                {props.cv.address != "" && props.cv.address != null && (
+                  <View style={styles.infos}>
+                    <Image style={styles.icon} src="/home.png"></Image>
+                    <Text>{props.cv.address}</Text>
+                  </View>
+                )}
+                {props.cv.website != "" && props.cv.website != null && (
+                  <View style={styles.infos}>
+                    <Image style={styles.icon} src="/global.png"></Image>
+                    <Text>{props.cv.website}</Text>
+                  </View>
+                )}
+                {props.cv.github != "" && props.cv.github != null && (
+                  <View style={styles.infos}>
+                    <Image style={styles.icon} src="/github.png"></Image>
+                    <Text>{props.cv.github}</Text>
+                  </View>
+                )}
+                {props.cv.reference != null && props.cv.reference != "" && (
+                  <View style={styles.infos}>
+                    <Image style={styles.icon} src="/reference.jpg"></Image>
+                    <Text>{props.cv.reference}</Text>
+                  </View>
+                )}
+                {props.cv.birthDate != "" && props.cv.birthDate != null && (
+                  <View style={styles.infos}>
+                    <Image style={styles.icon} src="/calendar.png"></Image>
+                    <Text>
+                      {moment(props.cv.birthDate).format("DD/MM/YYYY")}
+                    </Text>
+                  </View>
+                )}
+                {props.cv.gender != "" && props.cv.gender != null && (
+                  <View style={styles.infos}>
+                    <Image style={styles.icon} src="/gender.png"></Image>
+                    <Text>{props.cv.gender}</Text>
+                  </View>
+                )}
+              </View>
+            </View>
             <View style={styles.workView}>
               {props.cv.experience.length != 0 && (
                 <View style={styles.workElement} wrap>
@@ -147,7 +217,7 @@ export default function Template(props) {
                     {props.cv.education.map((data) => (
                       <View style={styles.exElement}>
                         {data.status == "Graduated" ? (
-                          <View style={styles.overall}>
+                          <View style={styles.introArea}>
                             <Text style={styles.granduated}>{data.school}</Text>
                             <Image
                               style={styles.icon}
@@ -155,7 +225,7 @@ export default function Template(props) {
                             ></Image>
                           </View>
                         ) : (
-                          <View style={styles.overall}>
+                          <View style={styles.introArea}>
                             <Text style={styles.studying}>{data.school}</Text>
                             <Image
                               style={styles.icon}
@@ -180,7 +250,7 @@ export default function Template(props) {
                     {props.cv.skill.map((data) => (
                       <View style={styles.skillElement}>
                         <Text>{data.skillName}</Text>
-                        <View style={styles.overall}>
+                        <View style={styles.introArea}>
                           {[...Array(parseInt(data.level))].map(() => (
                             <View style={styles.boxblue}></View>
                           ))}
@@ -236,71 +306,8 @@ export default function Template(props) {
                 </View>
               )}
             </View>
-            <View style={styles.introArea}>
-              {props.cv.avatar != "" && props.cv.avatar != null && (
-                <Image style={styles.avatar} src={props.cv.avatar}></Image>
-              )}
-              <Text style={styles.Name}>{props.cv.name}</Text>
-              <View style={styles.contact}>
-                {props.cv.email != "" && props.cv.email != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/email.png"></Image>
-                    <Text>{props.cv.email}</Text>
-                  </View>
-                )}
-                {props.cv.phonenumber != "" && props.cv.phonenumber != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/call.png"></Image>
-                    <Text>{props.cv.phonenumber}</Text>
-                  </View>
-                )}
-                {props.cv.address != "" && props.cv.address != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/home.png"></Image>
-                    <Text>{props.cv.address}</Text>
-                  </View>
-                )}
-                {props.cv.website != "" && props.cv.website != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/global.png"></Image>
-                    <Text>{props.cv.website}</Text>
-                  </View>
-                )}
-                {props.cv.github != "" && props.cv.github != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/github.png"></Image>
-                    <Text>{props.cv.github}</Text>
-                  </View>
-                )}
-                {props.cv.reference != null && props.cv.reference != "" && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/reference.jpg"></Image>
-                    <Text>{props.cv.reference}</Text>
-                  </View>
-                )}
-                {props.cv.birthDate != "" && props.cv.birthDate != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/calendar.png"></Image>
-                    <Text>
-                      {moment(props.cv.birthDate).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                )}
-                {props.cv.gender != "" && props.cv.gender != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/gender.png"></Image>
-                    <Text>{props.cv.gender}</Text>
-                  </View>
-                )}
-              </View>
-              <View style={styles.introduction}>
-                <Text style={styles.Description}>INTRODUCTION</Text>
-                <Text>{props.cv.introduction}</Text>
-              </View>
-            </View>
           </View>
         </Page>
       </Document>
-    </PDFViewer>
   );
 }

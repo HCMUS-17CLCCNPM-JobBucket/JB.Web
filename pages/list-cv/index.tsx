@@ -31,7 +31,7 @@ export default function ListCv() {
   const PDFViewer4 = dynamic(import("app/components/cv/template4"), {
     ssr: false,
   });
-  const templateId = useSelector((state: any) => state.cv.templateId);
+  const cv = useSelector((state: any) => state.cv);
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -106,7 +106,10 @@ export default function ListCv() {
     dispatch(cvActions.changeUpdateState(false));
     UserAPI.getProfile().then((res) => {
       dispatch(
-        cvActions.initData({ ...res.data.data.profiles[0], skills: [] })
+        cvActions.initData({
+          ...res.data.data.profiles[0],
+          skills: [],
+        })
       );
     });
     router.push("/cv-editor");
@@ -223,13 +226,13 @@ export default function ListCv() {
               >
                 <div className=" inline-block w-full max-w-7xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <div className="flex flex-col">
-                    {(templateId == "1" || templateId == "") && (
-                      <PDFViewer></PDFViewer>
+                    {(cv.templateId == "1" || cv.templateId == null) && (
+                      <PDFViewer cv={cv}></PDFViewer>
                     )}
-                    {templateId == "2" && <PDFViewer1></PDFViewer1>}
-                    {templateId == "3" && <PDFViewer2></PDFViewer2>}
-                    {templateId == "4" && <PDFViewer3></PDFViewer3>}
-                    {templateId == "5" && <PDFViewer4></PDFViewer4>}
+                    {cv.templateId == "2" && <PDFViewer1 cv={cv}></PDFViewer1>}
+                    {cv.templateId == "3" && <PDFViewer2 cv={cv}></PDFViewer2>}
+                    {cv.templateId == "4" && <PDFViewer3 cv={cv}></PDFViewer3>}
+                    {cv.templateId == "5" && <PDFViewer4 cv={cv}> </PDFViewer4>}
                   </div>
                 </div>
               </Transition.Child>

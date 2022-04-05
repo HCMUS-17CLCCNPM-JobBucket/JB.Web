@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { cvActions } from "app/redux/features/cv";
-import Moment from "react-moment";
+
 import moment from "moment";
 import {
   Page,
@@ -15,13 +14,6 @@ import {
 } from "@react-pdf/renderer";
 
 export default function Template(props) {
-  const cv = useSelector((state: any) => state.cv);
-  const experienceList = useSelector((state: any) => state.cv.experience);
-  const EducationList = useSelector((state: any) => state.cv.education);
-  const SkillList = useSelector((state: any) => state.cv.skill);
-  const ActivityList = useSelector((state: any) => state.cv.activity);
-  const AwardList = useSelector((state: any) => state.cv.award);
-  const CertiList = useSelector((state: any) => state.cv.certification);
 
   Font.register({
     family: "NunitoBold",
@@ -132,73 +124,75 @@ export default function Template(props) {
         <Page size="A4" style={styles.page} orientation="portrait" wrap>
           <View style={styles.overall}>
             <View style={styles.introArea}>
-              {cv.avatar != "" && cv.avatar != null && (
-                <Image style={styles.avatar} src={cv.avatar}></Image>
+              {props.cv.avatar != "" && props.cv.avatar != null && (
+                <Image style={styles.avatar} src={props.cv.avatar}></Image>
               )}
-              <Text style={styles.Name}>{cv.name}</Text>
+              <Text style={styles.Name}>{props.cv.name}</Text>
               <View style={styles.contact}>
-                {cv.email != "" && cv.email != null && (
+                {props.cv.email != "" && props.cv.email != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/email.png"></Image>
-                    <Text>{cv.email}</Text>
+                    <Text>{props.cv.email}</Text>
                   </View>
                 )}
-                {cv.phonenumber != "" && cv.phonenumber != null && (
+                {props.cv.phonenumber != "" && props.cv.phonenumber != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/call.png"></Image>
-                    <Text>{cv.phonenumber}</Text>
+                    <Text>{props.cv.phonenumber}</Text>
                   </View>
                 )}
-                {cv.address != "" && cv.address != null && (
+                {props.cv.address != "" && props.cv.address != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/home.png"></Image>
-                    <Text>{cv.address}</Text>
+                    <Text>{props.cv.address}</Text>
                   </View>
                 )}
-                {cv.website != "" && cv.website != null && (
+                {props.cv.website != "" && props.cv.website != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/global.png"></Image>
-                    <Text>{cv.website}</Text>
+                    <Text>{props.cv.website}</Text>
                   </View>
                 )}
-                {cv.github != "" && cv.github != null && (
+                {props.cv.github != "" && props.cv.github != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/github.png"></Image>
-                    <Text>{cv.github}</Text>
+                    <Text>{props.cv.github}</Text>
                   </View>
                 )}
-                {cv.reference != null && cv.reference != "" && (
+                {props.cv.reference != null && props.cv.reference != "" && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/reference.jpg"></Image>
-                    <Text>{cv.reference}</Text>
+                    <Text>{props.cv.reference}</Text>
                   </View>
                 )}
-                {cv.birthDate != "" && cv.birthDate != null && (
+                {props.cv.birthDate != "" && props.cv.birthDate != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/calendar.png"></Image>
-                    <Text>{moment(cv.birthDate).format("DD/MM/YYYY")}</Text>
+                    <Text>
+                      {moment(props.cv.birthDate).format("DD/MM/YYYY")}
+                    </Text>
                   </View>
                 )}
-                {cv.gender != "" && cv.gender != null && (
+                {props.cv.gender != "" && props.cv.gender != null && (
                   <View style={styles.infos}>
                     <Image style={styles.icon} src="/gender.png"></Image>
-                    <Text>{cv.gender}</Text>
+                    <Text>{props.cv.gender}</Text>
                   </View>
                 )}
               </View>
               <View style={styles.introduction}>
                 <Text style={styles.Description}>INTRODUCTION</Text>
-                <Text>{cv.introduction}</Text>
+                <Text>{props.cv.introduction}</Text>
               </View>
             </View>
             <View style={styles.workView}>
-              {experienceList.length != 0 && (
+              {props.cv.experience.length != 0 && (
                 <View style={styles.workElement} wrap>
                   <View style={styles.destext}>
                     <Text style={styles.Description}>WORKS EXPERIENCES</Text>
                   </View>
                   <View style={styles.exArea}>
-                    {experienceList.map((data) => (
+                    {props.cv.experience.map((data) => (
                       <View style={styles.exElement}>
                         <Text style={styles.Description}>{data.company}</Text>
                         <Text>{data.position}</Text>
@@ -208,13 +202,13 @@ export default function Template(props) {
                   </View>
                 </View>
               )}
-              {EducationList.length != 0 && (
+              {props.cv.education.length != 0 && (
                 <View style={styles.workElement} wrap>
                   <View style={styles.destext}>
                     <Text style={styles.Description}>EDUCATION</Text>
                   </View>
                   <View style={styles.exArea}>
-                    {EducationList.map((data) => (
+                    {props.cv.education.map((data) => (
                       <View style={styles.exElement}>
                         {data.status == "Graduated" ? (
                           <View style={styles.overall}>
@@ -241,13 +235,13 @@ export default function Template(props) {
                 </View>
               )}
 
-              {SkillList.length != 0 && (
+              {props.cv.skill.length != 0 && (
                 <View style={styles.workElement} wrap>
                   <View style={styles.destext}>
                     <Text style={styles.Description}>SKILLS</Text>
                   </View>
                   <View wrap>
-                    {SkillList.map((data) => (
+                    {props.cv.skill.map((data) => (
                       <View style={styles.skillElement}>
                         <Text>{data.skillName}</Text>
                         <View style={styles.overall}>
@@ -263,13 +257,13 @@ export default function Template(props) {
                   </View>
                 </View>
               )}
-              {ActivityList.length != 0 && (
+              {props.cv.activity.length != 0 && (
                 <View style={styles.workElement} wrap>
                   <View style={styles.destext}>
                     <Text style={styles.Description}>ACTIVITIES</Text>
                   </View>
                   <View style={styles.exArea}>
-                    {ActivityList.map((data) => (
+                    {props.cv.activity.map((data) => (
                       <View style={styles.exElement}>
                         <Text>{data}</Text>
                       </View>
@@ -277,13 +271,13 @@ export default function Template(props) {
                   </View>
                 </View>
               )}
-              {CertiList.length != 0 && (
+              {props.cv.certification.length != 0 && (
                 <View style={styles.workElement} wrap>
                   <View style={styles.destext}>
                     <Text style={styles.Description}>CERTIFICATIONS</Text>
                   </View>
                   <View style={styles.exArea}>
-                    {CertiList.map((data) => (
+                    {props.cv.certification.map((data) => (
                       <View style={styles.exElement}>
                         <Text>{data}</Text>
                       </View>
@@ -291,13 +285,13 @@ export default function Template(props) {
                   </View>
                 </View>
               )}
-              {AwardList.length != 0 && (
+              {props.cv.award.length != 0 && (
                 <View style={styles.workElement} wrap>
                   <View style={styles.destext}>
                     <Text style={styles.Description}>AWARDS</Text>
                   </View>
                   <View style={styles.exArea}>
-                    {AwardList.map((data) => (
+                    {props.cv.award.map((data) => (
                       <View style={styles.exElement}>
                         <Text>{data}</Text>
                       </View>

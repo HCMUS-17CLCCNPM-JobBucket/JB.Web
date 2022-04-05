@@ -19,7 +19,7 @@ export default function ReviewCv() {
   const PDFViewer4 = dynamic(import("app/components/cv/template4"), {
     ssr: false,
   });
-  const templateId = useSelector((state: any) => state.cv.templateId);
+  const cv = useSelector((state: any) => state.cv);
   // const [color, setColor] = useState("#1e88e5");
   let [isOpen, setIsOpen] = useState(false);
 
@@ -121,12 +121,13 @@ export default function ReviewCv() {
                       <button onClick={() => setColor("#1e88e5")}>blue</button>
                       <button onClick={() => setColor("yellow")}>yellow</button>
                     </div> */}
-                    {(templateId == "1" ||
-                      templateId == "" )&& <PDFViewer></PDFViewer>}
-                    {templateId == "2" && <PDFViewer1></PDFViewer1>}
-                    {templateId == "3" && <PDFViewer2></PDFViewer2>}
-                    {templateId == "4" && <PDFViewer3></PDFViewer3>}
-                    {templateId == "5" && <PDFViewer4></PDFViewer4>}
+                    {(cv.templateId == "1" || cv.templateId == null) && (
+                      <PDFViewer cv={cv}></PDFViewer>
+                    )}
+                    {cv.templateId == "2" && <PDFViewer1 cv={cv}></PDFViewer1>}
+                    {cv.templateId == "3" && <PDFViewer2 cv={cv}></PDFViewer2>}
+                    {cv.templateId == "4" && <PDFViewer3 cv={cv}></PDFViewer3>}
+                    {cv.templateId == "5" && <PDFViewer4 cv={cv}> </PDFViewer4>}
                   </div>
                 </div>
               </Transition.Child>
