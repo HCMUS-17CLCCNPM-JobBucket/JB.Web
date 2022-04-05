@@ -61,7 +61,9 @@ export default function ProfileLayout(props) {
             alt=""
             className="rounded-full  h-16 w-16 md:h-24 md:w-24 lg:h-40 lg:w-40 object-cover"
           />
-          <OpenToWorkButton value={props.profile.profileStatus === 1} />
+          {user.user.roleId === 1 && (
+            <OpenToWorkButton value={props.profile.profileStatus === 1} />
+          )}
         </div>
 
         <div className="flex flex-col gap-2 w-full">
