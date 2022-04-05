@@ -1,4 +1,5 @@
 import interviewAPI from "app/api/modules/interviewAPI";
+import InterviewStatusCount from "app/components/atoms/InterviewStatusCount";
 import JobDashboard from "app/components/layouts/JobDashboard";
 import ScheduleInfinityScroll from "app/components/molecules/SchedulefinityScroll";
 import SelectJob from "app/components/molecules/SelectJob";
@@ -55,7 +56,8 @@ export default function ScheduleEmployee() {
         <title>Schedule | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex gap-2 justify-end w-full">
+      <div className="flex gap-2 justify-between w-full">
+        <InterviewStatusCount refresh={refresh} status={status} />
         <SelectScheduleStatus onChange={(val) => setStatus(val)} />
         {/* <SelectJob onChange={(val) => setJobId(val)} /> */}
       </div>

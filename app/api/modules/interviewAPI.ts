@@ -252,6 +252,25 @@ const interviewAPI = {
         updateInterview,
       },
     }),
+
+  interviewStatus: (interviewerId, status) =>
+    axiosClient.post("/graphql", {
+      query: `query interviewApplyCount($interviewerId: Int, $status: Int) {
+        interviewCounts (filter : {
+          interviewerId : $interviewerId
+          status : $status
+        })
+        {
+          status
+          statusName
+          count
+        }
+      }`,
+      variables: {
+        interviewerId,
+        status,
+      },
+    }),
 };
 
 export default interviewAPI;
