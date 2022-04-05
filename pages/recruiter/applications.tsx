@@ -15,38 +15,42 @@ export default function RecruiterJob() {
   const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState(-1);
   const [status, setStatus] = useState(-1);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     // setLoading(true);
 
-    UserAPI.getApplicants(user.user.id, {
-      page,
-      jobId,
-      status: status - 1,
-    }).then((res) => {
-      if (res.status === 200)
-        setApplicants([...applicants, ...res.data.data.jobApplications]);
-      console.log(res.data.data.jobApplications);
+    if (page > 1)
+      UserAPI.getApplicants(user.user.id, {
+        page,
+        jobId,
+        status: status - 1,
+      }).then((res) => {
+        if (res.status === 200)
+          setApplicants([...applicants, ...res.data.data.jobApplications]);
+        console.log(res.data.data.jobApplications);
 
-      setHasMore(res.data.data.jobApplications.length > 0);
-      // setLoading(false);
-    });
+        setHasMore(res.data.data.jobApplications.length > 0);
+        // setLoading(false);
+      });
   }, [page]);
 
   useEffect(() => {
     setLoading(true);
 
     UserAPI.getApplicants(user.user.id, {
-      page: 0,
+      page: 1,
       jobId,
       status: status - 1,
     }).then((res) => {
       if (res.status === 200) setApplicants([...res.data.data.jobApplications]);
 
+      setPage(1);
       setHasMore(res.data.data.jobApplications.length > 0);
       setLoading(false);
     });
-  }, [jobId, status]);
+  }, [jobId, status, refresh]);
+  const onRefresh = () => setRefresh(!refresh);
 
   return (
     <RecruiterLayout>
@@ -63,6 +67,7 @@ export default function RecruiterJob() {
         loading={loading}
         applications={applicants}
         setPage={() => setPage(page + 1)}
+        onRefresh={onRefresh}
       />
       <div className="h-[300px]"></div>
     </RecruiterLayout>

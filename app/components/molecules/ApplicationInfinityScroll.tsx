@@ -17,6 +17,7 @@ export default function ApplicationInfinityScroll({
   loading,
   applications,
   setPage,
+  onRefresh,
 }) {
   const user = useUserInfo();
   const [isLoading, setIsLoading] = useState(loading);
@@ -37,6 +38,15 @@ export default function ApplicationInfinityScroll({
 
   const fetchMoreData = () => {
     setPage();
+  };
+
+  const onFail = async (jobId, userId) => {
+    const res = await jobAPI.failApplication(jobId, userId);
+    onRefresh();
+  };
+  const onPass = async (jobId, userId) => {
+    const res = await jobAPI.passApplication(jobId, userId);
+    onRefresh();
   };
   return (
     <div className="mt-8">
@@ -118,7 +128,25 @@ export default function ApplicationInfinityScroll({
                       <p className="text-blue-600 font-semibold">CV</p>
                     </a>
                   ) : (
-                    <ApplicationCV id={item.cVId} />
+                    <div className="flex">
+                      {item.status === 0 && (
+                        <div className="flex gap-2">
+                          <button
+                            className="bg-red-600 text-white w-28 h-10 rounded-md"
+                            onClick={() => onFail(item.job.id, item.user.id)}
+                          >
+                            Fail
+                          </button>
+                          <button
+                            className="bg-green-500 text-white w-28 h-10 rounded-md"
+                            onClick={() => onPass(item.job.id, item.user.id)}
+                          >
+                            Pass
+                          </button>
+                        </div>
+                      )}
+                      <ApplicationCV id={item.cVId} />
+                    </div>
                   )}
                   <SetScheduleInterviewButton
                     jobId={item.job.id}

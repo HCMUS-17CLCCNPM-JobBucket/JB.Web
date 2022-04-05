@@ -596,4 +596,35 @@ export const jobAPI = {
         updateJob: job,
       },
     }),
+
+  passApplication: (jobId, userId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation passApplication($jobId: Int!, $userId: Int!) {
+        job {
+          passAplication(jobId: $jobId, userId: $userId) {
+            statusDisplay
+          }
+        }
+      }
+      `,
+      variables: {
+        jobId,
+        userId,
+      },
+    }),
+  failApplication: (jobId, userId) =>
+    axiosClient.post("/graphql", {
+      query: `mutation failApplication($jobId: Int!, $userId: Int!) {
+        job {
+          failAplication(jobId: $jobId, userId: $userId) {
+            statusDisplay
+          }
+        }
+      }
+      `,
+      variables: {
+        jobId,
+        userId,
+      },
+    }),
 };
