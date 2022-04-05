@@ -1,4 +1,5 @@
 import { jobAPI } from "app/api/modules/jobAPI";
+import ApplicationStatusCount from "app/components/atoms/ApplicationStatusCount";
 import JobDashboard from "app/components/layouts/JobDashboard";
 import JobInfinityScroll from "app/components/molecules/JobInfinityScroll";
 import SelectApplicationStatus from "app/components/molecules/SelectApplicationStatus";
@@ -15,6 +16,7 @@ export default function AppliedJob() {
   const [jobId, setJobId] = useState(-1);
   const [status, setStatus] = useState(-1);
   const user = useUserInfo();
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     setPage(1);
@@ -31,7 +33,8 @@ export default function AppliedJob() {
         setLoading(false);
       })
       .catch((err) => {});
-  }, [status]);
+  }, [status, refresh]);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -56,7 +59,9 @@ export default function AppliedJob() {
         <title>Applied Job | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex flex-col gap-2 md:justify-end w-full mt-4 md:flex-row">
+      <div className="flex flex-col gap-2 md:justify-between w-full mt-4 md:flex-row">
+        <ApplicationStatusCount refresh={refresh} status={status} />
+
         <SelectApplicationStatus onChange={(val) => setStatus(val)} />
       </div>
       <div className="flex flex-col mt-1">

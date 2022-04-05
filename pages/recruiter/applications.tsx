@@ -6,6 +6,7 @@ import SelectApplicationStatus from "app/components/molecules/SelectApplicationS
 import { useUserInfo } from "app/utils/hooks";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import ApplicationStatusCount from "app/components/atoms/ApplicationStatusCount";
 
 export default function RecruiterJob() {
   const user = useUserInfo();
@@ -58,9 +59,12 @@ export default function RecruiterJob() {
         <title>Applications | JobBucket</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="flex flex-col gap-2 md:justify-end w-full mt-4 md:flex-row">
-        <SelectApplicationStatus onChange={(val) => setStatus(val)} />
-        <SelectJob onChange={(val) => setJobId(val)} />
+      <div className="flex flex-col gap-2 md:justify-between w-full mt-4 md:flex-row">
+        <ApplicationStatusCount refresh={refresh} status={status} />
+        <div className="flex gap-2">
+          <SelectApplicationStatus onChange={(val) => setStatus(val)} />
+          <SelectJob onChange={(val) => setJobId(val)} />
+        </div>
       </div>
       <ApplicationInfinityScroll
         hasMore={hasMore}

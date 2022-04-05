@@ -271,6 +271,33 @@ const interviewAPI = {
         status,
       },
     }),
+  applicationCount: (employerId, status) =>
+    axiosClient.post("/graphql", {
+      query: `query jobApplicationCounts(
+        $employerId: Int
+        $status: Int
+        # $organizationId: Int
+        # $jobId: Int
+      ) {
+        jobApplicationCounts(
+          filter: {
+            employerId: $employerId
+            status: $status
+            # organizationId: $organizationId
+            # jobId: $jobId
+          }
+        ) {
+          status
+          statusName
+          count
+        }
+      }
+      `,
+      variables: {
+        employerId,
+        status,
+      },
+    }),
 };
 
 export default interviewAPI;
