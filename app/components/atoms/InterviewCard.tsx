@@ -22,7 +22,6 @@ const Avatar = ({ src, alt, name }) => (
 );
 
 export default function InterviewCard(props) {
-  console.log(props);
   const user = useUserInfo();
   const onAccept = async () => {
     const res = await interviewAPI.accept(props.id);
@@ -132,6 +131,7 @@ export default function InterviewCard(props) {
                 round={props.currentInterviewRound}
                 interviewTime={props.interviewTime}
                 forms={props.forms}
+                onRefresh={props.onRefresh}
               />
             </div>
           </div>

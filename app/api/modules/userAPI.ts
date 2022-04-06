@@ -260,6 +260,8 @@ const UserAPI = {
             imageUrls
             
           }
+          introdution
+          attachments
           status
           user {
             id

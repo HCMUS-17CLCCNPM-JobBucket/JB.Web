@@ -21,6 +21,7 @@ export default function ApplyButton({ value, jobId, expire }) {
   const user = useUserInfo();
   const [imageFiles, setImageFiles] = useState([]);
   let [isOpen, setIsOpen] = useState(false);
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     if (hasActive !== value) {
@@ -47,29 +48,40 @@ export default function ApplyButton({ value, jobId, expire }) {
   };
   // let [categories] = useState(["Online", "Local"]);
 
+  const uploadAttachment = async (images) => {
+    let listImg = images.map(
+      (file) =>
+        new Promise((resolve, reject) => {
+          imageAPI
+            .uploadImage(file)
+            .then((res) => {
+              resolve(res.data.url);
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        })
+    );
+
+    let listImgUrl = await Promise.all(listImg);
+
+    return listImgUrl;
+  };
+
   const handleApply = async (e) => {
-    // let listImg = imageFiles.map(
-    //   (file) =>
-    //     new Promise((resolve, reject) => {
-    //       imageAPI
-    //         .uploadImage(file)
-    //         .then((res) => {
-    //           resolve(res.data.url);
-    //         })
-    //         .catch((err) => {
-    //           reject(err);
-    //         });
-    //     })
-    // );
-
-    // let listImgUrl = await Promise.all(listImg);
-
     if (isOnlMode === false) {
       if (imageFiles !== []) {
         const pdfRes: any = await imageAPI.uploadCV(imageFiles[0]);
+        const images = await uploadAttachment(imageFiles);
 
         if (pdfRes.status === 200) {
-          const res = await jobAPI.apply(jobId, -1, pdfRes.data.url);
+          const res = await jobAPI.apply(
+            jobId,
+            -1,
+            pdfRes.data.url,
+            images,
+            description
+          );
 
           if (res.data.errors) {
             toast.error(res.data.errors[0].message);
@@ -81,7 +93,7 @@ export default function ApplyButton({ value, jobId, expire }) {
         }
       }
     } else {
-      const res = await jobAPI.apply(jobId, cvIdSelected, "");
+      const res = await jobAPI.apply(jobId, cvIdSelected, "", [], description);
       if (res.data.errors) {
         toast.error(res.data.errors[0].message);
       }
@@ -230,10 +242,26 @@ export default function ApplyButton({ value, jobId, expire }) {
                         />
                       ))}
                     </div>
+                    <textarea
+                      name=""
+                      id=""
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      className="input h-32 mt-2"
+                      placeholder="Description"
+                    ></textarea>
                   </div>
                 ) : (
                   <div>
                     <input type="file" multiple onChange={handleImageChange} />
+                    <textarea
+                      name=""
+                      id=""
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      className="input h-32 mt-6"
+                      placeholder="Description"
+                    ></textarea>
                   </div>
                 )}
 

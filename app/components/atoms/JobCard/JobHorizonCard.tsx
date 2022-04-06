@@ -84,7 +84,7 @@ export default function JobHorizonCard(props) {
       <div className="flex flex-col sm:flex-row justify-between items-center px-6 py-2 border-t">
         <div className="flex gap-2">
           <p>
-            Expires in <Moment format="DD/MM/YYYY" date={props.expireDate} />
+            Expire: <Moment format="DD/MM/YYYY" date={props.expireDate} />
           </p>
 
           <p className="hidden md:block">

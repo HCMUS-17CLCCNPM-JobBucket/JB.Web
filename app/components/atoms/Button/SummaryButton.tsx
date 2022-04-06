@@ -58,6 +58,7 @@ export default function SummaryButton(props) {
         forms: [...props.forms, form],
       });
 
+      props.onRefresh();
       closeModal();
     },
   });

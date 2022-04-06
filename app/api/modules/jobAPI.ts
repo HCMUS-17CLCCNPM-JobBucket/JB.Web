@@ -25,7 +25,13 @@ export const jobAPI = {
     }
     `,
     }),
-  apply: (jobId: string, cVId: number, cVPDFUrl: string) =>
+  apply: (
+    jobId: string,
+    cVId: number,
+    cVPDFUrl: string,
+    attachments,
+    description: string
+  ) =>
     axiosClient.post("/graphql", {
       query: `
         mutation applyJob($data: ApplicationRequestInput) {
@@ -41,7 +47,7 @@ export const jobAPI = {
         }
       `,
       variables: {
-        data: { jobId, cVId, cVPDFUrl },
+        data: { jobId, cVId, cVPDFUrl, introdution: description, attachments },
       },
     }),
   unApply: (jobId: string) =>

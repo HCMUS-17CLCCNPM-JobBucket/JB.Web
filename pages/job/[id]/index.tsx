@@ -185,7 +185,7 @@ export default function JobDetail(props) {
                 />
               </svg>
               <span className="text-red-500">
-                Expired in{" "}
+                Expire
                 {<Moment format="DD/MM/YYYY" date={jobInfo?.expireDate} />}
               </span>
             </div>

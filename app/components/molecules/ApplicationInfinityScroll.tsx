@@ -88,7 +88,26 @@ export default function ApplicationInfinityScroll({
                     <div className="flex text-gray-400">{item.user.email}</div>
                   </div>
                 </div>
+                <p>{item.introdution || "No Description"}</p>
+
+                <div>
+                  <p className="font-semibold mt-2">Attachments: </p>
+                  <div className="flex flex-col gap-1">
+                    {item.attachments.map((attach, index) => (
+                      <a
+                        key={index}
+                        href={attach}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-500"
+                      >
+                        {attach}
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
+
               <div className="gap-4 flex flex-col md:flex-row md:justify-between md:items-center px-6 py-2 border-t">
                 <div className="flex gap-2">
                   <p className="text-red-600 font-semibold">
@@ -113,41 +132,43 @@ export default function ApplicationInfinityScroll({
                     <p className="text-blue-600 font-semibold">CV</p>
                     
                   </a> */}
-                  {item.cVId === -1 ? (
-                    <a
-                      href={item.cVPDFUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex gap-3 items-center cursor-pointer"
-                    >
-                      <img
-                        src="/common/cv.png"
-                        alt=""
-                        className="h-10 w-10 rounded-lg object-cover"
-                      />
-                      <p className="text-blue-600 font-semibold">CV</p>
-                    </a>
-                  ) : (
-                    <div className="flex">
-                      {item.status === 0 && (
-                        <div className="flex gap-2">
-                          <button
-                            className="bg-red-600 text-white w-28 h-10 rounded-md"
-                            onClick={() => onFail(item.job.id, item.user.id)}
-                          >
-                            Fail
-                          </button>
-                          <button
-                            className="bg-green-500 text-white w-28 h-10 rounded-md"
-                            onClick={() => onPass(item.job.id, item.user.id)}
-                          >
-                            Pass
-                          </button>
-                        </div>
-                      )}
+
+                  <div className="flex gap-2">
+                    {item.cVId === -1 ? (
+                      <a
+                        href={item.cVPDFUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex gap-3 items-center cursor-pointer"
+                      >
+                        <img
+                          src="/common/cv.png"
+                          alt=""
+                          className="h-10 w-10 rounded-lg object-cover"
+                        />
+                        <p className="text-blue-600 font-semibold">CV</p>
+                      </a>
+                    ) : (
                       <ApplicationCV id={item.cVId} />
-                    </div>
-                  )}
+                    )}
+                    {item.status === 0 && (
+                      <div className="flex gap-2">
+                        <button
+                          className="bg-red-600 text-white w-28 h-10 rounded-md"
+                          onClick={() => onFail(item.job.id, item.user.id)}
+                        >
+                          Fail
+                        </button>
+                        <button
+                          className="bg-green-500 text-white w-28 h-10 rounded-md"
+                          onClick={() => onPass(item.job.id, item.user.id)}
+                        >
+                          Pass
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  {/* )} */}
                   <SetScheduleInterviewButton
                     jobId={item.job.id}
                     // description={"123123"}
