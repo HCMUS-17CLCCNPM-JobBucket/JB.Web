@@ -90,21 +90,18 @@ export default function ApplicationInfinityScroll({
                 </div>
                 <p>{item.introdution || "No Description"}</p>
 
-                <div>
-                  <p className="font-semibold mt-2">Attachments: </p>
-                  <div className="flex flex-col gap-1">
-                    {item.attachments.map((attach, index) => (
-                      <a
-                        key={index}
-                        href={attach}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-blue-500"
-                      >
-                        {attach}
-                      </a>
-                    ))}
-                  </div>
+                <div className="flex flex-col gap-1">
+                  {item.attachments.map((attach, index) => (
+                    <a
+                      key={index}
+                      href={attach}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-500"
+                    >
+                      Attachment {index + 1}
+                    </a>
+                  ))}
                 </div>
               </div>
 

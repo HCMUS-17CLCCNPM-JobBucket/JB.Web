@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import TabGroup from "../TabGroup";
 import Checkbox from "../Toggle/Checkbox";
+import AttachmentButton from "./AttachmentButton";
 import CVButton from "./CVButton";
 
 export default function ApplyButton({ value, jobId, expire }) {
@@ -19,7 +20,9 @@ export default function ApplyButton({ value, jobId, expire }) {
   const [hasActive, setHasActive] = useState(value);
   const [isOnlMode, setIsOnlMode] = useState(true);
   const user = useUserInfo();
-  const [imageFiles, setImageFiles] = useState([]);
+
+  const [cvFile, setCvFile] = useState(null);
+  const [imageFiles, setImageFiles] = useState([]); // attachments
   let [isOpen, setIsOpen] = useState(false);
   const [description, setDescription] = useState("");
 
@@ -46,7 +49,6 @@ export default function ApplyButton({ value, jobId, expire }) {
       setIsOpen(true);
     }
   };
-  // let [categories] = useState(["Online", "Local"]);
 
   const uploadAttachment = async (images) => {
     let listImg = images.map(
@@ -71,7 +73,7 @@ export default function ApplyButton({ value, jobId, expire }) {
   const handleApply = async (e) => {
     if (isOnlMode === false) {
       if (imageFiles !== []) {
-        const pdfRes: any = await imageAPI.uploadCV(imageFiles[0]);
+        const pdfRes: any = await imageAPI.uploadCV(cvFile);
         const images = await uploadAttachment(imageFiles);
 
         if (pdfRes.status === 200) {
@@ -93,7 +95,15 @@ export default function ApplyButton({ value, jobId, expire }) {
         }
       }
     } else {
-      const res = await jobAPI.apply(jobId, cvIdSelected, "", [], description);
+      const images = await uploadAttachment(imageFiles);
+
+      const res = await jobAPI.apply(
+        jobId,
+        cvIdSelected,
+        "",
+        images,
+        description
+      );
       if (res.data.errors) {
         toast.error(res.data.errors[0].message);
       }
@@ -103,7 +113,12 @@ export default function ApplyButton({ value, jobId, expire }) {
       }
     }
   };
-  const handleImageChange = (e) => {
+  const handleCvFile = (e) => {
+    setCvFile(e.target.files[0]);
+  };
+
+  const handAttachFile = (e) => {
+    console.log("attach");
     setImageFiles(Array.from(e.target.files));
   };
 
@@ -253,7 +268,7 @@ export default function ApplyButton({ value, jobId, expire }) {
                   </div>
                 ) : (
                   <div>
-                    <input type="file" multiple onChange={handleImageChange} />
+                    <input type="file" onChange={handleCvFile} />
                     <textarea
                       name=""
                       id=""
@@ -265,21 +280,27 @@ export default function ApplyButton({ value, jobId, expire }) {
                   </div>
                 )}
 
-                <div className="absolute right-4 bottom-4 w-full flex flex-row-reverse gap-2">
-                  <button
-                    onClick={handleApply}
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none ease-in-transition"
-                  >
-                    Apply Job
-                  </button>
-                  <button
-                    onClick={closeModal}
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-blue-600 rounded-md shadow-sm text-sm font-medium text-blue-600 hover:bg-blue-700 hover:text-white focus:outline-none ease-in-transition"
-                  >
-                    Cancel
-                  </button>
+                <div className="absolute bottom-4 w-[90%] flex justify-between gap-2">
+                  <AttachmentButton
+                    onClick={handAttachFile}
+                    files={imageFiles}
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={closeModal}
+                      type="button"
+                      className="inline-flex items-center px-4 py-2 border border-blue-600 rounded-md shadow-sm text-sm font-medium text-blue-600 hover:bg-blue-700 hover:text-white focus:outline-none ease-in-transition"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleApply}
+                      type="button"
+                      className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none ease-in-transition"
+                    >
+                      Apply Job
+                    </button>
+                  </div>
                 </div>
               </div>
             </Transition.Child>
