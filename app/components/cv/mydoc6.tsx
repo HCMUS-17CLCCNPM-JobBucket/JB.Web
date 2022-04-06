@@ -14,7 +14,6 @@ import {
 } from "@react-pdf/renderer";
 
 export default function Template(props) {
-
   Font.register({
     family: "NunitoBold",
     src: "/font/Nunito-Bold.ttf",
@@ -37,8 +36,8 @@ export default function Template(props) {
       marginLeft: 20,
     },
     avatar: {
-      height: "auto",
-      width: 150,
+      width: "auto",
+      height: 120,
     },
     infos: {
       marginVertical: 2,
@@ -49,8 +48,14 @@ export default function Template(props) {
       height: 15,
       marginRight: 10,
     },
-    introArea: {
+    introView: {
       width: "50%",
+    },
+    introArea: {
+      padding: 20,
+      backgroundColor: "#1e88e5",
+      flexDirection: "row",
+      marginBottom: 20,
     },
     granduated: {
       fontFamily: "NunitoBold",
@@ -65,14 +70,13 @@ export default function Template(props) {
     },
 
     contactArea: {
+      marginLeft: 20,
       justifyContent: "center",
     },
     Name: {
-      fontSize: 20,
-      marginBottom: 2,
-      marginTop: 20,
+      fontSize: 26,
       fontFamily: "NunitoBold",
-      color: "#1e88e5",
+      color: "white",
     },
     Description: {
       fontFamily: "NunitoBold",
@@ -81,9 +85,7 @@ export default function Template(props) {
     contact: {
       width: "90%",
     },
-    introduction: {
-      marginTop: 20,
-    },
+    introduction: {},
     destext: {
       display: "flex",
       width: 130,
@@ -113,21 +115,31 @@ export default function Template(props) {
       width: 12,
       backgroundColor: "gray",
     },
+    quotes: {
+      height: 40,
+      width: 40,
+    },
+    row: {
+      flexDirection: "row",
+    },
     overall: {
       display: "flex",
       flexDirection: "row",
     },
   });
   return (
-    <PDFViewer width="100%" height="600px">
       <Document>
         <Page size="A4" style={styles.page} orientation="portrait" wrap>
-          <View style={styles.overall}>
-            <View style={styles.introArea}>
-              {props.cv.avatar != "" && props.cv.avatar != null && (
-                <Image style={styles.avatar} src={props.cv.avatar}></Image>
-              )}
+          <View style={styles.introArea}>
+            {props.cv.avatar != "" && props.cv.avatar != null && (
+              <Image style={styles.avatar} src={props.cv.avatar}></Image>
+            )}
+            <View style={styles.contactArea}>
               <Text style={styles.Name}>{props.cv.name}</Text>
+            </View>
+          </View>
+          <View style={styles.overall}>
+            <View style={styles.introView}>
               <View style={styles.contact}>
                 {props.cv.email != "" && props.cv.email != null && (
                   <View style={styles.infos}>
@@ -303,6 +315,5 @@ export default function Template(props) {
           </View>
         </Page>
       </Document>
-    </PDFViewer>
   );
 }

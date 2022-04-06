@@ -10,6 +10,8 @@ import Mydoc1 from "app/components/cv/mydoc1";
 import Mydoc2 from "app/components/cv/mydoc2";
 import Mydoc3 from "app/components/cv/mydoc3";
 import Mydoc4 from "app/components/cv/mydoc4";
+import Mydoc5 from "app/components/cv/mydoc5";
+import Mydoc6 from "app/components/cv/mydoc6";
 
 export default function Download({ index }) {
   let [isOpen, setIsOpen] = useState(false);
@@ -147,6 +149,26 @@ export default function Download({ index }) {
                         {cvInfo.templateId == "5" && (
                           <PDFDownloadLink
                             document={<Mydoc4 cv={cvInfo} />}
+                            fileName={cvName}
+                          >
+                            <p className="text-white text-sm font-semibold m-0 p-0">
+                              Download
+                            </p>
+                          </PDFDownloadLink>
+                        )}
+                        {cvInfo.templateId == "6" && (
+                          <PDFDownloadLink
+                            document={<Mydoc5 cv={cvInfo} />}
+                            fileName={cvName}
+                          >
+                            <p className="text-white text-sm font-semibold m-0 p-0">
+                              Download
+                            </p>
+                          </PDFDownloadLink>
+                        )}
+                        {cvInfo.templateId == "7" && (
+                          <PDFDownloadLink
+                            document={<Mydoc6 cv={cvInfo} />}
                             fileName={cvName}
                           >
                             <p className="text-white text-sm font-semibold m-0 p-0">

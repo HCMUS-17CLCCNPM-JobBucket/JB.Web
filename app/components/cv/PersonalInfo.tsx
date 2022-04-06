@@ -55,6 +55,8 @@ export default function PersonalInfo(props) {
             <option value="3">Introfirst 2</option>
             <option value="4">Split 1</option>
             <option value="5">Split 2</option>
+            <option value="6">Namefocus 1</option>
+            <option value="7">Namefocus 2</option>
           </select>
         </div>
       </div>

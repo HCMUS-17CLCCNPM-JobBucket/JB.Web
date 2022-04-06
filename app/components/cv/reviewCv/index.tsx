@@ -19,6 +19,13 @@ export default function ReviewCv() {
   const PDFViewer4 = dynamic(import("app/components/cv/template4"), {
     ssr: false,
   });
+  const PDFViewer5 = dynamic(import("app/components/cv/template5"), {
+    ssr: false,
+  });
+  const PDFViewer6 = dynamic(import("app/components/cv/template6"), {
+    ssr: false,
+  });
+  
   const cv = useSelector((state: any) => state.cv);
   // const [color, setColor] = useState("#1e88e5");
   let [isOpen, setIsOpen] = useState(false);
@@ -128,6 +135,8 @@ export default function ReviewCv() {
                     {cv.templateId == "3" && <PDFViewer2 cv={cv}></PDFViewer2>}
                     {cv.templateId == "4" && <PDFViewer3 cv={cv}></PDFViewer3>}
                     {cv.templateId == "5" && <PDFViewer4 cv={cv}> </PDFViewer4>}
+                    {cv.templateId == "6" && <PDFViewer5 cv={cv}> </PDFViewer5>}
+                    {cv.templateId == "7" && <PDFViewer6 cv={cv}> </PDFViewer6>}
                   </div>
                 </div>
               </Transition.Child>

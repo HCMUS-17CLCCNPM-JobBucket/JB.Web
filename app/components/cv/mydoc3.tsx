@@ -78,7 +78,7 @@ export default function Template(props) {
       color: "#1e88e5",
     },
     contact: {
-      justifyContent: "space-between",
+      width: "90%",
     },
     introduction: {
       marginTop: 20,

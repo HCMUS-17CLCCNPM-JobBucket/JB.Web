@@ -30,11 +30,15 @@ export default function Template(props) {
       fontFamily: "NunitoRegular",
     },
     workView: {
-      // flexDirection: "column",
+      width: "45%",
+      marginLeft: 20,
     },
     avatar: {
       width: "auto",
       height: 120,
+    },
+    info: {
+      width: "50%",
     },
     infos: {
       marginVertical: 2,
@@ -62,12 +66,10 @@ export default function Template(props) {
 
     contactArea: {
       marginLeft: 20,
-      // flexDirection: "column",
       justifyContent: "center",
     },
     Name: {
       fontSize: 26,
-      width: "65%",
       fontFamily: "NunitoBold",
       color: "#1e88e5",
     },
@@ -76,7 +78,7 @@ export default function Template(props) {
       color: "#1e88e5",
     },
     contact: {
-      width: "100%",
+      width: "90%",
       justifyContent: "space-between",
     },
     introduction: {
@@ -84,7 +86,6 @@ export default function Template(props) {
     },
     destext: {},
     workElement: {
-      width: "50%",
       display: "flex",
       flexDirection: "column",
       marginBottom: 15,
@@ -134,61 +135,63 @@ export default function Template(props) {
             </View>
           </View>
           <View style={styles.split}>
-            <View style={styles.workElement} wrap>
-              <View style={styles.destext}>
-                <Text style={styles.Description}>INFORMATION</Text>
-              </View>
-              <View style={styles.contact}>
-                {props.cv.email != "" && props.cv.email != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/email.png"></Image>
-                    <Text>{props.cv.email}</Text>
-                  </View>
-                )}
-                {props.cv.phonenumber != "" && props.cv.phonenumber != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/call.png"></Image>
-                    <Text>{props.cv.phonenumber}</Text>
-                  </View>
-                )}
-                {props.cv.address != "" && props.cv.address != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/home.png"></Image>
-                    <Text>{props.cv.address}</Text>
-                  </View>
-                )}
-                {props.cv.website != "" && props.cv.website != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/global.png"></Image>
-                    <Text>{props.cv.website}</Text>
-                  </View>
-                )}
-                {props.cv.github != "" && props.cv.github != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/github.png"></Image>
-                    <Text>{props.cv.github}</Text>
-                  </View>
-                )}
-                {props.cv.reference != null && props.cv.reference != "" && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/reference.jpg"></Image>
-                    <Text>{props.cv.reference}</Text>
-                  </View>
-                )}
-                {props.cv.birthDate != "" && props.cv.birthDate != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/calendar.png"></Image>
-                    <Text>
-                      {moment(props.cv.birthDate).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                )}
-                {props.cv.gender != "" && props.cv.gender != null && (
-                  <View style={styles.infos}>
-                    <Image style={styles.icon} src="/gender.png"></Image>
-                    <Text>{props.cv.gender}</Text>
-                  </View>
-                )}
+            <View style={styles.info}>
+              <View style={styles.workElement} wrap>
+                <View style={styles.destext}>
+                  <Text style={styles.Description}>INFORMATION</Text>
+                </View>
+                <View style={styles.contact}>
+                  {props.cv.email != "" && props.cv.email != null && (
+                    <View style={styles.infos}>
+                      <Image style={styles.icon} src="/email.png"></Image>
+                      <Text>{props.cv.email}</Text>
+                    </View>
+                  )}
+                  {props.cv.phonenumber != "" && props.cv.phonenumber != null && (
+                    <View style={styles.infos}>
+                      <Image style={styles.icon} src="/call.png"></Image>
+                      <Text>{props.cv.phonenumber}</Text>
+                    </View>
+                  )}
+                  {props.cv.address != "" && props.cv.address != null && (
+                    <View style={styles.infos}>
+                      <Image style={styles.icon} src="/home.png"></Image>
+                      <Text>{props.cv.address}</Text>
+                    </View>
+                  )}
+                  {props.cv.website != "" && props.cv.website != null && (
+                    <View style={styles.infos}>
+                      <Image style={styles.icon} src="/global.png"></Image>
+                      <Text>{props.cv.website}</Text>
+                    </View>
+                  )}
+                  {props.cv.github != "" && props.cv.github != null && (
+                    <View style={styles.infos}>
+                      <Image style={styles.icon} src="/github.png"></Image>
+                      <Text>{props.cv.github}</Text>
+                    </View>
+                  )}
+                  {props.cv.reference != null && props.cv.reference != "" && (
+                    <View style={styles.infos}>
+                      <Image style={styles.icon} src="/reference.jpg"></Image>
+                      <Text>{props.cv.reference}</Text>
+                    </View>
+                  )}
+                  {props.cv.birthDate != "" && props.cv.birthDate != null && (
+                    <View style={styles.infos}>
+                      <Image style={styles.icon} src="/calendar.png"></Image>
+                      <Text>
+                        {moment(props.cv.birthDate).format("DD/MM/YYYY")}
+                      </Text>
+                    </View>
+                  )}
+                  {props.cv.gender != "" && props.cv.gender != null && (
+                    <View style={styles.infos}>
+                      <Image style={styles.icon} src="/gender.png"></Image>
+                      <Text>{props.cv.gender}</Text>
+                    </View>
+                  )}
+                </View>
               </View>
             </View>
             <View style={styles.workView}>
