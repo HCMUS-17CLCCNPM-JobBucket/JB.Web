@@ -174,6 +174,7 @@ export default function ApplicationInfinityScroll({
                     intervieweeCVId={-1}
                     intervieweeId={item.user.id}
                     interviewerId={user.user.id}
+                    totalInterviewRound={1}
                   />
                 </div>
               </div>

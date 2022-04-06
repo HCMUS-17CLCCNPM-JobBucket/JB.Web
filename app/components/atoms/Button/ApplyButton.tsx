@@ -3,6 +3,7 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import axiosClient from "app/api/axiosClient";
 import { imageAPI } from "app/api/modules/imageAPI";
 import { jobAPI } from "app/api/modules/jobAPI";
+import LoadingFullPage from "app/components/molecules/LoadingFullPage";
 import helper from "app/utils/helper";
 import { useUserInfo } from "app/utils/hooks";
 import axios from "axios";
@@ -26,6 +27,8 @@ export default function ApplyButton({ value, jobId, expire }) {
   let [isOpen, setIsOpen] = useState(false);
   const [description, setDescription] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (hasActive !== value) {
       setHasActive(value);
@@ -37,6 +40,8 @@ export default function ApplyButton({ value, jobId, expire }) {
   }
 
   const openModal = async () => {
+    setIsOpen(true);
+
     if (hasActive) {
       const res = await jobAPI.unApply(jobId);
       if (res.data?.errors) {
@@ -48,6 +53,7 @@ export default function ApplyButton({ value, jobId, expire }) {
     } else {
       setIsOpen(true);
     }
+    setLoading(false);
   };
 
   const uploadAttachment = async (images) => {
@@ -70,28 +76,28 @@ export default function ApplyButton({ value, jobId, expire }) {
     return listImgUrl;
   };
 
+  console.log(loading);
   const handleApply = async (e) => {
+    setLoading(true);
     if (isOnlMode === false) {
-      if (imageFiles !== []) {
-        const pdfRes: any = await imageAPI.uploadCV(cvFile);
-        const images = await uploadAttachment(imageFiles);
+      const pdfRes: any = await imageAPI.uploadCV(cvFile);
+      const images = await uploadAttachment(imageFiles);
 
-        if (pdfRes.status === 200) {
-          const res = await jobAPI.apply(
-            jobId,
-            -1,
-            pdfRes.data.url,
-            images,
-            description
-          );
+      if (pdfRes.status === 200) {
+        const res = await jobAPI.apply(
+          jobId,
+          -1,
+          pdfRes.data.url,
+          images,
+          description
+        );
 
-          if (res.data.errors) {
-            toast.error(res.data.errors[0].message);
-          }
-          if (res.status === 200) {
-            closeModal();
-            setHasActive(true);
-          }
+        if (res.data.errors) {
+          toast.error(res.data.errors[0].message);
+        }
+        if (res.status === 200) {
+          closeModal();
+          setHasActive(true);
         }
       }
     } else {
@@ -112,13 +118,13 @@ export default function ApplyButton({ value, jobId, expire }) {
         setHasActive(true);
       }
     }
+    setLoading(false);
   };
   const handleCvFile = (e) => {
     setCvFile(e.target.files[0]);
   };
 
   const handAttachFile = (e) => {
-    console.log("attach");
     setImageFiles(Array.from(e.target.files));
   };
 
@@ -141,6 +147,7 @@ export default function ApplyButton({ value, jobId, expire }) {
   }, []);
   return (
     <>
+      {loading && <LoadingFullPage />}
       <div className="flex items-center justify-center relative">
         {expire || user.token === "" ? (
           <button

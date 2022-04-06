@@ -6,7 +6,7 @@ import router from "next/router";
 import { imageAPI } from "app/api/modules/imageAPI";
 import { toast } from "react-toastify";
 
-export default function AddCV() {
+export default function AddCV({ setLoading }) {
   let [isOpen, setIsOpen] = useState(false);
   const [cvName, setCvName] = useState("");
   const userToken = useSelector((state: any) => state.user);
@@ -43,7 +43,10 @@ export default function AddCV() {
         certifications: cvInfo.certification,
         awards: cvInfo.award,
       };
+      setLoading(true);
       await CvAPI.add(cv, userToken.token).then((res) => {
+        setLoading(false);
+
         if (res.data.errors) {
           closeModal();
           toast(res.data.errors[0].message, { type: "warning" });
@@ -79,7 +82,11 @@ export default function AddCV() {
         certifications: cvInfo.certification,
         awards: cvInfo.award,
       };
+      setLoading(true);
+
       await CvAPI.add(cv, userToken.token).then((res) => {
+        setLoading(false);
+
         if (res.data.errors) {
           closeModal();
           toast(res.data.errors[0].message, { type: "warning" });

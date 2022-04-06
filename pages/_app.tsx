@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { PersistGate } from "redux-persist/integration/react";
 import "../styles/globals.scss";
 import LoadingFullPage from "app/components/molecules/LoadingFullPage";
+import ChatNoti from "app/components/atoms/ChatNoti";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const [loading, setLoading] = useState(false);
@@ -40,6 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               {/* {loading && <LoadingTransition />} */}
 
               {!router.pathname.includes("/chat") && <Navbar />}
+              <ChatNoti />
               <Component {...pageProps} />
               <ToolbarBottom />
               {!router.pathname.includes("/chat") && <Footer />}

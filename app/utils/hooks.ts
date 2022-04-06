@@ -39,7 +39,6 @@ export function useChat(
   );
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       setChats((chats) => [data.chat, ...chats]);
     }

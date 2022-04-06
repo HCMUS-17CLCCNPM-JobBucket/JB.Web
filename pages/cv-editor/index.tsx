@@ -15,6 +15,7 @@ import Create from "app/components/cv/dialog/addCV";
 import { imageAPI } from "app/api/modules/imageAPI";
 import { toast } from "react-toastify";
 import Router from "next/router";
+import LoadingUploadNewItem from "app/components/molecules/LoadingUploadNewItem";
 
 export default function CvEditor() {
   const [loading, setLoading] = useState(false);
@@ -89,6 +90,7 @@ export default function CvEditor() {
 
   return (
     <div className="w-full bg-gray-50">
+      {loading && <LoadingUploadNewItem />}
       <div className="p-10">
         <PersonalInfo isUpdate={isUpdate}></PersonalInfo>
         <Experience></Experience>
@@ -126,7 +128,7 @@ export default function CvEditor() {
               Save changes
             </button>
           ) : (
-            <Create></Create>
+            <Create setLoading={setLoading}></Create>
           )}
         </div>
       </div>

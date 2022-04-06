@@ -12,6 +12,7 @@ export default function SetScheduleInterviewButton({
   interviewerId,
   intervieweeId,
   intervieweeCVId,
+  totalInterviewRound,
 }) {
   let [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +33,7 @@ export default function SetScheduleInterviewButton({
       intervieweeId,
       interviewerId,
       interviewTime: "",
-      totalInterviewRound: 1,
+      totalInterviewRound: totalInterviewRound,
     },
 
     onSubmit: async (values) => {

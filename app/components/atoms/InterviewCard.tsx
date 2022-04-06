@@ -188,6 +188,7 @@ export default function InterviewCard(props) {
             intervieweeCVId={-1}
             intervieweeId={props.interviewee.id}
             interviewerId={props.interviewer.id}
+            totalInterviewRound={props.totalInterviewRound}
           />
         )}
 

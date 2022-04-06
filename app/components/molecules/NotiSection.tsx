@@ -38,6 +38,7 @@ export default function Notify() {
     if (data) {
       setNoti([data.notification, ...noti]);
 
+      console.log(data);
       toast(data.notification.message);
     }
   }, [data]);
